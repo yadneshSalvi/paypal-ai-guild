@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-11-11T07:30:49.268Z",
+  "sourceCommit": "08b4f05",
+  "unit": "Original targeted narration production and independent recheck",
+  "lineageQualificationPassed": true,
+  "recordings": 78,
+  "newSpeechStreams": 5,
+  "newMediaObjects": 5,
+  "unchangedCarriedRecordings": 73,
+  "independentlyRecheckedFiles": 78,
+  "deterministicPassingFiles": 77,
+  "deterministicFailingFiles": 1,
+  "failures": [
+    {
+      "locale": "ar",
+      "key": "loc-det-4a12861",
+      "criterion": "duration",
+      "expectedSeconds": 42.84,
+      "measuredSeconds": 47.448,
+      "relativeError": 0.10756302521008396,
+      "limit": 0.1,
+      "otherDeterministicFileChecksPassed": true
+    }
+  ],
+  "blindRecognitionResults": 78,
+  "blindRecognitionAdvisoryMet": 59,
+  "reviewedAuthorityCeiling": "2026-11-11T11:45:29.435Z",
+  "additionalChargeMinor": 0,
+  "acceptedPackages": 0,
+  "capturedMinor": 0,
+  "humanListening": false,
+  "fluentReview": false,
+  "limitations": [
+    "The one targeted job has used its reviewed allowance. No automatic further generation is authorized.",
+    "A measured failure remains; production is not claimed to have passed the complete acceptance pack.",
+    "Automated transcript and recognition checks are not human listening or pronunciation approval."
+  ]
+}
