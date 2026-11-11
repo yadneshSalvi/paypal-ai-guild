@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "guild.caption-implementation-qualification.v1",
+  "observedAt": "2026-11-11T15:19:35.891Z",
+  "sourceCommit": "b29ef129e0c9efef83bb3b0766e8e25f9d2fbe0b",
+  "release": {
+    "runtimeDigest": "3788be5aab64394e1b3f8bb824e6fe7047d3ed85d3ffc979a0f43855f8243222",
+    "runtimeFiles": 870,
+    "runtimeDigestMethod": "SHA-256 of JSON-encoded sorted {path,sha256} entries for frozen source, public/vendor assets, production build and build manifests; excludes cache and installed dependencies",
+    "sourceDigest": "6eb53c5d5bdb0b04f530f5c5116973c1da1ba0f7e43d7ae88f84df276151071b",
+    "sourceDigestMethod": "SHA-256 of sorted path + NUL + file SHA-256 + newline for src, tests, migrations, scripts, public assets, vendored packages and root build manifests",
+    "sourceFiles": 299,
+    "archiveSha256": "cc17e901984664bc2cdab6f92120d107b5aa75392e384536aafce9db8a651e3b",
+    "archiveBytes": 13212485,
+    "archivePublicFiles": 420
+  },
+  "validation": {
+    "domain": {
+      "passed": 81,
+      "failed": 0,
+      "synthetic": true
+    },
+    "postgresqlBroad": {
+      "passed": 125,
+      "failed": 0,
+      "isolatedSchemas": true,
+      "syntheticProviders": true
+    },
+    "additionalFullCollection": {
+      "passed": 1,
+      "failed": 0,
+      "registeredOriginalTracks": 78,
+      "captionAlignmentAndVttPassed": 78,
+      "completeEasyReadLocales": 6,
+      "labelsPerLocale": 13,
+      "deterministicCriteriaPassed": 5,
+      "originalNarrationPlanMinor": 54000,
+      "laterCaptionPlanMinor": 58000,
+      "capMinor": 64000,
+      "originalAuthorityPreserved": true,
+      "originalArtifactHashesUnchanged": true,
+      "newBlindRecognitionRequests": 0,
+      "acceptanceOrFinancialOperations": 0,
+      "syntheticAudioAndProviders": true
+    },
+    "strictTypeScript": true,
+    "isolatedProductionBuild": true
+  },
+  "native": {
+    "receipt": "../caption-native-root-qualification.json",
+    "receiptSha256": "15e0af02b46924c73b7ea84601661b9d04ef008f9edc59afbe1939ec6665767c",
+    "fixtures": 3,
+    "agreementApprovalAdded": 1,
+    "includedCorrectionApprovalAdded": 1,
+    "completeFixtureUnchanged": true,
+    "additionalProviderOperations": 0,
+    "acceptanceOrFinancialOperations": 0,
+    "viewport390": true,
+    "originalAudioControlsAndCueSeeking": true,
+    "keyboardLocales": true,
+    "arabicRtlAndJapanese": true,
+    "downloadsAndReload": true,
+    "privateFixtureNavigationLimitationRetained": true
+  },
+  "privateScan": {
+    "environmentValueMatches": 0,
+    "routeTraces": 25,
+    "privateRouteInputs": 0,
+    "qaRouteInRelease": false,
+    "sourcePhotographsPerWorkerRoute": 12,
+    "ffmpegTraced": true,
+    "sharpTraced": true,
+    "frozenWhisperTokenizerTraced": true,
+    "buildProviderCredentials": false,
+    "buildDatabaseAvailable": false
+  },
+  "preservedReleases": {
+    "narrationFollowup": {
+      "files": 168,
+      "unchanged": true
+    },
+    "scheduling": {
+      "files": 256,
+      "unchanged": true
+    },
+    "canonicalHistory": {
+      "files": 261,
+      "unchanged": true
+    },
+    "plannerFormatting": {
+      "files": 263,
+      "unchanged": true
+    }
+  },
+  "fixedContract": {
+    "timestampCapability": "guild.whisper-word-timestamps.v1",
+    "timestampModel": "whisper-1",
+    "sunset": "2027-02-26T00:00:00.000Z",
+    "promptedAlignment": true,
+    "independentBlindAsr": false,
+    "awardMinor": 3500,
+    "serviceFeeMinor": 500,
+    "grossMinor": 4000,
+    "includedCorrections": 1,
+    "maximumProducingJobs": 2,
+    "allAttemptsCount": true,
+    "originalCommissionExpiry": "2026-11-11T11:45:29.435Z",
+    "originalExpiryRenewed": false
+  },
+  "diagnosticPreparation": {
+    "schemaVersion": "guild.caption-provider-runtime.v1",
+    "configurationHash": "f944b154e3121d46a7a6af87b8b0728e7ab663df3b817f1dc93b3ef057ddf6e5",
+    "launcherHash": "55e1422eeba9b45d5fc308e4762d8c879b1eed40e0b90cb2ad66d53e3be9b850",
+    "driverHash": "6f51670e305bde56003a50890cafd185bbf73ae496346afcc2dcc43816007d0e",
+    "syntheticJournalChecks": 6,
+    "actualProviderRequests": 0,
+    "originalReads": 0,
+    "originalWrites": 0,
+    "sourceExported": false,
+    "scopeApproved": false,
+    "newDiagnosticScopeRequired": true,
+    "productionOrAcceptanceAuthority": false
+  },
+  "retainedFindings": [
+    "The first full-scale fixture stopped before production because its unsaved translation key iteration order differed from the persisted source; the fixture was reloaded before preparation.",
+    "The next full-scale synthetic run retained 77/78 because its fake gateway supplied a punctuation-only ampersand as a timed word. The fake lexical-word source was corrected; production still rejects punctuation-only timing and retains the original displayed ampersand. No alignment standard was weakened.",
+    "The root native receipt retains the private fixture navigation link limitation and successful direct bootstrap navigation."
+  ],
+  "limitations": [
+    "Actual timestamp/easy-read capability qualification has not run at this checkpoint. The prepared independent diagnostic requires its own exact review and approval.",
+    "Original authority is expired. No old Passport, signature, source artifact, original blind report, price or correction allowance is renewed or replaced.",
+    "Synthetic success does not establish fluent language quality, human listening, meaning preservation or final acceptance.",
+    "Existing pinned dependencies were reused. Clean-install, other native-engine hosts, generated web production and hosting remain separate gates."
+  ]
+}
