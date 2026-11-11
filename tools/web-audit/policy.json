@@ -1,0 +1,45 @@
+{
+  "version": "guild.web-measurements.v1",
+  "locales": [
+    "en",
+    "pt",
+    "es",
+    "fr",
+    "ja",
+    "ar"
+  ],
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "cases": 18,
+  "caseTimeoutMs": 240000,
+  "maximumEvidenceFileBytes": 16777216,
+  "maximumEvidenceCaseBytes": 67108864,
+  "maximumSeriousOrCriticalAxeViolations": 0,
+  "minimumLighthouseAccessibilityScore": 0.95,
+  "horizontalOverflowTolerancePx": 1,
+  "incompleteAxeFindings": "retained_for_separate_manual_review",
+  "keyboard": "every_authored_control_and_native_dialog_focus",
+  "rtl": "actual_computed_direction_and_content_order",
+  "audio": "original_bytes_decode_play_pause_seek_and_stop_on_language_change",
+  "reducedMotion": "no_nonessential_motion_when_requested",
+  "humanReview": [
+    "screen_reader",
+    "keyboard_and_focus",
+    "content_order",
+    "contrast",
+    "visual_experience",
+    "language_and_listening"
+  ]
+}

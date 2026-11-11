@@ -1,0 +1,22 @@
+{
+  "name": "guild-web-audit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.22.3" },
+  "scripts": {
+    "test:offline": "node tests/offline.mjs",
+    "qualify": "node qualify.mjs",
+    "audit:bundle": "node runner.mjs"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "chrome-launcher": "1.2.3",
+    "lighthouse": "13.6.0",
+    "playwright": "1.65.0"
+  },
+  "devDependencies": {
+    "fflate": "0.8.3",
+    "linkedom": "0.18.15"
+  }
+}

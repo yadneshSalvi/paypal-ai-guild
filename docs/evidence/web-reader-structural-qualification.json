@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "guild.web-reader-structural-qualification.v1",
+  "observedAt": "2026-11-11T18:26:36.645902+00:00",
+  "baseCommit": "9cad8f081195a917558076cfddfafa1a12009b57",
+  "scope": "Authored reader, portable export and pinned browser-tool source only. The complete web production lifecycle remains a separate integration unit.",
+  "sourceFileCount": 26,
+  "domainTests": {
+    "passed": 100,
+    "failed": 0,
+    "focusedWebTests": 19,
+    "provenance": "synthetic contract, renderer and evidence fixtures"
+  },
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "independentHtmlAndZip": {
+    "files": 192,
+    "locales": 6,
+    "labels": 78,
+    "chapterSections": 48,
+    "audioFiles": 78,
+    "browserLaunched": false
+  },
+  "sampleMedia": {
+    "files": 78,
+    "mode": "distinct locally generated test tones",
+    "decodedWithPinnedFfmpeg": true,
+    "speechGenerated": false,
+    "alignmentQualityClaimed": false
+  },
+  "browserQualification": {
+    "state": "pending",
+    "baselineCasesRequired": 18,
+    "explicitMutationsRequired": 2,
+    "measuredScores": null
+  },
+  "humanReview": false,
+  "acceptance": false,
+  "publication": false,
+  "payment": false,
+  "originalWorkAuthorityChanged": false,
+  "privateScan": {
+    "firstPartyFiles": 26,
+    "secretFindings": 0
+  }
+}
