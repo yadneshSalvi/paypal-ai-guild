@@ -41,7 +41,7 @@ test("valid poor-contrast provider choices stay unchanged; executable style toke
 
 test("generated reading copy preserves 78 exact originals and never inserts curated sample text", async () => {
   const { source, design } = webFixture(), assets = await readAuthoredWebAssets(), rendered = renderWebFiles(source, design, assets), html = rendered.authored.get("index.html")!.toString();
-  assert.equal((html.match(/<article class="web-article"/g) ?? []).length, 6);
+  assert.equal((html.match(/<div class="web-article"/g) ?? []).length, 6);
   assert.equal((html.match(/data-label-key=/g) ?? []).length, 78);
   assert.equal((html.match(/data-player data-label=/g) ?? []).length, 78);
   assert.equal((html.match(/data-chapter="/g) ?? []).length, 48);

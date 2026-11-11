@@ -10,20 +10,22 @@ import { digest, toolRoot, verifyRuntime } from './identity.mjs';
 import { bundleServer, readExactBundle } from './server.mjs';
 import { evidenceWriter } from './evidence.mjs';
 import { measureInteractions } from './interactions.mjs';
-import { checkRequest } from './contract.mjs';
+import { checkRequest, requiredAxeStates, requiredInteractions } from './contract.mjs';
+import { createPaletteMeasurement, palettePolicy, paletteProperties } from './contrast.mjs';
 
 const policy = JSON.parse(await readFile(resolve(toolRoot, 'policy.json'), 'utf8'));
 
 /** One case, one fresh owned process/profile, no shared browser or silent rerun. */
 export async function runCase({ configPath, request, inputDirectory, outputDirectory }) {
   checkRequest(request, policy);
+  if (digest(policy.paletteContrast) !== digest(palettePolicy)) throw new Error('The exact declared contrast policy differs from the measuring code.');
   const config = await verifyRuntime(configPath, request.mode !== 'qualification');
   if (digest(config.capability) !== digest(request.capability)) throw new Error('This request belongs to a different qualified audit runtime.');
   await mkdir(outputDirectory, { recursive: false, mode: 0o700 });
   const startedAt = new Date().toISOString();
   await writeFile(resolve(outputDirectory, 'dispatch.json'), JSON.stringify({ version: 'guild.local-browser-dispatch.v1', pid: process.pid, requestDigest: digest(request), startedAt }), { flag: 'wx', mode: 0o600 });
   const writer = evidenceWriter(outputDirectory, policy.maximumEvidenceCaseBytes);
-  const result = { version: 'guild.web-audit-result.v1', requestDigest: digest(request), caseId: request.caseId, locale: request.locale, viewport: request.viewport, mode: request.mode,
+  const result = { version: 'guild.web-audit-result.v2', requestDigest: digest(request), caseId: request.caseId, locale: request.locale, viewport: request.viewport, mode: request.mode,
     sourceDigest: request.sourceDigest, designDigest: request.designDigest, bundleDigest: request.bundle.filesDigest, capabilityDigest: digest(request.capability), rendererDigest: request.rendererDigest,
     startedAt, finishedAt: startedAt, complete: false, axe: [], lighthouse: null, interactions: [], files: writer.files, errors: [] };
   let server, chrome, browser, profile, timer, workPromise, rejectInterruption, expired = false;
@@ -78,6 +80,13 @@ export async function runCase({ configPath, request, inputDirectory, outputDirec
         const file = await writer.json('axe-' + state + '.json', native);
         result.axe.push({ state, file, violations: native.violations.length, seriousCritical: native.violations.filter(item => ['serious', 'critical'].includes(item.impact)).length, incomplete: native.incomplete.length });
       }
+      async function capturePalette() {
+        ensureActive();
+        const observed = await page.evaluate(properties => ({ css: Object.fromEntries(Object.entries(properties).map(([key, name]) => [key, getComputedStyle(document.body).getPropertyValue(name).trim()])), readerContrast: document.body.getAttribute('data-contrast') }), paletteProperties);
+        const measurement = createPaletteMeasurement(request, record, observed);
+        const file = await writer.json('palette-contrast.json', measurement);
+        return { file, ...measurement };
+      }
       await captureAxe('default');
       // Lighthouse gets the same original theme and fresh profile before any
       // reader preference or interaction changes. Its complete LHR is retained.
@@ -89,10 +98,14 @@ export async function runCase({ configPath, request, inputDirectory, outputDirec
       result.lighthouse = { file: await writer.json('lighthouse.json', measured.lhr), accessibilityScore: typeof measured.lhr.categories?.accessibility?.score === 'number' ? measured.lhr.categories.accessibility.score : null, warnings: measured.lhr.runWarnings ?? [] };
       if (measured.lhr.runtimeError) result.errors.push({ code: 'LIGHTHOUSE_RUNTIME', message: JSON.stringify(measured.lhr.runtimeError) });
       await page.bringToFront();
-      result.interactions = await measureInteractions(page, record, captureAxe, externalRequests, pageErrors, ensureActive);
+      result.interactions = await measureInteractions(page, record, captureAxe, externalRequests, pageErrors, ensureActive, capturePalette);
       await writer.json('network-and-page-errors.json', { sourceDigest: request.sourceDigest, externalRequests, pageErrors, exactLocalRequests: server.requests });
       if (expired) throw new Error('The exact case exceeded its fixed limit.');
-      result.complete = true;
+      const missingAxe = requiredAxeStates.filter(state => !result.axe.some(item => item.state === state));
+      const missingInteractions = requiredInteractions.filter(id => !result.interactions.some(item => item.id === id));
+      const missingPalette = !result.files.some(file => file.path === 'palette-contrast.json');
+      result.complete = !missingAxe.length && !missingInteractions.length && !missingPalette;
+      if (!result.complete) result.errors.push({ code: 'MEASUREMENT_REGISTER_INCOMPLETE', message: JSON.stringify({ missingAxe, missingInteractions, missingPalette }) });
     };
     workPromise = work();
     timer = setTimeout(() => interrupt('its fixed ' + policy.caseTimeoutMs + ' ms measurement limit'), policy.caseTimeoutMs);

@@ -1,0 +1,433 @@
+{
+  "version": "guild.web-browser-original-qualification.v1",
+  "sourceCommit": "4467df0e6a883b2e352cfeb546af6ead8f04a533",
+  "scope": "Synthetic Sample reader and browser-engine qualification only. No original commissioned audio or provider request.",
+  "attemptsExpected": 20,
+  "attemptsRetained": 20,
+  "qualified": false,
+  "baselineCasesPassing": 0,
+  "sealRejected": true,
+  "sealError": "AUDIT_CONTRACT: A complete case omitted a required original observation.",
+  "sealLogBytesHash": "ea582b0cd98b8562ef803e1ee9912f7f815804ca2d43ce2e77d4258692406b61",
+  "findings": [
+    "The expanded cue buttons omitted visible cue text from their accessible names; map marker names omitted visible numbers.",
+    "The modal focus cycle failed and the open modal made later controls inert. All original failures remain retained.",
+    "The 390-pixel English, Portuguese and French reading documents overflowed.",
+    "The original runner flag did not represent the complete required measurement register; the stricter seal rejected it.",
+    "The same-color mutation produced native axe color-contrast incomplete findings with an observed 1:1 ratio and Lighthouse accessibility 1.0. Incomplete findings were not recategorized as violations."
+  ],
+  "cases": [
+    {
+      "caseId": "baseline-ar-1440",
+      "resultBytesHash": "c71e2ea60cf2452b311bce5ec00bc3725b044f3d1a27b533b841e630f85051e3",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-ar-390",
+      "resultBytesHash": "2f828d651da6449126e739c465af41a34d718b23393f32620382e173fcd5e0bf",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-ar-768",
+      "resultBytesHash": "b119cce938710a0f60bdda0db59c43eb15bdc2d02a76c0cbe0a249b9240c2682",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-en-1440",
+      "resultBytesHash": "8e345f3ff505d95574df89f62139a5fcc270e2a806962ca1ebeaff2552de7128",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-en-390",
+      "resultBytesHash": "dd9ca449f193b80fe3ab0786076c298021e99b415cb6107499f4432490891670",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "document_overflow",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-en-768",
+      "resultBytesHash": "a319756145918a582950ae142de4bea7c7437985fcd49f0e581de799bed61785",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-es-1440",
+      "resultBytesHash": "4728191a2e90b86a780623d5bd225355a2dece7d67742ed38278d038f8dbffeb",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-es-390",
+      "resultBytesHash": "419f4648304c8e594db80be570c99173f9079407fb2fa653445b262f0a22cedc",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-es-768",
+      "resultBytesHash": "8604b58f039af638f028c3b1e43c8fc1c9972373aa9a9ed9218381041335b903",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-fr-1440",
+      "resultBytesHash": "d4a9267bbfc3d65436d6dc988c81cf5cc6db99b580bc15540daacbb78e3eac40",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-fr-390",
+      "resultBytesHash": "657d70780a71b7110dc9bb46621eace34449e86e846ed69bc172b29a44dc4d23",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "document_overflow",
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-fr-768",
+      "resultBytesHash": "ffa9c8456794fb327da424326005cbe5831b47273d35a08ffea55c13f43b3d7f",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-ja-1440",
+      "resultBytesHash": "02f4ad6bac6f25db8242d637ab7b5c255bc895e115453956499bf505cdf66048",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-ja-390",
+      "resultBytesHash": "706f70f26b4b8481a9f4286a62403775fbaa52b31cd94fc61c3facc31697ed1d",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-ja-768",
+      "resultBytesHash": "16294bad274951f752ecabba563c03a6246b4e7ec333d25909b5615ce14e2d83",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-pt-1440",
+      "resultBytesHash": "988de86ed6fb99a176af215e9fa24c08faa31ed4336d04f3ddcd0782d17d817c",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-pt-390",
+      "resultBytesHash": "0e89f974445d92e5f7bdc67e03bed09e7c4a34ee32dc6e0554c1cae6b4fab3f5",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "document_overflow",
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "baseline-pt-768",
+      "resultBytesHash": "76602be8b95ec669795930617aabc43c77cf68b9070d7c6c5c751fceebab3636",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "mutation-contrast",
+      "resultBytesHash": "2b08cae35adb1288d695a12b5dde2ba0f997d95cd9bc30050a47f33812b84d94",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 1,
+      "failedInteractions": [
+        "document_overflow",
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    },
+    {
+      "caseId": "mutation-missing-alt",
+      "resultBytesHash": "77b0188554b0dc36126bd13d9e57031a114bdfa7936ab186ad6b73ca560da94b",
+      "runnerCompleteFlag": true,
+      "retainedAxeStates": [
+        "default",
+        "expanded",
+        "map"
+      ],
+      "lighthouseScore": 0.96,
+      "failedInteractions": [
+        "images_decoded",
+        "document_overflow",
+        "keyboard_register",
+        "dialog_focus",
+        "original_audio",
+        "captions_seek",
+        "locale_keyboard",
+        "reader_preferences",
+        "chapter_navigation"
+      ]
+    }
+  ],
+  "originalEditionRepaired": false,
+  "productionAuthorityChanged": false,
+  "originalCaptionGate": "Failed diagnostic: 0 of 78 tracks. Unchanged.",
+  "originalAuthorityCeiling": "2026-11-11T11:45:29.435Z",
+  "humanReview": false,
+  "acceptance": false,
+  "payment": false,
+  "publication": false
+}

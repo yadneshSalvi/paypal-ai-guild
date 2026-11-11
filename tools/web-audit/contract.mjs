@@ -3,8 +3,9 @@ import { isAbsolute, resolve } from 'node:path';
 import { digest, engineIdentity, sha } from './identity.mjs';
 import { readExactBundle } from './server.mjs';
 import { readEvidenceJson, validEvidenceFile } from './evidence.mjs';
+import { validatePaletteMeasurement, palettePolicy } from './contrast.mjs';
 
-export const requiredInteractions = ['source_text', 'original_media_register', 'images_decoded', 'no_autoplay', 'document_overflow', 'rtl', 'keyboard_register', 'dialog_focus', 'locale_keyboard', 'original_audio', 'captions_seek', 'reader_preferences', 'chapter_navigation', 'reduced_motion', 'no_external_resources', 'no_page_errors'];
+export const requiredInteractions = ['source_text', 'palette_contrast', 'original_media_register', 'images_decoded', 'no_autoplay', 'document_overflow', 'rtl', 'keyboard_register', 'dialog_focus', 'locale_keyboard', 'original_audio', 'captions_seek', 'reader_preferences', 'chapter_navigation', 'reduced_motion', 'no_external_resources', 'no_page_errors'];
 export const requiredAxeStates = ['default', 'expanded', 'map', 'settings', 'source', 'share'];
 const hash = /^[a-f0-9]{64}$/, object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const exactKeys = (value, keys) => object(value) && Object.keys(value).sort().join() === [...keys].sort().join();
@@ -13,8 +14,9 @@ const integer = value => Number.isSafeInteger(value) && value >= 0;
 const date = value => typeof value === 'string' && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value) && Number.isFinite(Date.parse(value));
 function fail(message) { throw new Error('AUDIT_CONTRACT: ' + message); }
 export function checkRequest(request, policy) {
+  if (policy.version !== 'guild.web-measurements.v2' || !equal(policy.paletteContrast, palettePolicy)) fail('The exact strengthened measurement policy is required.');
   if (!exactKeys(request, ['version', 'mode', 'locale', 'viewport', 'caseId', 'authorityDigest', 'rendererDigest', 'capability', 'sourceDigest', 'designDigest', 'bundle'])
-    || request.version !== 'guild.web-audit-request.v1' || !['producer', 'independent', 'qualification'].includes(request.mode)
+    || request.version !== 'guild.web-audit-request.v2' || !['producer', 'independent', 'qualification'].includes(request.mode)
     || !policy.locales.includes(request.locale) || !policy.viewports.some(item => equal(item, request.viewport))
     || !object(request.bundle) || request.bundle.sourceDigest !== request.sourceDigest || request.bundle.designDigest !== request.designDigest
     || typeof request.caseId !== 'string' || !/^[a-z0-9:_-]{1,150}$/.test(request.caseId)
@@ -26,7 +28,7 @@ function localUrl(value, request) {
 export async function inspectResult(request, result, directory, policy) {
   checkRequest(request, policy);
   if (!exactKeys(result, ['version', 'requestDigest', 'caseId', 'locale', 'viewport', 'mode', 'sourceDigest', 'designDigest', 'bundleDigest', 'capabilityDigest', 'rendererDigest', 'startedAt', 'finishedAt', 'complete', 'axe', 'lighthouse', 'interactions', 'files', 'errors'])
-    || result.version !== 'guild.web-audit-result.v1' || result.requestDigest !== digest(request) || result.caseId !== request.caseId || result.locale !== request.locale || !equal(result.viewport, request.viewport)
+    || result.version !== 'guild.web-audit-result.v2' || result.requestDigest !== digest(request) || result.caseId !== request.caseId || result.locale !== request.locale || !equal(result.viewport, request.viewport)
     || result.mode !== request.mode || result.sourceDigest !== request.sourceDigest || result.designDigest !== request.designDigest || result.bundleDigest !== request.bundle.filesDigest
     || result.capabilityDigest !== digest(request.capability) || result.rendererDigest !== request.rendererDigest || !date(result.startedAt) || !date(result.finishedAt) || Date.parse(result.finishedAt) < Date.parse(result.startedAt)
     || typeof result.complete !== 'boolean' || !Array.isArray(result.files) || result.files.length > 200 || !result.files.every(validEvidenceFile)
@@ -62,8 +64,12 @@ export async function inspectResult(request, result, directory, policy) {
       || !equal(native.runWarnings ?? [], result.lighthouse.warnings) || native.runtimeError && !result.errors.some(item => item.code === 'LIGHTHOUSE_RUNTIME' && item.message === JSON.stringify(native.runtimeError))) fail('The native Lighthouse score, viewport, warnings or engine differs from its original result.');
   }
   for (const item of result.interactions) if (!exactKeys(item, ['id', 'passed', 'detail', 'observed']) || !requiredInteractions.includes(item.id) || typeof item.passed !== 'boolean' || typeof item.detail !== 'string' || item.detail.length > 8000) fail('The original interaction register is invalid.');
+  const paletteFile = result.files.find(file => file.path === 'palette-contrast.json');
+  const palette = paletteFile ? validatePaletteMeasurement(request, await readEvidenceJson(directory, paletteFile, result.files)) : null;
+  if (palette && (Date.parse(palette.observedAt) < Date.parse(result.startedAt) || Date.parse(palette.observedAt) > Date.parse(result.finishedAt)
+    || result.interactions.some(item => item.id === 'palette_contrast' && item.passed !== palette.passes))) fail('The measured palette differs from its original time or interaction flag.');
   if (result.complete) {
-    if (result.axe.length !== requiredAxeStates.length || result.interactions.length !== requiredInteractions.length || result.lighthouse === null) fail('A complete case omitted a required original observation.');
+    if (result.axe.length !== requiredAxeStates.length || result.interactions.length !== requiredInteractions.length || result.lighthouse === null || !palette) fail('A complete case omitted a required original observation.');
     const reference = result.files.find(file => file.path === 'network-and-page-errors.json');
     if (!reference) fail('A complete case omitted the original network/page-error record.');
     const native = await readEvidenceJson(directory, reference, result.files);
@@ -74,7 +80,7 @@ export async function inspectResult(request, result, directory, policy) {
   } else if (!result.errors.length) fail('An incomplete case must retain its explicit failure.');
   const passes = result.complete && !result.errors.length && result.axe.every(item => item.seriousCritical === 0)
     && typeof score === 'number' && score >= policy.minimumLighthouseAccessibilityScore && result.interactions.every(item => item.passed);
-  return { passes, score, violationIds: [...new Set(violationIds)] };
+  return { passes, score, violationIds: [...new Set(violationIds)], paletteContrast: palette?.passes ?? false, paletteSourceBound: palette?.sourceBound ?? false, paletteRatios: palette?.pairs.map(pair => pair.ratio) ?? [] };
 }
 
 export function qualificationCases(set, policy) {
@@ -92,7 +98,7 @@ export async function readQualificationSet(path, rendererDigest) {
   return set;
 }
 export function qualificationRequest(config, test) {
-  return { version: 'guild.web-audit-request.v1', mode: 'qualification', locale: test.locale, viewport: test.viewport, caseId: test.id,
+  return { version: 'guild.web-audit-request.v2', mode: 'qualification', locale: test.locale, viewport: test.viewport, caseId: test.id,
     authorityDigest: digest({ scope: 'independent-browser-diagnostic-only', inputs: config.inputDigest, engine: engineIdentity(config.capability), productionApproval: false }),
     rendererDigest: config.capability.qualifiedRendererDigest, capability: config.capability,
     sourceDigest: test.entry.bundle.sourceDigest, designDigest: test.entry.bundle.designDigest, bundle: test.entry.bundle };
@@ -107,7 +113,9 @@ export async function inspectQualification(config, policy) {
     if (!equal(request, expected)) fail('The complete original qualification request differs from its declared case.');
     const result = JSON.parse(await readFile(resolve(evidence, 'result.json'), 'utf8'));
     const inspected = await inspectResult(request, result, evidence, policy);
-    const detectedMutation = !test.baseline && result.complete && !result.errors.length && inspected.violationIds.includes(test.entry.id === 'contrast' ? 'color-contrast' : 'image-alt');
+    const detectedMutation = !test.baseline && result.complete && !result.errors.length && (test.entry.id === 'contrast'
+      ? inspected.paletteSourceBound && !inspected.paletteContrast && inspected.paletteRatios.some(ratio => typeof ratio === 'number' && ratio < policy.paletteContrast.minimumRatio)
+      : inspected.violationIds.includes('image-alt'));
     cases.push({ id: test.id, requestDigest: digest(request), resultHash: digest(result), fileManifestHash: digest(result.files), baseline: test.baseline, ...inspected, detectedMutation });
   }
   return cases;

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { validateWebAuditResult, webAuditFileSchema, type WebAuditRequest, type WebAuditResult } from "@/domain/web-audits";
 import { digest, DomainError } from "@/domain/primitives";
+import { validateWebPaletteMeasurement } from "@/domain/web-contrast";
 
 type File = z.infer<typeof webAuditFileSchema>;
 const hash = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");
@@ -55,6 +56,16 @@ export function validateWebEvidence(request: WebAuditRequest, raw: unknown, valu
     if (data.lighthouseVersion !== request.capability.lighthouse || score !== result.lighthouse.accessibilityScore || data.configSettings?.screenEmulation?.width !== request.viewport.width || data.configSettings?.screenEmulation?.height !== request.viewport.height
       || !localUrl(data.requestedUrl, request) || digest(data.runWarnings ?? []) !== digest(result.lighthouse.warnings)) fail();
     if (data.runtimeError && !result.errors.some(item => item.code === "LIGHTHOUSE_RUNTIME" && item.message === JSON.stringify(data.runtimeError))) fail();
+  }
+  if (result.complete) {
+    const paletteFile = result.files.find(file => file.path === "palette-contrast.json");
+    if (!paletteFile) fail();
+  }
+  const paletteFile = result.files.find(file => file.path === "palette-contrast.json");
+  if (paletteFile) {
+    const palette = validateWebPaletteMeasurement(request, readWebEvidenceJson(paletteFile, result.files, values));
+    if (Date.parse(palette.observedAt) < Date.parse(result.startedAt) || Date.parse(palette.observedAt) > Date.parse(result.finishedAt)
+      || result.interactions.some(item => item.id === "palette_contrast" && item.passed !== palette.passes)) fail();
   }
   if (result.complete) {
     const reference = result.files.find(file => file.path === "network-and-page-errors.json");

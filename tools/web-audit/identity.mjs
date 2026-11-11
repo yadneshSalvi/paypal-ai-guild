@@ -8,7 +8,7 @@ export const toolRoot = dirname(fileURLToPath(import.meta.url));
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export const canonical = value => value === null || typeof value !== 'object' ? JSON.stringify(value) : Array.isArray(value) ? '[' + value.map(canonical).join(',') + ']' : '{' + Object.entries(value).filter(([, value]) => value !== undefined).sort(([a], [b]) => a.localeCompare(b)).map(([key, value]) => JSON.stringify(key) + ':' + canonical(value)).join(',') + '}';
 export const digest = value => sha(canonical(value));
-export const auditCodeFiles = ['identity.mjs', 'server.mjs', 'evidence.mjs', 'contract.mjs', 'interactions.mjs', 'runner.mjs', 'qualify.mjs', 'policy.json', 'package.json'];
+export const auditCodeFiles = ['identity.mjs', 'server.mjs', 'evidence.mjs', 'contract.mjs', 'contrast.mjs', 'interactions.mjs', 'runner.mjs', 'qualify.mjs', 'policy.json', 'package.json'];
 export const expectedTools = { playwright: '1.65.0', axe: '4.14.0', lighthouse: '13.6.0', browserRevision: '1254', browserVersion: '158.0.8127.18', node: 'v22.22.3' };
 export function inside(root, path) { const part = relative(root, path); return part !== '' && part !== '..' && !part.startsWith('..' + sep) && !isAbsolute(part); }
 export async function treeIdentity(root) {
@@ -42,7 +42,7 @@ export async function currentIdentity(browserRoot, executable) {
   for (const path of auditCodeFiles) code.push({ path, sha256: sha(await readFile(resolve(toolRoot, path))) });
   const [dependencies, distributionTree] = await Promise.all([treeIdentity(resolve(toolRoot, 'node_modules')), treeIdentity(distribution)]);
   return {
-    version: 'guild.chromium-web-audit.v1', runnerHash: digest(code), packageLockHash: sha(await readFile(resolve(toolRoot, 'package-lock.json'))),
+    version: 'guild.chromium-web-audit.v2', runnerHash: digest(code), packageLockHash: sha(await readFile(resolve(toolRoot, 'package-lock.json'))),
     dependenciesDigest: dependencies.digest, browserDistributionDigest: distributionTree.digest, nodeExecutableHash: sha(await readFile(process.execPath)),
     browserRevision: expectedTools.browserRevision, operatingSystem: `${platform()} ${release()} ${version()}`,
     playwright: playwright.version, axe: axe.version, lighthouse: lighthouse.version, browserVersion: expectedTools.browserVersion,
@@ -52,7 +52,7 @@ export async function currentIdentity(browserRoot, executable) {
 export function engineIdentity(capability) { const { qualifiedAt: _at, qualificationDigest: _proof, qualifiedRendererDigest: _renderer, ...identity } = capability; return identity; }
 export async function verifyRuntime(path, requireQualified = true) {
   const config = JSON.parse(await readFile(path, 'utf8'));
-  if (config.version !== 'guild.web-audit-runtime.v1' || !isAbsolute(config.browserRoot) || !isAbsolute(config.browserExecutable) || !isAbsolute(config.workspace)) throw new Error('An explicit private audit runtime is required. System/browser-cache fallback is disabled.');
+  if (config.version !== 'guild.web-audit-runtime.v2' || !isAbsolute(config.browserRoot) || !isAbsolute(config.browserExecutable) || !isAbsolute(config.workspace)) throw new Error('An explicit private audit runtime is required. System/browser-cache fallback is disabled.');
   const identity = await currentIdentity(config.browserRoot, config.browserExecutable);
   if (digest(identity) !== digest(engineIdentity(config.capability))) throw new Error('The browser, audit code, dependencies or platform changed after qualification.');
   if (requireQualified) {

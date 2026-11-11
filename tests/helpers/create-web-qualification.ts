@@ -72,7 +72,7 @@ async function main() {
     return { directory, bundle: rendered.bundle };
   }
   const set = { version: "guild.web-qualification-set.v1", baseline: await save("baseline", baseline), mutations: [
-    { id: "contrast", description: "Explicit same-foreground/background tokens; native color-contrast detection is required.", ...await save("mutation-contrast", contrast) },
+    { id: "contrast", description: "Explicit same-foreground/background tokens; the source-bound original-palette contrast gate must fail, with native axe findings retained separately.", ...await save("mutation-contrast", contrast) },
     { id: "missing-alt", description: "Explicit removal of the first synthetic image alternative; native image-alt detection is required.", ...await save("mutation-missing-alt", missingAlt) },
   ] };
   await writeFile(resolve(output, "qualification-set.json"), JSON.stringify(set, null, 2) + "\n", { flag: "wx", mode: 0o600 });

@@ -1,5 +1,5 @@
 {
-  "version": "guild.web-measurements.v1",
+  "version": "guild.web-measurements.v2",
   "locales": [
     "en",
     "pt",
@@ -41,5 +41,33 @@
     "contrast",
     "visual_experience",
     "language_and_listening"
-  ]
+  ],
+  "paletteContrast": {
+    "version": "guild.opaque-palette-contrast.v1",
+    "minimumRatio": 4.5,
+    "formula": "wcag22-srgb-relative-luminance-0.04045-unrounded",
+    "pairs": [
+      {
+        "id": "paper_body",
+        "foreground": "ink",
+        "background": "paper"
+      },
+      {
+        "id": "paper_muted",
+        "foreground": "mutedInk",
+        "background": "paper"
+      },
+      {
+        "id": "dark_body",
+        "foreground": "darkInk",
+        "background": "dark"
+      },
+      {
+        "id": "accent_body",
+        "foreground": "accentInk",
+        "background": "accent"
+      }
+    ],
+    "scope": "four_original_opaque_text_palette_pairs_only_not_universal_accessibility"
+  }
 }

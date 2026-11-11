@@ -52,9 +52,20 @@
     $("[data-close]", dialog)?.focus();
   }
   for (const dialog of $$("dialog")) {
+    // Keep the authored modal's keyboard cycle inside the document. Native
+    // dialog inertness alone may send Tab to browser chrome at the boundary.
+    dialog.addEventListener("keydown", event => {
+      if (event.key !== "Tab" || !dialog.open) return;
+      const controls = $$("a[href],button,input,select,textarea,summary,[tabindex]", dialog).filter(control => control.tabIndex >= 0 && !control.matches(":disabled") && control.getClientRects().length && getComputedStyle(control).visibility === "visible");
+      const first = controls[0], last = controls.at(-1), current = document.activeElement;
+      if (!first) { event.preventDefault(); return; }
+      if (!dialog.contains(current) || event.shiftKey && current === first || !event.shiftKey && current === last) {
+        event.preventDefault(); (event.shiftKey ? last : first).focus();
+      }
+    });
     dialog.addEventListener("close", () => {
       const target = invokers.get(dialog.id);
-      if (dialog.returnValue !== "navigate") queueMicrotask(() => { if (target instanceof HTMLElement && target.isConnected && !target.hasAttribute("disabled")) target.focus({ preventScroll: true }); });
+      if (dialog.returnValue !== "navigate") queueMicrotask(() => { if (!$('dialog[open]') && target instanceof HTMLElement && target.isConnected && !target.hasAttribute("disabled")) target.focus({ preventScroll: true }); });
     });
     $("[data-close]", dialog)?.addEventListener("click", () => closeDialog(dialog));
     dialog.addEventListener("click", event => {
@@ -76,8 +87,10 @@
     chapter = value;
     const index = families.indexOf(value);
     $("[data-chapter-progress]").textContent = String(index + 1).padStart(2, "0") + " / " + families.length;
-    $("[data-previous]").disabled = index === 0;
-    $("[data-next]").disabled = index === families.length - 1;
+    // These fixed controls remain in the tab order as their availability
+    // changes with scrolling, so a focused navigation control cannot vanish.
+    $("[data-previous]").setAttribute("aria-disabled", String(index === 0));
+    $("[data-next]").setAttribute("aria-disabled", String(index === families.length - 1));
     for (const node of $$("[data-goto-family]")) {
       const current = node.dataset.gotoFamily === value;
       if (current) node.setAttribute("aria-current", "location"); else node.removeAttribute("aria-current");
@@ -113,7 +126,7 @@
     for (const node of $$("[data-i18n]")) node.textContent = message(node.dataset.i18n);
     for (const node of $$("[data-i18n-label]")) node.setAttribute("aria-label", message(node.dataset.i18nLabel));
     for (const node of $$("[data-map-label]")) { const title = data.chapterTitles[next][node.dataset.mapLabel]; node.textContent = title; }
-    for (const node of $$(".web-map-node")) node.setAttribute("aria-label", data.chapterTitles[next][node.dataset.gotoFamily]);
+    for (const node of $$(".web-map-node")) node.setAttribute("aria-label", node.textContent.trim() + ". " + data.chapterTitles[next][node.dataset.gotoFamily]);
     document.title = data.titles[next] + " · " + data.museum;
     applyPreferences(); updateChapter(chapter, false); save(); updateLocation();
     if (preservePosition) requestAnimationFrame(() => goTo(chapter, false, false));
@@ -143,8 +156,8 @@
     const dialog = button.closest("dialog"); if (dialog) closeDialog(dialog, "navigate");
     goTo(button.dataset.gotoFamily);
   });
-  $("[data-previous]").addEventListener("click", () => goTo(families[Math.max(0, families.indexOf(chapter) - 1)]));
-  $("[data-next]").addEventListener("click", () => goTo(families[Math.min(families.length - 1, families.indexOf(chapter) + 1)]));
+  $("[data-previous]").addEventListener("click", () => { const index = families.indexOf(chapter); if (index > 0) goTo(families[index - 1]); });
+  $("[data-next]").addEventListener("click", () => { const index = families.indexOf(chapter); if (index < families.length - 1) goTo(families[index + 1]); });
   for (const button of $$("[data-inspect-source]")) button.addEventListener("click", () => {
     const photo = data.photographs.find(item => item.id === button.dataset.inspectSource);
     if (!photo) return;
@@ -232,7 +245,13 @@
     if (frame) return; frame = true;
     requestAnimationFrame(() => { frame = false; if (navigationTarget) return; const visible = $$("[data-chapter]", activeArticle()).filter(section => section.getBoundingClientRect().top < innerHeight * .45).at(-1); if (visible && visible.dataset.chapter !== chapter) updateChapter(visible.dataset.chapter); });
   }, { passive: true });
-  addEventListener("scrollend", releaseNavigation);
+  addEventListener("scrollend", () => {
+    if (!navigationTarget) return;
+    const target = $("[data-chapter='" + navigationTarget + "']", activeArticle());
+    const top = target?.getBoundingClientRect().top, padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    // An older scroll completion must not cancel a newer chapter request.
+    if (top !== undefined && Math.abs(top - padding) < 3) releaseNavigation();
+  });
   addEventListener("wheel", releaseNavigation, { passive: true });
   addEventListener("touchstart", releaseNavigation, { passive: true });
   addEventListener("keydown", event => { if (["PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End", " "].includes(event.key)) releaseNavigation(); });
@@ -248,7 +267,7 @@
       if (["map", "settings", "share"].includes(state)) $("[data-open-dialog='" + state + "-dialog']")?.click();
       if (state === "source") $("[data-inspect-source]", activeArticle())?.click();
       const id = query.get("review"), target = id && /^[A-Za-z][A-Za-z0-9_-]{0,200}$/.test(id) ? document.getElementById(id) : null;
-      if (target instanceof HTMLElement && !target.closest("article[hidden]")) {
+      if (target instanceof HTMLElement && !target.closest(".web-article[hidden]")) {
         for (let parent = target.parentElement; parent; parent = parent.parentElement) if (parent instanceof HTMLDetailsElement) parent.open = true;
         const section = target.closest("[data-chapter]"); if (section) goTo(section.dataset.chapter, false, false);
         target.dataset.reviewFocus = "true"; target.scrollIntoView({ behavior: "instant", block: "center" });

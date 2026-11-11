@@ -25,12 +25,12 @@ test("every request field binds the original browser result; changed source, loc
 
 test("a 0.9499 score, missing score or serious axe finding never rounds into a passing measurement", async () => {
   const f = await webAuditFixture();
-  assert.deepEqual(webCaseOutcomes(f.result), { axe: true, lighthouse: true, interaction: true });
+  assert.deepEqual(webCaseOutcomes(f.result), { axe: true, lighthouse: true, palette: true, interaction: true });
   assert.equal(webCaseOutcomes({ ...f.result, lighthouse: { ...f.result.lighthouse!, accessibilityScore: .9499 } }).lighthouse, false);
   assert.equal(webCaseOutcomes({ ...f.result, lighthouse: { ...f.result.lighthouse!, accessibilityScore: null } }).lighthouse, false);
   assert.equal(webCaseOutcomes({ ...f.result, axe: [{ ...f.result.axe[0]!, seriousCritical: 1 }, ...f.result.axe.slice(1)] }).axe, false);
   const failed = { ...f.result, complete: false, errors: [{ code: "MEASUREMENT_LOST", message: "Synthetic retained failure." }] };
-  assert.deepEqual(webCaseOutcomes(failed), { axe: false, lighthouse: false, interaction: false });
+  assert.deepEqual(webCaseOutcomes(failed), { axe: false, lighthouse: false, palette: false, interaction: false });
 });
 
 test("duplicate, reordered identity and missing native observations cannot masquerade as a complete case", async () => {
@@ -76,7 +76,7 @@ test("all 18 distinct locale/viewport cases are required and automated results l
   const pack = webAcceptancePack(f.source, webAuthorityFixture(), f.capability, f.assets.capability);
   const checked = webMeasuredPack(pack, true, true, receipts);
   assert.equal(checked.criteria.find(item => item.id === "experience")!.status, "pending");
-  assert.equal(checked.criteria.filter(item => item.kind === "deterministic" && item.status === "passed").length, 5);
+  assert.equal(checked.criteria.filter(item => item.kind === "deterministic" && item.status === "passed").length, 6);
   assert.deepEqual(webSourcesFromPack(checked), f.source);
 });
 

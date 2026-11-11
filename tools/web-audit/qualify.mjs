@@ -14,7 +14,7 @@ export async function prepareRuntime(browserRoot, executable, setPath, workspace
   const identity = await currentIdentity(resolve(browserRoot), resolve(executable));
   await mkdir(workspace, { recursive: false, mode: 0o700 });
   const at = new Date().toISOString();
-  const config = { version: 'guild.web-audit-runtime.v1', state: 'unqualified', browserRoot: resolve(browserRoot), browserExecutable: resolve(executable), workspace: resolve(workspace), inputDigest: digest(set),
+  const config = { version: 'guild.web-audit-runtime.v2', state: 'unqualified', browserRoot: resolve(browserRoot), browserExecutable: resolve(executable), workspace: resolve(workspace), inputDigest: digest(set),
     capability: { ...identity, qualifiedAt: at, qualificationDigest: digest({ unqualified: true, engine: identity }), qualifiedRendererDigest: record.renderer.digest } };
   await writeNew(resolve(workspace, 'qualification-input.json'), set);
   await writeNew(resolve(workspace, 'runtime.json'), config);
@@ -44,7 +44,7 @@ export async function sealQualification(configPath, acknowledgment) {
   const set = await readQualificationSet(resolve(config.workspace, 'qualification-input.json'), config.capability.qualifiedRendererDigest);
   if (digest(set) !== config.inputDigest) throw new Error('The qualification input changed.');
   const cases = await inspectQualification(config, policy);
-  const qualification = { version: 'guild.web-audit-qualification.v1', engineDigest: digest(engineIdentity(config.capability)), rendererDigest: config.capability.qualifiedRendererDigest, inputDigest: config.inputDigest,
+  const qualification = { version: 'guild.web-audit-qualification.v2', engineDigest: digest(engineIdentity(config.capability)), rendererDigest: config.capability.qualifiedRendererDigest, inputDigest: config.inputDigest,
     policyDigest: digest(policy), baselineCases: cases.filter(item => item.baseline).length, detectedMutations: cases.filter(item => !item.baseline && item.detectedMutation).length,
     passed: cases.filter(item => item.baseline).every(item => item.passes) && cases.filter(item => !item.baseline).every(item => item.detectedMutation), cases,
     completedAt: new Date().toISOString(), productionApproval: false, humanReview: false, acceptance: false, payment: false };

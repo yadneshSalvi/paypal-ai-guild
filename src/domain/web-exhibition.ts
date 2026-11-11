@@ -26,7 +26,7 @@ export const webRendererPolicy = {
   bundleDigest: "sha256-canonical-ordered-path-type-size-contenthash.v1",
 } as const;
 export const webAuditPolicy = {
-  version: "guild.web-measurements.v1",
+  version: "guild.web-measurements.v2",
   locales: ["en", "pt", "es", "fr", "ja", "ar"],
   viewports: [{ width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }],
   cases: 18,
@@ -35,6 +35,17 @@ export const webAuditPolicy = {
   maximumEvidenceCaseBytes: 64 * 1024 * 1024,
   maximumSeriousOrCriticalAxeViolations: 0,
   minimumLighthouseAccessibilityScore: 0.95,
+  paletteContrast: {
+    version: "guild.opaque-palette-contrast.v1", minimumRatio: 4.5,
+    formula: "wcag22-srgb-relative-luminance-0.04045-unrounded",
+    pairs: [
+      { id: "paper_body", foreground: "ink", background: "paper" },
+      { id: "paper_muted", foreground: "mutedInk", background: "paper" },
+      { id: "dark_body", foreground: "darkInk", background: "dark" },
+      { id: "accent_body", foreground: "accentInk", background: "accent" },
+    ],
+    scope: "four_original_opaque_text_palette_pairs_only_not_universal_accessibility",
+  },
   horizontalOverflowTolerancePx: 1,
   incompleteAxeFindings: "retained_for_separate_manual_review",
   keyboard: "every_authored_control_and_native_dialog_focus",
@@ -122,7 +133,7 @@ export function checkedWebDesign(raw: unknown, source: WebSources): WebDesign {
 }
 
 export const webAuditCapabilitySchema = z.object({
-  version: z.literal("guild.chromium-web-audit.v1"), runnerHash: hash, packageLockHash: hash,
+  version: z.literal("guild.chromium-web-audit.v2"), runnerHash: hash, packageLockHash: hash,
   dependenciesDigest: hash, browserDistributionDigest: hash, nodeExecutableHash: hash, browserRevision: z.literal("1254"), operatingSystem: z.string().min(1).max(300),
   playwright: z.string().min(1).max(80), axe: z.string().min(1).max(80), lighthouse: z.string().min(1).max(80),
   browserVersion: z.string().min(1).max(160), browserExecutableHash: hash, platform: z.string().min(1).max(80), architecture: z.string().min(1).max(80), node: z.string().min(1).max(80),
@@ -148,6 +159,7 @@ export function webAcceptancePack(raw: WebSources, rawAuthority: WebAuthority, r
     { id: "bundle", label: "The actual portable files match their immutable manifest", description: "Authored code, all original media, complete content and font licences match the exact ordered file hashes. No generated code or external resource is executed.", kind: "deterministic", blocking: true, status: "pending", evidence: null },
     { id: "axe", label: "No serious or critical axe violations in any of 18 cases", description: "The pinned browser checks all six locales at 390, 768 and 1440 pixels. Every other violation and incomplete finding is retained for review.", kind: "deterministic", blocking: true, status: "pending", evidence: null },
     { id: "lighthouse", label: "Measured accessibility score at least 95 in every case", description: "Each of the 18 pinned Lighthouse runs must return a measured accessibility score of at least 0.95. Missing scores and engine errors do not pass.", kind: "deterministic", blocking: true, status: "pending", evidence: null },
+    { id: "palette", label: "Original text palette meets 4.5:1 across four bound pairs", description: "Each case preserves the original computed opaque CSS palette and exact unrounded WCAG sRGB ratios for body/paper, muted/paper, light/dark and ink/accent. This separate gate does not reclassify native axe findings or prove universal accessibility.", kind: "deterministic", blocking: true, status: "pending", evidence: null },
     { id: "interaction", label: "Keyboard, focus, original audio and RTL work at every width", description: "Measured control activation, dialog return, locale switching, original audio playback/pause/seek, no autoplay, RTL, reduced motion and document overflow checks must all pass.", kind: "deterministic", blocking: true, status: "pending", evidence: null },
     { id: "experience", label: "The curator reviews the complete reading experience", description: "Review actual keyboard and screen-reader use, content order, contrast, crops, listening, language meaning and visual quality. Automated scores do not establish universal accessibility or fluent human review.", kind: "human", blocking: true, status: "pending", evidence: null },
   ];

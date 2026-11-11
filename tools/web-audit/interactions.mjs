@@ -1,16 +1,51 @@
 const languages = ['en', 'pt', 'es', 'fr', 'ja', 'ar'];
-const assert = (condition, message) => { if (!condition) throw new Error(message); };
-const active = page => page.locator('article:not([hidden])');
+const assert = (condition, message, observed = null) => { if (!condition) throw Object.assign(new Error(message), { observed }); };
+const active = page => page.locator('.web-article:not([hidden])');
 const focused = locator => locator.evaluate(element => element === document.activeElement);
-async function keyActivate(locator) { await locator.focus(); await locator.press('Enter'); }
+async function keyActivate(locator) {
+  await locator.focus();
+  assert(await focused(locator), 'The authored control could not receive focus before keyboard activation.', await locator.evaluate(element => ({ tag: element.tagName, id: element.id, inertAncestor: element.closest('[inert]')?.id ?? null, openDialogs: [...document.querySelectorAll('dialog[open]')].map(dialog => dialog.id) })));
+  await locator.press('Enter');
+}
+async function failureState(page) {
+  return page.evaluate(() => {
+    const current = document.activeElement, rect = element => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
+    return { locale: document.documentElement.lang, url: location.href, viewport: { width: innerWidth, height: innerHeight }, scroll: { x: scrollX, y: scrollY }, documentWidth: document.documentElement.scrollWidth,
+      focus: current ? { tag: current.tagName, id: current.id, className: String(current.className), rect: rect(current) } : null,
+      dialogs: [...document.querySelectorAll('dialog[open]')].map(dialog => ({ id: dialog.id, rect: rect(dialog) })),
+      preferences: { ...document.body.dataset }, chapter: document.querySelector('[data-chapter-progress]')?.textContent,
+      audio: [...document.querySelectorAll('.web-article:not([hidden]) [data-player]')].map(player => { const audio = player.querySelector('audio'); return { key: player.dataset.label, time: audio.currentTime, duration: Number.isFinite(audio.duration) ? audio.duration : null, paused: audio.paused, readyState: audio.readyState, networkState: audio.networkState, error: audio.error ? { code: audio.error.code, message: audio.error.message } : null }; }) };
+  });
+}
+async function closeOpenDialog(page) {
+  const open = page.locator('dialog[open]');
+  if (!await open.count()) return;
+  // Failure cleanup uses the same authored Close control. It never awards a
+  // failed interaction a pass and leaves the original failure observation intact.
+  await keyActivate(open.locator('[data-close]'));
+  await open.waitFor({ state: 'hidden', timeout: 1500 });
+}
+async function escapeTo(page, dialog, invoker) {
+  await page.keyboard.press('Escape');
+  await dialog.waitFor({ state: 'hidden', timeout: 1500 });
+  const id = await invoker.getAttribute('id');
+  await page.waitForFunction(expected => document.activeElement?.id === expected, id, { timeout: 1500 });
+  assert(await focused(invoker), 'Escape did not return focus to the exact initiating control.');
+}
 
 /** All actions use the authored controls; no playback events or passing scores are fabricated. */
-export async function measureInteractions(page, record, captureAxe, externalRequests, pageErrors, ensureActive = () => {}) {
+export async function measureInteractions(page, record, captureAxe, externalRequests, pageErrors, ensureActive = () => {}, capturePalette) {
   const checks = [], language = await page.locator('html').getAttribute('lang');
   async function check(id, action) {
     ensureActive();
     try { const observed = await action(); checks.push({ id, passed: true, detail: 'Observed in the exact isolated browser case.', observed: observed ?? null }); }
-    catch (error) { ensureActive(); checks.push({ id, passed: false, detail: String(error?.message ?? error).slice(0, 8000), observed: null }); }
+    catch (error) {
+      ensureActive();
+      const observed = { measurement: error?.observed ?? null, state: await failureState(page) };
+      let detail = String(error?.message ?? error);
+      try { await closeOpenDialog(page); } catch (cleanup) { detail += '\nOriginal failure cleanup also failed: ' + String(cleanup?.message ?? cleanup); }
+      checks.push({ id, passed: false, detail: detail.slice(0, 8000), observed });
+    }
   }
   await check('source_text', async () => {
     const actual = await active(page).locator('[data-label-key]').evaluateAll(elements => elements.map(element => ({ key: element.dataset.labelKey, title: element.querySelector('[data-exact-title]')?.textContent, body: element.querySelector('[data-exact-body]')?.textContent, transcript: element.querySelector('[data-exact-transcript]')?.textContent })));
@@ -35,6 +70,11 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
     assert(observed.playing === 0 && observed.autoplay === 0, 'A recording played before a user action.');
     return observed;
   });
+  await check('palette_contrast', async () => {
+    const observed = await capturePalette();
+    assert(observed.passes, 'The original computed opaque text palette failed a source binding or one of its four unrounded 4.5:1 pair measurements.', observed);
+    return observed;
+  });
   await check('images_decoded', async () => {
     const photos = await active(page).locator('img.web-image').all(), observations = [];
     for (const image of photos) {
@@ -46,8 +86,14 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
     return observations;
   });
   await check('document_overflow', async () => {
-    const observed = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth, body: document.body.scrollWidth }));
-    assert(observed.document <= observed.viewport + 1 && observed.body <= observed.viewport + 1, 'The reading document overflows its agreed viewport.');
+    const observed = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth, body: document.body.scrollWidth,
+      outsideViewport: [...document.querySelectorAll('body *')].filter(element => element.getClientRects().length && !element.closest('[hidden]')).flatMap(element => {
+        const r = element.getBoundingClientRect(); if (r.left >= -1 && r.right <= innerWidth + 1) return [];
+        const style = getComputedStyle(element); let clip = element.parentElement;
+        while (clip && !['auto', 'scroll', 'hidden', 'clip'].includes(getComputedStyle(clip).overflowX)) clip = clip.parentElement;
+        return [{ tag: element.tagName, id: element.id, className: String(element.className), left: r.left, right: r.right, width: r.width, display: style.display, minWidth: style.minWidth, fontSize: style.fontSize, clippingAncestor: clip ? { tag: clip.tagName, id: clip.id, className: String(clip.className) } : null }];
+      }) }));
+    assert(observed.document <= observed.viewport + 1 && observed.body <= observed.viewport + 1, 'The reading document overflows its agreed viewport.', observed);
     return observed;
   });
   await check('rtl', async () => {
@@ -84,30 +130,40 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
     return { expected: expected.length, reached: seen.size, register: expected };
   });
   await check('dialog_focus', async () => {
-    const observations = [];
+    const observations = [], failures = [];
+    async function modal(name, invoker, action) {
+      try {
+        await keyActivate(invoker); const dialog = page.locator('#' + name + '-dialog');
+        assert(await dialog.evaluate(element => element.open), name + ' did not open from the keyboard.');
+        await action(dialog);
+        const controls = await dialog.locator('a[href]:visible,button:visible,input:visible,select:visible,textarea:visible').count();
+        const focusPath = [];
+        for (let index = 0; index < controls + 3; index++) {
+          await page.keyboard.press('Tab');
+          focusPath.push(await page.evaluate(() => ({ id: document.activeElement?.id, tag: document.activeElement?.tagName })));
+          assert(await dialog.evaluate(element => element.contains(document.activeElement)), 'Focus escaped the native modal.', { name, index, controls, focusPath });
+        }
+        const rect = await dialog.boundingBox(), size = page.viewportSize();
+        assert(rect && rect.x >= 0 && rect.y >= 0 && rect.x + rect.width <= size.width + 1 && rect.y + rect.height <= size.height + 1, 'A native dialog exceeds the viewport.', { name, rect, size });
+        await escapeTo(page, dialog, invoker);
+        observations.push({ name, invokerId: await invoker.getAttribute('id'), controls, rect, focusReturned: true });
+      } catch (error) {
+        failures.push({ name, message: String(error?.message ?? error), measurement: error?.observed ?? null, state: await failureState(page) });
+      } finally { await closeOpenDialog(page); }
+    }
     for (const name of ['map', 'settings', 'share']) {
-      const invoker = page.locator(`[data-open-dialog="${name}-dialog"]`);
-      await keyActivate(invoker); const dialog = page.locator(`#${name}-dialog`);
-      assert(await dialog.evaluate(element => element.open), name + ' did not open from the keyboard.');
-      await captureAxe(name);
-      const controls = await dialog.locator('a[href]:visible,button:visible,input:visible,select:visible,textarea:visible').count();
-      for (let index = 0; index < controls + 3; index++) { await page.keyboard.press('Tab'); assert(await dialog.evaluate(element => element.contains(document.activeElement)), 'Focus escaped the native modal.'); }
-      const rect = await dialog.boundingBox(), size = page.viewportSize();
-      assert(rect && rect.x >= 0 && rect.y >= 0 && rect.x + rect.width <= size.width + 1 && rect.y + rect.height <= size.height + 1, 'A native dialog exceeds the viewport.');
-      await page.keyboard.press('Escape'); assert(await focused(invoker), 'Escape did not return focus to the exact initiating control.');
-      observations.push({ name, controls, rect, focusReturned: true });
+      await modal(name, page.locator(`[data-open-dialog="${name}-dialog"]`), () => captureAxe(name));
     }
     const sourceControls = await active(page).locator('[data-inspect-source]:visible').all();
     for (let index = 0; index < sourceControls.length; index++) {
       const control = sourceControls[index], id = await control.getAttribute('data-inspect-source'), photo = record.sources.photographs.find(item => item.id === id);
-      await keyActivate(control);
-      assert(await page.locator('#source-dialog').evaluate(element => element.open), 'A source control failed to open its original record.');
-      const recordText = await page.locator('#source-content').textContent();
-      assert(recordText.includes(photo.sourceHash) && recordText.includes(photo.full.contentHash), 'The source inspector shows a different photograph or hash.');
-      if (index === 0) await captureAxe('source');
-      await page.keyboard.press('Escape'); assert(await focused(control), 'The source dialog lost its initiating keyboard control.');
+      await modal('source', control, async () => {
+        const recordText = await page.locator('#source-content').textContent();
+        assert(recordText.includes(photo.sourceHash) && recordText.includes(photo.full.contentHash), 'The source inspector shows a different photograph or hash.');
+        if (index === 0) await captureAxe('source');
+      });
     }
-    observations.push({ sourceControls: sourceControls.length });
+    assert(!failures.length, 'One or more native dialogs failed their original keyboard/geometry check.', { failures, observations });
     return observations;
   });
   await check('original_audio', async () => {
@@ -166,12 +222,12 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
     await width.press('Home'); if (record.design.typography.measure !== 'compact') await width.press('ArrowDown'); if (record.design.typography.measure === 'wide') await width.press('ArrowDown');
     const kiosk = page.locator('#kiosk-toggle'); await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false');
     assert(await page.locator('body').getAttribute('data-kiosk') === 'true', 'Kiosk or its disclosed quiet-reading fallback did not open.');
-    await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false'); await page.keyboard.press('Escape');
-    assert(await focused(invoker), 'Settings lost focus after preferences.');
+    await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false'); await escapeTo(page, page.locator('#settings-dialog'), invoker);
     await keyActivate(page.locator('[data-open-dialog="share-dialog"]')); await keyActivate(page.locator('#copy-chapter'));
     assert((await page.locator('#share-url').inputValue()).includes('?lang=' + language), 'The chapter share value lost its locale.');
+    await page.waitForFunction(() => !!document.querySelector('#share-status')?.textContent.trim(), null, { timeout: 3000 });
     assert((await page.locator('#share-status').textContent()).trim(), 'Copy success or the manual-copy fallback was not disclosed.');
-    await page.keyboard.press('Escape');
+    await escapeTo(page, page.locator('#share-dialog'), page.locator('[data-open-dialog="share-dialog"]'));
     return { settings: ['contrast', 'spacious', 'easy', 'width', 'kiosk'], exactNarrationUnchanged: true };
   });
   await check('chapter_navigation', async () => {
@@ -190,7 +246,7 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
   await check('reduced_motion', async () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const observed = await page.evaluate(() => ({ requested: matchMedia('(prefers-reduced-motion: reduce)').matches, scroll: getComputedStyle(document.documentElement).scrollBehavior,
-      moving: [...document.querySelectorAll('*')].filter(element => element.getClientRects().length && (getComputedStyle(element).animationName !== 'none' && getComputedStyle(element).animationDuration.split(',').some(value => parseFloat(value) > .001) || getComputedStyle(element).transitionDuration.split(',').some(value => parseFloat(value) > .001))).map(element => element.tagName + '.' + element.className).slice(0, 100) }));
+      moving: [...document.querySelectorAll('*')].filter(element => element.getClientRects().length && (getComputedStyle(element).animationName !== 'none' && getComputedStyle(element).animationDuration.split(',').some(value => parseFloat(value) > .001) || getComputedStyle(element).transitionDuration.split(',').some(value => parseFloat(value) > .001))).map(element => element.tagName + '.' + element.className) }));
     assert(observed.requested && observed.scroll === 'auto' && !observed.moving.length, 'Nonessential motion remains under reduced-motion preference.');
     return observed;
   });
