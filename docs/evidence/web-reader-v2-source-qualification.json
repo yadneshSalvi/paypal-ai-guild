@@ -1,0 +1,94 @@
+{
+  "version": "guild.web-reader-source-qualification.v2",
+  "sourceCommit": "b9c605ffdb1cc919e1b0310aad36223078f16097",
+  "measuredAt": "2026-11-11T19:20:38.275748+00:00",
+  "scope": "Authored reader and isolated browser measurement source only; full web production lifecycle remains an unqualified source candidate.",
+  "checks": {
+    "domainTests": {
+      "passed": 123,
+      "failed": 0
+    },
+    "focusedReaderAuditContrastTests": {
+      "passed": 24,
+      "failed": 0,
+      "includedInDomainTotal": true
+    },
+    "strictTypeScript": "passed",
+    "productionBuild": "passed",
+    "independentHtmlAndZipStructure": {
+      "files": 192,
+      "locales": 6,
+      "labelsAndRecordings": 78,
+      "chapterSections": 48,
+      "browserAudit": false
+    }
+  },
+  "verificationLogSha256": {
+    "exact-domain-tests.log": "591418a6630c43f5c3545ab9e828b1322c91d06dc78fce621ea3be8e91e91cf0",
+    "exact-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exact-build.log": "cc32faaf02ec6a5800080673472a7ef81646a36081a8ca94bfa4627aa57eb921",
+    "focused-tests.log": "19832d17f4147b6fab407b9030b2dcdeb75a3c72fe6f972479f940a5fb60caf7",
+    "independent-structural.log": "70c2d5d5c252182115865e876a1ff727aad4375ffcfea7babdc54582905eae6f"
+  },
+  "runtime": {
+    "manifestSha256": "f4bbdebf9191bc8d243d512b0a3a7c73f67aff3edff8f96bafc15916fae53f25",
+    "regularFiles": 13735,
+    "containedLinks": 11,
+    "frozenEntries": 13746,
+    "runSha256": "a64499ee442866b299b2b3edd5f876276816ef47676b27338e6c26019350c7cc",
+    "verifierSha256": "035f61d89e5beb19b9b40ca043a64226c9ae2bd880a851ab237db1c3e34b4f05",
+    "archiveSha256": "6ccea0348cfdc935db7d87adf3a80a959d15aab23b280796e87464b9ffed27b7",
+    "archiveBytes": 58829630,
+    "independentFreezeIssues": 0
+  },
+  "sample": {
+    "sourceDigest": "a2aeb5e60774a3464e3f3742c54db8a01f55acf59924685d7090d4629c4fe80b",
+    "rendererDigest": "bbeea9da4b51dce1b96f07d6bf1a847886fc5ecb4195a37a9935607966a93b0b",
+    "inputDigest": "19232c440372799502ca4eea826a6031243ca56bf9e493975023a69ffd70d73f",
+    "sameOriginalMediaFiles": 180,
+    "sameOriginalMediaFontsAndLicenses": 186,
+    "audioProvenance": "78 distinct locally generated synthetic tones, retained byte-exact from the first Sample edition; no speech or alignment quality claim.",
+    "mediaRegenerated": false,
+    "timingsChanged": false,
+    "cases": {
+      "baseline": 18,
+      "deliberateVerifierMutations": 2
+    }
+  },
+  "policy": {
+    "version": "guild.web-measurements.v2",
+    "minimumLighthouseAccessibilityScore": 0.95,
+    "maximumSeriousOrCriticalAxeViolations": 0,
+    "minimumOriginalOpaquePaletteContrast": 4.5,
+    "palettePairs": 4,
+    "paletteContrastFormula": "WCAG 2.2 sRGB relative luminance, unrounded",
+    "nativeAxeIncomplete": "retained separately for human review; not reclassified as violations or a pass",
+    "caseTimeoutMs": 240000,
+    "maximumEvidenceFileBytes": 16777216,
+    "maximumEvidenceCaseBytes": 67108864
+  },
+  "priorBrowserEdition": {
+    "version": "v1",
+    "allOriginalCaseResultsRetained": 20,
+    "strictSeal": "rejected",
+    "qualificationPassed": false,
+    "sourceEvidence": "web-browser-v1-qualification.json",
+    "unchanged": true
+  },
+  "v2NativeBrowserResultsIncluded": false,
+  "actualProviderCallsByLead": 0,
+  "originalApplicationWrites": 0,
+  "originalCaptionDiagnostic": {
+    "passingTracks": 0,
+    "expectedTracks": 78,
+    "unchanged": true,
+    "blocksActualWebProduction": true
+  },
+  "originalAuthorityCeiling": "2026-11-11T11:45:29.435Z",
+  "originalAuthorityRenewed": false,
+  "humanReview": false,
+  "productionApproval": false,
+  "acceptance": false,
+  "payment": false,
+  "publication": false
+}
