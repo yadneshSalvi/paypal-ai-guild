@@ -65,5 +65,6 @@ export const narrationArtifactSchema = z.object({
   schemaVersion: z.literal("guild.narration.v2"), contractDigest: hash, sourceArtifactId: z.string().uuid(), sourceArtifactHash: hash, standard: z.unknown(), engine: audioEngineSchema,
   inputBindings: z.array(z.object({ packageId: z.string(), contractVersion: z.number().int().positive(), artifactId: z.string().uuid(), artifactHash: hash, reviewKind: z.enum(["curator_acceptance", "automated_review"]), reviewId: z.string().uuid() }).strict()).min(1).max(6),
   segments: z.array(narrationSegmentSchema).min(6).max(186), aiGeneratedVoice: z.literal(true), humanListeningReviewed: z.literal(false), fluentHumanReviewed: z.literal(false), limitations: z.array(z.string()).max(12),
+  correctionAgreement: z.object({ id: z.string().uuid(), digest: hash }).strict().optional(),
 }).strict();
 export type NarrationArtifact = z.infer<typeof narrationArtifactSchema>;

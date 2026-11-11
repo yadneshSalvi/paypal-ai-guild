@@ -34,6 +34,32 @@ export interface ArtifactReview {
   criteriaDigest: string; kind: "automated"; findings: string; createdAt: string;
   humanReviewed: false; accepted: false; disclosure: string;
 }
+export interface NarrationCorrectionEvidence {
+  artifactId: string; artifactHash: string; title: string; contractVersion: number;
+  productionJobId: string; productionInputDigest: string;
+  verifications: { id: string; criteriaDigest: string; createdAt: string }[];
+  evaluations: { jobId: string; outputDigest: string; createdAt: string }[];
+}
+/** Supplemental production authority. The original acceptance pack is unchanged. */
+export interface NarrationCorrectionProposal {
+  version: "guild.narration-correction.v1"; digest: string; commissionId: string; packageId: string;
+  fromVersion: number; toVersion: number; previousPlanDigest: string; acceptancePackDigest: string;
+  previousApproval: { id: string; actorId: string; actorExpiresAt: string; receiptDigest: string };
+  sourceArtifactId: string; sourceArtifactHash: string; inputBindings: ArtifactInputBinding[];
+  correction: { eventId: string; eventHash: string; note: string };
+  scope: { maximumProductionJobs: 1; recordings: number; locales: Locale[]; scriptRegisterDigest: string;
+    arabicDelivery: { version: "quill.arabic-pacing.v1"; minimumWordsPerMinute: 165; maximumWordsPerMinute: 175; instruction: string } };
+  commercial: { providerId: "quill"; providerAwardMinor: number; serviceFeeMinor: number; grossMinor: number;
+    additionalChargeMinor: 0; commissionTotalMinor: number; capMinor: number };
+  providerOffer: { issuer: "Guild controlled Quill & Echo service"; policyVersion: "quill.additional-correction.v1";
+    policyDigest: string; originalPolicyDigest: string; expiresAt: string; disclosure: string };
+  history: NarrationCorrectionEvidence[];
+  latestVerificationId: string; latestCriteriaDigest: string; failedRecordingKeys: string[];
+}
+export interface NarrationCorrectionAgreement {
+  id: string; proposal: NarrationCorrectionProposal; agreedAt: string;
+  providerReceipt: { kind: "guild.controlled-provider-offer-receipt.v1"; algorithm: "HMAC-SHA256"; signature: string };
+}
 export interface WorkPackage {
   id: string; kind: PackageKind; title: string; description: string; state: PackageState;
   contractVersion: number; providerId: string; providerAwardMinor: number; serviceFeeMinor: number;
@@ -44,6 +70,7 @@ export interface WorkPackage {
   inputPolicy?: "accepted" | "reviewed_drafts";
   /** Read-model fingerprint of the exact displayed check report. */
   verificationDigest?: string;
+  narrationCorrection?: NarrationCorrectionAgreement;
 }
 export interface ArtifactInputBinding { packageId: string; contractVersion: number; artifactId: string; artifactHash: string; reviewKind: "curator_acceptance" | "automated_review"; reviewId: string }
 export interface DraftDependencyProposal { digest: string; version: "guild.reviewed-draft-inputs.v1"; packages: { id: string; title: string; fromVersion: number; toVersion: number; grossMinor: number; dependsOn: string[] }[]; disclosure: string }
@@ -120,7 +147,7 @@ export interface Commission {
   decisions: PolicyDecision[]; quotes: Quote[]; artifacts: ArtifactManifest[]; artifactReviews?: ArtifactReview[]; events: DomainEvent[];
   agents: AgentActivity[]; jobs: JobRun[]; payments: PaymentSummary; exhibitionSlug: string;
 }
-export interface WorkspaceSnapshot { schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
+export interface WorkspaceSnapshot { schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
 
 export type ExhibitionLayout = "cover" | "full_bleed" | "split" | "collection_grid" | "comparison" | "audio" | "timeline" | "credits";
 export interface ExhibitionText { title: string; eyebrow: string; body: string; caption: string; transcript: string }
@@ -156,6 +183,7 @@ export const commissionCommandSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("amend_image_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   z.object({ type: z.literal("amend_translation_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), priorArtifactId: z.string().uuid().nullable(), priorArtifactHash: z.string().regex(/^[a-f0-9]{64}$/).nullable(), acknowledgeSuccessor: z.literal(true) }).strict(),
   z.object({ type: z.literal("amend_narration_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), sourceArtifactId: z.string().uuid(), sourceArtifactHash: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeAiVoice: z.literal(true) }).strict(),
+  z.object({ type: z.literal("agree_narration_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeOneRun: z.literal(true) }).strict(),
   z.object({ type: z.literal("amend_draft_dependencies"), commandId: z.string().uuid(), expectedRevision: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   z.object({ type: z.literal("verify_artifact"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id }).strict(),
   z.object({ type: z.literal("record_automated_review"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id, artifactHash: z.string().regex(/^[a-f0-9]{64}$/), contractVersion: revision, criteriaDigest: z.string().regex(/^[a-f0-9]{64}$/).optional(), findings: z.string().trim().min(30).max(6000), acknowledgeLimitations: z.literal(true) }).strict(),

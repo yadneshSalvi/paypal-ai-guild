@@ -4,6 +4,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { locales, type ArtifactManifest } from "../src/contracts/guild";
 import { digest } from "../src/domain/primitives";
 import { narrationAcceptancePack, narrationScripts } from "../src/domain/narration";
+import { arabicCorrectionDelivery } from "../src/domain/narration-correction";
+import { narrationEstimate, speechInstructions } from "../src/domain/speech";
 import { exhibitionCopy } from "../src/exhibition/locales";
 import { translationLocales } from "../src/domain/translation";
 import { OpenAITranscriptionGateway, TranscriptionGatewayError } from "../src/server/media/transcription-gateway";
@@ -32,6 +34,18 @@ test("a missing locale, old language format or stale source hash cannot become a
   assert.throws(() => narrationScripts(missing), /same complete label set/);
   const old = structuredClone(original); delete old.content.schemaVersion; old.contentHash = digest(old.content); assert.throws(() => narrationScripts(old), /full language agreement/);
   original.content.extra = "mutated without a new fingerprint"; assert.throws(() => narrationScripts(original), /full language agreement/);
+});
+
+test("an agreed Arabic delivery cue replaces the conflicting slow synthesis pace without changing scripts, estimates or other languages", () => {
+  const original = source(), before = narrationScripts(original), text = before.find(item => item.locale === "ar")!.text;
+  const changed = speechInstructions("ar", arabicCorrectionDelivery);
+  assert.match(changed, /165–175 words per minute/);
+  assert.doesNotMatch(changed, /125 words per minute|gentle sentence pauses|without rushing/);
+  assert.match(changed, /every exact word|exactly once and in full/);
+  assert.match(changed, /untrusted material/);
+  for (const locale of locales.filter(item => item !== "ar")) assert.equal(speechInstructions(locale, arabicCorrectionDelivery), speechInstructions(locale));
+  assert.equal(narrationEstimate(text, "ar"), before.find(item => item.locale === "ar")!.estimateSeconds);
+  assert.deepEqual(narrationScripts(original), before);
 });
 
 test("recognition sends only original audio plus a language hint and retains the exact response bytes", async () => {

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "guild.implementation-evidence.v1",
+  "observedOn": "2026-11-11",
+  "feature": "Explicit additional narration correction",
+  "provenance": "Isolated application QA with copied original artifacts and separately signed test approval receipts",
+  "externalProvidersDisabled": true,
+  "originalCommissionUnchanged": true,
+  "validation": {
+    "domainAndTransportTests": { "passed": 45, "failed": 0 },
+    "postgresAndTransportFixtureTests": { "passed": 90, "failed": 0 },
+    "finalFocusedNarrationTests": { "passed": 10, "failed": 0 },
+    "finalFocusedScope": "Includes the final original-approval signature and actor-expiry binding, after the broader suite",
+    "strictTypecheck": "passed",
+    "isolatedProductionBuild": "passed",
+    "httpChecks": "passed"
+  },
+  "agreement": {
+    "additionalProductionJobs": 1,
+    "completeRecordings": 78,
+    "retainedOriginalSubmissions": 2,
+    "retainedIndependentReports": 2,
+    "latestArabicTimingFailures": 3,
+    "originalManifestHashesMatched": true,
+    "originalAcceptancePackUnchanged": true,
+    "originalSessionAndMandateExpiryPreserved": true,
+    "additionalChargeMinor": 0,
+    "existingNarrationGrossMinor": 8700,
+    "commissionProposalMinor": 54000,
+    "commissionCeilingMinor": 64000,
+    "currency": "USD",
+    "freshPassportRequired": true,
+    "earlierReservationReleasedAndSingleNewReservationVerified": true
+  },
+  "browser": {
+    "exactTermsAndThreeFailureDetailsVisible": true,
+    "originalArtifactAndReportLinksRetained": true,
+    "arabicDeliveryCueAndUnchangedMeasurementLimitsVisible": true,
+    "escapeReturnsFocus": true,
+    "isolatedAgreementAndFreshPassportPersistAfterReload": true,
+    "mobileViewportWidthPx": 390,
+    "horizontalOverflow": false,
+    "productionStarted": false
+  },
+  "securityAndBuild": {
+    "separateQaCookieAndSchema": true,
+    "anonymousWorkspaceAndArtifactAccessDenied": true,
+    "foreignOriginAgreementDenied": true,
+    "workerCapableRoutesChecked": 3,
+    "sourcePhotographsPerRoute": 12,
+    "measuredFfmpegBinaryPerRoute": true,
+    "privateFilesInRouteTraces": 0
+  },
+  "limits": [
+    "The PostgreSQL lifecycle tests use labeled synthetic speech streams with real FFmpeg transformations, not commissioned speech.",
+    "The HMAC receipt attests to Guild's controlled service offer; it is not an independent provider signature, A2A exchange, AP2 mandate or PayPal consent.",
+    "No third actual recording job, human listening, fluent review, acceptance or financial action is established by these checks.",
+    "Hosted native-engine parity, production deployment and clean installation remain separate qualification gates."
+  ]
+}
