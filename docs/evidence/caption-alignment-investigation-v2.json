@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "guild.caption-retained-investigation-public.v2",
+  "observedAt": "2026-11-11T17:55:01.578Z",
+  "purpose": "Separate offline diagnosis of retained v1 caption responses; this is not a new production acceptance.",
+  "sourceDigest": "967fbf30957e1e09570d6975db4547b3edb8d2288edc77cf8e79f0835cf543f5",
+  "requestExportDigest": "1aa3def2a4e74c0e32ce4858c78b8356d2667f88404c471ed56246c5c34d8264",
+  "analysisDigest": "d820cd3d0ddf0a5aec1d03dbb4040bf59ded098dd8b0f9d5519bf0d5a04a3114",
+  "analysisProgramHash": "4f53754fb7fd910dbe83182d17872482139a918b285e5e74f777496ebb3c6605",
+  "summary": {
+    "tracks": 78,
+    "providerTranscriptExactBytes": 77,
+    "independentAvailable": 78,
+    "independentOriginalAdvisoryWerZero": 7,
+    "independentConservativeExact": 7,
+    "timestampConservativeExact": 10,
+    "timestampNormalizationAmbiguous": 2,
+    "retainedGatewayParseFailures": 10,
+    "tracksWithMillisecondPrecisionIssues": 78,
+    "tracksWithNonpositiveWordIntervals": 73,
+    "nonpositiveWordIntervals": 3313,
+    "maxNearestMillisecondRoundingErrorSeconds": 3.662109378410605e-06,
+    "providerCalls": 0,
+    "applicationWrites": 0,
+    "oldDiagnosticWrites": 0,
+    "acceptedCaptionTracks": 0
+  },
+  "byLocale": [
+    {
+      "locale": "en",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 12,
+      "independentConservativeExact": 3,
+      "timestampConservativeExact": 8,
+      "timestampWords": 1227,
+      "nonpositiveWordIntervals": 65
+    },
+    {
+      "locale": "pt",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 13,
+      "independentConservativeExact": 1,
+      "timestampConservativeExact": 1,
+      "timestampWords": 1106,
+      "nonpositiveWordIntervals": 315
+    },
+    {
+      "locale": "es",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 13,
+      "independentConservativeExact": 3,
+      "timestampConservativeExact": 1,
+      "timestampWords": 1377,
+      "nonpositiveWordIntervals": 328
+    },
+    {
+      "locale": "fr",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 13,
+      "independentConservativeExact": 0,
+      "timestampConservativeExact": 0,
+      "timestampWords": 1895,
+      "nonpositiveWordIntervals": 983
+    },
+    {
+      "locale": "ar",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 13,
+      "independentConservativeExact": 0,
+      "timestampConservativeExact": 0,
+      "timestampWords": 1339,
+      "nonpositiveWordIntervals": 424
+    },
+    {
+      "locale": "ja",
+      "tracks": 13,
+      "providerTranscriptExactBytes": 13,
+      "independentConservativeExact": 0,
+      "timestampConservativeExact": 0,
+      "timestampWords": 2523,
+      "nonpositiveWordIntervals": 1198
+    }
+  ],
+  "limitations": [
+    "Provider transcript is reported by the speech generator, not independent listening.",
+    "Independent ASR and its error rates are advisory; none establishes actual omissions, fluency or meaning.",
+    "Forced alignment is not itself an omission detector.",
+    "No hypothetical timestamp rounding is applied to the preserved v1 response or to a caption artifact.",
+    "The original production authority remains expired and actual web production remains closed at 0/78 captions."
+  ],
+  "provenance": {
+    "originalSpeechRequests": "All 78 complete title-and-body requests verified against their historical producing job, input hash, receipt, PCM identity and final MP3 bytes.",
+    "providerTranscript": "Actual Realtime response.output_audio_transcript.done, checked against response.done output content. No request-text fallback.",
+    "independentTranscription": "Previously retained independent recognition; expected wording was not included in its prompt. All comparisons remain advisory.",
+    "timestampResponses": "Canonical observation and receipt digests, raw response length/hash and exact audio/prompt bindings verified offline. Original keyed signatures were not newly reverified by this analysis.",
+    "exportCorrection": "A first read-only diagnostic export hashed pg Date objects before JSON serialization. Its original bytes and failure record were retained; a second read-only export normalized transport dates before hashing and its saved envelope was reverified."
+  },
+  "candidateResearch": [
+    {
+      "candidate": "ElevenLabs Forced Alignment",
+      "allSixDocumented": true,
+      "url": "https://elevenlabs.io/docs/overview/capabilities/forced-alignment",
+      "status": "Researched; no alignment calls or qualification results."
+    },
+    {
+      "candidate": "Qwen3-ForcedAligner-0.6B",
+      "allSixDocumented": false,
+      "url": "https://huggingface.co/Qwen/Qwen3-ForcedAligner-0.6B",
+      "limitation": "The published eleven-language list excludes Arabic."
+    },
+    {
+      "candidate": "MMS_FA",
+      "url": "https://docs.pytorch.org/audio/2.8/tutorials/forced_alignment_for_multilingual_data_tutorial.html",
+      "limitation": "Documented multilingual pipeline uses language-dependent romanization. That is not equivalent to the current exact original-script policy."
+    }
+  ]
+}
