@@ -153,6 +153,20 @@
     else if (["contrast", "spacious", "easy"].includes(name)) preferences[name] = control.checked;
     applyPreferences(); save();
   });
+  // Native select menus differ across platforms. Provide the same explicit
+  // first/last shortcuts while preserving the native menu and arrow keys.
+  for (const control of $$("select[data-setting='width'],select[data-speed]")) {
+    control.setAttribute("aria-keyshortcuts", "Home End");
+    control.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !["Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const index = event.key === "Home" ? 0 : control.options.length - 1;
+      if (control.selectedIndex === index) return;
+      control.selectedIndex = index;
+      control.dispatchEvent(new Event("input", { bubbles: true }));
+      control.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  }
   for (const button of $$("[data-open-dialog]")) button.addEventListener("click", () => {
     if (button.dataset.openDialog === "share-dialog") { const field = $("#share-url"); field.value = location.href; $("#share-status").textContent = ""; }
     openDialog(button.dataset.openDialog, button);

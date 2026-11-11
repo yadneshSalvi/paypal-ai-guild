@@ -7,18 +7,15 @@ async function keyActivate(locator) {
   assert(await focused(locator), 'The authored control could not receive focus before keyboard activation.', await locator.evaluate(element => ({ tag: element.tagName, id: element.id, inertAncestor: element.closest('[inert]')?.id ?? null, openDialogs: [...document.querySelectorAll('dialog[open]')].map(dialog => dialog.id) })));
   await locator.press('Enter');
 }
-async function keySelectIndex(locator, targetIndex) {
+async function keySelectBoundary(locator, key) {
   const before = await locator.evaluate(element => ({ index: element.selectedIndex, count: element.options.length }));
-  assert(Number.isInteger(targetIndex) && targetIndex >= 0 && targetIndex < before.count, 'The requested native menu option is unavailable.', before);
+  assert(['Home', 'End'].includes(key) && before.count > 1, 'The requested select boundary is unavailable.', before);
+  const targetIndex = key === 'Home' ? 0 : before.count - 1;
+  assert((await locator.getAttribute('aria-keyshortcuts') ?? '').split(' ').includes(key), 'The select did not declare its authored keyboard shortcut.');
   await locator.focus();
   assert(await focused(locator), 'The native select could not receive keyboard focus.');
-  // macOS native selects do not change on Home/End while collapsed. Open the
-  // menu explicitly, navigate from its observed selection, then commit.
-  await locator.press('Space');
-  const direction = targetIndex > before.index ? 'ArrowDown' : 'ArrowUp';
-  for (let step = 0; step < Math.abs(targetIndex - before.index); step++) await locator.press(direction);
-  await locator.press('Enter');
-  assert(await locator.evaluate(element => element.selectedIndex) === targetIndex, 'Native keyboard menu selection did not commit.', { before, targetIndex });
+  await locator.press(key);
+  assert(await locator.evaluate(element => element.selectedIndex) === targetIndex, 'The authored select shortcut did not commit.', { before, targetIndex, key });
 }
 async function failureState(page) {
   return page.evaluate(() => {
@@ -191,11 +188,15 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       const slider = player.locator('[data-seek]'); await slider.focus(); await slider.press('Home'); await slider.press('ArrowRight');
       await audio.evaluate(element => element.seeking ? new Promise(resolve => element.addEventListener('seeked', resolve, { once: true })) : undefined);
       assert(await audio.evaluate(element => element.paused && element.currentTime >= .05), 'Keyboard seeking failed or started playback.');
-      const speed = player.locator('[data-speed]'); await keySelectIndex(speed, 3);
+      const speed = player.locator('[data-speed]'); await keySelectBoundary(speed, 'End');
       assert(await audio.evaluate(element => element.playbackRate === 1.5), 'Keyboard speed selection failed.');
-      await keySelectIndex(speed, 1);
+      await keySelectBoundary(speed, 'Home');
+      assert(await audio.evaluate(element => element.playbackRate === .75), 'Keyboard first-speed selection failed.');
+      // Restore the middle option through the native selection API. The
+      // measured keyboard claims above concern the authored Home/End keys.
+      await speed.selectOption('1');
       assert(await audio.evaluate(element => element.playbackRate === 1), 'The original playback speed was not restored.');
-      observations.push({ key, ...state });
+      observations.push({ key, ...state, speed: { keyboard: ['Home', 'End'], observedRates: [.75, 1.5], restoration: 'native-option-selection', restoredRate: 1 } });
     }
     return observations;
   });
@@ -231,8 +232,9 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       if (name === 'easy') assert(await active(page).locator('.web-easy-body').first().isVisible() && !(await active(page).locator('.web-original-body').first().isVisible()), 'The easy-read setting did not display the distinct source-linked output.');
       await control.press('Space'); assert(await page.locator('body').getAttribute(`data-${name}`) === 'false', name + ' was not restored.');
     }
-    const width = page.locator('[data-setting="width"]'); await keySelectIndex(width, 2); assert(await page.locator('body').getAttribute('data-width') === 'wide', 'Reading width did not change.');
-    await keySelectIndex(width, ['compact', 'balanced', 'wide'].indexOf(record.design.typography.measure));
+    const width = page.locator('[data-setting="width"]'); await keySelectBoundary(width, 'End'); assert(await page.locator('body').getAttribute('data-width') === 'wide', 'Reading width did not change.');
+    await keySelectBoundary(width, 'Home'); assert(await page.locator('body').getAttribute('data-width') === 'compact', 'The first reading width did not apply.');
+    await width.selectOption(record.design.typography.measure);
     assert(await page.locator('body').getAttribute('data-width') === record.design.typography.measure, 'The original reading width was not restored.');
     const kiosk = page.locator('#kiosk-toggle'); await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false');
     assert(await page.locator('body').getAttribute('data-kiosk') === 'true', 'Kiosk or its disclosed quiet-reading fallback did not open.');
@@ -242,7 +244,7 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
     await page.waitForFunction(() => !!document.querySelector('#share-status')?.textContent.trim(), null, { timeout: 3000 });
     assert((await page.locator('#share-status').textContent()).trim(), 'Copy success or the manual-copy fallback was not disclosed.');
     await escapeTo(page, page.locator('#share-dialog'), page.locator('[data-open-dialog="share-dialog"]'));
-    return { settings: ['contrast', 'spacious', 'easy', 'width', 'kiosk'], exactNarrationUnchanged: true };
+    return { settings: ['contrast', 'spacious', 'easy', 'width', 'kiosk'], width: { keyboard: ['Home', 'End'], observedWidths: ['compact', 'wide'], restoration: 'native-option-selection', restoredWidth: record.design.typography.measure }, exactNarrationUnchanged: true };
   });
   await check('chapter_navigation', async () => {
     const invoker = page.locator('[data-open-dialog="map-dialog"]'); await keyActivate(invoker);
