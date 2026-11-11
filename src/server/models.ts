@@ -105,7 +105,8 @@ export async function pollSavedModelResponse(context: ModelContext): Promise<voi
 
 async function reserveRun(context: ModelContext, name: string, model: string, inputHash: string): Promise<{ run: ModelRun; inserted: boolean }> {
   return transaction(async db => {
-    await requireProductionLease(db, context);
+    const authority = await requireProductionLease(db, context);
+    if (authority.package?.kind === "captions") (await import("./captions/easy-read")).authorizeCaptionModel(authority.package, name, model, inputHash);
     const legacy = await db.query("SELECT id FROM guild_model_runs WHERE tenant_id=$1 AND job_id=$2 AND operation_key IS NULL LIMIT 1", [context.tenantId, context.jobId]);
     if (legacy.rowCount) throw new ProductionReviewRequired("MODEL_LEGACY_RESULT", "This job already has a foreground model attempt. Its original record is preserved; it cannot be replaced with a background request.");
     const result = await db.query<ModelRun>("INSERT INTO guild_model_runs(id,tenant_id,job_id,provider,model,prompt_version,input_hash,status,operation_key) VALUES($1,$2,$3,'openai',$4,$5,$6,'dispatching',$7) ON CONFLICT(tenant_id,job_id,operation_key) WHERE operation_key IS NOT NULL DO NOTHING RETURNING *", [randomUUID(), context.tenantId, context.jobId, model, `${name}.background.v1`, inputHash, name]);
@@ -117,6 +118,17 @@ async function reserveRun(context: ModelContext, name: string, model: string, in
 }
 
 async function createResponse(run: ModelRun, context: ModelContext, request: Record<string, unknown>): Promise<void> {
+  // Caption generation additionally binds its six exact operations immediately
+  // before POST. A failed gate is a confirmed non-dispatch, not an unknown call.
+  if (run.operation_key?.startsWith("northlight_easy_read_v1_")) {
+    try {
+      await transaction(async db => {
+        const authority = await requireProductionLease(db, context);
+        if (!authority.package) throw new ProductionReviewRequired("CAPTION_MODEL_BINDING", "The caption model request has no current contract.");
+        (await import("./captions/easy-read")).authorizeCaptionModel(authority.package, run.operation_key!, run.model, run.input_hash);
+      });
+    } catch (error) { await updateRun(run, "failed", "CAPTION_NOT_DISPATCHED"); throw error; }
+  }
   context.externalCalls = (context.externalCalls ?? 0) + 1;
   let response: Response;
   try {
@@ -149,14 +161,20 @@ async function createResponse(run: ModelRun, context: ModelContext, request: Rec
   await observe(run, value);
 }
 
-export async function generateStructured<T extends z.ZodType>(context: ModelContext, name: string, instruction: string, data: unknown, schema: T, images: readonly ModelImageInput[] = []): Promise<{ data: z.infer<T>; runId: string; model: string }> {
-  const model = context.planner ? process.env.OPENAI_PLANNER_MODEL : process.env.OPENAI_MODEL;
-  if (!model) throw new DomainError("MODEL_UNAVAILABLE", "The production model is not configured. This job remains recoverable.", 503);
+/** The original request envelope is shared with independent input-hash checks. */
+export function structuredModelRequest(name: string, model: string, instruction: string, data: unknown, schema: z.ZodType, images: readonly ModelImageInput[] = []) {
   const jsonSchema = z.toJSONSchema(schema, { target: "draft-7" }); delete jsonSchema.$schema;
   if (images.length > 4 || new Set(images.map(image => image.sourceId)).size !== images.length || images.some(image => !/^[A-Za-z0-9._:-]{1,160}$/.test(image.sourceId) || !["image/webp", "image/jpeg", "image/png"].includes(image.mediaType) || !image.bytes.length || image.bytes.length > 4_000_000 || createHash("sha256").update(image.bytes).digest("hex") !== image.contentHash)) throw new DomainError("MODEL_IMAGE_BINDING", "The model image inputs do not match their registered source identities and hashes.", 422, false);
   const userContent = images.length ? [{ type: "input_text", text: JSON.stringify(data) }, ...images.flatMap(image => [{ type: "input_text", text: `Source image ${image.sourceId}; SHA-256 ${image.contentHash}.` }, { type: "input_image", image_url: `data:${image.mediaType};base64,${image.bytes.toString("base64")}`, detail: "high" }])] : JSON.stringify(data);
   const request = { model, background: true, store: false, reasoning: { effort: "max" }, max_output_tokens: 32768, input: [{ role: "system", content: `${boundary}\n${instruction}` }, { role: "user", content: userContent }], text: { format: { type: "json_schema", name, strict: true, schema: jsonSchema } } };
   const inputHash = digest({ name, request });
+  return { request, inputHash };
+}
+
+export async function generateStructured<T extends z.ZodType>(context: ModelContext, name: string, instruction: string, data: unknown, schema: T, images: readonly ModelImageInput[] = []): Promise<{ data: z.infer<T>; runId: string; model: string }> {
+  const model = context.planner ? process.env.OPENAI_PLANNER_MODEL : process.env.OPENAI_MODEL;
+  if (!model) throw new DomainError("MODEL_UNAVAILABLE", "The production model is not configured. This job remains recoverable.", 503);
+  const { request, inputHash } = structuredModelRequest(name, model, instruction, data, schema, images);
   let run = (await getPool().query<ModelRun>("SELECT * FROM guild_model_runs WHERE tenant_id=$1 AND job_id=$2 AND operation_key=$3", [context.tenantId, context.jobId, name])).rows[0];
   let inserted = false;
   if (!run) {

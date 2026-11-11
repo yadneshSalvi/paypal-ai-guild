@@ -3,6 +3,7 @@ import type { Pool, PoolClient } from "pg";
 import type { AuthorityDeadline, Commission, WorkPackage } from "@/contracts/guild";
 import { planDigest } from "@/domain/fixture";
 import { canonical, digest, DomainError } from "@/domain/primitives";
+import { captionAuthorityCeilingSchema } from "@/domain/captions";
 import { controlledScheduleQuoteSchema, type ControlledScheduleQuote } from "@/scheduling/persisted";
 import { museumWorkingCalendar, schedulingContractDigest } from "@/scheduling/source";
 import type { Session } from "./session";
@@ -123,6 +124,14 @@ export async function readAuthorityDeadline(db: Db, c: Commission, session: Sess
   const limits: AuthorityDeadline["limits"] = [{ source: "workspace", label: "Current workspace access", expiresAt: session.expiresAt },
     ...c.mandates.map(page => ({ source: "passport" as const, label: page.title, expiresAt: page.expiresAt }))];
   try {
+    for (const pkg of c.packages) {
+      const correction = pkg.narrationFollowupCorrection ?? pkg.narrationTargetedCorrection ?? pkg.narrationCorrection;
+      if (correction) limits.push({ source: "agreement", label: `${pkg.title} · original correction authority`, expiresAt: correction.proposal.providerOffer.expiresAt });
+      if (pkg.kind === "captions" && pkg.acceptancePack.version === "2.0.0") {
+        const ceiling = captionAuthorityCeilingSchema.parse(pkg.acceptancePack.parameters?.authorityCeiling);
+        limits.push({ source: "agreement", label: `${pkg.title} · original work authority`, expiresAt: ceiling.expiresAt });
+      }
+    }
     for (const id of c.schedule?.quoteIds ?? []) {
       const input = (await db.query<{ terms: ControlledScheduleQuote }>("SELECT terms FROM guild_schedule_quotes WHERE id=$1 AND tenant_id=$2 AND commission_id=$3", [id, c.tenantId, c.id])).rows[0]?.terms;
       if (!input) fail("QUOTE_LINEAGE", "A bound agreement's original deadline is unavailable. Work remains on hold.");

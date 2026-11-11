@@ -1,0 +1,25 @@
+{
+  "repository": "https://github.com/openai/whisper",
+  "commit": "86098128c0b4f24f0e2aa2994de830614b474227",
+  "files": [
+    {
+      "path": "multilingual.tiktoken",
+      "upstreamPath": "whisper/assets/multilingual.tiktoken",
+      "sha256": "b34b360dbb493e781e479794586d661700670d65564001f23024971d1f2fa126",
+      "bytes": 816730
+    },
+    {
+      "path": "tokenizer.py",
+      "upstreamPath": "whisper/tokenizer.py",
+      "sha256": "3b48e361a7e95b4ec0356ca6d72bba635778aa10269153136ee7bc34cae30b85",
+      "bytes": 12338
+    },
+    {
+      "path": "LICENSE",
+      "upstreamPath": "LICENSE",
+      "sha256": "b5d65a59060e68c4ff940e1eddfa6f94b2d68fdf58ed7f4dd57721c997e35e9d",
+      "bytes": 1063
+    }
+  ],
+  "purpose": "Frozen source tokenizer for bounded prompted caption alignment; no model request"
+}

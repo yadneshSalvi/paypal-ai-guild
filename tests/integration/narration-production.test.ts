@@ -236,6 +236,20 @@ test("an explicit additional correction preserves both failed originals, release
   assert.ok(pkg.acceptancePack.criteria.filter(item => item.kind === "deterministic").every(item => item.status === "passed"));
   assert.equal(pkg.acceptancePack.digest, oldPackage.acceptancePack.digest); assert.equal(pkg.acceptedAt, null); assert.equal(pkg.paymentState, "not_eligible");
   const corrected = c.artifacts.find(item => item.id === pkg.artifactIds[0])!; assert.deepEqual(corrected.content.correctionAgreement, { id: pkg.narrationCorrection!.id, digest: p.digest });
+  // Read-only downstream work uses the immutable producing Passport even when
+  // a later plan has another total and the original agreement has expired.
+  const later = structuredClone(c), laterWeb = later.packages.find(item => item.kind === "web")!;
+  laterWeb.providerAwardMinor += 4000; laterWeb.grossMinor += 4000;
+  later.approvedPlanDigest = planDigest(later);
+  const history = () => validateNarrationCorrection(getPool(), later, later.packages.find(item => item.id === pkg.id)!, { id: producing, input: jobInput }, true);
+  await history();
+  Date.now = () => Date.parse(p.providerOffer.expiresAt) + 1;
+  try { await history(); await assert.rejects(validateNarrationCorrection(getPool(), later, later.packages.find(item => item.id === pkg.id)!, { id: producing, input: jobInput }), code("NARRATION_CORRECTION_OFFER_EXPIRED")); }
+  finally { Date.now = originalNow; }
+  const producingApproval = (await getPool().query("SELECT id,signature FROM guild_approval_receipts WHERE tenant_id=$1 AND plan_digest=$2 ORDER BY created_at DESC LIMIT 1", [f.session.tenantId, c.approvedPlanDigest])).rows[0];
+  await getPool().query("UPDATE guild_approval_receipts SET signature=$1 WHERE id=$2", ["0".repeat(64), producingApproval.id]);
+  try { await assert.rejects(history(), code("NARRATION_CORRECTION_BINDING")); }
+  finally { await getPool().query("UPDATE guild_approval_receipts SET signature=$1 WHERE id=$2", [producingApproval.signature, producingApproval.id]); }
   await assert.rejects(queue(f), code("CORRECTION_ALLOWANCE"));
   const reservations = (await getPool().query("SELECT state,amount_minor FROM guild_budget_reservations WHERE tenant_id=$1 AND operation_key LIKE $2 ORDER BY created_at", [f.session.tenantId, `production:${c.id}:narration:%`])).rows;
   assert.deepEqual(reservations.map(item => [item.state, Number(item.amount_minor)]), [["released", 8700], ["reserved", 8700]]); assert.equal(c.mandates[0]!.reservedMinor, before.mandates[0]!.reservedMinor);

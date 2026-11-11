@@ -117,6 +117,21 @@ export interface NarrationFollowupCorrectionAgreement {
   id: string; proposal: NarrationFollowupCorrectionProposal; agreedAt: string;
   providerReceipt: { kind: "guild.controlled-followup-offer-receipt.v1"; algorithm: "HMAC-SHA256"; signature: string };
 }
+export interface CaptionCorrectionProposal {
+  version: "guild.caption-correction.v1"; commissionId: string; packageId: string; contractVersion: number;
+  acceptancePackDigest: string; sourceDigest: string; previousPlanDigest: string;
+  previousApproval: { id: string; actorId: string; receiptHash: string };
+  previous: { jobId: string; state: string; inputHash: string; outputHash: string; error: string | null; operationsHash: string;
+    artifact: { id: string; contentHash: string; verificationId: string; verificationHash: string; reportJobId: string; reportHash: string } | null };
+  note: { eventId: string; eventHash: string; text: string };
+  maximumProductionJobs: 2; correctionAllowance: 1; attempt: 2;
+  commercial: { providerId: "northlight"; providerAwardMinor: 3500; serviceFeeMinor: 500; grossMinor: 4000; additionalChargeMinor: 0 };
+  authorityCeiling: string; disclosure: string; digest: string;
+}
+export interface CaptionCorrectionAgreement {
+  id: string; proposal: CaptionCorrectionProposal; actorId: string; agreedAt: string;
+  receipt: { kind: "guild.controlled-caption-correction.v1"; algorithm: "HMAC-SHA256"; signature: string };
+}
 export interface WorkPackage {
   id: string; kind: PackageKind; title: string; description: string; state: PackageState;
   contractVersion: number; providerId: string; providerAwardMinor: number; serviceFeeMinor: number;
@@ -130,6 +145,7 @@ export interface WorkPackage {
   narrationCorrection?: NarrationCorrectionAgreement;
   narrationTargetedCorrection?: NarrationTargetedCorrectionAgreement;
   narrationFollowupCorrection?: NarrationFollowupCorrectionAgreement;
+  captionCorrection?: CaptionCorrectionAgreement;
 }
 export interface ArtifactInputBinding { packageId: string; contractVersion: number; artifactId: string; artifactHash: string; reviewKind: "curator_acceptance" | "automated_review"; reviewId: string }
 export interface DraftDependencyProposal { digest: string; version: "guild.reviewed-draft-inputs.v1"; packages: { id: string; title: string; fromVersion: number; toVersion: number; grossMinor: number; dependsOn: string[] }[]; disclosure: string }
@@ -208,7 +224,7 @@ export interface Commission {
   schedule?: ScheduleAuthorityBinding;
 }
 export interface AuthorityDeadline { effectiveUntil: string | null; limits: { source: "workspace" | "passport" | "agreement"; label: string; expiresAt: string }[]; unavailable?: string }
-export interface WorkspaceSnapshot { authorityDeadline?: AuthorityDeadline; schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
+export interface WorkspaceSnapshot { authorityDeadline?: AuthorityDeadline; schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { captions?: AcceptancePack; captionsUnavailable?: string; captionCorrection?: CaptionCorrectionProposal; captionCorrectionUnavailable?: string; images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
 
 export type ExhibitionLayout = "cover" | "full_bleed" | "split" | "collection_grid" | "comparison" | "audio" | "timeline" | "credits";
 export interface ExhibitionText { title: string; eyebrow: string; body: string; caption: string; transcript: string }
@@ -244,6 +260,8 @@ export const commissionCommandSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("amend_image_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   z.object({ type: z.literal("amend_translation_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), priorArtifactId: z.string().uuid().nullable(), priorArtifactHash: z.string().regex(/^[a-f0-9]{64}$/).nullable(), acknowledgeSuccessor: z.literal(true) }).strict(),
   z.object({ type: z.literal("amend_narration_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), sourceArtifactId: z.string().uuid(), sourceArtifactHash: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeAiVoice: z.literal(true) }).strict(),
+  z.object({ type: z.literal("amend_caption_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgePromptedAlignment: z.literal(true), acknowledgeOneCorrection: z.literal(true) }).strict(),
+  z.object({ type: z.literal("agree_caption_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeExactCorrection: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_narration_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeOneRun: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_narration_targeted_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeExactScope: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_narration_followup_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeOneRecording: z.literal(true) }).strict(),

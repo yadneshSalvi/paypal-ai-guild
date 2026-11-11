@@ -9,6 +9,7 @@ import { canonical, digest, DomainError } from "@/domain/primitives";
 import { qualifiedAudioEngine } from "./media/audio-qualification";
 import { resolveProductionInputs } from "./production-inputs";
 import type { Session } from "./session";
+import { readNarrationApprovalHistory } from "./narration-approval-history";
 
 type Db = Pool | PoolClient;
 interface ProductionRow { id: string; state: string; input: { packageId: string; contractVersion: number; inputBindings: unknown }; output: { artifactId?: string } | null }
@@ -138,15 +139,16 @@ export async function prepareNarrationCorrection(db: PoolClient, session: Sessio
 }
 
 /** Checked again immediately before every new speech/storage side effect. */
-export async function validateNarrationCorrection(db: Db, c: Commission, pkg: WorkPackage, job?: { id: string; input: { correctionAgreementId?: string; correctionAgreementDigest?: string; inputBindings?: unknown } }) {
+export async function validateNarrationCorrection(db: Db, c: Commission, pkg: WorkPackage, job?: { id: string; input: { correctionAgreementId?: string; correctionAgreementDigest?: string; inputBindings?: unknown } }, historical = false) {
   const agreement = pkg.narrationCorrection;
   if (!agreement) {
     if (job?.input.correctionAgreementId) fail("NARRATION_CORRECTION_BINDING", "This saved job's correction agreement is no longer attached to the current contract.");
     return;
   }
+  if (historical) c = await readNarrationApprovalHistory(db, c, pkg, () => fail("NARRATION_CORRECTION_BINDING", "Retained narration requires its exact producing approval and original agreement."), job?.id);
   const p = agreement.proposal, expected = receiptSignature(c.tenantId, agreement);
   if (pkg.kind !== "narration" || p.version !== "guild.narration-correction.v1" || p.digest !== narrationCorrectionDigest(p) || p.commissionId !== c.id || p.packageId !== pkg.id || p.toVersion !== pkg.contractVersion || p.acceptancePackDigest !== pkg.acceptancePack.digest || p.scope.maximumProductionJobs !== 1 || p.providerOffer.policyDigest !== digest(narrationCorrectionPolicy) || p.providerOffer.originalPolicyDigest !== c.providers.find(item => item.id === pkg.providerId)?.policyDigest || digest(p.scope.arabicDelivery) !== digest(arabicCorrectionDelivery) || p.commercial.providerId !== pkg.providerId || p.commercial.providerAwardMinor !== pkg.providerAwardMinor || p.commercial.serviceFeeMinor !== pkg.serviceFeeMinor || p.commercial.grossMinor !== pkg.grossMinor || p.commercial.additionalChargeMinor !== 0 || p.sourceArtifactId !== pkg.acceptancePack.parameters?.sourceArtifactId || p.sourceArtifactHash !== pkg.acceptancePack.parameters?.sourceArtifactHash || p.scope.scriptRegisterDigest !== digest(pkg.acceptancePack.parameters?.scripts) || !/^[a-f0-9]{64}$/.test(agreement.providerReceipt.signature) || !timingSafeEqual(Buffer.from(expected), Buffer.from(agreement.providerReceipt.signature))) fail("NARRATION_CORRECTION_BINDING", "The supplemental correction no longer matches its exact signed source, scope, provider offer and original standard.");
-  if (Date.parse(p.providerOffer.expiresAt) <= Date.now()) fail("NARRATION_CORRECTION_OFFER_EXPIRED", "The agreed additional round expired before this dispatch. Its completed work remains saved; no expiry was extended.");
+  if (!historical && Date.parse(p.providerOffer.expiresAt) <= Date.now()) fail("NARRATION_CORRECTION_OFFER_EXPIRED", "The agreed additional round expired before this dispatch. Its completed work remains saved; no expiry was extended.");
   const stored = (await db.query<{ proposed_contract: WorkPackage }>("SELECT proposed_contract FROM guild_contract_amendments WHERE id=$1 AND tenant_id=$2 AND commission_id=$3 AND package_id=$4 AND to_version=$5", [agreement.id, c.tenantId, c.id, pkg.id, pkg.contractVersion])).rows[0];
   if (!stored || digest(stored.proposed_contract.narrationCorrection) !== digest(agreement)) fail("NARRATION_CORRECTION_BINDING", "The original correction agreement is unavailable or differs from this authority page.");
   if (job) {

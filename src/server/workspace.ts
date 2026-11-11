@@ -15,6 +15,7 @@ import { narrationTargetedCorrectionProposal } from "./narration-targeted-correc
 import { narrationFollowupCorrectionProposal } from "./narration-followup-corrections";
 import { productionJobLimit } from "@/domain/narration-correction";
 import { readAuthorityDeadline } from "./schedule-quotes";
+import { captionContractProposal, captionCorrectionProposal } from "./captions/contracts";
 
 export async function workspace(session:Session, commissionId?: string):Promise<WorkspaceSnapshot&{approvalDigest:string}>{
   const commission=commissionId?await getCommission(session,commissionId):await latestCommission(session)??await seedCommission(session);
@@ -45,5 +46,14 @@ export async function workspace(session:Session, commissionId?: string):Promise<
     }
   }
   const authorityDeadline=await readAuthorityDeadline(getPool(),commission,session);
+  const captions=commission.packages.find(item=>item.kind==="captions");
+  if(commission.mode==="live"&&captions?.acceptancePack.version==="1.0.0"){
+    try{contractProposals.captions=await captionContractProposal(getPool(),commission,captions);}
+    catch(error){contractProposals.captionsUnavailable=error instanceof DomainError?error.message:"The original audio, source history or frozen tokenizer is not yet qualified on this host.";}
+  }
+  if(commission.mode==="live"&&captions?.acceptancePack.version==="2.0.0"&&captions.state==="correction_requested"&&!captions.captionCorrection){
+    try{contractProposals.captionCorrection=await captionCorrectionProposal(getPool(),commission,captions);}
+    catch(error){contractProposals.captionCorrectionUnavailable=error instanceof DomainError?error.message:"The exact original outcome and one included correction need review.";}
+  }
   return {schemaVersion:CONTRACT_VERSION,session:{id:session.id,role:session.role,expiresAt:session.expiresAt},commission,contractProposals,authorityDeadline,approvalDigest:planDigest(commission),serverTime:new Date().toISOString()};
 }

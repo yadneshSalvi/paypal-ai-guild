@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-11T14:39:01.564816+00:00",
+  "passed": true,
+  "origin": "http://localhost:4524",
+  "sourceFreeze": "fed07d507e5dcc150e1844ebf27bdd59d8a65d75ba35d3bdaf6c236fcc60591b",
+  "scope": "Native application controls using explicitly synthetic audio/timestamp/model fixtures; no actual provider or human review claim.",
+  "checks": {
+    "agreementUncheckedBlocked": true,
+    "oneAcknowledgmentBlocked": true,
+    "agreementPreparedVersion2": true,
+    "freshPassportRetainsExactTerms": true,
+    "planMinor": 54000,
+    "ceilingMinor": 64000,
+    "captionGrossMinor": 4000,
+    "correctionSeparatePassport": true,
+    "correctionExtraMinor": 0,
+    "correctionEscapeReturnsFocus": true,
+    "failedTrackRetainsWordCoverageErrorAndNoVtt": true,
+    "failedReportDenominator": "11/12",
+    "completeReportDenominator": "12/12",
+    "easyReadSourceChecks": "6/6",
+    "humanReviewOpen": true,
+    "cueSeekTimeSeconds": 18.362,
+    "cueSeekAutoplay": false,
+    "explicitNativePlayback": true,
+    "languageChangeStopsAudio": true,
+    "keyboardHomeEndArrowLeft": true,
+    "arabicRtl": true,
+    "japaneseOriginalPunctuation": true,
+    "conceptIdsAndQuotesVisible": true,
+    "mobileViewport": 390,
+    "mobilePage": 390,
+    "passportDialog": {
+      "left": 17,
+      "right": 373,
+      "width": 356,
+      "scrollWidth": 354
+    },
+    "savedReportAfterReload": true
+  },
+  "downloads": [
+    {
+      "kind": "VTT",
+      "bytes": 804,
+      "cues": 7,
+      "sha256": "865394a7124ac55296b00c1b17bb1f4966b95cf5d5a73e1e58f8155ea8527d4b"
+    },
+    {
+      "kind": "original timestamp response",
+      "bytes": 18734,
+      "sha256": "200c18da20dc82dd1b4e6379df1db18131a0a64eee333bc7f6d5adc9a5380e65",
+      "includes": [
+        "originalAudio",
+        "completeScript",
+        "request",
+        "requestHash",
+        "receiptHash",
+        "receipt"
+      ]
+    }
+  ],
+  "readOnlyAudit": {
+    "version": "guild.caption-native-qa-audit.v1",
+    "observedAt": "2026-11-11T14:38:34.595Z",
+    "scope": "Read-only, isolated synthetic caption QA only. No original commission accessed.",
+    "providerCredentialsAvailable": false,
+    "stages": {
+      "agreement": {
+        "commissionId": "32a8aa01-bd15-4e0f-85b8-d376b7623f85",
+        "commissionRevision": 110,
+        "captionVersion": 2,
+        "captionState": "awarded",
+        "captionPackDigest": "f45494d3b53bc9e8e7975ccf73cb7cfa82db64f24157095af2cb686991c2aaf7",
+        "totalMinor": 54000,
+        "captionGrossMinor": 4000,
+        "capMinor": 64000,
+        "captionArtifactIds": [],
+        "counts": {
+          "guild_jobs": 2,
+          "guild_model_runs": 0,
+          "guild_speech_runs": 12,
+          "guild_alignment_runs": 0,
+          "guild_alignment_observations": 0,
+          "guild_media_objects": 12,
+          "guild_approval_receipts": 2,
+          "guild_caption_corrections": 0,
+          "guild_payment_intents": 0,
+          "guild_acceptance_decisions": 0,
+          "guild_payout_operations": 0
+        },
+        "approvalDelta": 1,
+        "captionCorrection": null,
+        "originalSourceHashesUnchanged": true,
+        "originalCaptionDeadline": "2026-11-11T22:26:51.552Z",
+        "fixtureWorkspaceExpiry": "2026-11-11T22:26:51.552Z",
+        "approvedPlanDigest": "c388283aac2ba8a05fb7cb4998aad727a86eb7bdf4a5e2d256399d14d805e41e",
+        "seededSyntheticTimestampRequests": 0,
+        "seededSyntheticEasyReadCreates": 0,
+        "newSavedProviderOperations": 0,
+        "criteria": [
+          {
+            "id": "source",
+            "status": "pending"
+          },
+          {
+            "id": "coverage",
+            "status": "pending"
+          },
+          {
+            "id": "alignment",
+            "status": "pending"
+          },
+          {
+            "id": "vtt",
+            "status": "pending"
+          },
+          {
+            "id": "easy_read",
+            "status": "pending"
+          },
+          {
+            "id": "meaning",
+            "status": "pending"
+          }
+        ]
+      },
+      "failed": {
+        "commissionId": "347fb68c-0ace-49b2-b640-72eec740cd1f",
+        "commissionRevision": 219,
+        "captionVersion": 2,
+        "captionState": "awarded",
+        "captionPackDigest": "c2d17cb8eeabfb2de1f6caeb1aa75c4c50e186883ac515ce8026f0fb6ef85e29",
+        "totalMinor": 54000,
+        "captionGrossMinor": 4000,
+        "capMinor": 64000,
+        "captionArtifactIds": [
+          "d3543243-466e-4821-abc9-8ad3e3cd145e"
+        ],
+        "counts": {
+          "guild_jobs": 4,
+          "guild_model_runs": 6,
+          "guild_speech_runs": 12,
+          "guild_alignment_runs": 12,
+          "guild_alignment_observations": 12,
+          "guild_media_objects": 23,
+          "guild_approval_receipts": 3,
+          "guild_caption_corrections": 1,
+          "guild_payment_intents": 0,
+          "guild_acceptance_decisions": 0,
+          "guild_payout_operations": 0
+        },
+        "approvalDelta": 1,
+        "captionCorrection": {
+          "id": "f82364f8-06ee-4d27-8323-42959bbfdbc6",
+          "digest": "f13b7e156d87a4ab375d59378c9527b4fd2fd324bbe8ba3b76113cdeae2fdbbb",
+          "priorJobId": "85fc340a-767d-409b-a5d5-f4e6169e1a3a",
+          "priorArtifactId": "d3543243-466e-4821-abc9-8ad3e3cd145e",
+          "additionalChargeMinor": 0
+        },
+        "originalSourceHashesUnchanged": true,
+        "originalCaptionDeadline": "2026-11-11T22:27:11.084Z",
+        "fixtureWorkspaceExpiry": "2026-11-11T22:27:11.084Z",
+        "approvedPlanDigest": "25b7e0ea52153ae24a20c8442bf0ddc7199e161a778b1763b1d22c677f561528",
+        "seededSyntheticTimestampRequests": 12,
+        "seededSyntheticEasyReadCreates": 6,
+        "newSavedProviderOperations": 0,
+        "criteria": [
+          {
+            "id": "source",
+            "status": "passed"
+          },
+          {
+            "id": "coverage",
+            "status": "failed"
+          },
+          {
+            "id": "alignment",
+            "status": "failed"
+          },
+          {
+            "id": "vtt",
+            "status": "failed"
+          },
+          {
+            "id": "easy_read",
+            "status": "passed"
+          },
+          {
+            "id": "meaning",
+            "status": "review"
+          }
+        ]
+      },
+      "complete": {
+        "commissionId": "c3e5e91a-195d-4005-b326-a28bc0d14018",
+        "commissionRevision": 220,
+        "captionVersion": 2,
+        "captionState": "awaiting_acceptance",
+        "captionPackDigest": "55395faa918148f8a2a358b56050501f856a9c05fcaaecd3d5b14682848d5148",
+        "totalMinor": 54000,
+        "captionGrossMinor": 4000,
+        "capMinor": 64000,
+        "captionArtifactIds": [
+          "a05fa748-9217-4eed-95b7-c928043015de"
+        ],
+        "counts": {
+          "guild_jobs": 4,
+          "guild_model_runs": 6,
+          "guild_speech_runs": 12,
+          "guild_alignment_runs": 12,
+          "guild_alignment_observations": 12,
+          "guild_media_objects": 24,
+          "guild_approval_receipts": 2,
+          "guild_caption_corrections": 0,
+          "guild_payment_intents": 0,
+          "guild_acceptance_decisions": 0,
+          "guild_payout_operations": 0
+        },
+        "approvalDelta": 0,
+        "captionCorrection": null,
+        "originalSourceHashesUnchanged": true,
+        "originalCaptionDeadline": "2026-11-11T22:27:52.777Z",
+        "fixtureWorkspaceExpiry": "2026-11-11T22:27:52.777Z",
+        "approvedPlanDigest": "a2a1c79842eaee46bf8207f1d8906060f30693da61bb74487b1d64b1014e53ee",
+        "seededSyntheticTimestampRequests": 12,
+        "seededSyntheticEasyReadCreates": 6,
+        "newSavedProviderOperations": 0,
+        "criteria": [
+          {
+            "id": "source",
+            "status": "passed"
+          },
+          {
+            "id": "coverage",
+            "status": "passed"
+          },
+          {
+            "id": "alignment",
+            "status": "passed"
+          },
+          {
+            "id": "vtt",
+            "status": "passed"
+          },
+          {
+            "id": "easy_read",
+            "status": "passed"
+          },
+          {
+            "id": "meaning",
+            "status": "review"
+          }
+        ]
+      }
+    }
+  },
+  "notes": [
+    "The private QA stage link after correction approval did not navigate twice; direct navigation to its documented bootstrap URL opened the complete fixture. No production command was invoked.",
+    "Actual timestamp/model qualification remains a separate required gate."
+  ]
+}
