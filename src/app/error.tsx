@@ -1,0 +1,2 @@
+"use client";
+export default function ErrorPage({reset}:{error:Error;reset:()=>void}){return <main id="main" className="recovery-page"><span className="wordmark">Guild<span>®</span></span><p className="eyebrow">A moment to regroup</p><h1>Your work is still here.</h1><p>The studio could not finish loading. Confirmed artifacts and decisions are kept in your workspace.</p><button className="button primary" onClick={reset}>Open the studio again</button></main>;}

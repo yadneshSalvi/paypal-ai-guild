@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "guild.museum-glossary.v1",
+  "status": "AI-authored draft; no independent fluent review",
+  "rules": ["Preserve proper names and uncertain dates in original catalogue citations.", "Translate exhibition labels and image descriptions; retain the full English native record alongside them.", "Do not turn an approximate date into an exact year or an unnamed person into an invented biography."],
+  "terms": [
+    { "en": "harbor", "pt": "porto", "es": "puerto", "fr": "port", "ja": "港", "ar": "ميناء" },
+    { "en": "wharf", "pt": "cais", "es": "muelle", "fr": "quai", "ja": "埠頭", "ar": "رصيف" },
+    { "en": "steamer", "pt": "vapor", "es": "vapor", "fr": "bateau à vapeur", "ja": "汽船", "ar": "سفينة بخارية" },
+    { "en": "archive record", "pt": "registo do arquivo", "es": "ficha del archivo", "fr": "notice d’archives", "ja": "資料記録", "ar": "سجل أرشيفي" },
+    { "en": "approximate date", "pt": "data aproximada", "es": "fecha aproximada", "fr": "date approximative", "ja": "おおよその年代", "ar": "تاريخ تقريبي" },
+    { "en": "cataloguer", "pt": "catalogador", "es": "catalogador", "fr": "catalogueur", "ja": "目録作成者", "ar": "مفهرس" }
+  ]
+}

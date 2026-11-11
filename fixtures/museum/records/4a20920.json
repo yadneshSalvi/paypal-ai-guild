@@ -1,0 +1,74 @@
+{
+  "id": "loc-det-4a20920",
+  "itemId": "2016812640",
+  "digitalId": "4a20920",
+  "title": "[Steamer City of Cleveland, broadside]",
+  "createdPublished": "[1907]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-43396 [P&P]",
+  "notes": [
+    "Title from jacket.",
+    "R 62 on negative.",
+    "Detroit Publishing Co. no. 043396.",
+    "The catalogue summary identifies the Orleans Street yard of the Detroit Shipbuilding Corporation, Detroit, Michigan, citing researcher W. Worden (2017).",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "description": "The City of Cleveland viewed broadside. A catalogue summary, credited to researcher W. Worden in 2017, locates the scene at the Orleans Street yard in Detroit; the record dates the image [1907].",
+  "alt": "A shipbuilding yard with a long hull, cranes and tall scaffold towers.",
+  "sourceUrl": "https://www.loc.gov/item/2016812640/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a20920/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a20000/4a20900/4a20920v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a20000/4a20900/4a20920v.jpg",
+  "originalPath": "/museum/originals/4a20920.jpg",
+  "originalHash": "024f53412d47e23aea8365f586e6c9186fe08cd534ed31dc9dbebe90339ceb4f",
+  "originalBytes": 120749,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a20000/4a20900/4a20920u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a20000/4a20900/4a20920u.tif",
+  "masterHash": "d5dd33c2dd5c4ed57747361a6a53f12dbe82c9b2c23f8a8c78cebc32945d1629",
+  "masterBytes": 20371042,
+  "masterDimensions": {
+    "width": 5072,
+    "height": 4010
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a20920.webp",
+  "thumbnailPath": "/museum/thumbnails/4a20920.webp",
+  "contentHash": "3b8e42e242cb43266e35b0f790700ef818dc0d8726a4d9d6621eaa584e1f0e38",
+  "thumbnailHash": "eb63028486cc233b1e81c0e0a07d4f9a35e3bc62ff4ec3b18cadfa6209e61442",
+  "imageBytes": 294018,
+  "thumbnailBytes": 33404,
+  "dimensions": {
+    "width": 2200,
+    "height": 1739
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Steamer City of Cleveland, broadside]",
+  "nativeDate": "[1907]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title from jacket.",
+    "\"R 62\" on negative.",
+    "Detroit Publishing Co. no. 043396.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [
+    "Photograph shows the Orleans Street yard of the Detroit Shipbuilding Corporation, Detroit, Michigan. (Source: researcher W. Worden, 2017)"
+  ],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016812640/marcxml",
+  "marcxmlHash": "3a576836fcf0eeec1b6261008c38b45e83bbc0bfff29a9103c1f29a8b4885058",
+  "metadataObservedAt": "2026-11-10T20:02:20.304205+00:00"
+}

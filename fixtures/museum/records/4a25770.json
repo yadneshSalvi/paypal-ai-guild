@@ -1,0 +1,73 @@
+{
+  "id": "loc-det-4a25770",
+  "itemId": "2016816128",
+  "digitalId": "4a25770",
+  "title": "[Steamboats\"Western States,\" at left, Detroit & Cleveland Navigation Co. Line, Detroit; and \"City of Mackinac\" at right]",
+  "createdPublished": "[between 1900 and 1920]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D41-66 [P&P]",
+  "notes": [
+    "Title devised by cataloger.",
+    "The catalogue identifies Western States at left and City of Mackinac at right.",
+    "B 327 on negative.",
+    "No Detroit Publishing Co. no.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "description": "Two steamboats at Detroit wharves. The catalogue identifies Western States at left and City of Mackinac at right, with a broad date range of 1900–1920.",
+  "alt": "Two passenger steamboats alongside Detroit wharves, Western States on the left and City of Mackinac on the right.",
+  "sourceUrl": "https://www.loc.gov/item/2016816128/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a25770/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a25000/4a25700/4a25770v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a25000/4a25700/4a25770v.jpg",
+  "originalPath": "/museum/originals/4a25770.jpg",
+  "originalHash": "8d1182bdc1856e6c9a1518636e39d4e64599ad6f06249e8ed81dacc2868b2a4f",
+  "originalBytes": 117329,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a25000/4a25700/4a25770u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a25000/4a25700/4a25770u.tif",
+  "masterHash": "da9529c1278e29395c190344ee1479e686605c152ff0649f47b4099bb72b1642",
+  "masterBytes": 20395056,
+  "masterDimensions": {
+    "width": 5029,
+    "height": 4049
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a25770.webp",
+  "thumbnailPath": "/museum/thumbnails/4a25770.webp",
+  "contentHash": "af85ce19e21a375326edbdbbe3ea704c0f6bfb6adba0a9a9d8884a3205bbff04",
+  "thumbnailHash": "3a7ea1a31d0aa6adabbda465a4166b686eb33dac9af780a854c88610d1cbb2e6",
+  "imageBytes": 315162,
+  "thumbnailBytes": 31106,
+  "dimensions": {
+    "width": 2200,
+    "height": 1771
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Steamboats\"Western States,\" at left, Detroit & Cleveland Navigation Co. Line, Detroit; and \"City of Mackinac\" at right]",
+  "nativeDate": "[between 1900 and 1920]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title devised by cataloger.",
+    "Steamer \"The Western States,\" built at Wyandotte, MI in 1902 (official number 81811) and the steamer \"City of Mackinac,\" built at Wandotte in 1893 (official number 126988) (Source: W. Worden, 2016)",
+    "\"B 327\" on negative.",
+    "No Detroit Publishing Co. no.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016816128/marcxml",
+  "marcxmlHash": "4b0e5701b5248156732e234eb15d4cdfe17d43263d7297410cc18453144c87a4",
+  "metadataObservedAt": "2026-11-10T20:02:20.306324+00:00"
+}

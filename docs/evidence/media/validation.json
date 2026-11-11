@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "guild.exhibition-validation.v1",
+  "observedAt": "2026-11-10T20:35:04.938296+00:00",
+  "checks": [
+    {
+      "command": "node --import tsx --test src/exhibition/museum.test.ts",
+      "result": "passed",
+      "tests": 8
+    },
+    {
+      "command": "node fixtures/museum/verify-media.mjs",
+      "result": "passed",
+      "sourceRecords": 12,
+      "decodedImages": 36,
+      "primaryMetadataSnapshots": 12
+    },
+    {
+      "command": "node --import tsx fixtures/museum/build-offline.mjs",
+      "result": "passed",
+      "embeddedPhotographs": 12,
+      "embeddedFonts": 3,
+      "locales": 6,
+      "controllerCompiles": true
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "sampleRoute": "/exhibitions/harbor-street",
+      "rendering": "static prerender"
+    }
+  ],
+  "browserEvidence": "browser-review.json",
+  "remainingIntegrationChecks": [
+    "Remeasure 390px overflow after containment patch",
+    "Map/source/download/kiosk keyboard traversal",
+    "768px and complete1440px interaction matrix",
+    "Open exported HTML with networking disabled",
+    "Screen-reader and automated accessibility/contrast checks",
+    "Real audio and independent fluent reviews when supplied"
+  ]
+}

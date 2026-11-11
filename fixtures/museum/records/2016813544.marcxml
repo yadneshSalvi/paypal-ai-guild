@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><record xmlns="http://www.loc.gov/MARC21/slim" xmlns:zs="http://docs.oasis-open.org/ns/search-ws/sruResponse">
+  <leader>01646nkd a22004215a 4500</leader>
+  <controlfield tag="001">20120752</controlfield>
+  <controlfield tag="005">20250607083205.1</controlfield>
+  <controlfield tag="007">kg |||</controlfield>
+  <controlfield tag="008">940101s1900    xx nnn |     |    kneng  </controlfield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">20120752</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="906">
+    <subfield code="a">0</subfield>
+    <subfield code="b">cbc</subfield>
+    <subfield code="c">orignew</subfield>
+    <subfield code="d">u</subfield>
+    <subfield code="e">ncip</subfield>
+    <subfield code="f">20</subfield>
+    <subfield code="g">y-printpho</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="955">
+    <subfield code="a">LCAP batch update 2025-06-02-04:00: LCAPM-861</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="010">
+    <subfield code="a">  2016813544</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">(DLC)det1994019504/PP</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">(BRS)000032605</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a21996</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="040">
+    <subfield code="a">DLC</subfield>
+    <subfield code="c">DLC</subfield>
+    <subfield code="e">gihc</subfield>
+  </datafield>
+  <datafield ind1="0" ind2="0" tag="050">
+    <subfield code="a">LC-D4-62710</subfield>
+  </datafield>
+  <datafield ind1="0" ind2="0" tag="245">
+    <subfield code="a">Transfer steamer Detroit</subfield>
+    <subfield code="h">[graphic].</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="260">
+    <subfield code="c">[between 1900 and 1905]</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="300">
+    <subfield code="a">1 negative :</subfield>
+    <subfield code="b">glass ;</subfield>
+    <subfield code="c">8 x 10 in.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="336">
+    <subfield code="a">still image</subfield>
+    <subfield code="b">sti</subfield>
+    <subfield code="2">rdacontent</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="337">
+    <subfield code="a">unmediated</subfield>
+    <subfield code="b">n</subfield>
+    <subfield code="2">rdamedia</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="337">
+    <subfield code="3">Digital image</subfield>
+    <subfield code="a">computer</subfield>
+    <subfield code="b">c</subfield>
+    <subfield code="2">rdamedia</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="338">
+    <subfield code="a">sheet</subfield>
+    <subfield code="b">nb</subfield>
+    <subfield code="2">rdacarrier</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="338">
+    <subfield code="3">Digital image</subfield>
+    <subfield code="a">online resource</subfield>
+    <subfield code="b">cr</subfield>
+    <subfield code="2">rdacarrier</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">Detroit Publishing Co. no. 062710.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="540">
+    <subfield code="a">No known restrictions on publication.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="541">
+    <subfield code="c">Gift;</subfield>
+    <subfield code="a">State Historical Society of Colorado;</subfield>
+    <subfield code="d">1949.</subfield>
+  </datafield>
+  <datafield ind1="2" ind2="0" tag="610">
+    <subfield code="a">Detroit (Ferry boat)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="650">
+    <subfield code="a">Railroad ferries.</subfield>
+    <subfield code="2">lctgm</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="655">
+    <subfield code="a">Dry plate negatives.</subfield>
+    <subfield code="2">gmgpc</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="710">
+    <subfield code="a">Detroit Publishing Co.,</subfield>
+    <subfield code="e">publisher.</subfield>
+  </datafield>
+  <datafield ind1="0" ind2=" " tag="773">
+    <subfield code="t">Detroit Publishing Company photograph collection (Library of Congress)</subfield>
+    <subfield code="w">(DLC)   93845504</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="852">
+    <subfield code="a">Library of Congress</subfield>
+    <subfield code="b">Prints and Photographs Division</subfield>
+    <subfield code="e">Washington, D.C. 20540 USA</subfield>
+    <subfield code="n">dcu</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/pp.print</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a21996</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a21996</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">pp/det</subfield>
+    <subfield code="e">ammem</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">pp/diof</subfield>
+  </datafield>
+</record>

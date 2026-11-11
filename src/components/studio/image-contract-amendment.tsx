@@ -1,0 +1,16 @@
+"use client";
+import { useState } from "react";
+import { ArrowRight, Image as ImageIcon, Ruler } from "lucide-react";
+import type { AcceptancePack, Commission, WorkPackage } from "@/contracts/guild";
+import { type Act, Modal, money } from "./ui";
+import "./image-artifact.css";
+
+export function ImageContractAmendment({ c, pkg, proposal, act, busy }: { c: Commission; pkg: WorkPackage; proposal: AcceptancePack; act: Act; busy: boolean }) {
+  const [open, setOpen] = useState(false);
+  const waiting = c.jobs.some(job => job.state === "queued" || job.state === "running"), billed = c.payments.operations.length > 0 || !!c.payments.checkout || !!c.payments.authorization;
+  const canAmend = !pkg.artifactIds.length && ["draft", "bidding", "awarded"].includes(pkg.state) && !waiting && !billed;
+  return <>
+    <section className="image-contract-proposal"><Ruler size={23}/><div><h3>Agree how the images will be checked.</h3><p>Full-frame images and thumbnails, embedded color profiles, measured file limits and six-language descriptions. Add the precise image standard to this contract before Halide begins.</p><button className="button" onClick={() => setOpen(true)} disabled={busy}>Review image standard <ArrowRight size={15}/></button>{waiting && <p>Let the current saved work finish before amending the Passport.</p>}{billed && <p>This proposal needs a separate billing amendment because checkout has already started.</p>}</div></section>
+    {open && <Modal title="A clear standard for every frame." onClose={() => setOpen(false)}><p>This amends the image contract from <strong>v{pkg.contractVersion}</strong> to <strong>v{pkg.contractVersion + 1}</strong>, for all <strong>{c.sourceAssets.length} agreed photographs</strong>. The same provider and <strong>{money(pkg.grossMinor)}</strong> gross price apply.</p><ul className="image-contract-terms">{proposal.criteria.map(criterion => <li key={criterion.id}><strong>{criterion.label}</strong><p>{criterion.description}</p></li>)}</ul><div className="note-box"><ImageIcon size={23}/><div><strong>The next step is a fresh Passport approval.</strong><p>The original contract stays in the record. This proposal does not accept images or dispatch payment. Other artifacts and their existing decisions remain attached to their agreed contracts.</p></div></div><dl className="approval-summary"><div><dt>New pack</dt><dd>{proposal.version}</dd></div><div><dt>Proposal fingerprint</dt><dd className="mono">{proposal.digest.slice(0,24)}…</dd></div></dl>{!canAmend && <p className="form-error">{waiting ? "Wait for the active job to finish, then review this amendment again." : "This contract has already started work or billing. Its original agreement must be preserved for a separate amendment review."}</p>}<div className="dialog-actions"><button className="button" onClick={() => setOpen(false)}>Keep reviewing</button><button className="button primary" disabled={busy || !canAmend} onClick={async () => { const result = await act({ type: "amend_image_contract", packageId: pkg.id, contractVersion: pkg.contractVersion, acceptancePackDigest: proposal.digest }); if(result.ok)setOpen(false); }}>Prepare amended Passport <ArrowRight size={15}/></button></div></Modal>}
+  </>;
+}

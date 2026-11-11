@@ -1,0 +1,68 @@
+{
+  "id": "loc-det-4a16836",
+  "itemId": "2016807373",
+  "digitalId": "4a16836",
+  "title": "Str. Eastern States",
+  "createdPublished": "[between 1901 and 1910]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-32747 [P&P]",
+  "notes": [
+    "Detroit Publishing Co. no. 032747.",
+    "Gift; State Historical Society of Colorado; 1949.",
+    "The catalogue date is a range; the shorthand Dates facet is not a precise exposure date."
+  ],
+  "description": "A dry-plate photograph of the steamboat Eastern States. The catalogue's Created / Published field gives 1901–1910; the single-year search facet is not substituted for that range.",
+  "alt": "The steamboat Eastern States seen broadside, with a long hull, upper decks and a smoking funnel.",
+  "sourceUrl": "https://www.loc.gov/item/2016807373/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a16836/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a10000/4a16000/4a16800/4a16836v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a10000/4a16000/4a16800/4a16836v.jpg",
+  "originalPath": "/museum/originals/4a16836.jpg",
+  "originalHash": "0a45611bbf65b44543a47c57bffaf68b558abaef069adb627a9e6a40dec78c71",
+  "originalBytes": 133850,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a10000/4a16000/4a16800/4a16836u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a10000/4a16000/4a16800/4a16836u.tif",
+  "masterHash": "b3e06cb48fee1d199df61c3efc614a8a8081245e5e866135824150d8bbf3d3ad",
+  "masterBytes": 20768196,
+  "masterDimensions": {
+    "width": 5106,
+    "height": 4061
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a16836.webp",
+  "thumbnailPath": "/museum/thumbnails/4a16836.webp",
+  "contentHash": "eaadb2772f0b47e32b2734b63a9bad99dbbe3516c3087b8b25b1a1db1d0fc2f2",
+  "thumbnailHash": "576faa6ef187e2b8f3efa2ea300e17bf8819fd1a64b321c30757dab41de22ec7",
+  "imageBytes": 383932,
+  "thumbnailBytes": 37520,
+  "dimensions": {
+    "width": 2200,
+    "height": 1750
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "Str. Eastern States",
+  "nativeDate": "[between 1901 and 1910]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Detroit Publishing Co. no. 032747.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016807373/marcxml",
+  "marcxmlHash": "9434827c8305ce50e1d85b914fb69a0d6064079d0082d2ba5ff454a1357f8ebd",
+  "metadataObservedAt": "2026-11-10T20:02:20.302837+00:00"
+}

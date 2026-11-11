@@ -1,0 +1,36 @@
+"use client";
+import { useState } from "react";
+import NextImage from "next/image";
+import { ArrowDownToLine, ArrowUpRight, Image as ImageIcon, Info, Languages, Maximize2, RefreshCw } from "lucide-react";
+import type { ArtifactManifest, Locale, SourceAsset } from "@/contracts/guild";
+import { localeNames } from "@/contracts/guild";
+import type { ImageArtifact as ImageDocument, ImageFile } from "@/domain/images";
+import { External, Modal } from "./ui";
+import "./image-artifact.css";
+
+function PrivateImage({ file, alt, className = "" }: { file: ImageFile; alt: string; className?: string }) {
+  const [failed, setFailed] = useState(false), [retry, setRetry] = useState(0);
+  const url = /^\/api\/media\/[0-9a-f-]{36}$/.test(file.url) && file.url.endsWith(file.mediaId) ? file.url : null;
+  if (!url || failed) return <div className="image-file-unavailable" role="status"><ImageIcon size={25}/><p>This private image could not be loaded.</p>{url && <button className="button compact" onClick={() => { setFailed(false); setRetry(value => value + 1); }}><RefreshCw size={14}/> Read the saved file again</button>}</div>;
+  return <NextImage unoptimized className={className} src={`${url}${retry ? `?read=${retry}` : ""}`} alt={alt} width={file.width} height={file.height} onError={() => setFailed(true)}/>;
+}
+
+export function ImageArtifact({ artifact, sources }: { artifact: ArtifactManifest; sources: SourceAsset[] }) {
+  const [index, setIndex] = useState(0), [locale, setLocale] = useState<Locale>("en"), [expanded, setExpanded] = useState(false);
+  const document = artifact.content as unknown as ImageDocument;
+  const items = Array.isArray(document.images) ? document.images : [], item = items[Math.min(index, items.length - 1)];
+  const source = sources.find(source => source.id === item?.sourceId);
+  if (!item || !source || !item.description?.alt || !item.full || !item.thumbnail) return <p className="artifact-disclosure">The submitted image manifest needs format review before a comparison can be shown.</p>;
+  return <section className="image-artifact" aria-label="Image treatment submission">
+    <div className="image-editorial-heading"><div><p className="eyebrow">HALIDE / THE FRAME, PRESERVED</p><h3>A closer look.</h3><p>{items.length} photographs, each beside its agreed source. Read the details before deciding what belongs.</p></div><span className="image-frame-stamp">FULL FRAME<span>NO GENERATED PIXELS</span></span></div>
+    <div className="image-contact-strip" aria-label="Choose a photograph">{items.map((image, imageIndex) => { const original = sources.find(source => source.id === image.sourceId); return <button key={image.sourceId} className={imageIndex === index ? "selected" : ""} aria-pressed={imageIndex === index} aria-label={`Compare photograph ${imageIndex + 1}: ${original?.title ?? image.sourceId}`} onClick={() => setIndex(imageIndex)}>{original&&<NextImage unoptimized src={original.thumbnailPath} alt="" width={image.thumbnail.width} height={image.thumbnail.height}/>}<span>{String(imageIndex + 1).padStart(2, "0")}</span></button>; })}</div>
+    <div className="image-selection-heading"><div><span className="label-index">{String(index + 1).padStart(2, "0")} / {source.id}</span><h4>{source.title}</h4><p>{source.creator} · {source.date}</p></div><button className="icon-button" aria-label="Enlarge source and treated photograph" onClick={() => setExpanded(true)}><Maximize2 size={18}/></button></div>
+    <div className="image-comparison"><figure><div className="image-mat"><NextImage unoptimized src={source.imagePath} alt={source.alt} width={item.sourceWidth} height={item.sourceHeight}/></div><figcaption><span>01 / AGREED SOURCE</span><small>{item.sourceWidth} × {item.sourceHeight} px</small></figcaption></figure><figure><div className="image-mat"><PrivateImage key={item.full.mediaId} file={item.full} alt={item.description.alt[locale]}/></div><figcaption><span>02 / EXHIBITION FILE</span><small>{item.full.width} × {item.full.height} px · sRGB</small></figcaption></figure></div>
+    <p className="image-framing-note">{item.description.framingReason}</p>
+    <div className="image-description-card"><div className="image-description-header"><label><Languages size={16}/> Image description <select aria-label="Image description language" value={locale} onChange={event => setLocale(event.target.value as Locale)}>{Object.entries(localeNames).map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label><span>Not fluent-reviewed</span></div><p lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>{item.description.alt[locale]}</p><small>Model-written description. Review what is visible, what remains uncertain and how clearly the words describe this frame.</small></div>
+    <details className="image-measurements"><summary>Inspect the measured files <span>Full image + thumbnail</span></summary><p>These are the producer’s measurements. Run the agreed checks for an independent reading of the private files.</p><div className="image-file-cards">{(["full", "thumbnail"] as const).map(kind => { const file = item[kind]; return <section key={kind}><h5>{kind === "full" ? "Exhibition image" : "Collection thumbnail"}</h5><dl><div><dt>Dimensions</dt><dd>{file.width} × {file.height} px</dd></div><div><dt>File size</dt><dd>{(file.bytes / 1000).toFixed(1)} kB · WebP</dd></div><div><dt>Color profile</dt><dd>Embedded sRGB</dd></div><div><dt>RGB difference · RMSE</dt><dd>{file.comparison.normalizedRootMeanSquareError.toFixed(6)}</dd></div><div><dt>Perceptual difference</dt><dd>{file.comparison.dHashDistance} / 64</dd></div></dl><p className="image-byte-hash">SHA-256 <code>{file.contentHash}</code></p><a className="text-button" href={`/api/media/${file.mediaId}`} download><ArrowDownToLine size={14}/> Save {kind === "full" ? "full image" : "thumbnail"}</a></section>; })}</div><div className="image-observations"><h5>Visible features and open questions</h5><ul>{item.description.visibleFeatures.map((feature, i) => <li key={`feature-${i}`}>{feature}</li>)}{item.description.uncertainties.map((uncertainty, i) => <li key={`uncertainty-${i}`}><span>Uncertain:</span> {uncertainty}</li>)}</ul></div></details>
+    <div className="image-archive-links"><External href={source.sourceUrl}>Archive record</External><External href={source.rightsUrl}>Rights advisory</External></div>
+    <div className="artifact-disclosure"><Info size={16}/><p>Size, color-profile and difference measurements cannot establish historical fidelity or useful alt text. Compare every photograph and its descriptions before accepting this exact submission. All six language reviews remain unverified.</p></div>
+    {expanded && <Modal title={source.title} onClose={() => setExpanded(false)}><div className="image-expanded-pair"><figure><NextImage unoptimized src={source.imagePath} alt={source.alt} width={item.sourceWidth} height={item.sourceHeight}/><figcaption>Agreed source · full frame</figcaption></figure><figure><PrivateImage key={item.full.mediaId} file={item.full} alt={item.description.alt[locale]}/><figcaption>Treated exhibition file · full frame</figcaption></figure></div><a className="button" href={`/api/media/${item.full.mediaId}`} target="_blank" rel="noreferrer">Open the saved image <ArrowUpRight size={16}/></a></Modal>}
+  </section>;
+}

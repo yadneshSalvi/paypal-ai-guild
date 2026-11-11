@@ -1,0 +1,70 @@
+{
+  "id": "loc-det-4a25811",
+  "itemId": "2016816165",
+  "digitalId": "4a25811",
+  "title": "[Steamer at dock]",
+  "createdPublished": "[between 1900 and 1920]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D41-108 [P&P]",
+  "notes": [
+    "Title from jacket.",
+    "The catalogue does not identify the vessel or dock in its title.",
+    "The supplied date range is preserved."
+  ],
+  "description": "An unnamed steamer at a dock, catalogued between 1900 and 1920. A native catalogue note suggests a possible location at Canal Park, Sault Sainte Marie, Michigan. That suggestion is retained as uncertain, not promoted to a confirmed identification.",
+  "alt": "A steamer seen from a long paved dock, with tall masts and a funnel above its decks.",
+  "sourceUrl": "https://www.loc.gov/item/2016816165/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a25811/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a25000/4a25800/4a25811v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a25000/4a25800/4a25811v.jpg",
+  "originalPath": "/museum/originals/4a25811.jpg",
+  "originalHash": "aa7e70317c061400dc185dfc596b22268b8b3b3b8c0b9efa8a8e0d3477242d10",
+  "originalBytes": 107371,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a25000/4a25800/4a25811u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a25000/4a25800/4a25811u.tif",
+  "masterHash": "115bbe2cf053ca41544b18804a5304cbb5ddf6be0272cb9942498e57758303cc",
+  "masterBytes": 20728754,
+  "masterDimensions": {
+    "width": 5080,
+    "height": 4074
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a25811.webp",
+  "thumbnailPath": "/museum/thumbnails/4a25811.webp",
+  "contentHash": "9c0e21e833905e27f55c915b92e1e201baa4a9a54dbc7cb023c6ce6c75a39690",
+  "thumbnailHash": "6571d3af2ec92fd4d475641dcd3fb811f9a8012a820741c627d5ffe6dcb65264",
+  "imageBytes": 276356,
+  "thumbnailBytes": 27604,
+  "dimensions": {
+    "width": 2200,
+    "height": 1764
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Steamer at dock]",
+  "nativeDate": "[between 1900 and 1920]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title from jacket.",
+    "Possibly at Canal Park, Sault Sainte Marie, Mich.",
+    "No Detroit Publishing Co. no.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016816165/marcxml",
+  "marcxmlHash": "bc21c2da06e0adc420c615aacc3bce31b44072d7c60c3628534cf2462bcba52b",
+  "metadataObservedAt": "2026-11-10T20:02:21.570100+00:00"
+}

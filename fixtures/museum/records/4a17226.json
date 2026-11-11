@@ -1,0 +1,75 @@
+{
+  "id": "loc-det-4a17226",
+  "itemId": "2016809156",
+  "digitalId": "4a17226",
+  "title": "[Unloading fish at \"T\" wharf, Boston, Mass.]",
+  "createdPublished": "[between 1900 and 1910]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-33317 [P&P]",
+  "notes": [
+    "Title from jacket.",
+    "1685 on negative.",
+    "Detroit Publishing Co. no. 033317.",
+    "Gift; State Historical Society of Colorado; 1949.",
+    "The catalogue's later summary names the outboard schooner Stranger (C. Seavey, 2026); no additional vessel history is inferred here."
+  ],
+  "description": "Fishing vessels at Boston's T wharf, dated 1900–1910 in the catalogue. This is a different place and record from the Gloucester fish-handling photograph, not a before-and-after pair.",
+  "alt": "Fishing schooners and dense rigging beside Boston's T wharf, with dock buildings across the water.",
+  "nativeTitle": "[Unloading fish at \"T\" wharf, Boston, Mass.]",
+  "nativeDate": "[between 1900 and 1910]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title from jacket.",
+    "\"1685\" on negative.",
+    "Detroit Publishing Co. no. 033317.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [
+    "Photo shows three schooners. The outboard schooner is Stranger. (The name is on her stern.) Built in Essex, MA, in 1883 by Moses Adams. She fished out of Gloucester, but like many of the Gloucester fleet often offloaded in Boston.  (C. Seavey, 2026)"
+  ],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016809156/marcxml",
+  "marcxmlHash": "06049e979f6f284cb34c545121dc8a71314a805a0ac90d849475d588e075fdc8",
+  "metadataObservedAt": "2026-11-10T20:02:21.545330+00:00",
+  "jpegRendition": "r",
+  "sourceUrl": "https://www.loc.gov/item/2016809156/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a17226/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T20:09:28.358Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a10000/4a17000/4a17200/4a17226r.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a10000/4a17000/4a17200/4a17226r.jpg",
+  "originalPath": "/museum/originals/4a17226.jpg",
+  "originalHash": "49e344f293adf23ad54180e0c0d50ba8500ce22700d26604c8a1fec7a254a7d4",
+  "originalBytes": 67696,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a10000/4a17000/4a17200/4a17226u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a10000/4a17000/4a17200/4a17226u.tif",
+  "masterHash": "25a0ac2c5ed0fafe99dca1eec86553c34b1b68221a67e97eb9cb44244a502caf",
+  "masterBytes": 20405052,
+  "masterDimensions": {
+    "width": 5059,
+    "height": 4027
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a17226.webp",
+  "thumbnailPath": "/museum/thumbnails/4a17226.webp",
+  "contentHash": "7fd2740c8c7a557b60d22610679e657ba9cecb819be33f7ec4605526578a74d2",
+  "thumbnailHash": "8d56452580027f49dfac848273c194f4f958b0047d47235c623335aca7d8aa2a",
+  "imageBytes": 559312,
+  "thumbnailBytes": 51866,
+  "dimensions": {
+    "width": 2200,
+    "height": 1751
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record and complete primary MARCXML. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums."
+}

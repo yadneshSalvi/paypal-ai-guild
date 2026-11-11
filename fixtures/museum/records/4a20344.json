@@ -1,0 +1,69 @@
+{
+  "id": "loc-det-4a20344",
+  "itemId": "2016811564",
+  "digitalId": "4a20344",
+  "title": "[Excursion steamers Tashmoo and Idlewild at wharves, Detroit]",
+  "createdPublished": "[ca. 1901]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-42580 [P&P]",
+  "notes": [
+    "The catalogue title identifies the vessels as Tashmoo and Idlewild and the place as Detroit.",
+    "The date is approximate."
+  ],
+  "description": "The catalogue identifies the excursion steamers Tashmoo and Idlewild at Detroit wharves, around 1901. These real vessels and this real place are not renamed Harbor Street.",
+  "alt": "Two excursion steamers alongside Detroit wharves, with rows of windows and decks above the river.",
+  "sourceUrl": "https://www.loc.gov/item/2016811564/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a20344/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a20000/4a20300/4a20344v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a20000/4a20300/4a20344v.jpg",
+  "originalPath": "/museum/originals/4a20344.jpg",
+  "originalHash": "99835288f84aed37973a5fc959d3f9272a9d843b9cb71d1a23cbc005fb640748",
+  "originalBytes": 177448,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a20000/4a20300/4a20344u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a20000/4a20300/4a20344u.tif",
+  "masterHash": "bf6b7cc4e3840895201b3b13317c5aa2d5076f6c955f4bc83a455517d76b7531",
+  "masterBytes": 20402222,
+  "masterDimensions": {
+    "width": 5047,
+    "height": 4036
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a20344.webp",
+  "thumbnailPath": "/museum/thumbnails/4a20344.webp",
+  "contentHash": "2cfc24e9c8f8397082550fe0ba892c2bd55c9b539e1635a1093596e672a691c1",
+  "thumbnailHash": "ee6732aec448403c7e8a9c82f53ea50730018a5120513a2728d04774c6a4bfdf",
+  "imageBytes": 492022,
+  "thumbnailBytes": 54784,
+  "dimensions": {
+    "width": 2200,
+    "height": 1759
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Excursion steamers Tashmoo and Idlewild at wharves, Detroit]",
+  "nativeDate": "[ca. 1901]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title from jacket.",
+    "\"G 79\" on negative.",
+    "Detroit Publishing Co. no. 042580.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016811564/marcxml",
+  "marcxmlHash": "c45ba545f0f0950150410adc9e832996fc153d4c7c1a264a77ea0278a3dfdf40",
+  "metadataObservedAt": "2026-11-10T20:02:19.102304+00:00"
+}

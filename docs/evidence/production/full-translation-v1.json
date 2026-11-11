@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "guild.full-translation-qualification.v1",
+  "recordedAt": "2026-11-11T02:07:50.803Z",
+  "provenance": "Actual full OpenAI Responses background production; separate explicitly automated browser review under the original language acceptance pack.",
+  "artifact": {
+    "contentHash": "79a6e4caf19a8261284e6b5b1cad3ae17614e34358d1422609c898c670b10912",
+    "sourceArtifactHash": "a41d3e2f943eebd5d17baf7f2d7fe979525c1d3bd641b9bc5ebaf78ec3d44828",
+    "localeCounts": [
+      {
+        "locale": "ar",
+        "labels": 13
+      },
+      {
+        "locale": "en",
+        "labels": 13
+      },
+      {
+        "locale": "es",
+        "labels": 13
+      },
+      {
+        "locale": "fr",
+        "labels": 13
+      },
+      {
+        "locale": "ja",
+        "labels": 13
+      },
+      {
+        "locale": "pt",
+        "labels": 13
+      }
+    ]
+  },
+  "contract": {
+    "version": 2,
+    "acceptancePackVersion": "1.0.0",
+    "checks": [
+      {
+        "id": "locales",
+        "status": "passed"
+      },
+      {
+        "id": "keys",
+        "status": "passed"
+      },
+      {
+        "id": "rtl",
+        "status": "passed"
+      },
+      {
+        "id": "meaning",
+        "status": "review"
+      }
+    ]
+  },
+  "provider": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "max",
+    "completedCalls": 5,
+    "statusReads": 134,
+    "outputs": [
+      {
+        "operation": "museum_translation_v2_pt",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "c40a45555c8684ec6479fcfa53f11300dfa3f510c1fc6d9ee0c0e4b3fb968929",
+        "polls": 20,
+        "latencyMs": 240652
+      },
+      {
+        "operation": "museum_translation_v2_es",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "b9acc6e16c24966a17b96b7c00239685df9acc1e65f4969433c359a7472af740",
+        "polls": 22,
+        "latencyMs": 240644
+      },
+      {
+        "operation": "museum_translation_v2_fr",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "2bd63ee05683bf5978de292ff0331f20f9176ddb2e24728bc0d405725b2a1eb1",
+        "polls": 20,
+        "latencyMs": 215650
+      },
+      {
+        "operation": "museum_translation_v2_ja",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "f8de020f5dc74b8d89cad955f6ccb7ecc91e8571a57d66c01b080bd15031b906",
+        "polls": 33,
+        "latencyMs": 360857
+      },
+      {
+        "operation": "museum_translation_v2_ar",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "ec796463d4651136fc78cccac069d76e3d861e0712210e85cf3c811ced1f21a9",
+        "polls": 39,
+        "latencyMs": 420770
+      }
+    ]
+  },
+  "automatedReview": {
+    "recorded": true,
+    "recordedAt": "2026-11-11T01:27:40.906Z",
+    "scope": "All six locale views and 13-label coverage inspected; uncertainty wording sampled. Canonical artifact download matched its hash and Arabic RTL had no horizontal overflow. Full semantic or fluent review was not performed.",
+    "humanReviewed": false,
+    "accepted": false
+  },
+  "fluentLanguagesReviewed": 0,
+  "paymentEligibility": false,
+  "financialActionsPerformed": false,
+  "successor": "The fuller language pack requires an explicit successor amendment and fresh Passport. This original artifact, original checks and review remain unchanged and are not relabeled under the new standard."
+}

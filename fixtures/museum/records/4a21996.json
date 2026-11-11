@@ -1,0 +1,67 @@
+{
+  "id": "loc-det-4a21996",
+  "itemId": "2016813544",
+  "digitalId": "4a21996",
+  "title": "Transfer steamer Detroit",
+  "createdPublished": "[between 1900 and 1905]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-62710 [P&P]",
+  "notes": [
+    "The catalogue indexes Detroit (Ferry boat) and Railroad ferries.",
+    "The date is supplied as a range."
+  ],
+  "description": "The record calls this vessel the transfer steamer Detroit and classifies it as a railroad ferry. Its date is given as between 1900 and 1905.",
+  "alt": "The broad transfer steamer Detroit on the water, with its working decks and smokestacks visible.",
+  "sourceUrl": "https://www.loc.gov/item/2016813544/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a21996/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a21000/4a21900/4a21996v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a21000/4a21900/4a21996v.jpg",
+  "originalPath": "/museum/originals/4a21996.jpg",
+  "originalHash": "71dcf47ca5106aba1467d3562d06c1f695e6af0d33c013fd1145c24dd187e6b9",
+  "originalBytes": 124453,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a21000/4a21900/4a21996u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a21000/4a21900/4a21996u.tif",
+  "masterHash": "25755b652fafc24d07c072e197c156cca09795c4c501ea768444cedfcfa599f9",
+  "masterBytes": 20366746,
+  "masterDimensions": {
+    "width": 5076,
+    "height": 4006
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a21996.webp",
+  "thumbnailPath": "/museum/thumbnails/4a21996.webp",
+  "contentHash": "0f142e7d43fb73261fc068da3a0f7b853e95b03858880013b464f58ec592e174",
+  "thumbnailHash": "4096f90357a730746c884ab1f13c88558e5746ceca07f4477165dae0149461f2",
+  "imageBytes": 379484,
+  "thumbnailBytes": 33088,
+  "dimensions": {
+    "width": 2200,
+    "height": 1736
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "Transfer steamer Detroit",
+  "nativeDate": "[between 1900 and 1905]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Detroit Publishing Co. no. 062710.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016813544/marcxml",
+  "marcxmlHash": "13717d1e2848e3fe04899409b0effc40d4cc9971ef67042fc299c95dee0b6836",
+  "metadataObservedAt": "2026-11-10T20:02:19.153272+00:00"
+}

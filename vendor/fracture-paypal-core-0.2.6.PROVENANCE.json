@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "guild.vendored-package-provenance.v1",
+  "package": "@fracture/paypal-core",
+  "version": "0.2.6",
+  "archive": "fracture-paypal-core-0.2.6.tgz",
+  "sha256": "099c2097279f90a706abdabb548e08874ef47d3abb4e91d52b3376df7f93cad9",
+  "origin": "Immutable shared-core release supplied by the integration owner",
+  "sdk": {
+    "package": "paypal",
+    "version": "2.29.0",
+    "sourceCommit": "5d0df8a8817e5fdf2e2cd48e68f790ea4730aab2"
+  },
+  "contract": "The packaged README defines the domain admission, durable claims, current authority, SDK transport and exact-resource reconciliation requirements. Guild consumes the archive without editing canonical shared-core source."
+}

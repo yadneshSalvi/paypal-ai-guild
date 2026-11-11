@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "guild.translation-calibration-public.v1",
+  "recordedAt": "2026-11-11T02:07:50.783Z",
+  "provenance": "Two preregistered genuine Gemini Batch API studies. Original inputs, request identities and full provider outputs remain in private evidence; no failed or ambiguous create was resubmitted.",
+  "model": "gemini-3.8-flash",
+  "denominator": 15,
+  "usableResults": 5,
+  "studies": [
+    {
+      "manifestHash": "cfe47d37b1730feb0bb7ec9bf5f68660a1fb8683f8e599615fa558e0a6dd7f77",
+      "cases": 5,
+      "transport": "responseJsonSchema",
+      "temperature": 0.2,
+      "usable": 0,
+      "errors": [
+        {
+          "locale": "pt",
+          "code": "VERIFIER_OUTPUT_SCHEMA"
+        },
+        {
+          "locale": "es",
+          "code": "VERIFIER_OUTPUT_SCHEMA"
+        },
+        {
+          "locale": "fr",
+          "code": "VERIFIER_OUTPUT_SCHEMA"
+        },
+        {
+          "locale": "ja",
+          "code": "VERIFIER_OUTPUT_SCHEMA"
+        },
+        {
+          "locale": "ar",
+          "code": "VERIFIER_OUTPUT_SCHEMA"
+        }
+      ]
+    },
+    {
+      "manifestHash": "a9e815131f97a735fcb1e6bf8c9fd754065c17c13e983cbc6a6f5936b45d198c",
+      "cases": 10,
+      "transport": "Five responseJsonSchema and five responseSchema cases; explicit JSON shape instruction",
+      "temperature": 1,
+      "usable": 5,
+      "results": [
+        {
+          "locale": "json_schema_pt",
+          "model": "gemini-3.8-flash",
+          "error": "VERIFIER_OUTPUT_SCHEMA",
+          "tokenF1": null
+        },
+        {
+          "locale": "json_schema_es",
+          "model": "gemini-3.8-flash",
+          "error": "VERIFIER_OUTPUT_SCHEMA",
+          "tokenF1": null
+        },
+        {
+          "locale": "json_schema_fr",
+          "model": "gemini-3.8-flash",
+          "error": "VERIFIER_OUTPUT_SCHEMA",
+          "tokenF1": null
+        },
+        {
+          "locale": "json_schema_ja",
+          "model": "gemini-3.8-flash",
+          "error": "VERIFIER_OUTPUT_SCHEMA",
+          "tokenF1": null
+        },
+        {
+          "locale": "json_schema_ar",
+          "model": "gemini-3.8-flash",
+          "error": "VERIFIER_OUTPUT_SCHEMA",
+          "tokenF1": null
+        },
+        {
+          "locale": "response_schema_pt",
+          "model": "gemini-3.8-flash",
+          "error": null,
+          "tokenF1": 0.8393782383419689
+        },
+        {
+          "locale": "response_schema_es",
+          "model": "gemini-3.8-flash",
+          "error": null,
+          "tokenF1": 0.837696335078534
+        },
+        {
+          "locale": "response_schema_fr",
+          "model": "gemini-3.8-flash",
+          "error": null,
+          "tokenF1": 0.8148148148148148
+        },
+        {
+          "locale": "response_schema_ja",
+          "model": "gemini-3.8-flash",
+          "error": null,
+          "tokenF1": 0.6938775510204083
+        },
+        {
+          "locale": "response_schema_ar",
+          "model": "gemini-3.8-flash",
+          "error": null,
+          "tokenF1": 0.7647058823529411
+        }
+      ]
+    }
+  ],
+  "selectedRecipe": {
+    "format": "responseSchema",
+    "temperature": 1,
+    "promptVersion": "guild.blind-back-translation.v2",
+    "cases": 5,
+    "usable": 5
+  },
+  "comparison": {
+    "method": "english_token_multiset_f1.v1",
+    "proposedFloor": 0.85,
+    "samplesPerLanguage": 1,
+    "perLanguage": [
+      {
+        "locale": "pt",
+        "score": 0.8393782383419689
+      },
+      {
+        "locale": "es",
+        "score": 0.837696335078534
+      },
+      {
+        "locale": "fr",
+        "score": 0.8148148148148148
+      },
+      {
+        "locale": "ja",
+        "score": 0.6938775510204083
+      },
+      {
+        "locale": "ar",
+        "score": 0.7647058823529411
+      }
+    ],
+    "semanticThresholdQualified": false,
+    "interpretation": "All five sample scores were below the proposed floor. One example per language cannot establish a semantic threshold or error rate. The application preserves this value only as a lexical review flag and exposes both passages.",
+    "knownNegationMutation": {
+      "method": "english_token_multiset_f1.v1",
+      "score": 0.6666666666666666,
+      "precision": 0.5714285714285714,
+      "recall": 0.8,
+      "sourceTokens": 10,
+      "targetTokens": 14,
+      "overlap": 8,
+      "proposedFloor": 0.85,
+      "atOrAboveFloor": false,
+      "advisory": true
+    }
+  },
+  "originalEnglishWithheld": true,
+  "fluentReviewedGroundTruth": false,
+  "humanReviewed": false,
+  "commissionArtifactsChanged": false,
+  "accepted": false,
+  "financialWrites": 0
+}

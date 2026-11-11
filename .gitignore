@@ -4,6 +4,12 @@
 .env.*
 !.env.example
 !.env.*.example
+
+# Older immutable shared-core releases remain local history. The current pinned
+# archive and its checked provenance are the only package inputs for this build.
+/vendor/*
+!/vendor/fracture-paypal-core-0.2.6.tgz
+!/vendor/fracture-paypal-core-0.2.6.PROVENANCE.json
 *.pem
 *.key
 .npmrc.local
@@ -29,3 +35,9 @@ test-results/
 .private/
 .setup-evidence/
 artifacts/private/
+.vercel
+.env*
+
+# Keep the public placeholder template visible.
+!.env.example
+!.env.*.example

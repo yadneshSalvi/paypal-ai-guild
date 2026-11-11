@@ -1,0 +1,65 @@
+{
+  "dependencies": {
+    "@bryntum/core-enterprise": "8.0.0",
+    "@bryntum/gantt-enterprise": "8.0.0",
+    "@bryntum/gantt-react-enterprise": "8.0.0",
+    "@bryntum/grid-enterprise": "8.0.0",
+    "@bryntum/scheduler-enterprise": "8.0.0",
+    "@bryntum/scheduler-react-enterprise": "8.0.0",
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource-variable/noto-naskh-arabic": "5.3.0",
+    "@fracture/paypal-core": "file:vendor/fracture-paypal-core-0.2.6.tgz",
+    "@paypal/agent-toolkit": "1.11.0",
+    "@vercel/blob": "2.9.0",
+    "axios": "1.21.1",
+    "clsx": "2.1.1",
+    "ffmpeg-static": "5.3.0",
+    "franc": "6.2.0",
+    "lucide-react": "1.71.0",
+    "next": "16.4.6",
+    "pg": "8.23.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "ws": "8.22.2",
+    "zod": "4.6.7"
+  },
+  "name": "guild",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "packageManager": "npm@10.9.4",
+  "scripts": {
+    "dev": "next dev --port 4101",
+    "build": "next build",
+    "start": "next start --port 4101",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:integration": "tsx --test tests/integration/*.test.ts",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "worker": "tsx scripts/worker.ts",
+    "worker:once": "tsx scripts/worker.ts --once"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.1",
+    "@types/pg": "8.15.6",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/ws": "8.18.2",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "@paypal/agent-toolkit": {
+      "mathjs": "15.2.0"
+    },
+    "@vercel/cli-config": {
+      "zod": "4.6.7"
+    }
+  }
+}

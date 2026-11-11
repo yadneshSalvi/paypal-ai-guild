@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "guild.commercial-execution-verification.v1",
+  "observedAt": "2026-11-10T23:29:38.156Z",
+  "status": "implemented_unit_with_explicit_remaining_qualification",
+  "core": {
+    "version": "0.2.6",
+    "archiveSha256": "099c2097279f90a706abdabb548e08874ef47d3abb4e91d52b3376df7f93cad9",
+    "immutableArchive": true,
+    "canonicalSourceModified": false
+  },
+  "applicationSchema": {
+    "contract": "guild.v2",
+    "migrations": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "localChecks": {
+    "domainAndToolkitTests": 19,
+    "postgresSdkAndTypedRestFixtureTests": 38,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "httpSmoke": "passed",
+    "cleanInstallThisCheckpoint": "not_run"
+  },
+  "http": {
+    "sampleAcceptedWithoutPayment": true,
+    "sampleFinancialAdmissionDenied": true,
+    "clientRecipientInjectionDenied": true,
+    "ownedDownload": true,
+    "anonymousDownloadDenied": true,
+    "sameOriginRequired": true,
+    "toolkitInitializationThroughNext": true,
+    "toolkitInitializationExternalCalls": 0,
+    "financialWrites": 0
+  },
+  "fixtureOnly": {
+    "isolatedDisposableSchemas": true,
+    "actualSdkAndTypedGateway": true,
+    "providerTransport": "deterministic fixtures; no external financial calls",
+    "grossCaptureMinor": 58000,
+    "providerAwardsMinor": [
+      9000,
+      12000,
+      8000,
+      4500,
+      3500,
+      16000
+    ],
+    "providerAwardTotalMinor": 53000,
+    "serviceAllocationMinor": 5000,
+    "lastCaptureMinor": 17500,
+    "onlyLastFinalCapture": true,
+    "independentPackageFallbackCount": 6,
+    "paidProviderRule": "independent exact item SUCCESS"
+  },
+  "actualSandbox": {
+    "authorizedMinor": 64000,
+    "authorizationStatus": "VOIDED",
+    "capturedMinor": 0,
+    "refundedMinor": 0,
+    "providerPaidMinor": 0,
+    "acceptedPackages": 0,
+    "capabilitiesQualified": [
+      "zero_capture_void"
+    ],
+    "toolkitRead": "one model-selected official get_order",
+    "financialMutationsFromToolkit": 0,
+    "sourceFiles": [
+      "authorization-void-qualification.json",
+      "toolkit-read-qualification.json"
+    ]
+  },
+  "remainingQualification": [
+    "Genuine accepted full-production artifacts and current approved replacement plan",
+    "Actual distinct partial captures, final-capture closure, rejected follow-up and merchant corroboration",
+    "Actual six provider awards with individual SUCCESS",
+    "Void after partial capture and issuer-release wording qualification",
+    "Authentic registered webhook delivery and hosted durable job recovery",
+    "Recourse, refunds, invoice bookkeeping and standing-wallet consent",
+    "Remaining dependency audit findings, clean install and Vercel release"
+  ],
+  "fullProductComplete": false
+}

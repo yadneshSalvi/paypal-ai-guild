@@ -1,0 +1,69 @@
+{
+  "id": "loc-det-4a12861",
+  "itemId": "2016805473",
+  "digitalId": "4a12861",
+  "title": "Handling a cargo from the fishing banks, Gloucester, Mass.",
+  "createdPublished": "c[1905]",
+  "creator": "Detroit Publishing Co., copyright claimant and publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-18807 [P&P]",
+  "notes": [
+    "Date based on Detroit, Catalogue P (1906).",
+    "Detroit Publishing Co. no. 018807.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "description": "Fish-handling work in Gloucester, Massachusetts. The catalogue gives c[1905], based on the publisher's Catalogue P (1906). It does not supply the names or personal histories of the people pictured.",
+  "alt": "People handling a catch beside fishing vessels and wharf buildings in Gloucester.",
+  "sourceUrl": "https://www.loc.gov/item/2016805473/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a12861/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a10000/4a12000/4a12800/4a12861v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a10000/4a12000/4a12800/4a12861v.jpg",
+  "originalPath": "/museum/originals/4a12861.jpg",
+  "originalHash": "222a613f9b3ee9aadb14fbbef8bb8d3141c59788e305c0d0a3bac25d2a5adb88",
+  "originalBytes": 185969,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a10000/4a12000/4a12800/4a12861u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a10000/4a12000/4a12800/4a12861u.tif",
+  "masterHash": "fdf432cd76ae11e9ab2aff3c81d651e87b572f259098e853eb56795b5006e6de",
+  "masterBytes": 21011856,
+  "masterDimensions": {
+    "width": 5166,
+    "height": 4061
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a12861.webp",
+  "thumbnailPath": "/museum/thumbnails/4a12861.webp",
+  "contentHash": "ed3f5875728c8633e6f553a960ab23ca345716627ccb47d6830d09963ef07162",
+  "thumbnailHash": "b3a8d47a36d82d61e7da2538dbde7abe970500835d7f9afd7fe6b4dbf563a358",
+  "imageBytes": 565104,
+  "thumbnailBytes": 56210,
+  "dimensions": {
+    "width": 2200,
+    "height": 1729
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "Handling a cargo from the fishing banks, Gloucester, Mass.",
+  "nativeDate": "c[1905]",
+  "nativeContributors": [
+    "Detroit Publishing Co., copyright claimant, publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Date based on Detroit, Catalogue P (1906).",
+    "Detroit Publishing Co. no. 018807.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016805473/marcxml",
+  "marcxmlHash": "a374460ac047840417b8b918f9c6964af3747998ea89fd30c2988c878c2bc8ad",
+  "metadataObservedAt": "2026-11-10T20:02:21.531237+00:00"
+}

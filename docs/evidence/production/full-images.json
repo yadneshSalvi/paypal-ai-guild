@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "guild.full-images-qualification.v1",
+  "recordedAt": "2026-11-11T02:33:39.264Z",
+  "provenance": "Actual twelve-photograph production and independent private-file verification; separate explicitly automated limited browser spot-review.",
+  "artifact": {
+    "contentHash": "fcd4c2b4a61f771daadf77d3e6e3bb0487ac8c30fb7df19ec8fada1172580841",
+    "photographs": 12,
+    "privateFiles": 24,
+    "localeDescriptionCounts": {
+      "en": 12,
+      "pt": 12,
+      "es": 12,
+      "fr": 12,
+      "ja": 12,
+      "ar": 12
+    }
+  },
+  "contract": {
+    "version": 2,
+    "acceptancePackVersion": "2.0.0",
+    "checks": [
+      {
+        "id": "rights",
+        "status": "passed"
+      },
+      {
+        "id": "coverage",
+        "status": "passed"
+      },
+      {
+        "id": "files",
+        "status": "passed"
+      },
+      {
+        "id": "comparison",
+        "status": "passed"
+      },
+      {
+        "id": "alt",
+        "status": "passed"
+      },
+      {
+        "id": "fidelity",
+        "status": "review"
+      }
+    ]
+  },
+  "provider": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "max",
+    "completedCalls": 12,
+    "statusReads": 455,
+    "outputs": [
+      {
+        "operation": "museum_image_description_v2_1",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "275bf53fb376e94de210d48da670b8bc1431643fce41c622843998faa05707f9",
+        "polls": 20
+      },
+      {
+        "operation": "museum_image_description_v2_2",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "6ba4a0238d60a4f62362ca9c05969bf62d432d3f1546434a86b4e7d061300f43",
+        "polls": 24
+      },
+      {
+        "operation": "museum_image_description_v2_3",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "cd45c3b8cc6bc934412200e2a28e7dbba49025a5c9156494878ccb027e551366",
+        "polls": 25
+      },
+      {
+        "operation": "museum_image_description_v2_4",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "f00d50e9465664bc62c20b4716cae71e16b287136d967d05b96d82f1d2d3846b",
+        "polls": 23
+      },
+      {
+        "operation": "museum_image_description_v2_5",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "49f1fa83ebe116aa91b3faddeb8f640f412dd97fd879f28b1d51b6ee8efbe71b",
+        "polls": 110
+      },
+      {
+        "operation": "museum_image_description_v2_6",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "e8ba9b3f38d417f11548ddbe2c4cbb44b47c852e0b0c209d1f6f77f1a6ba1e11",
+        "polls": 15
+      },
+      {
+        "operation": "museum_image_description_v2_7",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "80cc4001dcc3370f252120c2ad33f899096b513ed20ded6c06a0b88eacf5636e",
+        "polls": 18
+      },
+      {
+        "operation": "museum_image_description_v2_8",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "690d2009082ea7169191eb660dd1a1c4382efa4134f7491b2f81e5da8ba5119d",
+        "polls": 18
+      },
+      {
+        "operation": "museum_image_description_v2_9",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "d7c33b463b6329a53d8c74a811c8bc194884d61f38352b061b345e5eacf4de13",
+        "polls": 43
+      },
+      {
+        "operation": "museum_image_description_v2_10",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "03ece56d5b3a29a90ef6bfa0bbb001f590f09730cab03d1448a94edb39b8eae4",
+        "polls": 16
+      },
+      {
+        "operation": "museum_image_description_v2_11",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "bd4c1db623133e06071b9167cff3bf73375ae6bf79009cb5184edd899d01e7c5",
+        "polls": 25
+      },
+      {
+        "operation": "museum_image_description_v2_12",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "72291716407c88c85734c9aa3de6851ad94072db5193c91a78617291d7d35cd5",
+        "polls": 118
+      }
+    ]
+  },
+  "independentFileReport": {
+    "measuredFiles": 24,
+    "passedFiles": 24,
+    "maximumNormalizedRgbRmse": 0.007501118732335377,
+    "maximumDifferenceHashDistance": 2,
+    "reportHash": "fb763f708b677a6fe1e38fbccd896efec62e9021e34032c45f245b60579bceb0"
+  },
+  "automatedReview": {
+    "recorded": true,
+    "scope": "Root inspected visible image pairs and English descriptions for photographs 1, 8 and 12, plus Arabic RTL description 12. This was a limited automated spot-review, not exhaustive image fidelity or fluent-language review.",
+    "humanReviewed": false,
+    "accepted": false
+  },
+  "humanFidelityReviewed": false,
+  "fluentReviewedLocales": 0,
+  "acceptedAwards": 0,
+  "capturedMinor": 0,
+  "limitations": [
+    "Numerical image comparisons do not establish historical fidelity or useful alt text.",
+    "All six language descriptions remain not fluent-reviewed.",
+    "These commissioned drafts and automated findings do not create acceptance or payment."
+  ]
+}

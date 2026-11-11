@@ -1,0 +1,448 @@
+{
+  "schemaVersion": "guild.media-verification.v1",
+  "observedAt": "2026-11-10T20:27:11.789Z",
+  "sourceCount": 12,
+  "decodedImageFiles": 36,
+  "metadataSnapshots": 12,
+  "result": "passed",
+  "method": "Recomputed SHA-256 from local bytes; decoded every pixel with Sharp; checked JPEG end markers, primary MARCXML hashes, item identifiers, complete native-note flags and exact rights advisories. No archive-issued checksum is claimed.",
+  "limitations": [
+    "Does not establish translation quality or fluent review.",
+    "Does not prove subjective alt-text quality; descriptions were compared against an actual contact sheet.",
+    "Does not replace browser, keyboard, screen-reader, contrast or real-audio listening tests."
+  ],
+  "sources": [
+    {
+      "id": "loc-det-4a22773",
+      "sourceUrl": "https://www.loc.gov/item/2016800528/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016800528/marcxml",
+      "marcxmlSha256": "16622f578100d92bba302aa0dc22bfd2b1b44295097ea3fe110cc0f1522f66c6",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a22773.webp",
+          "bytes": 406982,
+          "sha256": "f81136097c1888aa4b1fdfc6da015de060c65ca1c915c67d6d29656dd2cc1366",
+          "width": 2200,
+          "height": 1754,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a22773.webp",
+          "bytes": 49210,
+          "sha256": "97cffa40f7e72234498af9966d068511509ab39089c822c13a20ec445a45131d",
+          "width": 640,
+          "height": 510,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a22773.jpg",
+          "bytes": 160488,
+          "sha256": "12df23f16ae658b57a8a2cbd54a7f915b127a07d289937690cc35f8b45227c0a",
+          "width": 1024,
+          "height": 817,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a16590",
+      "sourceUrl": "https://www.loc.gov/item/2016807156/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016807156/marcxml",
+      "marcxmlSha256": "57457d1300cef06a5a119cbbb4c6cc99ecbca38b69aab96b65028c0d81c1a0bc",
+      "nativeNotes": 5,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a16590.webp",
+          "bytes": 216320,
+          "sha256": "4cbfc29eb9f0b419fa437dd8bc179212d8a54373b59af9a5ceef7fca84c055cf",
+          "width": 2200,
+          "height": 1747,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a16590.webp",
+          "bytes": 21434,
+          "sha256": "47137ad0f95e91134ba39453c91387931fefd60ed3fcfd0ae8f07536cf96faef",
+          "width": 640,
+          "height": 508,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a16590.jpg",
+          "bytes": 89556,
+          "sha256": "8dded230fde3b1c5f6180c0f74288c54dff9cb71352e5e0a3b679f246506daf1",
+          "width": 1024,
+          "height": 813,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a21996",
+      "sourceUrl": "https://www.loc.gov/item/2016813544/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016813544/marcxml",
+      "marcxmlSha256": "13717d1e2848e3fe04899409b0effc40d4cc9971ef67042fc299c95dee0b6836",
+      "nativeNotes": 2,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a21996.webp",
+          "bytes": 379484,
+          "sha256": "0f142e7d43fb73261fc068da3a0f7b853e95b03858880013b464f58ec592e174",
+          "width": 2200,
+          "height": 1736,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a21996.webp",
+          "bytes": 33088,
+          "sha256": "4096f90357a730746c884ab1f13c88558e5746ceca07f4477165dae0149461f2",
+          "width": 640,
+          "height": 505,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a21996.jpg",
+          "bytes": 124453,
+          "sha256": "71dcf47ca5106aba1467d3562d06c1f695e6af0d33c013fd1145c24dd187e6b9",
+          "width": 1024,
+          "height": 808,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a20344",
+      "sourceUrl": "https://www.loc.gov/item/2016811564/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016811564/marcxml",
+      "marcxmlSha256": "c45ba545f0f0950150410adc9e832996fc153d4c7c1a264a77ea0278a3dfdf40",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a20344.webp",
+          "bytes": 492022,
+          "sha256": "2cfc24e9c8f8397082550fe0ba892c2bd55c9b539e1635a1093596e672a691c1",
+          "width": 2200,
+          "height": 1759,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a20344.webp",
+          "bytes": 54784,
+          "sha256": "ee6732aec448403c7e8a9c82f53ea50730018a5120513a2728d04774c6a4bfdf",
+          "width": 640,
+          "height": 512,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a20344.jpg",
+          "bytes": 177448,
+          "sha256": "99835288f84aed37973a5fc959d3f9272a9d843b9cb71d1a23cbc005fb640748",
+          "width": 1024,
+          "height": 819,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a16836",
+      "sourceUrl": "https://www.loc.gov/item/2016807373/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016807373/marcxml",
+      "marcxmlSha256": "9434827c8305ce50e1d85b914fb69a0d6064079d0082d2ba5ff454a1357f8ebd",
+      "nativeNotes": 2,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a16836.webp",
+          "bytes": 383932,
+          "sha256": "eaadb2772f0b47e32b2734b63a9bad99dbbe3516c3087b8b25b1a1db1d0fc2f2",
+          "width": 2200,
+          "height": 1750,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a16836.webp",
+          "bytes": 37520,
+          "sha256": "576faa6ef187e2b8f3efa2ea300e17bf8819fd1a64b321c30757dab41de22ec7",
+          "width": 640,
+          "height": 509,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a16836.jpg",
+          "bytes": 133850,
+          "sha256": "0a45611bbf65b44543a47c57bffaf68b558abaef069adb627a9e6a40dec78c71",
+          "width": 1024,
+          "height": 814,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a20920",
+      "sourceUrl": "https://www.loc.gov/item/2016812640/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016812640/marcxml",
+      "marcxmlSha256": "3a576836fcf0eeec1b6261008c38b45e83bbc0bfff29a9103c1f29a8b4885058",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a20920.webp",
+          "bytes": 294018,
+          "sha256": "3b8e42e242cb43266e35b0f790700ef818dc0d8726a4d9d6621eaa584e1f0e38",
+          "width": 2200,
+          "height": 1739,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a20920.webp",
+          "bytes": 33404,
+          "sha256": "eb63028486cc233b1e81c0e0a07d4f9a35e3bc62ff4ec3b18cadfa6209e61442",
+          "width": 640,
+          "height": 506,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a20920.jpg",
+          "bytes": 120749,
+          "sha256": "024f53412d47e23aea8365f586e6c9186fe08cd534ed31dc9dbebe90339ceb4f",
+          "width": 1024,
+          "height": 810,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a25770",
+      "sourceUrl": "https://www.loc.gov/item/2016816128/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016816128/marcxml",
+      "marcxmlSha256": "4b0e5701b5248156732e234eb15d4cdfe17d43263d7297410cc18453144c87a4",
+      "nativeNotes": 5,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a25770.webp",
+          "bytes": 315162,
+          "sha256": "af85ce19e21a375326edbdbbe3ea704c0f6bfb6adba0a9a9d8884a3205bbff04",
+          "width": 2200,
+          "height": 1771,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a25770.webp",
+          "bytes": 31106,
+          "sha256": "3a7ea1a31d0aa6adabbda465a4166b686eb33dac9af780a854c88610d1cbb2e6",
+          "width": 640,
+          "height": 515,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a25770.jpg",
+          "bytes": 117329,
+          "sha256": "8d1182bdc1856e6c9a1518636e39d4e64599ad6f06249e8ed81dacc2868b2a4f",
+          "width": 1024,
+          "height": 824,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a25819",
+      "sourceUrl": "https://www.loc.gov/item/2016816172/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016816172/marcxml",
+      "marcxmlSha256": "cda634ab5b67ce656e369862f336f07ae99c9705533073caf69d8961d72d8196",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a25819.webp",
+          "bytes": 303114,
+          "sha256": "378a77fb24b71326a32a333a67d6d1111806b4dd2daeece565651790c037089a",
+          "width": 2200,
+          "height": 1753,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a25819.webp",
+          "bytes": 25866,
+          "sha256": "6517eb75585235a4505c3db47db52373ad63e8aa1cfd8e77b089917778584c89",
+          "width": 640,
+          "height": 510,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a25819.jpg",
+          "bytes": 103746,
+          "sha256": "bd6f133ba3105d9e5245f658bad56d378949e77abd58725fab4f096c32b96047",
+          "width": 1024,
+          "height": 816,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a12861",
+      "sourceUrl": "https://www.loc.gov/item/2016805473/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016805473/marcxml",
+      "marcxmlSha256": "a374460ac047840417b8b918f9c6964af3747998ea89fd30c2988c878c2bc8ad",
+      "nativeNotes": 3,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a12861.webp",
+          "bytes": 565104,
+          "sha256": "ed3f5875728c8633e6f553a960ab23ca345716627ccb47d6830d09963ef07162",
+          "width": 2200,
+          "height": 1729,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a12861.webp",
+          "bytes": 56210,
+          "sha256": "b3a8d47a36d82d61e7da2538dbde7abe970500835d7f9afd7fe6b4dbf563a358",
+          "width": 640,
+          "height": 503,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a12861.jpg",
+          "bytes": 185969,
+          "sha256": "222a613f9b3ee9aadb14fbbef8bb8d3141c59788e305c0d0a3bac25d2a5adb88",
+          "width": 1024,
+          "height": 805,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a17226",
+      "sourceUrl": "https://www.loc.gov/item/2016809156/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016809156/marcxml",
+      "marcxmlSha256": "06049e979f6f284cb34c545121dc8a71314a805a0ac90d849475d588e075fdc8",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a17226.webp",
+          "bytes": 559312,
+          "sha256": "7fd2740c8c7a557b60d22610679e657ba9cecb819be33f7ec4605526578a74d2",
+          "width": 2200,
+          "height": 1751,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a17226.webp",
+          "bytes": 51866,
+          "sha256": "8d56452580027f49dfac848273c194f4f958b0047d47235c623335aca7d8aa2a",
+          "width": 640,
+          "height": 509,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a17226.jpg",
+          "bytes": 67696,
+          "sha256": "49e344f293adf23ad54180e0c0d50ba8500ce22700d26604c8a1fec7a254a7d4",
+          "width": 640,
+          "height": 509,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a10172",
+      "sourceUrl": "https://www.loc.gov/item/2016802412/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016802412/marcxml",
+      "marcxmlSha256": "ffff102f178a5e7801dd834b04386e68f0439392b244455caab625fb89aec7cf",
+      "nativeNotes": 6,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a10172.webp",
+          "bytes": 328696,
+          "sha256": "8d1036716e6032e0f036f574b82fd854bb2b70a500ef312793bdc0a8749a2ef5",
+          "width": 2200,
+          "height": 1743,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a10172.webp",
+          "bytes": 28714,
+          "sha256": "b52e37297385520016ef012908dcbcc234176b96bacfb4129976e5706c3574c6",
+          "width": 640,
+          "height": 507,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a10172.jpg",
+          "bytes": 111270,
+          "sha256": "fd01dcad1395d58b1b1232561b5c7bc76938516779e705a9a8280c0e7407adba",
+          "width": 1024,
+          "height": 811,
+          "fullDecode": true
+        }
+      ]
+    },
+    {
+      "id": "loc-det-4a25811",
+      "sourceUrl": "https://www.loc.gov/item/2016816165/",
+      "marcxmlUrl": "https://lccn.loc.gov/2016816165/marcxml",
+      "marcxmlSha256": "bc21c2da06e0adc420c615aacc3bce31b44072d7c60c3628534cf2462bcba52b",
+      "nativeNotes": 4,
+      "files": [
+        {
+          "role": "exhibition",
+          "path": "/museum/images/4a25811.webp",
+          "bytes": 276356,
+          "sha256": "9c0e21e833905e27f55c915b92e1e201baa4a9a54dbc7cb023c6ce6c75a39690",
+          "width": 2200,
+          "height": 1764,
+          "fullDecode": true
+        },
+        {
+          "role": "thumbnail",
+          "path": "/museum/thumbnails/4a25811.webp",
+          "bytes": 27604,
+          "sha256": "6571d3af2ec92fd4d475641dcd3fb811f9a8012a820741c627d5ffe6dcb65264",
+          "width": 640,
+          "height": 513,
+          "fullDecode": true
+        },
+        {
+          "role": "archive-jpeg",
+          "path": "/museum/originals/4a25811.jpg",
+          "bytes": 107371,
+          "sha256": "aa7e70317c061400dc185dfc596b22268b8b3b3b8c0b9efa8a8e0d3477242d10",
+          "width": 1024,
+          "height": 821,
+          "fullDecode": true
+        }
+      ]
+    }
+  ]
+}

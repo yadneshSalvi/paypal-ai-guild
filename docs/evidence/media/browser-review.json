@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "guild.exhibition-browser-review.v1",
+  "recordedAt": "2026-11-10T21:29:53.161004+00:00",
+  "performedBy": "Root integration agent",
+  "evidenceSource": "Root in-app browser observations from the running localhost:4101 exhibition.",
+  "observed": [
+    "English desktop layout rendered",
+    "Arabic layout rendered at 390×844",
+    "Arabic exhibition container had lang=ar and dir=rtl",
+    "Reading settings opened with focus on Close",
+    "Escape closed reading settings",
+    "High contrast and spacious typography remained enabled when settings reopened",
+    "Source notes opened with complete catalogue credits, archive links and measured image checksum",
+    "Escape from source notes restored focus to the initiating source button",
+    "Harbor map chapter 7 navigated to #time-and-tide and focused the corresponding heading",
+    "English and Arabic phone layouts remeasured at 390 pixels with no document overflow",
+    "Share & take away downloaded the portable HTML successfully",
+    "Kiosk mode entered and exited at 1440×900",
+    "Return to beginning navigated to #arrival and focused its heading"
+  ],
+  "phoneOverflow": {
+    "viewportWidth": 390,
+    "documentWidth": 390,
+    "bodyWidth": 390,
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "patchRemeasured": true
+  },
+  "screenshot": "docs/evidence/media/arabic-phone.png",
+  "screenshotContext": "Actual development screenshot before the containment patch; development indicator retained.",
+  "notYetChecked": [
+    "Portable file opened with networking disabled: local-file browser navigation is blocked by the browser URL policy",
+    "Full keyboard traversal and 768 interaction matrix",
+    "Screen-reader review",
+    "Automated contrast and accessibility audit",
+    "Real audio listening or caption synchronisation with a supplied recording"
+  ],
+  "download": {
+    "bytes": 6672449,
+    "sha256": "e428f910ac73d914e0cf55bd38d9a7140e1a9f8fadf9727c2c9dba52c184d0a4",
+    "matchesBuiltArtifact": true,
+    "offlineBrowserVerified": false
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "loc-det-4a25819",
+  "itemId": "2016816172",
+  "digitalId": "4a25819",
+  "title": "[Lighthouse on island]",
+  "createdPublished": "c1896.",
+  "creator": "Detroit Publishing Co., copyright claimant and publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D41-116 [P&P]",
+  "notes": [
+    "Title devised by cataloger.",
+    "740 on negative.",
+    "No Detroit Publishing Co. no.",
+    "Gift; State Historical Society of Colorado; 1949.",
+    "No island name or geographic location is supplied in this record."
+  ],
+  "description": "A lighthouse on an island, dated c1896 in the catalogue. The title was devised by a cataloguer. The record does not name the island, so this exhibition does not supply one.",
+  "alt": "A lighthouse and low buildings on a small rocky island, with open water in front.",
+  "sourceUrl": "https://www.loc.gov/item/2016816172/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a25819/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a25000/4a25800/4a25819v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a25000/4a25800/4a25819v.jpg",
+  "originalPath": "/museum/originals/4a25819.jpg",
+  "originalHash": "bd6f133ba3105d9e5245f658bad56d378949e77abd58725fab4f096c32b96047",
+  "originalBytes": 103746,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a25000/4a25800/4a25819u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a25000/4a25800/4a25819u.tif",
+  "masterHash": "8cd48248154e3aca3304dfacbab2d00cc826c6cea8ba8ee9444500a6edd25690",
+  "masterBytes": 20772392,
+  "masterDimensions": {
+    "width": 5102,
+    "height": 4065
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a25819.webp",
+  "thumbnailPath": "/museum/thumbnails/4a25819.webp",
+  "contentHash": "378a77fb24b71326a32a333a67d6d1111806b4dd2daeece565651790c037089a",
+  "thumbnailHash": "6517eb75585235a4505c3db47db52373ad63e8aa1cfd8e77b089917778584c89",
+  "imageBytes": 303114,
+  "thumbnailBytes": 25866,
+  "dimensions": {
+    "width": 2200,
+    "height": 1753
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Lighthouse on island]",
+  "nativeDate": "c1896.",
+  "nativeContributors": [
+    "Detroit Publishing Co., copyright claimant, publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title devised by cataloger.",
+    "\"740\" on negative.",
+    "No Detroit Publishing Co. no.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016816172/marcxml",
+  "marcxmlHash": "cda634ab5b67ce656e369862f336f07ae99c9705533073caf69d8961d72d8196",
+  "metadataObservedAt": "2026-11-10T20:02:20.382206+00:00"
+}

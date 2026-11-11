@@ -1,0 +1,74 @@
+{
+  "id": "loc-det-4a10172",
+  "itemId": "2016802412",
+  "digitalId": "4a10172",
+  "title": "N.Y. harbor from the Battery",
+  "createdPublished": "[c1908]",
+  "creator": "Detroit Publishing Co., copyright claimant and publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-15588 [P&P]",
+  "notes": [
+    "This source uses digital image 4a10172 from a record containing ten glass negatives.",
+    "The catalogue says five negatives form one panorama, with a close variant of each negative.",
+    "Only one negative is displayed here; it is not represented as the complete panorama.",
+    "Detroit Publishing Co. no. 015588.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "description": "One glass-negative view in the catalogue's N.Y. harbor from the Battery group, dated [c1908]. The full record describes ten negatives forming two related panorama sets; this exhibit displays only digital image 4a10172.",
+  "alt": "A view across New York harbor from the Battery, with boats on the water and waterfront structures in the foreground.",
+  "sourceUrl": "https://www.loc.gov/item/2016802412/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a10172/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "10 negatives : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:55:05.716Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a10000/4a10000/4a10100/4a10172v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a10000/4a10000/4a10100/4a10172v.jpg",
+  "originalPath": "/museum/originals/4a10172.jpg",
+  "originalHash": "fd01dcad1395d58b1b1232561b5c7bc76938516779e705a9a8280c0e7407adba",
+  "originalBytes": 111270,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a10000/4a10000/4a10100/4a10172u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a10000/4a10000/4a10100/4a10172u.tif",
+  "masterHash": "88da0d1ebb91f99f98aff58fd882c275496d6fb63e6248ef582d42514e59182d",
+  "masterBytes": 20072688,
+  "masterDimensions": {
+    "width": 5029,
+    "height": 3985
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a10172.webp",
+  "thumbnailPath": "/museum/thumbnails/4a10172.webp",
+  "contentHash": "8d1036716e6032e0f036f574b82fd854bb2b70a500ef312793bdc0a8749a2ef5",
+  "thumbnailHash": "b52e37297385520016ef012908dcbcc234176b96bacfb4129976e5706c3574c6",
+  "imageBytes": 328696,
+  "thumbnailBytes": 28714,
+  "dimensions": {
+    "width": 2200,
+    "height": 1743
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "N.Y. harbor from the Battery",
+  "nativeDate": "[c1908]",
+  "nativeContributors": [
+    "Detroit Publishing Co., copyright claimant, publisher."
+  ],
+  "nativeMedium": "10 negatives : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "5 negatives form one panorama with close variant of each negative.",
+    "Videodisc images are out of sequence; actual left to right order is 1A-10169, 10168, 10167, 10166, 10165 for one set of negatives and 10174, 10173, 10172, 10171,",
+    "\"G 4911,\" \"G 4909,\" \"G 4907,\" \"G 4905,\" \"G 4903\" on left to right negatives respectively; \"G 4912 dup,\" \"G 4910dup,\" \"G 4908 dup,\" \"G 4906 dup,\" \"G 4904 dup\" on",
+    "Battery Park.",
+    "Detroit Publishing Co. no. 015588.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": "All MARC 500 and 541 notes are preserved verbatim, including two New York panorama notes that end mid-sentence in the archive's own MARCXML. No missing words have been invented.",
+  "marcxmlUrl": "https://lccn.loc.gov/2016802412/marcxml",
+  "marcxmlHash": "ffff102f178a5e7801dd834b04386e68f0439392b244455caab625fb89aec7cf",
+  "metadataObservedAt": "2026-11-10T20:02:21.521956+00:00"
+}

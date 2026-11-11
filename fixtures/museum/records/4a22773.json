@@ -1,0 +1,71 @@
+{
+  "id": "loc-det-4a22773",
+  "itemId": "2016800528",
+  "digitalId": "4a22773",
+  "title": "Steamers at pier, Port Huron, Mich.",
+  "createdPublished": "c1908.",
+  "creator": "Detroit Publishing Co., copyright claimant and publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-70567 [P&P]",
+  "notes": [
+    "Corresponding glass transparency (with same series code) available on videodisc frame 1A-30927.",
+    "G 4415 on negative and transparency.",
+    "Detroit Publishing Co. no. 070567.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "description": "The catalogue identifies steamers at a pier in Port Huron, Michigan, and indexes the City of Alpena side wheeler. The record dates the photograph c1908; it does not identify the photographer.",
+  "alt": "Steamers and a crowd beside a long wooden pier at Port Huron, seen along the paved and timber waterfront.",
+  "sourceUrl": "https://www.loc.gov/item/2016800528/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a22773/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:52:26.725Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a20000/4a22000/4a22700/4a22773v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a20000/4a22000/4a22700/4a22773v.jpg",
+  "originalPath": "/museum/originals/4a22773.jpg",
+  "originalHash": "12df23f16ae658b57a8a2cbd54a7f915b127a07d289937690cc35f8b45227c0a",
+  "originalBytes": 160488,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a20000/4a22000/4a22700/4a22773u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a22000/4a22700/4a22773u.tif",
+  "masterHash": "bcd45bcfbabd0ddb814fb58d9325fd149c357cda9dd9276f30a9dc3193f119a5",
+  "masterBytes": 20715404,
+  "masterDimensions": {
+    "width": 5093,
+    "height": 4061
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a22773.webp",
+  "thumbnailPath": "/museum/thumbnails/4a22773.webp",
+  "contentHash": "f81136097c1888aa4b1fdfc6da015de060c65ca1c915c67d6d29656dd2cc1366",
+  "thumbnailHash": "97cffa40f7e72234498af9966d068511509ab39089c822c13a20ec445a45131d",
+  "imageBytes": 406982,
+  "thumbnailBytes": 49210,
+  "dimensions": {
+    "width": 2200,
+    "height": 1754
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "Steamers at pier, Port Huron, Mich.",
+  "nativeDate": "c1908.",
+  "nativeContributors": [
+    "Detroit Publishing Co., copyright claimant, publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Corresponding glass transparency (with same series code) available on videodisc frame 1A-30927.",
+    "\"G 4415\" on negative and transparency.",
+    "Detroit Publishing Co. no. 070567.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016800528/marcxml",
+  "marcxmlHash": "16622f578100d92bba302aa0dc22bfd2b1b44295097ea3fe110cc0f1522f66c6",
+  "metadataObservedAt": "2026-11-10T20:02:19.055346+00:00"
+}

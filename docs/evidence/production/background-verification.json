@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "guild.background-production-verification.v1",
+  "observedAt": "2026-11-11T00:04:00.961272+00:00",
+  "scope": "Local implementation and disposable PostgreSQL transport fixtures; not actual full-corpus model output or acceptance",
+  "checks": {
+    "domainAndToolkitTests": 25,
+    "postgresTransportTests": 52,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "migration": 8
+  },
+  "background": {
+    "requested": true,
+    "store": false,
+    "reasoningEffort": "max",
+    "savedResponseIdBeforeContinuation": true,
+    "maxExternalCallsPerWorkerStep": 1,
+    "unknownCreateAutomaticResubmission": false,
+    "knownResponseOnlyPolling": true,
+    "partialArtifactPublication": false
+  },
+  "research": {
+    "requiredPhotographs": 12,
+    "requiredLabels": 13,
+    "sourceSpans": 63,
+    "batches": 5,
+    "fullSourceContextPerBatch": true,
+    "acceptancePackVersion": "2.0.0",
+    "humanReviewed": false,
+    "liveFullCorpusQualification": "pending"
+  },
+  "financial": {
+    "actualWritesDuringCheckpoint": 0,
+    "regression": "Concurrent payout observations and cancellation use one commission-to-payout lock order; four fixture rounds retain one cancel and the award obligation"
+  },
+  "originalForegroundAttempt": {
+    "localResult": "failed after HTTP timeout",
+    "providerResult": "ambiguous; no response identity retained",
+    "replacementRequestSent": false,
+    "artifactCreated": false
+  },
+  "sourceHashes": {
+    "src/server/models.ts": "8af33af8b60ae7aac960be4df57e78ffe00ba78a40253651f533d8f876b63dce",
+    "src/server/jobs.ts": "62522b9e7defa2c8a49303958afc7a4821d8cd0c679fea78c3663346243685d2",
+    "src/server/production.ts": "5743dc3d645f8b213761ac7339187bff03941ba2dd0d83d9c42324a40252e0ce",
+    "src/domain/research.ts": "9e77b69757c57852794bdc4086f569133ccb7a024c85bacb6cbfba12011c533d",
+    "src/server/payments/payouts.ts": "a8841ecdfe08fe7e464f0b382b17b7b277ae09955c66cf031c6c85069e34614c",
+    "tests/integration/background-production.test.ts": "52b8ffd6290782b6a01aa267cf60c0ac57fde8e99aba26030a8ddcb8f4aec8b2",
+    "tests/integration/payments.test.ts": "7d50c098bdf59893422e504723034cacbde2f6f2a971104bfdf05e83d3d6a971",
+    "migrations/008_background_production.sql": "06ff16680b5d53b49ea05e5ed85c383d558427ad211b9fdeb8ca5cdc6ee44c2a"
+  },
+  "remaining": [
+    "Actual background production and curator review",
+    "Private Blob/media adapters",
+    "Full six-language production and all media acceptance packs",
+    "Full planned commercial journey, protocols, evaluations, UI and deployment"
+  ]
+}

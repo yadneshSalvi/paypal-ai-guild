@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "guild.full-research-qualification.v1",
+  "recordedAt": "2026-11-11T01:00:47.826Z",
+  "provenance": "Actual OpenAI Responses background generation; separate automated metadata review performed through the running application.",
+  "artifact": {
+    "contentHash": "a41d3e2f943eebd5d17baf7f2d7fe979525c1d3bd641b9bc5ebaf78ec3d44828",
+    "labelCount": 13,
+    "wordsPerLabel": [
+      {
+        "id": "welcome",
+        "words": 86
+      },
+      {
+        "id": "loc-det-4a22773",
+        "words": 87
+      },
+      {
+        "id": "loc-det-4a16590",
+        "words": 82
+      },
+      {
+        "id": "loc-det-4a21996",
+        "words": 90
+      },
+      {
+        "id": "loc-det-4a20344",
+        "words": 89
+      },
+      {
+        "id": "loc-det-4a16836",
+        "words": 89
+      },
+      {
+        "id": "loc-det-4a20920",
+        "words": 86
+      },
+      {
+        "id": "loc-det-4a25770",
+        "words": 91
+      },
+      {
+        "id": "loc-det-4a25819",
+        "words": 85
+      },
+      {
+        "id": "loc-det-4a12861",
+        "words": 86
+      },
+      {
+        "id": "loc-det-4a17226",
+        "words": 94
+      },
+      {
+        "id": "loc-det-4a10172",
+        "words": 84
+      },
+      {
+        "id": "loc-det-4a25811",
+        "words": 93
+      }
+    ],
+    "sourceSpanCount": 63,
+    "inputDigest": "549a585596a3a797f01cd82057d3049e0a29238f8947b41e4691428c5d9f7b72"
+  },
+  "provider": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "max",
+    "background": true,
+    "store": false,
+    "completedCalls": 5,
+    "statusReads": 77,
+    "outputs": [
+      {
+        "operation": "museum_research_spans_v2_b1",
+        "hash": "f9f4cb2f3b25d9e5ff4424166572d8f96c5a27a59113d5e173d601f8e1f2de59",
+        "polls": 13,
+        "latencyMs": 156646
+      },
+      {
+        "operation": "museum_research_spans_v2_b2",
+        "hash": "b48215d08fd748bac217d3be4abd80bf51cdca806f7b605d1c58dc4470778e2d",
+        "polls": 24,
+        "latencyMs": 270292
+      },
+      {
+        "operation": "museum_research_spans_v2_b3",
+        "hash": "9120ecd9044f30329b0c6b6338536267789e02165aff99e0b8b652476cf89adc",
+        "polls": 20,
+        "latencyMs": 209683
+      },
+      {
+        "operation": "museum_research_spans_v2_b4",
+        "hash": "96aa08c758522fa507f722f2eb4c9864670a8f6747ca3697d2ec527bf0d9c177",
+        "polls": 16,
+        "latencyMs": 168080
+      },
+      {
+        "operation": "museum_research_spans_v2_b5",
+        "hash": "879f3207a16846caf3f538fe4ad8c9ff85be1b1d885642819e0c4c503c186b8e",
+        "polls": 4,
+        "latencyMs": 48495
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "sources",
+      "status": "passed"
+    },
+    {
+      "id": "coverage",
+      "status": "passed"
+    },
+    {
+      "id": "length",
+      "status": "passed"
+    },
+    {
+      "id": "source_binding",
+      "status": "passed"
+    },
+    {
+      "id": "grounding",
+      "status": "passed"
+    },
+    {
+      "id": "meaning",
+      "status": "review"
+    }
+  ],
+  "persistedCheckReport": true,
+  "automatedReview": {
+    "recorded": true,
+    "recordedAt": "2026-11-11T00:55:48.022Z",
+    "scope": "All 13 bodies and source-evidence panels inspected against frozen quoted metadata. Historical uncertainty retained. No independent archive or photograph verification.",
+    "humanReviewed": false,
+    "accepted": false
+  },
+  "paymentEligibility": false,
+  "financialActionsPerformed": false,
+  "remaining": [
+    "Human semantic acceptance",
+    "Fluent-language review for later translations",
+    "Independent archive and photograph review where required by the curator"
+  ]
+}

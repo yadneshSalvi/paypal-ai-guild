@@ -1,0 +1,883 @@
+{
+  "id": "harbor-street-sample-v1",
+  "slug": "harbor-street",
+  "title": {
+    "en": "Between water & work",
+    "pt": "Entre a água e o trabalho",
+    "es": "Entre el agua y el trabajo",
+    "fr": "Entre l’eau et le travail",
+    "ja": "水と仕事のあいだ",
+    "ar": "بين الماء والعمل"
+  },
+  "subtitle": {
+    "en": "Twelve archival photographs. Eight ways of looking. A walk through the working waterfront.",
+    "pt": "Doze fotografias de arquivo. Oito formas de olhar. Um passeio pela zona portuária.",
+    "es": "Doce fotografías de archivo. Ocho maneras de mirar. Un paseo por el frente portuario.",
+    "fr": "Douze photographies d’archives. Huit regards. Une promenade sur les quais où l’on travaille.",
+    "ja": "12枚の記録写真、8つのまなざし。働く人びとの水辺を歩く展覧会。",
+    "ar": "اثنتا عشرة صورة أرشيفية، وثماني زوايا للنظر. جولة على الواجهة البحرية حيث تدور الحياة والعمل."
+  },
+  "museum": "Harbor Street Maritime Museum",
+  "chapters": [
+    {
+      "id": "arrival",
+      "number": "01",
+      "layout": "cover",
+      "sourceIds": [
+        "loc-det-4a22773"
+      ],
+      "imagePath": "/museum/images/4a22773.webp",
+      "imageAlt": {
+        "en": "Steamers and a crowd beside a long wooden pier at Port Huron, seen along the paved and timber waterfront.",
+        "pt": "Vapores e uma multidão junto a um longo cais de madeira em Port Huron, vistos a partir da zona portuária.",
+        "es": "Vapores y una multitud junto a un largo muelle de madera de Port Huron, vistos desde el paseo del puerto.",
+        "fr": "Des vapeurs et une foule le long d’un quai en bois à Port Huron, vus depuis le front portuaire.",
+        "ja": "ポートヒューロンの木造の長い桟橋に停泊する汽船と人びと。手前には舗装された岸と木の床が広がる。",
+        "ar": "سفن بخارية وحشد من الناس بمحاذاة رصيف خشبي طويل في بورت هيورون، تُرى من الممر الساحلي."
+      },
+      "imagePosition": "50% 58%",
+      "mapPosition": {
+        "x": 13,
+        "y": 68
+      },
+      "content": {
+        "en": {
+          "title": "Between water\n& work.",
+          "eyebrow": "Harbor Street · An imagined museum, a real archive",
+          "body": "A harbor can be read in the space between things: a hull and a quay, a journey and an arrival, a photograph and the facts that survive around it. This walk brings together twelve photographs from the Library of Congress. They show real vessels and waterfronts, from Detroit and Port Huron to Gloucester, Boston and New York. Harbor Street Maritime Museum is an imagined setting for their display. It does not claim these places as one town, or these photographs as its own collection. Start with the water. Then look for the work.",
+          "caption": "Steamers at pier, Port Huron, Michigan · catalogue date c1908.",
+          "transcript": "Welcome to Between water and work. Harbor Street Maritime Museum is fictional; the archive photographs are real. Their original names, places and uncertain dates travel with them. You can follow the chapters, choose a landmark on the imagined harbor map, or open a photograph's source notes at any time."
+        },
+        "pt": {
+          "title": "Entre a água\ne o trabalho.",
+          "eyebrow": "Harbor Street · Um museu imaginado, um arquivo real",
+          "body": "Um porto pode ser lido no espaço entre as coisas: um casco e um cais, uma viagem e uma chegada, uma fotografia e os factos que sobreviveram à sua volta. Este passeio reúne doze fotografias da Biblioteca do Congresso. Mostram embarcações e zonas portuárias reais, de Detroit e Port Huron a Gloucester, Boston e Nova Iorque. O Museu Marítimo Harbor Street é um cenário imaginado para as apresentar. Não reúne estes lugares numa só cidade, nem reclama as fotografias como coleção própria. Comece pela água. Depois, procure o trabalho.",
+          "caption": "Vapores no cais de Port Huron, Michigan · data do catálogo: c1908.",
+          "transcript": "Boas-vindas a Entre a água e o trabalho. O Museu Marítimo Harbor Street é fictício; as fotografias do arquivo são reais. Os nomes, lugares e datas incertas originais acompanham cada imagem. Pode seguir os capítulos, escolher um ponto no mapa imaginado do porto ou abrir as notas de uma fotografia a qualquer momento."
+        },
+        "es": {
+          "title": "Entre el agua\ny el trabajo.",
+          "eyebrow": "Harbor Street · Un museo imaginado, un archivo real",
+          "body": "Un puerto puede leerse en el espacio entre las cosas: un casco y un muelle, un viaje y una llegada, una fotografía y los hechos que sobreviven a su alrededor. Este paseo reúne doce fotografías de la Biblioteca del Congreso. Muestran embarcaciones y frentes portuarios reales, desde Detroit y Port Huron hasta Gloucester, Boston y Nueva York. El Museo Marítimo Harbor Street es un escenario imaginado para presentarlas. No convierte estos lugares en una sola ciudad ni reclama las fotografías como colección propia. Empiece por el agua. Después, busque el trabajo.",
+          "caption": "Vapores en el muelle de Port Huron, Michigan · fecha del catálogo: c1908.",
+          "transcript": "Bienvenidos a Entre el agua y el trabajo. El Museo Marítimo Harbor Street es ficticio; las fotografías del archivo son reales. Sus nombres, lugares y fechas inciertas originales las acompañan. Puede seguir los capítulos, elegir un punto del mapa imaginado o abrir las notas de una fotografía en cualquier momento."
+        },
+        "fr": {
+          "title": "Entre l’eau\net le travail.",
+          "eyebrow": "Harbor Street · Un musée imaginaire, de vraies archives",
+          "body": "Un port se lit dans l’espace entre les choses : une coque et un quai, un voyage et une arrivée, une photographie et les faits qui subsistent autour d’elle. Cette promenade réunit douze photographies de la Bibliothèque du Congrès. Elles montrent des navires et des quais réels, de Detroit et Port Huron à Gloucester, Boston et New York. Le musée maritime Harbor Street est un cadre imaginaire pour les présenter. Il ne fait pas de ces lieux une seule ville et ne revendique pas ces images comme sa collection. Commencez par l’eau. Puis cherchez le travail.",
+          "caption": "Vapeurs au quai de Port Huron, Michigan · date du catalogue : c1908.",
+          "transcript": "Bienvenue dans Entre l’eau et le travail. Le musée maritime Harbor Street est fictif ; les photographies d’archives sont réelles. Leurs noms, lieux et dates incertaines d’origine les accompagnent. Suivez les chapitres, choisissez un repère sur le plan imaginaire ou ouvrez les notes d’une photographie à tout moment."
+        },
+        "ja": {
+          "title": "水と仕事の\nあいだ。",
+          "eyebrow": "ハーバー・ストリート・架空の博物館と実在の資料",
+          "body": "港は、ものともののあいだに読むことができます。船体と岸壁、旅と到着、写真とその周囲に残った事実。そのあいだを歩くために、米国議会図書館から12枚の写真を集めました。写っているのは、デトロイト、ポートヒューロン、グロスター、ボストン、ニューヨークの実際の船や水辺です。ハーバー・ストリート海事博物館は、それらを展示するための架空の舞台です。別々の場所を1つの町としたり、写真を自館の所蔵品としたりするものではありません。まず水を見てください。それから、そこにある仕事を探してみましょう。",
+          "caption": "ミシガン州ポートヒューロンの桟橋に停泊する汽船。目録の年代はc1908。",
+          "transcript": "「水と仕事のあいだ」へようこそ。ハーバー・ストリート海事博物館は架空ですが、記録写真は実在します。元の名前、場所、不確かな年代を、それぞれの写真に添えています。章を順番に読むことも、架空の港の地図から目印を選ぶことも、いつでも出典を開くこともできます。"
+        },
+        "ar": {
+          "title": "بين الماء\nوالعمل.",
+          "eyebrow": "هاربر ستريت · متحف متخيّل وأرشيف حقيقي",
+          "body": "يمكن أن نقرأ الميناء في المسافة بين الأشياء: بين بدن سفينة ورصيف، وبين رحلة ووصول، وبين صورة والحقائق التي بقيت حولها. تجمع هذه الجولة اثنتي عشرة صورة من مكتبة الكونغرس. وهي تُظهر سفنًا وواجهات مائية حقيقية، من ديترويت وبورت هيورون إلى غلوستر وبوسطن ونيويورك. أما متحف هاربر ستريت البحري فهو إطار متخيّل لعرضها. لا يدّعي أن هذه الأماكن بلدة واحدة، ولا أن الصور من مقتنياته الخاصة. ابدأ بالماء، ثم ابحث عن العمل الذي يجري قربه.",
+          "caption": "سفن بخارية عند رصيف في بورت هيورون، ميشيغان. التاريخ في الفهرس: نحو ١٩٠٨، بصيغته الأصلية c1908.",
+          "transcript": "مرحبًا بك في «بين الماء والعمل». متحف هاربر ستريت البحري خيالي، لكن الصور الأرشيفية حقيقية. ترافق كل صورة أسماؤها وأماكنها وتواريخها الأصلية، بما فيها ما هو غير مؤكد. يمكنك متابعة الفصول، أو اختيار علامة على خريطة الميناء المتخيّل، أو فتح ملاحظات أي صورة في أي وقت."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "departures",
+      "number": "02",
+      "layout": "full_bleed",
+      "sourceIds": [
+        "loc-det-4a20344"
+      ],
+      "imagePath": "/museum/images/4a20344.webp",
+      "imageAlt": {
+        "en": "The excursion steamers Tashmoo and Idlewild at Detroit wharves.",
+        "pt": "Os vapores de excursão Tashmoo e Idlewild nos cais de Detroit.",
+        "es": "Los vapores de excursión Tashmoo e Idlewild en los muelles de Detroit.",
+        "fr": "Les vapeurs d’excursion Tashmoo et Idlewild aux quais de Detroit.",
+        "ja": "デトロイトの波止場に停泊する遊覧汽船タシュムー号とアイドルワイルド号。",
+        "ar": "سفينتا النزهات البخاريتان تاشمو وآيدلوايلد عند أرصفة ديترويت."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 31,
+        "y": 79
+      },
+      "content": {
+        "en": {
+          "title": "Every crossing\nbegins on land.",
+          "eyebrow": "02 / The departure quay",
+          "body": "Before a vessel becomes a silhouette on the horizon, it is a building alongside the shore. Look at the layers of decks, the repeated windows, the meeting of timber and water. The catalogue names the excursion steamers Tashmoo and Idlewild and places them at Detroit wharves around 1901. That is what the record tells us. The waiting, the noise and the destinations we might imagine are another kind of response. Here, looking closely means keeping both things in view: the photograph's invitation and the limits of its evidence.",
+          "caption": "Tashmoo and Idlewild at Detroit wharves · approximately 1901. Names and date follow the archive record.",
+          "transcript": "This photograph is catalogued as the excursion steamers Tashmoo and Idlewild at Detroit wharves, around 1901. Notice how the decks repeat like the floors of a waterfront building. The title tells us where we are looking; it does not tell us each passenger's story."
+        },
+        "pt": {
+          "title": "Cada travessia\ncomeça em terra.",
+          "eyebrow": "02 / O cais de partida",
+          "body": "Antes de se tornar uma silhueta no horizonte, uma embarcação parece um edifício junto à margem. Observe os conveses sobrepostos, as janelas repetidas, o encontro entre madeira e água. O catálogo identifica os vapores de excursão Tashmoo e Idlewild e situa-os nos cais de Detroit por volta de 1901. É isso que o documento nos diz. A espera, o ruído e os destinos que imaginamos pertencem a outro tipo de resposta. Olhar atentamente significa manter as duas coisas à vista: o convite da fotografia e os limites da sua evidência.",
+          "caption": "Tashmoo e Idlewild nos cais de Detroit · aproximadamente 1901. Os nomes e a data seguem o catálogo.",
+          "transcript": "Esta fotografia está catalogada como os vapores de excursão Tashmoo e Idlewild nos cais de Detroit, por volta de 1901. Repare na repetição dos conveses, como pisos de um edifício junto à água. O título diz-nos para onde olhamos, mas não conta a história de cada passageiro."
+        },
+        "es": {
+          "title": "Toda travesía\nempieza en tierra.",
+          "eyebrow": "02 / El muelle de salida",
+          "body": "Antes de ser una silueta en el horizonte, una embarcación parece un edificio junto a la orilla. Observe las cubiertas superpuestas, las ventanas repetidas, el encuentro de madera y agua. El catálogo identifica los vapores de excursión Tashmoo e Idlewild y los sitúa en los muelles de Detroit hacia 1901. Eso es lo que dice el documento. La espera, el ruido y los destinos que imaginamos pertenecen a otra clase de respuesta. Mirar con atención exige mantener ambas cosas a la vista: la invitación de la fotografía y los límites de sus pruebas.",
+          "caption": "Tashmoo e Idlewild en los muelles de Detroit · hacia 1901. Los nombres y la fecha siguen el catálogo.",
+          "transcript": "Esta fotografía está catalogada como los vapores de excursión Tashmoo e Idlewild en los muelles de Detroit, hacia 1901. Fíjese en la repetición de las cubiertas, como plantas de un edificio junto al agua. El título indica dónde miramos, pero no cuenta la historia de cada pasajero."
+        },
+        "fr": {
+          "title": "Toute traversée\ncommence à terre.",
+          "eyebrow": "02 / Le quai des départs",
+          "body": "Avant de devenir une silhouette à l’horizon, un navire ressemble à un bâtiment au bord de l’eau. Regardez les ponts superposés, les fenêtres répétées, la rencontre du bois et de l’eau. Le catalogue nomme les vapeurs d’excursion Tashmoo et Idlewild et les situe aux quais de Detroit vers 1901. Voilà ce que dit la notice. L’attente, le bruit et les destinations imaginées relèvent d’une autre réaction. Regarder attentivement suppose de garder les deux choses à l’esprit : l’invitation de la photographie et les limites de ce qu’elle permet d’établir.",
+          "caption": "Tashmoo et Idlewild aux quais de Detroit · vers 1901. Noms et date suivent la notice.",
+          "transcript": "Cette photographie est cataloguée comme les vapeurs d’excursion Tashmoo et Idlewild aux quais de Detroit, vers 1901. Observez les ponts répétés, tels les étages d’un bâtiment au bord de l’eau. Le titre dit où porte notre regard, pas quelle était l’histoire de chaque passager."
+        },
+        "ja": {
+          "title": "渡る旅は、\n陸から始まる。",
+          "eyebrow": "02 / 出発の岸壁",
+          "body": "水平線の影になる前の船は、岸辺に立つ建物のようにも見えます。重なる甲板、繰り返す窓、木材と水の接するところに注目してください。目録は遊覧汽船をタシュムー号とアイドルワイルド号と名づけ、1901年ごろのデトロイトの波止場としています。記録が伝えるのはそこまでです。待ち時間や音、行き先を想像することは、別の種類の受け止め方です。丁寧に見るとは、写真が誘う想像と、証拠として語れる範囲の両方を見失わないことでもあります。",
+          "caption": "デトロイトの波止場のタシュムー号とアイドルワイルド号。1901年ごろ。船名と年代は目録に従っています。",
+          "transcript": "目録はこの写真を、1901年ごろのデトロイトの波止場にいる遊覧汽船タシュムー号とアイドルワイルド号と記しています。水辺の建物の階のように繰り返す甲板を見てください。題名は見る場所を教えてくれますが、乗客一人ひとりの人生までは語りません。"
+        },
+        "ar": {
+          "title": "كل عبور\nيبدأ من اليابسة.",
+          "eyebrow": "٠٢ / رصيف المغادرة",
+          "body": "قبل أن تصبح السفينة ظلًا في الأفق، تبدو كأنها مبنى بمحاذاة الشاطئ. انظر إلى طبقات الأسطح، والنوافذ المتكررة، والتقاء الخشب بالماء. يسمّي الفهرس السفينتين البخاريتين المخصصتين للنزهات «تاشمو» و«آيدلوايلد»، ويضعهما عند أرصفة ديترويت نحو عام ١٩٠١. هذا ما يخبرنا به السجل. أما الانتظار والضجيج والوجهات التي نتخيلها، فهي استجابة من نوع آخر. النظر المتأني هنا يعني إبقاء الأمرين أمامنا: ما تدعونا الصورة إلى تخيله، وما تسمح أدلتها بأن نؤكده.",
+          "caption": "تاشمو وآيدلوايلد عند أرصفة ديترويت، نحو ١٩٠١. الأسماء والتاريخ وفق السجل الأرشيفي.",
+          "transcript": "يصف الفهرس هذه الصورة بأنها لسفينتي النزهات البخاريتين تاشمو وآيدلوايلد عند أرصفة ديترويت، نحو عام ١٩٠١. لاحظ تكرار الأسطح كطوابق مبنى على الماء. يحدد العنوان المكان الذي ننظر إليه، لكنه لا يروي قصة كل راكب."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "hands",
+      "number": "03",
+      "layout": "split",
+      "sourceIds": [
+        "loc-det-4a12861"
+      ],
+      "imagePath": "/museum/images/4a12861.webp",
+      "imageAlt": {
+        "en": "People handle a catch near fishing vessels and wharf buildings in Gloucester.",
+        "pt": "Pessoas manuseiam pescado perto de barcos e edifícios do cais em Gloucester.",
+        "es": "Personas manipulan pescado cerca de barcos y edificios del muelle en Gloucester.",
+        "fr": "Des personnes manipulent du poisson près des bateaux et des bâtiments du quai à Gloucester.",
+        "ja": "グロスターの漁船や埠頭の建物の近くで魚を扱う人びと。",
+        "ar": "أشخاص يتعاملون مع حمولة أسماك قرب قوارب ومبانٍ على رصيف في غلوستر."
+      },
+      "imagePosition": "48% 50%",
+      "mapPosition": {
+        "x": 44,
+        "y": 56
+      },
+      "content": {
+        "en": {
+          "title": "The shore\nis a workplace.",
+          "eyebrow": "03 / The working wharf",
+          "body": "Ships occupy the skyline; people give the waterfront its scale. In this photograph, the catalogue identifies fish-handling work in Gloucester, Massachusetts. Its date, c[1905], is based on a publisher's catalogue issued in 1906. The people pictured are not named in the record. We can notice their positions, the working surface and the proximity of vessels, but we cannot recover a biography by looking harder. This label leaves that silence visible. A collection can preserve evidence of work while still asking whose names were written down, and whose were not.",
+          "caption": "Handling a cargo from the fishing banks, Gloucester, Massachusetts · c[1905]. The pictured people are not named in this record.",
+          "transcript": "The archive title locates this work in Gloucester, Massachusetts. Its catalogue date is c[1905], based on a publication from 1906. The record does not name the people in the picture. Their anonymity is a limit of the record, not an invitation to invent their lives."
+        },
+        "pt": {
+          "title": "A margem\né um local de trabalho.",
+          "eyebrow": "03 / O cais de trabalho",
+          "body": "Os navios ocupam o horizonte; as pessoas dão escala à zona portuária. Nesta fotografia, o catálogo identifica trabalho de manuseamento de pescado em Gloucester, Massachusetts. A data, c[1905], baseia-se num catálogo do editor publicado em 1906. O documento não identifica as pessoas retratadas. Podemos observar as suas posições, a superfície de trabalho e a proximidade dos barcos, mas não recuperar uma biografia olhando com mais atenção. Esta legenda mantém esse silêncio visível. Uma coleção pode preservar vestígios do trabalho e ainda perguntar que nomes foram registados e quais ficaram de fora.",
+          "caption": "Manuseamento de uma carga dos bancos de pesca, Gloucester, Massachusetts · c[1905]. As pessoas não são identificadas no documento.",
+          "transcript": "O título do arquivo situa este trabalho em Gloucester, Massachusetts. A data c[1905] baseia-se numa publicação de 1906. O documento não dá os nomes das pessoas na fotografia. O anonimato é um limite do registo, não um convite para inventar as suas vidas."
+        },
+        "es": {
+          "title": "La orilla\nes un lugar de trabajo.",
+          "eyebrow": "03 / El muelle de trabajo",
+          "body": "Los barcos ocupan el horizonte; las personas dan escala al puerto. En esta fotografía, el catálogo identifica labores de manipulación de pescado en Gloucester, Massachusetts. Su fecha, c[1905], se basa en un catálogo del editor publicado en 1906. Las personas retratadas no aparecen nombradas. Podemos observar sus posiciones, la superficie de trabajo y la proximidad de los barcos, pero no recuperar una biografía mirando más. Esta cartela mantiene visible ese silencio. Una colección puede conservar pruebas del trabajo y seguir preguntando qué nombres se anotaron y cuáles quedaron fuera.",
+          "caption": "Manipulación de una carga de los bancos de pesca, Gloucester, Massachusetts · c[1905]. El documento no nombra a las personas.",
+          "transcript": "El título del archivo sitúa este trabajo en Gloucester, Massachusetts. La fecha c[1905] se basa en una publicación de 1906. El documento no da los nombres de las personas. Su anonimato es un límite del registro, no una invitación a inventar sus vidas."
+        },
+        "fr": {
+          "title": "La rive\nest un lieu de travail.",
+          "eyebrow": "03 / Le quai au travail",
+          "body": "Les navires occupent l’horizon ; les personnes donnent son échelle au port. Pour cette photographie, le catalogue identifie la manutention de poisson à Gloucester, dans le Massachusetts. La date, c[1905], repose sur un catalogue de l’éditeur paru en 1906. La notice ne nomme pas les personnes représentées. On peut observer leurs positions, la surface de travail et la proximité des bateaux, mais pas retrouver une biographie en regardant davantage. Ce cartel laisse ce silence visible. Une collection peut garder la trace du travail tout en demandant quels noms ont été consignés et lesquels ne l’ont pas été.",
+          "caption": "Manutention d’une cargaison des bancs de pêche, Gloucester, Massachusetts · c[1905]. Les personnes ne sont pas nommées dans la notice.",
+          "transcript": "Le titre d’archives situe ce travail à Gloucester, dans le Massachusetts. La date c[1905] s’appuie sur une publication de 1906. La notice ne donne pas les noms des personnes. Leur anonymat est une limite du document, pas une invitation à inventer leurs vies."
+        },
+        "ja": {
+          "title": "岸辺は、\n仕事の現場。",
+          "eyebrow": "03 / 働く波止場",
+          "body": "船が空の輪郭を占め、人の姿が水辺の大きさを伝えます。この写真について、目録はマサチューセッツ州グロスターで魚を扱う仕事と記しています。年代のc[1905]は、1906年刊行の出版者の目録に基づきます。写る人びとの名前は記録されていません。立ち位置や作業面、船との距離を観察することはできますが、目を凝らしても経歴を取り戻すことはできません。この解説は、その沈黙を残します。仕事の証拠を保存しながら、誰の名前が書き留められ、誰の名前が残らなかったのかを問うことも、資料に向き合う一つの方法です。",
+          "caption": "マサチューセッツ州グロスターで漁場からの積荷を扱う場面。c[1905]。目録は人物の名前を記していません。",
+          "transcript": "元の題名は、この仕事の場所をマサチューセッツ州グロスターとしています。c[1905]という年代は1906年の出版物に基づきます。写真に写る人びとの名前はありません。匿名であることは記録の限界であり、人生を創作してよいという意味ではありません。"
+        },
+        "ar": {
+          "title": "الشاطئ\nمكان للعمل.",
+          "eyebrow": "٠٣ / رصيف العمل",
+          "body": "تشغل السفن خط الأفق، ويمنح الناس الواجهة المائية مقياسها الإنساني. يحدد الفهرس موضوع هذه الصورة بأنه تداول حمولة أسماك في غلوستر بولاية ماساتشوستس. ويستند تاريخها، c[1905]، إلى فهرس للناشر صدر عام ١٩٠٦. لا يذكر السجل أسماء الأشخاص الظاهرين. يمكننا ملاحظة مواقعهم وسطح العمل وقرب السفن، لكن التدقيق لا يستعيد سيرة شخصية غائبة. يترك هذا النص ذلك الصمت ظاهرًا. فقد تحفظ المجموعة دليلًا على العمل، وتظل تسأل في الوقت نفسه: أسماء من كُتبت، وأسماء من لم تُكتب؟",
+          "caption": "تداول حمولة من مصائد الأسماك في غلوستر، ماساتشوستس. التاريخ: c[1905]. لا يسمّي هذا السجل الأشخاص الظاهرين.",
+          "transcript": "يحدد عنوان الأرشيف موقع هذا العمل في غلوستر بولاية ماساتشوستس. ويستند التاريخ c[1905] إلى منشور صدر عام ١٩٠٦. لا يورد السجل أسماء الأشخاص في الصورة. غياب الأسماء حدّ من حدود الوثيقة، وليس دعوة لاختلاق حياتهم."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "vessels",
+      "number": "04",
+      "layout": "collection_grid",
+      "sourceIds": [
+        "loc-det-4a16590",
+        "loc-det-4a21996",
+        "loc-det-4a16836",
+        "loc-det-4a20920"
+      ],
+      "imagePath": "/museum/images/4a21996.webp",
+      "imageAlt": {
+        "en": "The broad transfer steamer Detroit, with working decks and smokestacks.",
+        "pt": "O largo vapor de transbordo Detroit, com conveses de trabalho e chaminés.",
+        "es": "El ancho vapor de transbordo Detroit, con cubiertas de trabajo y chimeneas.",
+        "fr": "Le large vapeur Detroit, avec ses ponts de travail et ses cheminées.",
+        "ja": "広い船体に作業用の甲板と煙突があるデトロイト号。",
+        "ar": "سفينة النقل العريضة ديترويت، بأسطح عمل ومداخن."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 63,
+        "y": 70
+      },
+      "content": {
+        "en": {
+          "title": "A vocabulary\nof vessels.",
+          "eyebrow": "04 / The vessel room",
+          "body": "Four records, four ways of naming a ship. The archive describes a Michigan Transportation Company steamer, the transfer steamer Detroit, Eastern States and City of Cleveland. Their catalogue terms include cargo ship, railroad ferry and steamboat. These are useful distinctions, but they are not interchangeable biographies. The date ranges overlap and vary in precision. Read the names first, then look at proportions, funnels and decks. Each image has its own source note, complete frame and file fingerprint. The collection is a conversation between records, not proof that all four vessels shared the same quay.",
+          "caption": "Four separate archive records. Titles and date ranges remain attached to each photograph.",
+          "transcript": "This room gathers four photographs of vessels. The archive names and classifies them differently. Compare their shapes, but keep their records separate. Open any photograph to see its original title, date range, publisher and complete frame."
+        },
+        "pt": {
+          "title": "Um vocabulário\nde embarcações.",
+          "eyebrow": "04 / A sala das embarcações",
+          "body": "Quatro documentos, quatro formas de nomear um navio. O arquivo descreve um vapor da Michigan Transportation Company, o vapor de transbordo Detroit, o Eastern States e o City of Cleveland. Os termos incluem navio de carga, ferry ferroviário e vapor. São distinções úteis, mas não biografias intercambiáveis. Os intervalos de datas sobrepõem-se e têm diferentes graus de precisão. Leia primeiro os nomes; depois, observe proporções, chaminés e conveses. Cada imagem tem a sua nota, o enquadramento completo e uma impressão digital do ficheiro. A coleção põe documentos em diálogo; não prova que os quatro navios partilharam o mesmo cais.",
+          "caption": "Quatro documentos distintos. Os títulos e os intervalos de datas acompanham cada fotografia.",
+          "transcript": "Esta sala reúne quatro fotografias de embarcações. O arquivo dá-lhes nomes e classificações diferentes. Compare as formas, mas mantenha os documentos separados. Abra qualquer fotografia para consultar o título original, o intervalo de datas, o editor e o enquadramento completo."
+        },
+        "es": {
+          "title": "Un vocabulario\nde embarcaciones.",
+          "eyebrow": "04 / La sala de embarcaciones",
+          "body": "Cuatro documentos, cuatro maneras de nombrar un barco. El archivo describe un vapor de Michigan Transportation Company, el vapor de transbordo Detroit, el Eastern States y el City of Cleveland. Los términos incluyen buque de carga, transbordador ferroviario y vapor. Son distinciones útiles, pero no biografías intercambiables. Los intervalos de fechas se solapan y varían en precisión. Lea primero los nombres; después observe proporciones, chimeneas y cubiertas. Cada imagen tiene sus notas, su encuadre completo y una huella del archivo. La colección pone documentos en conversación; no demuestra que los cuatro barcos compartieran muelle.",
+          "caption": "Cuatro documentos distintos. Cada fotografía conserva su título y su intervalo de fechas.",
+          "transcript": "Esta sala reúne cuatro fotografías de embarcaciones. El archivo las nombra y clasifica de maneras distintas. Compare sus formas, pero mantenga separados sus documentos. Abra cualquier fotografía para ver el título original, las fechas, el editor y el encuadre completo."
+        },
+        "fr": {
+          "title": "Un vocabulaire\nde navires.",
+          "eyebrow": "04 / La salle des navires",
+          "body": "Quatre notices, quatre façons de nommer un bateau. Les archives décrivent un vapeur de la Michigan Transportation Company, le vapeur de transbordement Detroit, Eastern States et City of Cleveland. Elles emploient notamment les termes cargo, transbordeur ferroviaire et bateau à vapeur. Ces distinctions sont utiles, sans constituer des biographies interchangeables. Les intervalles de dates se chevauchent et leur précision varie. Lisez d’abord les noms, puis observez proportions, cheminées et ponts. Chaque image possède ses notes, son cadre complet et son empreinte numérique. La collection met des documents en conversation ; elle ne prouve pas que les quatre navires ont partagé le même quai.",
+          "caption": "Quatre notices distinctes. Chaque photographie conserve son titre et son intervalle de dates.",
+          "transcript": "Cette salle rassemble quatre photographies de navires. Les archives les nomment et les classent différemment. Comparez leurs formes sans confondre les notices. Ouvrez une photographie pour consulter son titre d’origine, ses dates, son éditeur et son cadre complet."
+        },
+        "ja": {
+          "title": "船を呼ぶ、\nさまざまな言葉。",
+          "eyebrow": "04 / 船の部屋",
+          "body": "4つの記録には、4通りの船の呼び方があります。ミシガン運輸会社の汽船、連絡汽船デトロイト号、イースタン・ステーツ号、シティ・オブ・クリーブランド号。目録の分類には貨物船、鉄道連絡船、汽船という言葉が使われています。役に立つ区別ですが、どれも同じ来歴を持つという意味ではありません。年代の範囲は重なり、精度も異なります。先に名前を読み、次に船体の比率、煙突、甲板を見てください。各写真には独立した出典、全体画像、ファイルの照合値があります。資料を対話させる展示であって、4隻が同じ岸壁にいたことの証拠ではありません。",
+          "caption": "4件の独立した資料記録。題名と年代の幅を、各写真に添えています。",
+          "transcript": "この部屋には4枚の船の写真があります。元の目録は、それぞれに異なる名前や分類を付けています。形を比べるときも、資料記録は区別してください。写真を開くと、元の題名、年代、出版者、切り取っていない全体を見ることができます。"
+        },
+        "ar": {
+          "title": "مفردات\nللسفن.",
+          "eyebrow": "٠٤ / قاعة السفن",
+          "body": "أربعة سجلات، وأربع طرائق لتسمية سفينة. يصف الأرشيف سفينة بخارية لشركة ميشيغان للنقل، وسفينة النقل «ديترويت»، و«إيسترن ستيتس»، و«سيتي أوف كليفلاند». ومن مصطلحات الفهرس: سفينة شحن، وعبّارة قطارات، وسفينة بخارية. هذه فروق مفيدة، لكنها ليست سيرًا متطابقة يمكن تبادلها. تتداخل الفترات الزمنية وتختلف دقتها. اقرأ الأسماء أولًا، ثم انظر إلى النسب والمداخن والأسطح. لكل صورة ملاحظاتها وإطارها الكامل وبصمة ملفها. تضع المجموعة السجلات في حوار، ولا تثبت أن السفن الأربع اجتمعت عند الرصيف نفسه.",
+          "caption": "أربعة سجلات مستقلة. تحتفظ كل صورة بعنوانها وفترتها الزمنية.",
+          "transcript": "تجمع هذه القاعة أربع صور لسفن. يمنحها الأرشيف أسماء وتصنيفات مختلفة. قارن الأشكال، مع الحفاظ على استقلال كل سجل. افتح أي صورة للاطلاع على عنوانها الأصلي وتاريخها وناشرها وإطارها الكامل."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "two-waterfronts",
+      "number": "05",
+      "layout": "comparison",
+      "sourceIds": [
+        "loc-det-4a17226",
+        "loc-det-4a25770"
+      ],
+      "imagePath": "/museum/images/4a17226.webp",
+      "imageAlt": {
+        "en": "Fishing schooners and dense rigging beside Boston's T wharf, with dock buildings across the water.",
+        "pt": "Escunas de pesca e um emaranhado de cordame junto ao cais T de Boston, com edifícios portuários ao fundo.",
+        "es": "Goletas de pesca y un entramado de cabos junto al muelle T de Boston, con edificios portuarios al fondo.",
+        "fr": "Des goélettes de pêche et des cordages serrés au quai T de Boston, avec des bâtiments portuaires de l’autre côté de l’eau.",
+        "ja": "ボストンのT埠頭に並ぶ漁業用スクーナー船と密集した帆綱。水面の向こうには埠頭の建物が見える。",
+        "ar": "مراكب صيد شراعية وحبال كثيفة عند رصيف تي في بوسطن، ومبانٍ ساحلية وراء الماء."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 80,
+        "y": 48
+      },
+      "content": {
+        "en": {
+          "title": "Look together.\nKeep the difference.",
+          "eyebrow": "05 / Two waterfronts",
+          "body": "A pair of photographs can make a question easier to see. At Boston's T wharf, the archive identifies unloading fish. In Detroit, another record identifies the steamers Western States and City of Mackinac. Both pictures bring vessels close to the built edge of a city. The work, scale and arrangement differ. These are two places, not successive views of one place. No restoration or historical transformation is being demonstrated. Move between the frames, follow the lines of rigging and railings, and let comparison sharpen attention without erasing the distance between the records.",
+          "caption": "Boston, 1900–1910, and Detroit, 1900–1920 · two distinct photographs, not a before-and-after pair.",
+          "transcript": "The image at the left shows Boston's T wharf; the other shows steamboats at Detroit. The records use different date ranges. We bring them together to compare a city's edge with the water. We do not present them as a historical sequence."
+        },
+        "pt": {
+          "title": "Olhar em conjunto.\nPreservar a diferença.",
+          "eyebrow": "05 / Duas zonas portuárias",
+          "body": "Duas fotografias podem tornar uma pergunta mais visível. No cais T de Boston, o arquivo identifica a descarga de pescado. Em Detroit, outro documento identifica os vapores Western States e City of Mackinac. Ambas aproximam os navios da margem construída de uma cidade. O trabalho, a escala e a disposição diferem. São dois lugares, não vistas sucessivas do mesmo local. Não se demonstra aqui uma restauração nem uma transformação histórica. Passe de um enquadramento para o outro, siga os cabos e as grades e deixe a comparação apurar o olhar sem apagar a distância entre os documentos.",
+          "caption": "Boston, 1900–1910, e Detroit, 1900–1920 · fotografias distintas, não um antes e depois.",
+          "transcript": "A imagem à esquerda mostra o cais T de Boston; a outra mostra vapores em Detroit. Os documentos usam intervalos de datas diferentes. Apresentamo-los juntos para comparar a margem da cidade com a água, não como uma sequência histórica."
+        },
+        "es": {
+          "title": "Mirar en conjunto.\nConservar la diferencia.",
+          "eyebrow": "05 / Dos frentes portuarios",
+          "body": "Dos fotografías pueden hacer más visible una pregunta. En el muelle T de Boston, el archivo identifica la descarga de pescado. En Detroit, otro documento identifica los vapores Western States y City of Mackinac. Las dos acercan embarcaciones al borde construido de una ciudad. El trabajo, la escala y la disposición difieren. Son dos lugares, no vistas sucesivas de uno solo. No se demuestra una restauración ni una transformación histórica. Pase de un encuadre al otro, siga los cabos y las barandillas y deje que la comparación afine la mirada sin borrar la distancia entre documentos.",
+          "caption": "Boston, 1900–1910, y Detroit, 1900–1920 · fotografías distintas, no un antes y después.",
+          "transcript": "La imagen de la izquierda muestra el muelle T de Boston; la otra, vapores en Detroit. Los documentos usan intervalos de fechas diferentes. Se presentan juntos para comparar el borde de la ciudad y el agua, no como una secuencia histórica."
+        },
+        "fr": {
+          "title": "Regarder ensemble.\nGarder les différences.",
+          "eyebrow": "05 / Deux fronts portuaires",
+          "body": "Deux photographies peuvent rendre une question plus visible. Au quai T de Boston, les archives identifient le déchargement de poisson. À Detroit, une autre notice nomme les vapeurs Western States et City of Mackinac. Les deux images rapprochent les navires du bord bâti d’une ville. Le travail, l’échelle et la disposition diffèrent. Ce sont deux lieux, pas les vues successives d’un seul. Il n’est question ici ni de restauration ni de transformation historique. Passez d’un cadre à l’autre, suivez cordages et rambardes, et laissez la comparaison affiner l’attention sans effacer la distance entre les documents.",
+          "caption": "Boston, 1900–1910, et Detroit, 1900–1920 · deux photographies distinctes, pas un avant-après.",
+          "transcript": "L’image de gauche montre le quai T de Boston ; l’autre, des vapeurs à Detroit. Les notices indiquent des intervalles de dates différents. Nous les réunissons pour comparer le bord d’une ville et l’eau, pas pour construire une séquence historique."
+        },
+        "ja": {
+          "title": "並べて見る。\n違いを残す。",
+          "eyebrow": "05 / 2つの水辺",
+          "body": "写真を2枚並べると、問いが見えやすくなることがあります。ボストンのT埠頭の写真を、目録は魚の荷揚げとしています。デトロイトの別の記録は、ウェスタン・ステーツ号とシティ・オブ・マキノー号を示しています。どちらも船が都市の建物に近づく場面ですが、仕事も規模も配置も異なります。これは2つの場所であり、同じ場所を時系列に並べたものではありません。修復や歴史的変化を示す比較でもありません。帆綱や手すりの線をたどり、記録の隔たりを消さずに、見比べることから注意を深めてください。",
+          "caption": "ボストン、1900〜1910年。デトロイト、1900〜1920年。別々の写真であり、変化の前後ではありません。",
+          "transcript": "左の写真はボストンのT埠頭、もう一枚はデトロイトの汽船です。目録の年代の幅も異なります。都市の縁と水との関係を比べるために並べています。歴史の順番を示すものではありません。"
+        },
+        "ar": {
+          "title": "انظر معًا،\nواحفظ الاختلاف.",
+          "eyebrow": "٠٥ / واجهتان مائيتان",
+          "body": "قد يجعل الجمع بين صورتين سؤالًا أكثر وضوحًا. عند رصيف «تي» في بوسطن، يحدد الأرشيف تفريغ حمولة أسماك. وفي ديترويت، يسمّي سجل آخر السفينتين «ويسترن ستيتس» و«سيتي أوف ماكيناك». تقرّب الصورتان السفن من الحافة المبنية للمدينة، لكن العمل والحجم والترتيب تختلف. إنهما مكانان، لا منظران متتابعان لمكان واحد. ولا نعرض هنا ترميمًا أو تحوّلًا تاريخيًا. تنقّل بين الإطارين، واتبع خطوط الحبال والحواجز، ودع المقارنة تزيد انتباهك من دون أن تمحو المسافة بين السجلين.",
+          "caption": "بوسطن بين ١٩٠٠ و١٩١٠، وديترويت بين ١٩٠٠ و١٩٢٠. صورتان مستقلتان، لا مقارنة بين ما قبل التغيير وما بعده.",
+          "transcript": "تظهر الصورة الأولى رصيف تي في بوسطن، وتظهر الأخرى سفنًا بخارية في ديترويت. ويستخدم السجلان فترتين زمنيتين مختلفتين. نجمعهما لمقارنة حافة المدينة بالماء، ولا نقدمهما بوصفهما تسلسلًا تاريخيًا."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "listening-room",
+      "number": "06",
+      "layout": "audio",
+      "sourceIds": [
+        "loc-det-4a25819"
+      ],
+      "imagePath": "/museum/images/4a25819.webp",
+      "imageAlt": {
+        "en": "A lighthouse and low buildings on an island, viewed across the water.",
+        "pt": "Um farol e edifícios baixos numa ilha, vistos através da água.",
+        "es": "Un faro y edificios bajos en una isla, vistos desde el agua.",
+        "fr": "Un phare et des bâtiments bas sur une île, vus depuis l’eau.",
+        "ja": "水面の向こうの島にある灯台と低い建物。",
+        "ar": "منارة ومبانٍ منخفضة على جزيرة تُرى عبر الماء."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 86,
+        "y": 20
+      },
+      "content": {
+        "en": {
+          "title": "Leave a little\nroom for silence.",
+          "eyebrow": "06 / The listening room",
+          "body": "The archive calls this photograph simply Lighthouse on island. It dates the image c1896 and does not name the island. The title was devised by a cataloguer. A lighthouse is an easy object around which to build a story, and that is precisely why the missing location matters. This room offers a proposed reading rather than a recorded witness. There is no audio attached to the sample. Read at your own pace, notice the shoreline around the building, and allow an unidentified place to remain unidentified. Uncertainty belongs in the exhibition as much as a date or a name.",
+          "caption": "[Lighthouse on island] · c1896. The catalogue does not identify the island.",
+          "transcript": "A lighthouse stands on an island. The catalogue gives the date c1896, but no island name. Its title was supplied by a cataloguer. We can describe what is visible without supplying a location that the record does not support. This text is a proposed reading. It is not testimony from a lighthouse keeper or an archival sound recording."
+        },
+        "pt": {
+          "title": "Deixe um pouco\nde espaço para o silêncio.",
+          "eyebrow": "06 / A sala de escuta",
+          "body": "O arquivo chama a esta fotografia simplesmente Farol numa ilha. A data é c1896 e a ilha não tem nome no documento. O título foi atribuído por um catalogador. É fácil construir uma história em torno de um farol, e é por isso que a ausência de localização importa. Esta sala propõe uma leitura, não um testemunho gravado. O exemplo não tem áudio associado. Leia ao seu ritmo, observe a margem à volta do edifício e permita que um lugar não identificado continue assim. A incerteza pertence à exposição tanto como uma data ou um nome.",
+          "caption": "[Farol numa ilha] · c1896. O catálogo não identifica a ilha.",
+          "transcript": "Um farol ergue-se numa ilha. O catálogo indica c1896, mas não dá nome à ilha. O título foi atribuído por um catalogador. Podemos descrever o que se vê sem acrescentar uma localização não sustentada pelo documento. Este texto é uma proposta de leitura, não o testemunho de um faroleiro nem uma gravação sonora de arquivo."
+        },
+        "es": {
+          "title": "Deje un poco\nde espacio al silencio.",
+          "eyebrow": "06 / La sala de escucha",
+          "body": "El archivo llama a esta fotografía simplemente Faro en una isla. La fecha es c1896 y el documento no nombra la isla. El título fue creado por un catalogador. Es fácil construir una historia alrededor de un faro, y precisamente por eso importa la ubicación ausente. Esta sala propone una lectura, no un testimonio grabado. La muestra no tiene audio. Lea a su ritmo, observe la orilla alrededor del edificio y permita que un lugar sin identificar siga así. La incertidumbre pertenece a la exposición tanto como una fecha o un nombre.",
+          "caption": "[Faro en una isla] · c1896. El catálogo no identifica la isla.",
+          "transcript": "Un faro se alza en una isla. El catálogo indica c1896, pero no da nombre a la isla. Un catalogador aportó el título. Podemos describir lo visible sin añadir una ubicación que el documento no respalda. Este texto es una propuesta de lectura, no el testimonio de un farero ni una grabación sonora de archivo."
+        },
+        "fr": {
+          "title": "Laissez un peu\nde place au silence.",
+          "eyebrow": "06 / La salle d’écoute",
+          "body": "Les archives nomment simplement cette photographie Phare sur une île. Elles la datent de c1896 sans nommer l’île. Le titre a été composé par un catalogueur. Un phare se prête aisément à une histoire ; c’est précisément pourquoi le lieu manquant importe. Cette salle propose une lecture, pas un témoignage enregistré. Aucun audio n’est joint à cet exemple. Lisez à votre rythme, observez la rive autour du bâtiment et laissez un lieu non identifié le rester. L’incertitude appartient à l’exposition autant qu’une date ou un nom.",
+          "caption": "[Phare sur une île] · c1896. Le catalogue n’identifie pas l’île.",
+          "transcript": "Un phare se dresse sur une île. Le catalogue indique c1896, mais ne nomme pas l’île. Un catalogueur a fourni le titre. Nous pouvons décrire ce qui est visible sans ajouter un lieu que la notice ne justifie pas. Ce texte est une proposition de lecture, pas le témoignage d’un gardien de phare ni un enregistrement sonore d’archives."
+        },
+        "ja": {
+          "title": "沈黙のための\n余白を。",
+          "eyebrow": "06 / 耳をすます部屋",
+          "body": "目録の題名は、ただ「島の灯台」です。年代はc1896で、島の名前はありません。題名は目録作成者が付けたものです。灯台には物語を想像しやすいからこそ、場所が記されていないことが大切です。この部屋にあるのは、語り手の録音ではなく、読むための原稿案です。サンプルに音声は付属していません。自分の速さで読み、建物を囲む岸に目を向け、特定されていない場所をそのままにしておいてください。不確かさも、年代や名前と同じように展示の一部です。",
+          "caption": "［島の灯台］。c1896。目録は島を特定していません。",
+          "transcript": "島に灯台が立っています。目録の年代はc1896ですが、島の名前はありません。題名は目録作成者が補ったものです。見えているものを説明することと、根拠のない地名を加えることは違います。この文章は読むための案です。灯台守の証言でも、歴史的な音声録音でもありません。"
+        },
+        "ar": {
+          "title": "اترك قليلًا\nمن المساحة للصمت.",
+          "eyebrow": "٠٦ / قاعة الإصغاء",
+          "body": "يسمّي الأرشيف هذه الصورة ببساطة «منارة على جزيرة». ويؤرخها بصيغة c1896، من دون أن يسمّي الجزيرة. وضع العنوانَ أحدُ المفهرسين. من السهل أن نبني حكاية حول منارة، ولهذا تحديدًا يهمّ غياب المكان. تقدم هذه القاعة نصًا مقترحًا للقراءة، لا شهادة مسجلة. ولا يرافق النموذج أي صوت. اقرأ على مهل، وتأمل الشاطئ حول المبنى، واسمح للمكان غير المحدد أن يبقى كذلك. عدم اليقين جزء من المعرض، مثل التاريخ أو الاسم تمامًا.",
+          "caption": "[منارة على جزيرة]، نحو ١٨٩٦. لا يحدد الفهرس اسم الجزيرة.",
+          "transcript": "تقف منارة على جزيرة. يورد الفهرس التاريخ c1896، لكنه لا يذكر اسم الجزيرة. أضاف مفهرسٌ العنوان. يمكننا وصف ما يظهر من دون اختلاق موقع لا يدعمه السجل. هذا النص مقترح للقراءة، وليس شهادة حارس منارة ولا تسجيلًا صوتيًا أرشيفيًا."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "time-and-tide",
+      "number": "07",
+      "layout": "timeline",
+      "sourceIds": [
+        "loc-det-4a25819",
+        "loc-det-4a12861",
+        "loc-det-4a10172"
+      ],
+      "imagePath": "/museum/images/4a10172.webp",
+      "imageAlt": {
+        "en": "Boats and waterfront structures in a view across New York harbor from the Battery.",
+        "pt": "Barcos e estruturas portuárias numa vista do porto de Nova Iorque a partir de Battery.",
+        "es": "Barcos y estructuras portuarias vistos desde Battery hacia el puerto de Nueva York.",
+        "fr": "Bateaux et installations au bord du port de New York, vus depuis la Battery.",
+        "ja": "バッテリーから望むニューヨーク港。水上の船と水辺の施設が見える。",
+        "ar": "قوارب ومنشآت ساحلية في منظر عبر ميناء نيويورك من باتري."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 51,
+        "y": 24
+      },
+      "content": {
+        "en": {
+          "title": "Dates have\nedges, too.",
+          "eyebrow": "07 / The archive clock",
+          "body": "An archive date is not always a day on a calendar. It can be an approximation, a range, or a conclusion drawn from another publication. The lighthouse record says c1896. The Gloucester work scene says c[1905]. The New York harbor group says [c1908]. In the last case, the record contains ten negatives; we display one image, not a reconstructed panorama. This sequence follows selected records through their catalogue dates. It does not turn them into a complete history of a single harbor. The brackets and the gaps are part of what we have inherited.",
+          "caption": "Three catalogue dates, with their uncertainty preserved. The New York view is image 4a10172 from a larger group.",
+          "transcript": "The three dates here are catalogue dates: c1896, c[1905] and [c1908]. Their qualifiers matter. One New York negative belongs to a larger panorama group, but we show it as a single frame. This is a chronology of selected records, not a complete waterfront history."
+        },
+        "pt": {
+          "title": "As datas também\ntêm margens.",
+          "eyebrow": "07 / O relógio do arquivo",
+          "body": "Uma data de arquivo nem sempre é um dia no calendário. Pode ser uma aproximação, um intervalo ou uma conclusão baseada noutra publicação. O documento do farol diz c1896. A cena de trabalho em Gloucester diz c[1905]. O conjunto do porto de Nova Iorque diz [c1908]. Neste último caso, o documento contém dez negativos; mostramos uma imagem, não um panorama reconstruído. A sequência acompanha documentos selecionados pelas datas do catálogo. Não os transforma numa história completa de um só porto. Os parênteses e as lacunas também fazem parte do que herdámos.",
+          "caption": "Três datas de catálogo com a sua incerteza preservada. A vista de Nova Iorque é a imagem 4a10172 de um conjunto maior.",
+          "transcript": "As três datas são as do catálogo: c1896, c[1905] e [c1908]. Os seus qualificadores importam. O negativo de Nova Iorque pertence a um conjunto panorâmico maior, mas é mostrado como imagem isolada. Esta é uma cronologia de documentos selecionados, não uma história completa da zona portuária."
+        },
+        "es": {
+          "title": "Las fechas también\ntienen bordes.",
+          "eyebrow": "07 / El reloj del archivo",
+          "body": "Una fecha de archivo no siempre es un día en el calendario. Puede ser una aproximación, un intervalo o una conclusión basada en otra publicación. La ficha del faro dice c1896. La escena laboral de Gloucester dice c[1905]. El conjunto del puerto de Nueva York dice [c1908]. En este último caso, el documento contiene diez negativos; mostramos una imagen, no un panorama reconstruido. La secuencia sigue documentos seleccionados por sus fechas de catálogo. No los convierte en la historia completa de un solo puerto. Los corchetes y los vacíos forman parte de lo heredado.",
+          "caption": "Tres fechas de catálogo con su incertidumbre. La vista de Nueva York es la imagen 4a10172 de un conjunto mayor.",
+          "transcript": "Las tres fechas son las del catálogo: c1896, c[1905] y [c1908]. Sus matices importan. El negativo de Nueva York pertenece a un conjunto panorámico mayor, pero se muestra como imagen aislada. Es una cronología de documentos seleccionados, no una historia portuaria completa."
+        },
+        "fr": {
+          "title": "Les dates aussi\nont des contours.",
+          "eyebrow": "07 / L’horloge des archives",
+          "body": "Une date d’archives n’est pas toujours un jour du calendrier. Elle peut être une approximation, un intervalle ou une conclusion tirée d’une autre publication. La notice du phare dit c1896. La scène de travail à Gloucester dit c[1905]. Le groupe du port de New York dit [c1908]. Dans ce dernier cas, la notice contient dix négatifs ; nous montrons une image, pas un panorama reconstruit. Cette séquence suit des notices choisies selon leurs dates de catalogue. Elle n’en fait pas l’histoire complète d’un seul port. Les crochets et les lacunes font partie de notre héritage.",
+          "caption": "Trois dates de catalogue dont l’incertitude est conservée. La vue de New York est l’image 4a10172 d’un groupe plus vaste.",
+          "transcript": "Les trois dates sont celles du catalogue : c1896, c[1905] et [c1908]. Leurs nuances comptent. Le négatif new-yorkais appartient à un groupe panoramique plus vaste, mais apparaît ici comme un cadre isolé. C’est une chronologie de notices choisies, pas une histoire portuaire complète."
+        },
+        "ja": {
+          "title": "年代にも、\n輪郭がある。",
+          "eyebrow": "07 / 記録の時計",
+          "body": "記録の年代は、カレンダーの1日を指すとは限りません。概数のことも、期間のことも、別の出版物から判断した年代のこともあります。灯台の記録はc1896、グロスターの仕事の場面はc[1905]、ニューヨーク港の一群は[c1908]です。最後の資料記録には10枚のネガがありますが、ここに示すのは1枚であり、パノラマを復元したものではありません。この順序は、選んだ資料を目録の年代でたどります。1つの港の完全な歴史にはしません。括弧や空白も、私たちが受け継いだものの一部です。",
+          "caption": "不確かさを残した3つの目録年代。ニューヨークの写真は、より大きな一群のうち画像4a10172です。",
+          "transcript": "ここに並ぶのは目録の年代、c1896、c[1905]、[c1908]です。年代に添えられた記号にも意味があります。ニューヨークのネガは大きなパノラマ群の一部ですが、ここでは1枚のまま示しています。選んだ記録の年表であり、港の歴史の全体像ではありません。"
+        },
+        "ar": {
+          "title": "للتواريخ\nحواف أيضًا.",
+          "eyebrow": "٠٧ / ساعة الأرشيف",
+          "body": "ليس التاريخ الأرشيفي دائمًا يومًا محددًا على التقويم. فقد يكون تقديرًا أو فترة، أو استنتاجًا من منشور آخر. يقول سجل المنارة c1896، ومشهد العمل في غلوستر c[1905]، ومجموعة ميناء نيويورك [c1908]. وفي الحالة الأخيرة، يتضمن السجل عشرة ألواح سالبة؛ نعرض صورة واحدة، لا مشهدًا بانوراميًا أُعيد تركيبه. يتبع هذا التسلسل سجلات مختارة بحسب تواريخ فهرستها. ولا يحوّلها إلى تاريخ كامل لميناء واحد. الأقواس والفجوات جزء مما ورثناه أيضًا.",
+          "caption": "ثلاثة تواريخ فهرسية مع الاحتفاظ بعدم اليقين. منظر نيويورك هو الصورة 4a10172 من مجموعة أكبر.",
+          "transcript": "التواريخ الثلاثة هنا هي تواريخ الفهرس: c1896 وc[1905] و[c1908]. والقيود المرافقة لها مهمة. ينتمي سالب نيويورك إلى مجموعة بانورامية أكبر، لكننا نعرضه إطارًا منفردًا. هذا تسلسل لسجلات مختارة، وليس تاريخًا كاملًا للواجهة البحرية."
+        }
+      },
+      "audio": {}
+    },
+    {
+      "id": "colophon",
+      "number": "08",
+      "layout": "credits",
+      "sourceIds": [
+        "loc-det-4a22773",
+        "loc-det-4a16590",
+        "loc-det-4a21996",
+        "loc-det-4a20344",
+        "loc-det-4a16836",
+        "loc-det-4a20920",
+        "loc-det-4a25770",
+        "loc-det-4a25819",
+        "loc-det-4a12861",
+        "loc-det-4a17226",
+        "loc-det-4a10172",
+        "loc-det-4a25811"
+      ],
+      "imagePath": "/museum/images/4a25811.webp",
+      "imageAlt": {
+        "en": "A steamer seen from a long paved dock, with tall masts and a funnel above its decks.",
+        "pt": "Um vapor visto de um longo cais pavimentado, com mastros altos e uma chaminé acima dos conveses.",
+        "es": "Un vapor visto desde un largo muelle pavimentado, con mástiles altos y una chimenea sobre sus cubiertas.",
+        "fr": "Un vapeur vu depuis un long quai pavé, avec de hauts mâts et une cheminée au-dessus des ponts.",
+        "ja": "長く舗装された埠頭から見た汽船。甲板の上に高いマストと煙突が伸びている。",
+        "ar": "سفينة بخارية تُرى من رصيف طويل مرصوف، وترتفع فوق أسطحها صوارٍ طويلة ومدخنة."
+      },
+      "imagePosition": "50% 50%",
+      "mapPosition": {
+        "x": 22,
+        "y": 29
+      },
+      "content": {
+        "en": {
+          "title": "A collection\nkeeps its sources.",
+          "eyebrow": "08 / The colophon",
+          "body": "These photographs belong to the Detroit Publishing Company Collection at the Library of Congress. The item records state that there are no known restrictions on publication. That wording is retained beside every image; it is not replaced by a made-up licence. Local exhibition files were resized and compressed from archive scans, with no AI restoration or invented historical detail. The original catalogue information, source links and measured file hashes remain available below. Harbor Street Maritime Museum and its harbor map are fictional. This sample demonstrates a reading experience. It does not claim a commissioned artifact was accepted, a translation was independently reviewed, or a payment took place.",
+          "caption": "[Steamer at dock] · 1900–1920. An unnamed vessel; the catalogue suggests a possible location rather than a confirmed one.",
+          "transcript": "Thank you for visiting. Every photograph has a source, and every source has limits. The archive records, complete frames, original JPEG downloads and local file hashes are available in the source notes. All six languages in this sample still await independent fluent review. No narration audio or commissioned acceptance is claimed."
+        },
+        "pt": {
+          "title": "Uma coleção\nguarda as suas fontes.",
+          "eyebrow": "08 / O colofão",
+          "body": "Estas fotografias pertencem à Coleção Detroit Publishing Company da Biblioteca do Congresso. Os documentos individuais indicam que não há restrições conhecidas à publicação. Essa formulação acompanha cada imagem; não foi substituída por uma licença inventada. Os ficheiros locais foram redimensionados e comprimidos a partir das digitalizações, sem restauração por IA nem pormenores históricos inventados. A informação original, as ligações e os códigos de verificação continuam disponíveis abaixo. O Museu Marítimo Harbor Street e o seu mapa são fictícios. Este exemplo demonstra uma experiência de leitura. Não afirma que um trabalho foi aceite, que uma tradução recebeu revisão independente ou que houve um pagamento.",
+          "caption": "[Vapor num cais] · 1900–1920. Embarcação sem nome; o catálogo sugere uma localização possível, não confirmada.",
+          "transcript": "Obrigado pela visita. Cada fotografia tem uma fonte e cada fonte tem limites. Os documentos do arquivo, os enquadramentos completos, os JPEG originais e os códigos dos ficheiros estão nas notas. Os seis idiomas deste exemplo aguardam revisão independente por falantes fluentes. Não se afirma a existência de áudio ou de aceitação de trabalhos encomendados."
+        },
+        "es": {
+          "title": "Una colección\nconserva sus fuentes.",
+          "eyebrow": "08 / El colofón",
+          "body": "Estas fotografías pertenecen a la Colección Detroit Publishing Company de la Biblioteca del Congreso. Sus fichas indican que no se conocen restricciones de publicación. Esa formulación acompaña cada imagen; no se sustituye por una licencia inventada. Los archivos locales se redimensionaron y comprimieron a partir de las digitalizaciones, sin restauración por IA ni detalles históricos inventados. La información original, los enlaces y las huellas verificadas siguen disponibles abajo. El Museo Marítimo Harbor Street y su mapa son ficticios. Esta muestra presenta una experiencia de lectura. No afirma que se aceptara un encargo, que una traducción recibiera revisión independiente o que se realizara un pago.",
+          "caption": "[Vapor en un muelle] · 1900–1920. Embarcación sin nombre; el catálogo sugiere una ubicación posible, no confirmada.",
+          "transcript": "Gracias por la visita. Cada fotografía tiene una fuente y cada fuente tiene límites. Las fichas, los encuadres completos, los JPEG originales y las huellas de los archivos están en las notas. Los seis idiomas de esta muestra siguen pendientes de revisión independiente por hablantes fluidos. No se afirma la existencia de narración ni de aceptación de encargos."
+        },
+        "fr": {
+          "title": "Une collection\ngarde ses sources.",
+          "eyebrow": "08 / Le colophon",
+          "body": "Ces photographies appartiennent à la collection Detroit Publishing Company de la Bibliothèque du Congrès. Les notices ne signalent aucune restriction connue de publication. Cette formulation accompagne chaque image ; elle n’est pas remplacée par une licence inventée. Les fichiers locaux ont été redimensionnés et compressés à partir des numérisations, sans restauration par IA ni détail historique ajouté. Les informations d’origine, liens et empreintes mesurées restent disponibles ci-dessous. Le musée Harbor Street et son plan sont fictifs. Cet exemple présente une expérience de lecture. Il ne prétend pas qu’un travail commandé a été accepté, qu’une traduction a reçu une révision indépendante ou qu’un paiement a eu lieu.",
+          "caption": "[Vapeur à quai] · 1900–1920. Navire sans nom ; le catalogue suggère un lieu possible, non confirmé.",
+          "transcript": "Merci de votre visite. Chaque photographie a une source, et chaque source a ses limites. Notices, cadres complets, JPEG d’origine et empreintes locales sont accessibles dans les notes. Les six langues attendent encore une révision indépendante par des personnes les maîtrisant. Aucune narration audio ni acceptation de travaux commandés n’est affirmée."
+        },
+        "ja": {
+          "title": "写真のそばに、\n出典を残す。",
+          "eyebrow": "08 / 展示の奥付",
+          "body": "写真は、米国議会図書館のデトロイト出版会社コレクションに属します。各目録には、出版に関する既知の制限はないと記されています。その表現を各画像に添え、架空のライセンスには置き換えていません。展示用ファイルは所蔵機関のスキャンから縮小・圧縮したもので、AIによる修復や歴史的な細部の追加はしていません。元の目録情報、出典リンク、計算したファイルの照合値を以下で確認できます。ハーバー・ストリート海事博物館と港の地図は架空です。これは読む体験のサンプルであり、制作物の承認、翻訳の独立した確認、支払いの実施を主張するものではありません。",
+          "caption": "［埠頭の汽船］。1900〜1920年。船名は不明で、目録の場所の候補も確定していません。",
+          "transcript": "ご来場ありがとうございます。すべての写真には出典があり、すべての出典には限界があります。資料記録、全体画像、元のJPEG、ローカルファイルの照合値は出典の記録で確認できます。6言語すべてが、堪能な独立した第三者による確認を待っています。音声の存在や制作物の承認は主張していません。"
+        },
+        "ar": {
+          "title": "المجموعة\nتحفظ مصادرها.",
+          "eyebrow": "٠٨ / خاتمة المعرض",
+          "body": "تنتمي هذه الصور إلى مجموعة شركة ديترويت للنشر في مكتبة الكونغرس. وتنص سجلات الصور على عدم وجود قيود معروفة على النشر. احتُفظ بهذه العبارة بجانب كل صورة، ولم تُستبدل برخصة مخترعة. صُغّرت الملفات المحلية وضُغطت انطلاقًا من نسخ الأرشيف الممسوحة، من دون ترميم بالذكاء الاصطناعي أو إضافة تفاصيل تاريخية. تظل بيانات الفهرس الأصلية وروابط المصادر وبصمات الملفات المحسوبة متاحة أدناه. متحف هاربر ستريت وخريطته خياليان. يوضح النموذج تجربة قراءة، ولا يدّعي قبول عمل مكلّف به أو مراجعة ترجمة مستقلة أو حدوث دفع مالي.",
+          "caption": "[سفينة بخارية عند رصيف]، بين ١٩٠٠ و١٩٢٠. السفينة غير مسمّاة، والموقع المقترح في الفهرس غير مؤكد.",
+          "transcript": "شكرًا لزيارتك. لكل صورة مصدر، ولكل مصدر حدود. تجد السجلات والإطارات الكاملة وملفات JPEG الأصلية وبصمات الملفات المحلية في ملاحظات المصادر. لا تزال اللغات الست تنتظر مراجعة مستقلة من أشخاص متمكنين منها. لا ندّعي وجود سرد صوتي أو قبول أعمال مكلّف بها."
+        }
+      },
+      "audio": {}
+    }
+  ],
+  "sources": [
+    {
+      "id": "loc-det-4a22773",
+      "title": "Steamers at pier, Port Huron, Mich.",
+      "description": "The catalogue identifies steamers at a pier in Port Huron, Michigan, and indexes the City of Alpena side wheeler. The record dates the photograph c1908; it does not identify the photographer.",
+      "imagePath": "/museum/images/4a22773.webp",
+      "thumbnailPath": "/museum/thumbnails/4a22773.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016800528/",
+      "creator": "Detroit Publishing Co., copyright claimant, publisher. Individual photographer not identified in the record.",
+      "date": "c1908.",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "f81136097c1888aa4b1fdfc6da015de060c65ca1c915c67d6d29656dd2cc1366",
+      "alt": "Steamers and a crowd beside a long wooden pier at Port Huron, seen along the paved and timber waterfront.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016800528",
+        "observedAt": "2026-11-10T19:52:26.725Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a16590",
+      "title": "[Steamer, Michigan Trans. Co]",
+      "description": "A steamer identified by the catalogue as Michigan Trans. Co. The record gives the broad date range 1890–1905 and indexes cargo ships; no location is asserted here.",
+      "imagePath": "/museum/images/4a16590.webp",
+      "thumbnailPath": "/museum/thumbnails/4a16590.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016807156/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1890 and 1905]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "4cbfc29eb9f0b419fa437dd8bc179212d8a54373b59af9a5ceef7fca84c055cf",
+      "alt": "A long, low cargo steamer releases smoke across open water, with a small wave near the foreground shore.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016807156",
+        "observedAt": "2026-11-10T19:52:26.725Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a21996",
+      "title": "Transfer steamer Detroit",
+      "description": "The record calls this vessel the transfer steamer Detroit and classifies it as a railroad ferry. Its date is given as between 1900 and 1905.",
+      "imagePath": "/museum/images/4a21996.webp",
+      "thumbnailPath": "/museum/thumbnails/4a21996.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016813544/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1900 and 1905]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "0f142e7d43fb73261fc068da3a0f7b853e95b03858880013b464f58ec592e174",
+      "alt": "The broad transfer steamer Detroit on the water, with its working decks and smokestacks visible.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016813544",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a20344",
+      "title": "[Excursion steamers Tashmoo and Idlewild at wharves, Detroit]",
+      "description": "The catalogue identifies the excursion steamers Tashmoo and Idlewild at Detroit wharves, around 1901. These real vessels and this real place are not renamed Harbor Street.",
+      "imagePath": "/museum/images/4a20344.webp",
+      "thumbnailPath": "/museum/thumbnails/4a20344.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016811564/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[ca. 1901]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "2cfc24e9c8f8397082550fe0ba892c2bd55c9b539e1635a1093596e672a691c1",
+      "alt": "Two excursion steamers alongside Detroit wharves, with rows of windows and decks above the river.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016811564",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a16836",
+      "title": "Str. Eastern States",
+      "description": "A dry-plate photograph of the steamboat Eastern States. The catalogue's Created / Published field gives 1901–1910; the single-year search facet is not substituted for that range.",
+      "imagePath": "/museum/images/4a16836.webp",
+      "thumbnailPath": "/museum/thumbnails/4a16836.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016807373/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1901 and 1910]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "eaadb2772f0b47e32b2734b63a9bad99dbbe3516c3087b8b25b1a1db1d0fc2f2",
+      "alt": "The steamboat Eastern States seen broadside, with a long hull, upper decks and a smoking funnel.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016807373",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a20920",
+      "title": "[Steamer City of Cleveland, broadside]",
+      "description": "The City of Cleveland viewed broadside. A catalogue summary, credited to researcher W. Worden in 2017, locates the scene at the Orleans Street yard in Detroit; the record dates the image [1907].",
+      "imagePath": "/museum/images/4a20920.webp",
+      "thumbnailPath": "/museum/thumbnails/4a20920.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016812640/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[1907]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "3b8e42e242cb43266e35b0f790700ef818dc0d8726a4d9d6621eaa584e1f0e38",
+      "alt": "A shipbuilding yard with a long hull, cranes and tall scaffold towers.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016812640",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a25770",
+      "title": "[Steamboats\"Western States,\" at left, Detroit & Cleveland Navigation Co. Line, Detroit; and \"City of Mackinac\" at right]",
+      "description": "Two steamboats at Detroit wharves. The catalogue identifies Western States at left and City of Mackinac at right, with a broad date range of 1900–1920.",
+      "imagePath": "/museum/images/4a25770.webp",
+      "thumbnailPath": "/museum/thumbnails/4a25770.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016816128/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1900 and 1920]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "af85ce19e21a375326edbdbbe3ea704c0f6bfb6adba0a9a9d8884a3205bbff04",
+      "alt": "Two passenger steamboats alongside Detroit wharves, Western States on the left and City of Mackinac on the right.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016816128",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a25819",
+      "title": "[Lighthouse on island]",
+      "description": "A lighthouse on an island, dated c1896 in the catalogue. The title was devised by a cataloguer. The record does not name the island, so this exhibition does not supply one.",
+      "imagePath": "/museum/images/4a25819.webp",
+      "thumbnailPath": "/museum/thumbnails/4a25819.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016816172/",
+      "creator": "Detroit Publishing Co., copyright claimant, publisher. Individual photographer not identified in the record.",
+      "date": "c1896.",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "378a77fb24b71326a32a333a67d6d1111806b4dd2daeece565651790c037089a",
+      "alt": "A lighthouse and low buildings on a small rocky island, with open water in front.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016816172",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a12861",
+      "title": "Handling a cargo from the fishing banks, Gloucester, Mass.",
+      "description": "Fish-handling work in Gloucester, Massachusetts. The catalogue gives c[1905], based on the publisher's Catalogue P (1906). It does not supply the names or personal histories of the people pictured.",
+      "imagePath": "/museum/images/4a12861.webp",
+      "thumbnailPath": "/museum/thumbnails/4a12861.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016805473/",
+      "creator": "Detroit Publishing Co., copyright claimant, publisher. Individual photographer not identified in the record.",
+      "date": "c[1905]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "ed3f5875728c8633e6f553a960ab23ca345716627ccb47d6830d09963ef07162",
+      "alt": "People handling a catch beside fishing vessels and wharf buildings in Gloucester.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016805473",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a17226",
+      "title": "[Unloading fish at \"T\" wharf, Boston, Mass.]",
+      "description": "Fishing vessels at Boston's T wharf, dated 1900–1910 in the catalogue. This is a different place and record from the Gloucester fish-handling photograph, not a before-and-after pair.",
+      "imagePath": "/museum/images/4a17226.webp",
+      "thumbnailPath": "/museum/thumbnails/4a17226.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016809156/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1900 and 1910]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "7fd2740c8c7a557b60d22610679e657ba9cecb819be33f7ec4605526578a74d2",
+      "alt": "Fishing schooners and dense rigging beside Boston's T wharf, with dock buildings across the water.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016809156",
+        "observedAt": "2026-11-10T20:09:28.358Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a10172",
+      "title": "N.Y. harbor from the Battery",
+      "description": "One glass-negative view in the catalogue's N.Y. harbor from the Battery group, dated [c1908]. The full record describes ten negatives forming two related panorama sets; this exhibit displays only digital image 4a10172.",
+      "imagePath": "/museum/images/4a10172.webp",
+      "thumbnailPath": "/museum/thumbnails/4a10172.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016802412/",
+      "creator": "Detroit Publishing Co., copyright claimant, publisher. Individual photographer not identified in the record.",
+      "date": "[c1908]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "8d1036716e6032e0f036f574b82fd854bb2b70a500ef312793bdc0a8749a2ef5",
+      "alt": "A view across New York harbor from the Battery, with boats on the water and waterfront structures in the foreground.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016802412",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    },
+    {
+      "id": "loc-det-4a25811",
+      "title": "[Steamer at dock]",
+      "description": "An unnamed steamer at a dock, catalogued between 1900 and 1920. A native catalogue note suggests a possible location at Canal Park, Sault Sainte Marie, Michigan. That suggestion is retained as uncertain, not promoted to a confirmed identification.",
+      "imagePath": "/museum/images/4a25811.webp",
+      "thumbnailPath": "/museum/thumbnails/4a25811.webp",
+      "sourceUrl": "https://www.loc.gov/item/2016816165/",
+      "creator": "Detroit Publishing Co., publisher. Individual photographer not identified in the record.",
+      "date": "[between 1900 and 1920]",
+      "rights": "No known restrictions on publication.",
+      "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+      "contentHash": "9c0e21e833905e27f55c915b92e1e201baa4a9a54dbc7cb023c6ce6c75a39690",
+      "alt": "A steamer seen from a long paved dock, with tall masts and a funnel above its decks.",
+      "provenance": {
+        "mode": "sample",
+        "label": "Real archival photograph · sample collection",
+        "sourceId": "2016816165",
+        "observedAt": "2026-11-10T19:55:05.716Z",
+        "sandbox": false
+      }
+    }
+  ],
+  "languageReviews": {
+    "en": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "This draft has not been reviewed by an independent fluent speaker. Text availability does not establish translation quality."
+    },
+    "pt": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "Este rascunho ainda não foi revisto por um falante fluente independente. A disponibilidade do texto não comprova a qualidade da tradução."
+    },
+    "es": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "Este borrador aún no ha sido revisado por una persona independiente que domine el idioma. Que el texto esté disponible no demuestra la calidad de la traducción."
+    },
+    "fr": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "Ce brouillon n’a pas été relu par une personne indépendante maîtrisant la langue. La présence du texte ne garantit pas la qualité de sa traduction."
+    },
+    "ja": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "この草稿は、その言語に堪能な独立した第三者による確認を受けていません。文章があることは、翻訳の品質が確認済みであることを意味しません。"
+    },
+    "ar": {
+      "fluentReviewed": false,
+      "reviewer": null,
+      "reviewedAt": null,
+      "disclosure": "لم يراجع هذه المسودة شخص مستقل متمكن من اللغة. وجود النص لا يثبت جودة الترجمة."
+    }
+  },
+  "provenance": {
+    "mode": "sample",
+    "label": "Sample exhibition · real archival photographs",
+    "sourceId": "harbor-street-sample-v1",
+    "observedAt": "2026-11-10T20:16:47.119Z",
+    "sandbox": false
+  },
+  "acceptedArtifactIds": [],
+  "createdAt": "2026-11-10T20:16:47.119Z",
+  "palette": {
+    "background": "#f6f1e7",
+    "foreground": "#1b2333",
+    "accent": "#916a30"
+  },
+  "accessibilityStatement": "Semantic chapters, a plain navigation list, keyboard-operable controls, descriptive image text, high contrast, adjustable reading width and optional spacious typography are provided. Arabic has right-to-left composition and its own type scale. Motion follows your device preference. These features do not replace testing with disabled readers; no universal accessibility claim is made."
+}

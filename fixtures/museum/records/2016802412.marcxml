@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><record xmlns="http://www.loc.gov/MARC21/slim" xmlns:zs="http://docs.oasis-open.org/ns/search-ws/sruResponse">
+  <leader>03833nkd a22007335a 4500</leader>
+  <controlfield tag="001">20102384</controlfield>
+  <controlfield tag="005">20260202154825.7</controlfield>
+  <controlfield tag="007">kg |||</controlfield>
+  <controlfield tag="008">940101s1908    xx nnn |     |    kneng  </controlfield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">20102384</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="906">
+    <subfield code="a">0</subfield>
+    <subfield code="b">cbc</subfield>
+    <subfield code="c">orignew</subfield>
+    <subfield code="d">u</subfield>
+    <subfield code="e">ncip</subfield>
+    <subfield code="f">20</subfield>
+    <subfield code="g">y-printpho</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="955">
+    <subfield code="a">LCAP batch update 2025-06-02-04:00: LCAPM-861</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="010">
+    <subfield code="a">  2016802412</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">(DLC)det1994008371/PP</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="035">
+    <subfield code="a">(BRS)000020050</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10165</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10166</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10167</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10168</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10168</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10169</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10170</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10171</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10172</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="037">
+    <subfield code="a">LC-DIG-det-4a10173</subfield>
+    <subfield code="b">DLC</subfield>
+    <subfield code="c">(digital file from original)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="040">
+    <subfield code="a">DLC</subfield>
+    <subfield code="c">DLC</subfield>
+    <subfield code="e">gihc</subfield>
+  </datafield>
+  <datafield ind1="0" ind2="0" tag="050">
+    <subfield code="a">LC-D4-15588</subfield>
+  </datafield>
+  <datafield ind1="0" ind2="0" tag="245">
+    <subfield code="a">N.Y. harbor from the Battery</subfield>
+    <subfield code="h">[graphic].</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="260">
+    <subfield code="c">[c1908]</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="300">
+    <subfield code="a">10 negatives :</subfield>
+    <subfield code="b">glass ;</subfield>
+    <subfield code="c">8 x 10 in.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="336">
+    <subfield code="a">still image</subfield>
+    <subfield code="b">sti</subfield>
+    <subfield code="2">rdacontent</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="337">
+    <subfield code="a">unmediated</subfield>
+    <subfield code="b">n</subfield>
+    <subfield code="2">rdamedia</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="337">
+    <subfield code="3">Digital image</subfield>
+    <subfield code="a">computer</subfield>
+    <subfield code="b">c</subfield>
+    <subfield code="2">rdamedia</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="338">
+    <subfield code="a">sheet</subfield>
+    <subfield code="b">nb</subfield>
+    <subfield code="2">rdacarrier</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="338">
+    <subfield code="3">Digital image</subfield>
+    <subfield code="a">online resource</subfield>
+    <subfield code="b">cr</subfield>
+    <subfield code="2">rdacarrier</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">5 negatives form one panorama with close variant of each negative.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">Videodisc images are out of sequence; actual left to right order is 1A-10169, 10168, 10167, 10166, 10165 for one set of negatives and 10174, 10173, 10172, 10171,</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">"G 4911," "G 4909," "G 4907," "G 4905," "G 4903" on left to right negatives respectively; "G 4912 dup," "G 4910dup," "G 4908 dup," "G 4906 dup," "G 4904 dup" on</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">Battery Park.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="500">
+    <subfield code="a">Detroit Publishing Co. no. 015588.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="540">
+    <subfield code="a">No known restrictions on publication.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="541">
+    <subfield code="c">Gift;</subfield>
+    <subfield code="a">State Historical Society of Colorado;</subfield>
+    <subfield code="d">1949.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="650">
+    <subfield code="a">Parks.</subfield>
+    <subfield code="2">lctgm</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="650">
+    <subfield code="a">Harbors.</subfield>
+    <subfield code="2">lctgm</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="650">
+    <subfield code="a">Commercial facilities.</subfield>
+    <subfield code="2">lctgm</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="650">
+    <subfield code="a">Elevated railroads.</subfield>
+    <subfield code="2">lctgm</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="655">
+    <subfield code="a">Panoramic photographs.</subfield>
+    <subfield code="2">gmgpc</subfield>
+  </datafield>
+  <datafield ind1=" " ind2="7" tag="655">
+    <subfield code="a">Dry plate negatives.</subfield>
+    <subfield code="2">gmgpc</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="710">
+    <subfield code="a">Detroit Publishing Co.,</subfield>
+    <subfield code="e">copyright claimant,</subfield>
+    <subfield code="e">publisher.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="752">
+    <subfield code="a">United States</subfield>
+    <subfield code="b">New York (State)</subfield>
+    <subfield code="d">New York.</subfield>
+  </datafield>
+  <datafield ind1="0" ind2=" " tag="773">
+    <subfield code="t">Detroit Publishing Company photograph collection (Library of Congress)</subfield>
+    <subfield code="w">(DLC)   93845504</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="852">
+    <subfield code="a">Library of Congress</subfield>
+    <subfield code="b">Prints and Photographs Division</subfield>
+    <subfield code="e">Washington, D.C. 20540 USA</subfield>
+    <subfield code="n">dcu</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/pp.print</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10169</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10169</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10168</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10168</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10167</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10167</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10166</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10166</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10165</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10165</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10174</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10174</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10173</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10173</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10172</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10172</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10171</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10171</subfield>
+  </datafield>
+  <datafield ind1="4" ind2="1" tag="856">
+    <subfield code="3">digital file from original</subfield>
+    <subfield code="d">det</subfield>
+    <subfield code="f">4a10170</subfield>
+    <subfield code="q">p</subfield>
+    <subfield code="u">http://hdl.loc.gov/loc.pnp/det.4a10170</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">pp/det</subfield>
+    <subfield code="e">ammem</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">pp/diof</subfield>
+  </datafield>
+</record>

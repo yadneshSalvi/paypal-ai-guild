@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "guild.toolkit-qualification.v1",
+  "observedAt": "2026-11-10T23:16:05.276Z",
+  "passed": true,
+  "toolkitVersion": "1.11.0",
+  "tool": "get_order",
+  "transport": "PayPal Agent Toolkit",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "max",
+  "modelResponseRecorded": true,
+  "resourceReference": "•••• 92154L",
+  "providerStatus": "COMPLETED",
+  "captureRecords": 0,
+  "bodyHash": "fe59d414c54db9d48ebef6e105b59ce4227a161b31d885cd370662037b810935",
+  "financialOperationsUnchanged": true,
+  "financialMutationsFromRead": 0,
+  "currentCapturedMinor": 0,
+  "currentProviderPaidMinor": 0,
+  "exactLocalToolAllowlist": [
+    "get_order"
+  ],
+  "privateEvidenceHash": "930496c26352a53eb9bd2e27724f72841d23075a3aea08ff41b07a7817e6f020",
+  "limitations": [
+    "An order status of COMPLETED is not proof of a capture. This qualification order has zero capture records.",
+    "Only get_order was exercised. Toolkit refund transport, six live captured awards and authentic webhook delivery are separate gates."
+  ]
+}

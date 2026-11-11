@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "guild.payment-qualification.v1",
+  "observedAt": "2026-11-10T22:56:10.939Z",
+  "scope": "Buyer-present authorization, explicit original-order resume, and zero-capture void only",
+  "passed": true,
+  "source": "Actual isolated PayPal Sandbox resources via the pinned APIMatic SDK",
+  "orderReference": "•••• 92154L",
+  "authorizationReference": "•••• 91511X",
+  "authorizationStatus": "VOIDED",
+  "authorizedMinor": 64000,
+  "capturedMinor": 0,
+  "currency": "USD",
+  "originalOrderCount": 1,
+  "authorizationCount": 1,
+  "voidCount": 1,
+  "cancellationPreserved": true,
+  "resumeRecorded": true,
+  "expiryUnchanged": true,
+  "acceptedArtifacts": 0,
+  "providerPayouts": 0,
+  "limitations": [
+    "No accepted-work capture was performed.",
+    "Partial-capture, final-capture closure, merchant balance corroboration and six provider awards remain separate qualification gates.",
+    "PayPal VOIDED is confirmed; card issuer hold-release timing was not measured."
+  ],
+  "privateEvidenceHash": "c617ca2a445b75d778f6a350cd9c886497476e835550bddafc5c0468ede68f39"
+}

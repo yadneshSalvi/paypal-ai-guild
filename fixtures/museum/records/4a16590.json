@@ -1,0 +1,70 @@
+{
+  "id": "loc-det-4a16590",
+  "itemId": "2016807156",
+  "digitalId": "4a16590",
+  "title": "[Steamer, Michigan Trans. Co]",
+  "createdPublished": "[between 1890 and 1905]",
+  "creator": "Detroit Publishing Co., publisher; individual photographer not identified in the record",
+  "callNumber": "LC-D4-32351 [P&P]",
+  "notes": [
+    "The catalogue supplies a date range, not a single year.",
+    "The subject heading is Cargo ships."
+  ],
+  "description": "A steamer identified by the catalogue as Michigan Trans. Co. The record gives the broad date range 1890–1905 and indexes cargo ships; no location is asserted here.",
+  "alt": "A long, low cargo steamer releases smoke across open water, with a small wave near the foreground shore.",
+  "sourceUrl": "https://www.loc.gov/item/2016807156/",
+  "resourceUrl": "https://www.loc.gov/resource/det.4a16590/",
+  "rights": "No known restrictions on publication.",
+  "rightsUrl": "https://guides.loc.gov/p-and-p-rights-and-restrictions/rights#102_det.html",
+  "creditLine": "Library of Congress, Prints & Photographs Division, Detroit Publishing Company Collection.",
+  "medium": "1 negative : glass ; 8 x 10 in.",
+  "observedAt": "2026-11-10T19:52:26.725Z",
+  "originalUrl": "https://cdn.loc.gov/service/pnp/det/4a10000/4a16000/4a16500/4a16590v.jpg",
+  "originalResolvedUrl": "https://tile.loc.gov/storage-services/service/pnp/det/4a10000/4a16000/4a16500/4a16590v.jpg",
+  "originalPath": "/museum/originals/4a16590.jpg",
+  "originalHash": "8dded230fde3b1c5f6180c0f74288c54dff9cb71352e5e0a3b679f246506daf1",
+  "originalBytes": 89556,
+  "masterUrl": "https://cdn.loc.gov/master/pnp/det/4a10000/4a16000/4a16500/4a16590u.tif",
+  "masterResolvedUrl": "https://tile.loc.gov/storage-services/master/pnp/det/4a10000/4a16000/4a16500/4a16590u.tif",
+  "masterHash": "a6224d63fd0f8353b2b8c81a09aba70cb829a4f7cf11ab6b9451fae8225466a6",
+  "masterBytes": 20592122,
+  "masterDimensions": {
+    "width": 5089,
+    "height": 4040
+  },
+  "masterRetainedLocally": false,
+  "imagePath": "/museum/images/4a16590.webp",
+  "thumbnailPath": "/museum/thumbnails/4a16590.webp",
+  "contentHash": "4cbfc29eb9f0b419fa437dd8bc179212d8a54373b59af9a5ceef7fca84c055cf",
+  "thumbnailHash": "47137ad0f95e91134ba39453c91387931fefd60ed3fcfd0ae8f07536cf96faef",
+  "imageBytes": 216320,
+  "thumbnailBytes": 21434,
+  "dimensions": {
+    "width": 2200,
+    "height": 1747
+  },
+  "treatment": "Full-frame archival TIFF resized to 2200 pixels wide and compressed as WebP. No historical content added. The viewer may apply clearly visual layout crops; complete frames remain available in source notes.",
+  "metadataMethod": "Descriptive fields transcribed from the linked Library of Congress item/resource record. File hashes and dimensions measured from actual downloads; these are local measurements, not archive-issued checksums.",
+  "nativeTitle": "[Steamer, Michigan Trans. Co]",
+  "nativeDate": "[between 1890 and 1905]",
+  "nativeContributors": [
+    "Detroit Publishing Co., publisher."
+  ],
+  "nativeMedium": "1 negative : glass ; 8 x 10 in.",
+  "nativeNotes": [
+    "Title from jacket.",
+    "On ship: Michigan Transportation Co.",
+    "\"14\" on negative.",
+    "Detroit Publishing Co. no. 32351.",
+    "Gift; State Historical Society of Colorado; 1949."
+  ],
+  "nativeSummary": [],
+  "nativeRights": [
+    "No known restrictions on publication."
+  ],
+  "nativeNotesComplete": true,
+  "nativeNotesCaveat": null,
+  "marcxmlUrl": "https://lccn.loc.gov/2016807156/marcxml",
+  "marcxmlHash": "57457d1300cef06a5a119cbbb4c6cc99ecbca38b69aab96b65028c0d81c1a0bc",
+  "metadataObservedAt": "2026-11-10T20:02:19.133505+00:00"
+}

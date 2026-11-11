@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "guild.full-translation-production.v1",
+  "recordedAt": "2026-11-11T02:48:22.569Z",
+  "provenance": "Actual full six-language successor production under an explicitly amended contract and fresh internal Passport. Agreed verification and review are pending.",
+  "artifact": {
+    "schemaVersion": "guild.translation.v2",
+    "contentHash": "5f5fbdf55089b1e61bf4f03a31e6cd90ffe8b5ecf06c39181e362ab7af7d6c64",
+    "sourceArtifactHash": "a41d3e2f943eebd5d17baf7f2d7fe979525c1d3bd641b9bc5ebaf78ec3d44828",
+    "localeLabelCounts": {
+      "ar": 13,
+      "en": 13,
+      "es": 13,
+      "fr": 13,
+      "ja": 13,
+      "pt": 13
+    },
+    "arabicDirection": "rtl",
+    "glossaryDigest": "028bf4a2b1dfe3add8c058b68a99bdd6bdb8b07b4793cd5b459a0227e813cf56",
+    "fluentHumanReviewed": false
+  },
+  "contract": {
+    "version": 3,
+    "acceptancePackVersion": "2.0.0",
+    "checks": [
+      {
+        "id": "source",
+        "status": "pending"
+      },
+      {
+        "id": "keys",
+        "status": "pending"
+      },
+      {
+        "id": "placeholders",
+        "status": "pending"
+      },
+      {
+        "id": "glossary",
+        "status": "pending"
+      },
+      {
+        "id": "script",
+        "status": "pending"
+      },
+      {
+        "id": "language",
+        "status": "pending"
+      },
+      {
+        "id": "back_translation",
+        "status": "pending"
+      },
+      {
+        "id": "meaning",
+        "status": "pending"
+      }
+    ]
+  },
+  "provider": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "max",
+    "completedCalls": 5,
+    "statusReads": 101,
+    "outputs": [
+      {
+        "operation": "museum_translation_full_v2_pt",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "391f4e88ac316e6bbc83b5fdca2e0e725828de9bac7dde29faa21a7e4c3750cd",
+        "polls": 19
+      },
+      {
+        "operation": "museum_translation_full_v2_es",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "4bf4b8bf320cc107a0cf33d6f072fc2ef924b59b22dab5a13dcc4d144caaf9fc",
+        "polls": 13
+      },
+      {
+        "operation": "museum_translation_full_v2_fr",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "661b80333d0b8ea98206f32b7c104906677e11f2f007025f685528f29f548995",
+        "polls": 25
+      },
+      {
+        "operation": "museum_translation_full_v2_ja",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "b369e46f03e9cb30b684d8464b74ecb31d81b510fae862328a54dc94feea8b83",
+        "polls": 25
+      },
+      {
+        "operation": "museum_translation_full_v2_ar",
+        "model": "gpt-6.1-sol",
+        "state": "completed",
+        "hash": "66fe9477f723ca6013b7f6bd5de272bd3fe74dbd7c7900e72fe28a07ca6dd907",
+        "polls": 19
+      }
+    ]
+  },
+  "priorArtifactPreserved": true,
+  "automatedReviewRecorded": false,
+  "humanAccepted": false,
+  "financialWrites": 0,
+  "limitations": [
+    "Production completion does not establish linguistic correctness.",
+    "The frozen deterministic checks and independent blind Gemini comparison have not yet been run on this artifact.",
+    "All locales remain not fluent-reviewed; no acceptance or payment follows from this record."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "guild.offline-exhibition-build.v1",
+  "builtAt": "2026-11-10T20:32:08.196Z",
+  "path": "/museum/harbor-street-offline.html",
+  "bytes": 6672449,
+  "sha256": "e428f910ac73d914e0cf55bd38d9a7140e1a9f8fadf9727c2c9dba52c184d0a4",
+  "embeddedPhotographs": 12,
+  "embeddedFonts": 3,
+  "localeCount": 6,
+  "chapterCount": 8,
+  "originalSourceNotesIncluded": true,
+  "fontLicensesIncluded": true,
+  "controllerCompiles": true,
+  "browserVerified": false,
+  "fluentReviewedLanguages": 0,
+  "audioRecordings": 0,
+  "provenance": "sample",
+  "limitations": [
+    "browserVerified remains false until the exported HTML is actually opened and exercised offline",
+    "no independent fluent review or real audio is claimed"
+  ]
+}
