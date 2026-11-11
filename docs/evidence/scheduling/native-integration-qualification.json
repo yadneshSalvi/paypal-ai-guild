@@ -232,7 +232,11 @@
     "modelledV1AdmissionUnchanged": true,
     "migration": "014, applied only to disposable/owned isolated QA schemas by this unit",
     "originalNarrationRuntimeModified": false,
-    "originalNarrationAuthorityExpiresAt": "2026-11-11T11:45:29.435Z"
+    "originalNarrationAuthorityExpiresAt": "2026-11-11T11:45:29.435Z",
+    "publicSourceFiles": 371,
+    "privateValuesCompared": 31,
+    "privateValueMatches": 0,
+    "forbiddenPaths": 0
   },
   "limitations": [
     "Actual planning-model behavior, hosted native-engine/license parity, clean installation and broad accessibility/performance qualification remain open.",
@@ -240,5 +244,6 @@
     "Controlled offers are team-operated signed services, not unaffiliated-provider A2A negotiation or observed fulfillment.",
     "Historical narration currently needs an exact original-approved-snapshot fix before later commercial totals can safely be combined with retained narration reads. Do not apply an original $580 commercial amendment before that fix is qualified.",
     "Captions/easy-read and generated-web producers/verifiers, genuine Formwork trials, human acceptance, full financial journey, protocols, external onboarding and release/film remain required."
-  ]
+  ],
+  "qualifiedSourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f"
 }

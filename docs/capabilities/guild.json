@@ -5,7 +5,8 @@
   "currentSourceBinding": {
     "baseCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
     "sourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e",
-    "evidence": "docs/evidence/scheduling/native-integration-qualification.json"
+    "evidence": "docs/evidence/scheduling/native-integration-qualification.json",
+    "qualifiedSourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f"
   },
   "humanReviewByLocale": {
     "en": {
@@ -199,7 +200,7 @@
     {
       "feature": "bryntum.native_ai",
       "chosenVersion": "Enterprise 8.0.0 / gpt-6.1-sol max gateway",
-      "sourceCommit": null,
+      "sourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f",
       "accountOrLicensePrerequisites": [
         "Valid Enterprise license",
         "Actual-model qualification for live use"
@@ -217,7 +218,7 @@
     {
       "feature": "bryntum.shared_scheduling_models",
       "chosenVersion": "Gantt and unified Scheduler Enterprise 8.0.0",
-      "sourceCommit": null,
+      "sourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f",
       "accountOrLicensePrerequisites": [
         "Installed pinned native packages",
         "Current source/calendar/capacity",
