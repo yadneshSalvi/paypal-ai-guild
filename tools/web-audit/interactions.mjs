@@ -7,6 +7,19 @@ async function keyActivate(locator) {
   assert(await focused(locator), 'The authored control could not receive focus before keyboard activation.', await locator.evaluate(element => ({ tag: element.tagName, id: element.id, inertAncestor: element.closest('[inert]')?.id ?? null, openDialogs: [...document.querySelectorAll('dialog[open]')].map(dialog => dialog.id) })));
   await locator.press('Enter');
 }
+async function keySelectIndex(locator, targetIndex) {
+  const before = await locator.evaluate(element => ({ index: element.selectedIndex, count: element.options.length }));
+  assert(Number.isInteger(targetIndex) && targetIndex >= 0 && targetIndex < before.count, 'The requested native menu option is unavailable.', before);
+  await locator.focus();
+  assert(await focused(locator), 'The native select could not receive keyboard focus.');
+  // macOS native selects do not change on Home/End while collapsed. Open the
+  // menu explicitly, navigate from its observed selection, then commit.
+  await locator.press('Space');
+  const direction = targetIndex > before.index ? 'ArrowDown' : 'ArrowUp';
+  for (let step = 0; step < Math.abs(targetIndex - before.index); step++) await locator.press(direction);
+  await locator.press('Enter');
+  assert(await locator.evaluate(element => element.selectedIndex) === targetIndex, 'Native keyboard menu selection did not commit.', { before, targetIndex });
+}
 async function failureState(page) {
   return page.evaluate(() => {
     const current = document.activeElement, rect = element => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
@@ -178,9 +191,9 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       const slider = player.locator('[data-seek]'); await slider.focus(); await slider.press('Home'); await slider.press('ArrowRight');
       await audio.evaluate(element => element.seeking ? new Promise(resolve => element.addEventListener('seeked', resolve, { once: true })) : undefined);
       assert(await audio.evaluate(element => element.paused && element.currentTime >= .05), 'Keyboard seeking failed or started playback.');
-      const speed = player.locator('[data-speed]'); await speed.focus(); await speed.press('End');
+      const speed = player.locator('[data-speed]'); await keySelectIndex(speed, 3);
       assert(await audio.evaluate(element => element.playbackRate === 1.5), 'Keyboard speed selection failed.');
-      await speed.press('Home'); await speed.press('ArrowDown');
+      await keySelectIndex(speed, 1);
       assert(await audio.evaluate(element => element.playbackRate === 1), 'The original playback speed was not restored.');
       observations.push({ key, ...state });
     }
@@ -218,8 +231,9 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       if (name === 'easy') assert(await active(page).locator('.web-easy-body').first().isVisible() && !(await active(page).locator('.web-original-body').first().isVisible()), 'The easy-read setting did not display the distinct source-linked output.');
       await control.press('Space'); assert(await page.locator('body').getAttribute(`data-${name}`) === 'false', name + ' was not restored.');
     }
-    const width = page.locator('[data-setting="width"]'); await width.focus(); await width.press('End'); assert(await page.locator('body').getAttribute('data-width') === 'wide', 'Reading width did not change.');
-    await width.press('Home'); if (record.design.typography.measure !== 'compact') await width.press('ArrowDown'); if (record.design.typography.measure === 'wide') await width.press('ArrowDown');
+    const width = page.locator('[data-setting="width"]'); await keySelectIndex(width, 2); assert(await page.locator('body').getAttribute('data-width') === 'wide', 'Reading width did not change.');
+    await keySelectIndex(width, ['compact', 'balanced', 'wide'].indexOf(record.design.typography.measure));
+    assert(await page.locator('body').getAttribute('data-width') === record.design.typography.measure, 'The original reading width was not restored.');
     const kiosk = page.locator('#kiosk-toggle'); await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false');
     assert(await page.locator('body').getAttribute('data-kiosk') === 'true', 'Kiosk or its disclosed quiet-reading fallback did not open.');
     await keyActivate(kiosk); await page.waitForFunction(() => document.body.dataset.kioskBusy === 'false'); await escapeTo(page, page.locator('#settings-dialog'), invoker);

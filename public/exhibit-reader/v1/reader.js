@@ -65,7 +65,13 @@
     });
     dialog.addEventListener("close", () => {
       const target = invokers.get(dialog.id);
-      if (dialog.returnValue !== "navigate") queueMicrotask(() => { if (!$('dialog[open]') && target instanceof HTMLElement && target.isConnected && !target.hasAttribute("disabled")) target.focus({ preventScroll: true }); });
+      if (dialog.returnValue !== "navigate") queueMicrotask(() => {
+        const current = document.activeElement;
+        // Native close already restores focus on supported browsers. A delayed
+        // close event must not steal a subsequent, intentional focus move.
+        const needsReturn = !current || current === document.body || current === document.documentElement || dialog.contains(current) || !current.isConnected;
+        if (needsReturn && !$('dialog[open]') && target instanceof HTMLElement && target.isConnected && !target.hasAttribute("disabled")) target.focus({ preventScroll: true });
+      });
     });
     $("[data-close]", dialog)?.addEventListener("click", () => closeDialog(dialog));
     dialog.addEventListener("click", event => {
