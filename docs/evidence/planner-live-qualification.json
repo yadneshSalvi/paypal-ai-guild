@@ -1,0 +1,54 @@
+{
+  "version": "guild-planner-live-qualification.v1",
+  "observedAt": "2026-11-11T12:46:34.798Z",
+  "sourceCommit": "7833bc657b3dd634d1807bdf7426ac698594d42b",
+  "sourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
+  "model": "gpt-6.1-sol",
+  "reasoning": "max",
+  "transport": "actual Responses API",
+  "controlledInputs": [
+    "Synthetic failed web artifact",
+    "Guild-controlled recovery offers"
+  ],
+  "completedModelResponses": 8,
+  "knownProviderResponseIds": 8,
+  "knownIdReads": 26,
+  "completedTools": [
+    "createPlan",
+    "getOpeningPlan",
+    "completePlanSteps",
+    "compareRecoveryQuotes",
+    "completePlanSteps",
+    "proposeOpeningChange",
+    "completePlanSteps"
+  ],
+  "proposals": [
+    {
+      "state": "proposed",
+      "digest": "6bf57b4186100f74ea90b9a913e165f86adfe62164ed834e05798225f3d992d1",
+      "totalMinor": 58000
+    }
+  ],
+  "activeTotalMinor": 54000,
+  "baselineScheduleUnchanged": true,
+  "originalApprovalDigestUnchanged": true,
+  "approvalReceipts": 1,
+  "operationalCounts": {
+    "guild_jobs": 0,
+    "guild_model_runs": 0,
+    "guild_speech_runs": 0,
+    "guild_media_objects": 0,
+    "guild_payment_intents": 0,
+    "guild_acceptance_decisions": 0,
+    "guild_payout_operations": 0
+  },
+  "nativeChecks": {
+    "visiblePlan": "3/3 backed by retained tool results",
+    "reload": "Saved user, intermediate and final messages restored; same proposal and plan",
+    "review": "540 to580;160award plus15fee; four-hour curator review; native forecastNov19 11amAmerica/New_York",
+    "keyboard": "Escape from review returned focus to Review",
+    "noApprovalOrExecution": true
+  },
+  "remainingFinding": "Native reply displays literal Markdown; a separate presentation fix is in progress.",
+  "privateAuditSha256": "56396d6983e8dbf1a1e5300b09b1e0f7e04779f1e0fcfe32925e1810c4811e52"
+}
