@@ -18,8 +18,14 @@ The earlier multilingual analysis incorrectly filtered the silence case label. T
 
 ## Integration requirements
 
-A production integration still needs its own durable operation records, request/receipt signing and media bindings, explicit acceptance-pack amendment, current bounded Passport, independent artifact verification, native caption-reader checks and complete held-out qualification. The existing failed edition and expired authority remain unchanged. Use `DEEPGRAM_API_KEY` only on the server. A provider confidence score is not human listening or timing ground truth.
+`runDeepgramOnce` now provides database-backed preparation, an atomic single-dispatch claim, exact owned-media binding and signed original observations. Its required internal authorizer must check the current agreement, source, actor and worker lease both at preparation and immediately before dispatch. It reuses the existing alignment tables with a separate capability and operation namespace. A recording cannot acquire another attempt by changing its operation label; all attempted states count toward the 78-recording job capacity.
+
+`readDeepgramRun` verifies the saved request and signed original response, including raw bytes, without a provider key or renewed production authority. Complete HTTP errors remain original evidence. Partial and lost responses remain indeterminate, and concurrent workers cannot dispatch again or overwrite the owning worker's state. The observation explicitly reports `productionAccepted: false`.
+
+No HTTP route or old Whisper producer is wired to this internal primitive. Production integration still needs a qualified capability, its explicit acceptance-pack amendment and current bounded Passport, independently checked source lineage, private evidence/download UI, independent artifact verification and complete held-out qualification. The existing failed edition and expired authority remain unchanged. Use `DEEPGRAM_API_KEY` only on the server. A provider confidence score is not human listening or timing ground truth.
 
 Validation: 18 focused gateway/mapping checks, 30 combined new/existing caption checks, strict TypeScript, and an offline replay of all18 retained development responses with independent `ffprobe` audio duration measurements. No API requests are made by these tests.
+
+The durable primitive additionally passes ten PostgreSQL integration tests with network-denied synthetic transport: dispatch/replay, concurrency, lost/partial responses, changed sources and tenant, expiry/revocation, signed-evidence tampering, label aliasing, late response retention, missing configuration and the full capacity boundary. These tests establish transport behavior, not six-language recognition or caption acceptance.
 
 References: [prerecorded API](https://developers.deepgram.com/reference/speech-to-text/listen-pre-recorded), [model versions](https://developers.deepgram.com/docs/version), [model metadata](https://developers.deepgram.com/guides/fundamentals/model-metadata).
