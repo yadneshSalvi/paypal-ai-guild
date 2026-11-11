@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "guild.deepgram-caption-candidate-code.v1",
+  "at": "2026-11-11T19:13:13.889269+00:00",
+  "sourceCommit": "2f58076",
+  "focusedTestsPassed": 18,
+  "combinedCaptionTestsPassed": 30,
+  "strictTypeScriptPassed": true,
+  "developmentResponsesReplayed": 18,
+  "independentDurationProbe": "ffprobe against original hash-checked audio",
+  "sourcePolicyDigest": "fb4125d4efee94c42bdc5a6af14fcc9b138b61d0c0ee5b0248d7e90024afbcec",
+  "timingPolicyDigest": "769ab0408c165ae7504a038747ace076b49ea32365e3c4331b3b70ea222a2244",
+  "outcomes": [
+    {
+      "id": "development-en-reference",
+      "locale": "en",
+      "kind": "reference-recording",
+      "status": "ready-for-review",
+      "codes": [],
+      "cueCount": 8
+    },
+    {
+      "id": "development-en-silence",
+      "locale": "en",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-pt-reference",
+      "locale": "pt",
+      "kind": "reference-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-pt-silence",
+      "locale": "pt",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-es-reference",
+      "locale": "es",
+      "kind": "reference-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-es-silence",
+      "locale": "es",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-fr-reference",
+      "locale": "fr",
+      "kind": "reference-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-fr-silence",
+      "locale": "fr",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-ar-reference",
+      "locale": "ar",
+      "kind": "reference-recording",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-ar-silence",
+      "locale": "ar",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-ja-reference",
+      "locale": "ja",
+      "kind": "reference-recording",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "development-ja-silence",
+      "locale": "ja",
+      "kind": "constructed-digital-silence",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "gemini-en-reference",
+      "locale": "en",
+      "kind": "gemini-development-recording",
+      "status": "ready-for-review",
+      "codes": [],
+      "cueCount": 8
+    },
+    {
+      "id": "gemini-pt-reference",
+      "locale": "pt",
+      "kind": "gemini-development-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "gemini-es-reference",
+      "locale": "es",
+      "kind": "gemini-development-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "gemini-fr-reference",
+      "locale": "fr",
+      "kind": "gemini-development-recording",
+      "status": "withheld",
+      "codes": [
+        "TRANSCRIPT_MISMATCH"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "gemini-ar-reference",
+      "locale": "ar",
+      "kind": "gemini-development-recording",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    },
+    {
+      "id": "gemini-ja-reference",
+      "locale": "ja",
+      "kind": "gemini-development-recording",
+      "status": "withheld",
+      "codes": [
+        "WORD_TIMING_UNQUALIFIED"
+      ],
+      "cueCount": 0
+    }
+  ],
+  "newProviderCallsForOfflineMapping": 0,
+  "heldOutCasesInspected": 0,
+  "productionAccepted": false,
+  "humanReviewed": false,
+  "applicationIntegrated": false,
+  "limitations": [
+    "A separate candidate policy, not a change to the earlier failed contract.",
+    "Durable production operation/approval integration, full six-language qualification, native reader qualification and production deployment remain outstanding."
+  ]
+}
