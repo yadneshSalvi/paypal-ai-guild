@@ -1,0 +1,444 @@
+{
+  "schemaVersion": "guild.deepgram-word-timestamp-development.v1",
+  "at": "2026-11-11T18:58:56.875760+00:00",
+  "scope": "Two separately frozen development candidates using existing audio and fresh Gemini narration. No production acceptance or changes to the earlier failed caption edition.",
+  "provider": "Deepgram prerecorded speech-to-text",
+  "actualProviderRequests": 36,
+  "terminalHttp200": 36,
+  "candidates": [
+    {
+      "name": "nova-3-multilingual",
+      "protocolDigest": "2898e51470d43ebe2841df2b5dba8fd71a152d94cb7624719a96f8a58d7274cd",
+      "analysisDigest": "e0e8c41c4007f1ed076d3ed42b4abb1c0c2d728fc43ef75affb25e6d58f3ba8c",
+      "summary": {
+        "oldNarration": {
+          "cases": 6,
+          "exact": 0,
+          "validTiming": 0,
+          "nonpositiveWordIntervals": 0,
+          "nonIntegerMillisecondWords": 302
+        },
+        "geminiNarration": {
+          "cases": 6,
+          "exact": 1,
+          "validTiming": 0,
+          "nonpositiveWordIntervals": 0,
+          "nonIntegerMillisecondWords": 311
+        },
+        "silenceCases": 6,
+        "silenceEmpty": 6,
+        "constructedInsertionsWithheld": 6
+      },
+      "perCase": [
+        {
+          "id": "development-en-reference",
+          "locale": "en",
+          "kind": "reference-recording",
+          "wordCount": 90,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 42
+        },
+        {
+          "id": "development-en-silence",
+          "locale": "en",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-pt-reference",
+          "locale": "pt",
+          "kind": "reference-recording",
+          "wordCount": 105,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 56
+        },
+        {
+          "id": "development-pt-silence",
+          "locale": "pt",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-es-reference",
+          "locale": "es",
+          "kind": "reference-recording",
+          "wordCount": 105,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 35
+        },
+        {
+          "id": "development-es-silence",
+          "locale": "es",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-fr-reference",
+          "locale": "fr",
+          "kind": "reference-recording",
+          "wordCount": 108,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio"
+          ],
+          "nonIntegerMillisecondWords": 53
+        },
+        {
+          "id": "development-fr-silence",
+          "locale": "fr",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-ar-reference",
+          "locale": "ar",
+          "kind": "reference-recording",
+          "wordCount": 90,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 52
+        },
+        {
+          "id": "development-ar-silence",
+          "locale": "ar",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-ja-reference",
+          "locale": "ja",
+          "kind": "reference-recording",
+          "wordCount": 156,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 64
+        },
+        {
+          "id": "development-ja-silence",
+          "locale": "ja",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "gemini-en-reference",
+          "locale": "en",
+          "kind": "gemini-development-recording",
+          "wordCount": 91,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 34
+        },
+        {
+          "id": "gemini-pt-reference",
+          "locale": "pt",
+          "kind": "gemini-development-recording",
+          "wordCount": 104,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 67
+        },
+        {
+          "id": "gemini-es-reference",
+          "locale": "es",
+          "kind": "gemini-development-recording",
+          "wordCount": 107,
+          "exactUnderExistingNormalization": true,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 51
+        },
+        {
+          "id": "gemini-fr-reference",
+          "locale": "fr",
+          "kind": "gemini-development-recording",
+          "wordCount": 108,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio"
+          ],
+          "nonIntegerMillisecondWords": 43
+        },
+        {
+          "id": "gemini-ar-reference",
+          "locale": "ar",
+          "kind": "gemini-development-recording",
+          "wordCount": 88,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 44
+        },
+        {
+          "id": "gemini-ja-reference",
+          "locale": "ja",
+          "kind": "gemini-development-recording",
+          "wordCount": 146,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio"
+          ],
+          "nonIntegerMillisecondWords": 72
+        }
+      ]
+    },
+    {
+      "name": "nova-3-fixed-language",
+      "protocolDigest": "b5dd717d7578a99421a398d83555f6cbf9a27cbe6daf6370c01fa418598c4e25",
+      "analysisDigest": "4f3ef7de17614b48dab078a49b64f71aa5042447d884ebb6f14a252f25d608ab",
+      "summary": {
+        "oldNarration": {
+          "cases": 6,
+          "exact": 0,
+          "validTiming": 4,
+          "nonpositiveWordIntervals": 0,
+          "nonIntegerMillisecondWords": 340
+        },
+        "geminiNarration": {
+          "cases": 6,
+          "exact": 0,
+          "validTiming": 4,
+          "nonpositiveWordIntervals": 0,
+          "nonIntegerMillisecondWords": 357
+        },
+        "silenceCases": 6,
+        "silenceEmpty": 6,
+        "constructedInsertionsWithheld": 6
+      },
+      "perCase": [
+        {
+          "id": "development-en-reference",
+          "locale": "en",
+          "kind": "reference-recording",
+          "wordCount": 91,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 44
+        },
+        {
+          "id": "development-en-silence",
+          "locale": "en",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-pt-reference",
+          "locale": "pt",
+          "kind": "reference-recording",
+          "wordCount": 107,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 58
+        },
+        {
+          "id": "development-pt-silence",
+          "locale": "pt",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-es-reference",
+          "locale": "es",
+          "kind": "reference-recording",
+          "wordCount": 106,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 31
+        },
+        {
+          "id": "development-es-silence",
+          "locale": "es",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-fr-reference",
+          "locale": "fr",
+          "kind": "reference-recording",
+          "wordCount": 109,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 53
+        },
+        {
+          "id": "development-fr-silence",
+          "locale": "fr",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-ar-reference",
+          "locale": "ar",
+          "kind": "reference-recording",
+          "wordCount": 90,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 53
+        },
+        {
+          "id": "development-ar-silence",
+          "locale": "ar",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "development-ja-reference",
+          "locale": "ja",
+          "kind": "reference-recording",
+          "wordCount": 203,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 101
+        },
+        {
+          "id": "development-ja-silence",
+          "locale": "ja",
+          "kind": "constructed-digital-silence",
+          "wordCount": 0,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 0
+        },
+        {
+          "id": "gemini-en-reference",
+          "locale": "en",
+          "kind": "gemini-development-recording",
+          "wordCount": 91,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 25
+        },
+        {
+          "id": "gemini-pt-reference",
+          "locale": "pt",
+          "kind": "gemini-development-recording",
+          "wordCount": 106,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 72
+        },
+        {
+          "id": "gemini-es-reference",
+          "locale": "es",
+          "kind": "gemini-development-recording",
+          "wordCount": 106,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 51
+        },
+        {
+          "id": "gemini-fr-reference",
+          "locale": "fr",
+          "kind": "gemini-development-recording",
+          "wordCount": 108,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [],
+          "nonIntegerMillisecondWords": 48
+        },
+        {
+          "id": "gemini-ar-reference",
+          "locale": "ar",
+          "kind": "gemini-development-recording",
+          "wordCount": 87,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "after_audio",
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 51
+        },
+        {
+          "id": "gemini-ja-reference",
+          "locale": "ja",
+          "kind": "gemini-development-recording",
+          "wordCount": 192,
+          "exactUnderExistingNormalization": false,
+          "timingIssueKinds": [
+            "overlap"
+          ],
+          "nonIntegerMillisecondWords": 110
+        }
+      ]
+    }
+  ],
+  "reservedEvaluationCalls": 0,
+  "applicationWrites": 0,
+  "acceptedCaptionTracks": 0,
+  "limitations": [
+    "Raw speech recognition word intervals are not supplied-text forced alignment or human timing ground truth.",
+    "Recognition mismatches do not establish spoken omissions.",
+    "No interpolation, clipping, script shortening, selective reruns or case-specific timing repairs were performed.",
+    "The first multilingual analysis had a silence-kind filter error; the original report is retained and the corrected version is explicitly used here."
+  ],
+  "next": "Implement a separately versioned Deepgram provider adapter and exact source mapping; qualify any new caption contract independently before production acceptance.",
+  "documentation": [
+    "https://developers.deepgram.com/reference/speech-to-text/listen-pre-recorded",
+    "https://developers.deepgram.com/docs/nova-3-language-prompting",
+    "https://developers.deepgram.com/guides/fundamentals/model-metadata"
+  ]
+}
