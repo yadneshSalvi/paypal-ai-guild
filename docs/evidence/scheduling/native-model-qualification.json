@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "guild.scheduling-qualification.v1",
+  "recordedAt": "2026-11-11T05:49:06.540Z",
+  "executionMode": "local_engine_only",
+  "versions": {
+    "@bryntum/gantt-enterprise": "8.0.0",
+    "@bryntum/scheduler-enterprise": "8.0.0",
+    "@bryntum/engine-enterprise": "8.0.0",
+    "@bryntum/core-enterprise": "8.0.0"
+  },
+  "sourceHashes": {
+    "src/scheduling/contracts.ts": "99b12539e1c241fc579066579648a2283c6d44ae51c70880977aa4dded49f834",
+    "src/scheduling/configuration.ts": "4e45326d8e32ab5f50978fa0273fedbef21a5833d3441ed2bed435250d77f779",
+    "src/scheduling/model.ts": "5c75325ed6b565ebe6973350dde4d425d60d799ccd1dbffb551f9ad8bf971081",
+    "src/scheduling/bryntum-modules.d.ts": "79a936c518e1c557969180640109aa646ba9c764016b381b0dd41150438411a6",
+    "src/scheduling/opening-fixture.ts": "ee38b16edda47f861221a54843a05c9b5415e657ff9e2713a302b1b6d20304eb",
+    "tests/scheduling.test.ts": "94acdacc562fd5da0fb0ca5eedf47b2fd1b8c5f6d0990168e7e20218f945f6b1",
+    "scripts/qualify-scheduling.ts": "7cc2aed650a0ad97afa0f48107ffa708b3a40395a744087edc73926ab06b9b4a"
+  },
+  "results": [
+    {
+      "modelledOption": {
+        "id": "economy",
+        "name": "Economy replacement",
+        "providerPriceMinor": 13000,
+        "workingHours": 24
+      },
+      "evaluation": {
+        "schemaVersion": "guild.schedule-evaluation.v1",
+        "snapshotId": "opening-economy",
+        "snapshotRevision": 1,
+        "snapshotDigest": "9bd907372047577b7e3921c76f71357fd4b756c3d5ef60ed423be9808c62fb8f",
+        "engine": {
+          "name": "Bryntum Gantt Enterprise",
+          "version": "8.0.0"
+        },
+        "provenance": {
+          "mode": "modelled",
+          "clock": "accelerated_fixture",
+          "disclosure": "Modelled opening-week comparison. No provider quote, completed work, human acceptance or payment is established by this fixture."
+        },
+        "timeZone": "America/New_York",
+        "completionAt": "2026-11-23T16:00:00.000Z",
+        "openingAt": "2026-11-20T15:00:00.000Z",
+        "openingSlack": {
+          "wallClockHours": -73,
+          "workingHours": -9
+        },
+        "scheduleFeasible": false,
+        "reasons": [
+          "opening_missed"
+        ],
+        "tasks": [
+          {
+            "id": "research",
+            "startAt": "2026-11-12T14:00:00.000Z",
+            "endAt": "2026-11-12T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "translation",
+            "startAt": "2026-11-13T14:00:00.000Z",
+            "endAt": "2026-11-13T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "narration",
+            "startAt": "2026-11-16T14:00:00.000Z",
+            "endAt": "2026-11-16T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "captions",
+            "startAt": "2026-11-17T14:00:00.000Z",
+            "endAt": "2026-11-17T18:00:00.000Z",
+            "workingHours": 4,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "images",
+            "startAt": "2026-11-16T14:00:00.000Z",
+            "endAt": "2026-11-16T20:00:00.000Z",
+            "workingHours": 6,
+            "critical": false,
+            "totalSlackHours": 8,
+            "baseline": {
+              "startAt": "2026-11-16T14:00:00.000Z",
+              "endAt": "2026-11-16T22:00:00.000Z",
+              "finishVarianceWorkingHours": 2
+            }
+          },
+          {
+            "id": "web",
+            "startAt": "2026-11-17T20:00:00.000Z",
+            "endAt": "2026-11-20T20:00:00.000Z",
+            "workingHours": 24,
+            "critical": true,
+            "totalSlackHours": 0,
+            "baseline": null
+          },
+          {
+            "id": "curator",
+            "startAt": "2026-11-20T20:00:00.000Z",
+            "endAt": "2026-11-23T16:00:00.000Z",
+            "workingHours": 4,
+            "critical": true,
+            "totalSlackHours": 0,
+            "baseline": null
+          }
+        ],
+        "criticalPaths": [
+          [
+            "web",
+            "curator"
+          ]
+        ],
+        "resourceConflicts": []
+      }
+    },
+    {
+      "modelledOption": {
+        "id": "accessible",
+        "name": "Accessible replacement",
+        "providerPriceMinor": 16000,
+        "workingHours": 8
+      },
+      "evaluation": {
+        "schemaVersion": "guild.schedule-evaluation.v1",
+        "snapshotId": "opening-accessible",
+        "snapshotRevision": 1,
+        "snapshotDigest": "656432f1943fd9e1c2a19df0c9d3bf80114bc313976d1d19092c52ac5c72f45e",
+        "engine": {
+          "name": "Bryntum Gantt Enterprise",
+          "version": "8.0.0"
+        },
+        "provenance": {
+          "mode": "modelled",
+          "clock": "accelerated_fixture",
+          "disclosure": "Modelled opening-week comparison. No provider quote, completed work, human acceptance or payment is established by this fixture."
+        },
+        "timeZone": "America/New_York",
+        "completionAt": "2026-11-19T16:00:00.000Z",
+        "openingAt": "2026-11-20T15:00:00.000Z",
+        "openingSlack": {
+          "wallClockHours": 23,
+          "workingHours": 7
+        },
+        "scheduleFeasible": true,
+        "reasons": [],
+        "tasks": [
+          {
+            "id": "research",
+            "startAt": "2026-11-12T14:00:00.000Z",
+            "endAt": "2026-11-12T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "translation",
+            "startAt": "2026-11-13T14:00:00.000Z",
+            "endAt": "2026-11-13T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "narration",
+            "startAt": "2026-11-16T14:00:00.000Z",
+            "endAt": "2026-11-16T22:00:00.000Z",
+            "workingHours": 8,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "captions",
+            "startAt": "2026-11-17T14:00:00.000Z",
+            "endAt": "2026-11-17T18:00:00.000Z",
+            "workingHours": 4,
+            "critical": false,
+            "totalSlackHours": 2,
+            "baseline": null
+          },
+          {
+            "id": "images",
+            "startAt": "2026-11-16T14:00:00.000Z",
+            "endAt": "2026-11-16T20:00:00.000Z",
+            "workingHours": 6,
+            "critical": false,
+            "totalSlackHours": 8,
+            "baseline": {
+              "startAt": "2026-11-16T14:00:00.000Z",
+              "endAt": "2026-11-16T22:00:00.000Z",
+              "finishVarianceWorkingHours": 2
+            }
+          },
+          {
+            "id": "web",
+            "startAt": "2026-11-17T20:00:00.000Z",
+            "endAt": "2026-11-18T20:00:00.000Z",
+            "workingHours": 8,
+            "critical": true,
+            "totalSlackHours": 0,
+            "baseline": null
+          },
+          {
+            "id": "curator",
+            "startAt": "2026-11-18T20:00:00.000Z",
+            "endAt": "2026-11-19T16:00:00.000Z",
+            "workingHours": 4,
+            "critical": true,
+            "totalSlackHours": 0,
+            "baseline": null
+          }
+        ],
+        "criticalPaths": [
+          [
+            "web",
+            "curator"
+          ]
+        ],
+        "resourceConflicts": []
+      }
+    }
+  ],
+  "scope": [
+    "native Gantt Enterprise ProjectModel",
+    "IANA working calendars",
+    "finish-to-start dependencies",
+    "native resource allocation",
+    "native critical paths and baselines",
+    "isolated immutable input simulations"
+  ],
+  "notEstablished": [
+    "Shared rendered Gantt and Scheduler views or browser license qualification",
+    "Native AI panel or validated command gateway",
+    "Authentic provider quotes, expiry checks, awards or agreed availability",
+    "Human review, accepted production or payment",
+    "Persisted schedule revision and approval workflow",
+    "Hosted runtime and clean-install parity"
+  ]
+}

@@ -1,6 +1,6 @@
 # Guild implementation handoff
 
-Updated 11 November 2026 after the full image, successor-language, measured narration and explicit additional-correction implementation checkpoints. The complete planned product remains required. This is a public, self-contained handoff; private account identifiers, challenge history and the full requirement ledger stay in ignored local evidence.
+Updated 11 November 2026 after the full image, successor-language, measured narration, explicit additional-correction and isolated native scheduling model checkpoints. The complete planned product remains required. This is a public, self-contained handoff; private account identifiers, challenge history and the full requirement ledger stay in ignored local evidence.
 
 ## Current implementation and verification
 
@@ -11,6 +11,12 @@ Migrations 001–013 are applied locally. Strict typechecking, 45 domain/transpo
 The local app is on **http://localhost:4101**. Root owns the active local server, production-only worker, buyer browser, platform accounts and deployment. The Guild lead builds and tests source in an isolated archive without replacing the running server's `.next`. Current session identities and the approval-actor expiry are in the private rotation handoff. No deployment is claimed. Restart the app after source freeze before hosted qualification; a development process can retain an older globally cached payment runtime through HMR. Preserve unrelated applications and processes.
 
 The production audit reports 11 affected packages (10 high, one moderate) in the Toolkit dependency tree. The narrow `mathjs@15.2.0` override is qualified against the actual read adapter. Broad transitive overrides were not applied. See `docs/evidence/payments/dependency-review.md`; this build does not claim a clean dependency audit.
+
+## Native scheduling model checkpoint
+
+`src/scheduling/` now contains a strict versioned modelled snapshot, one native ProjectModel configuration and an isolated Bryntum Enterprise 8 evaluator. Actual engine calculations reproduce the $130/24-hour Monday review finish and $160/8-hour Thursday review finish, native critical path, +2/−2 working-hour baseline variance, a short capacity collision, provider unavailability and both daylight-saving transitions. The faster fixture has 23 wall-clock hours and seven working hours before opening. Unknown references, cycles, missing completion edges, impossible calendar intersections and horizon overflow reject. Parallel evaluations preserve source snapshots.
+
+The current source passes 55 domain/transport tests, including ten native scheduling tests, plus strict typechecking. This isolated module is not yet used by a product route. The earlier PostgreSQL/build evidence remains attached to its original unit. Shared rendered Gantt/Scheduler models, browser license qualification, native AI, revision-bound persistent proposals, genuine provider quotes and real-expiry checks remain required. Read `docs/SCHEDULING.md` and its source-hashed executable report before continuing. No sample schedule establishes provider completion, curator acceptance or payment eligibility.
 
 ## Observed external evidence
 
@@ -78,7 +84,7 @@ Use the exact Guild isolated sandbox app, database and approved controlled recei
 
 Preserve AUTH_SECRET while encrypted payout documents exist; key rotation needs an explicit migration. A fresh runtime captures the configured merchant fingerprint and refuses mismatched bindings. Terminal historical records made before this binding field was added remain historical; do not backfill authority or retry them as new work.
 
-The production-only local worker remains available for the completed successor-language artifact’s verification and future approved production; it invokes no financial recovery. The Guild lead owns the current local production server; current process identities are in the private rotation handoff. No new actual financial mutation is needed to review the retained authorization/void or Toolkit evidence. The next actual payment must start from genuinely eligible work and its current approved plan. Full accepted production, signed webhook delivery and deployment remain open.
+Root owns the current local production server and production-only worker; current process identities are in the private rotation handoff. The worker invokes no financial recovery. No new actual financial mutation is needed to review the retained authorization/void or Toolkit evidence. The next actual payment must start from genuinely eligible work and its current approved plan. Full accepted production, signed webhook delivery and deployment remain open.
 
 
 ## Earlier language/review checkpoint · 11 November 2026
