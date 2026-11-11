@@ -1,0 +1,95 @@
+{
+  "version": "guild.planner-formatting-qualification.v1",
+  "observedAt": "2026-11-11T13:03:42.916Z",
+  "baseQualifiedSource": "7833bc657b3dd634d1807bdf7426ac698594d42b",
+  "sourceFiles": [
+    {
+      "path": "src/components/studio/native-schedule-assistant.ts",
+      "sha256": "8c07ba28a47399ed0df4f583dfdb45e548b7dcec7922108fa44fc934a9fd9524"
+    },
+    {
+      "path": "src/components/studio/native-schedule.tsx",
+      "sha256": "7be73c6fe1b4dec1a21a07388a663874346042954a41b62722bcd55956097ef4"
+    },
+    {
+      "path": "src/components/studio/planner-message-format.ts",
+      "sha256": "9551c5e9ee30694f611905067167673e9ca9f03c61eaad430f2f1a1f80d470b0"
+    },
+    {
+      "path": "src/components/studio/production-floor.tsx",
+      "sha256": "c07328cc00f68c4d8797904426b1a396df462208c8c3e68a1ea37db62219491c"
+    },
+    {
+      "path": "src/components/studio/scheduling.css",
+      "sha256": "6c0bfe81963a18791b150f818c605f262d5659e66e26bc0bed8105dfe29e6a6f"
+    },
+    {
+      "path": "tests/planner-message-format.test.ts",
+      "sha256": "c34fafe906db31c9fc829fce182f33e7710d405a61bbc14e31a1379654609482"
+    }
+  ],
+  "sourceFilesDigest": "60d8e07162462edfd4028eb8b500050863a972eb9563b8ed31a8a263b9a3f4bc",
+  "sourceDigestMethod": "SHA-256 of UTF-8 JSON.stringify of path-sorted sourceFiles",
+  "nativeLibrary": "Bryntum Enterprise 8.0.0",
+  "renderer": "Supported AIChatPanel formatText extension; bounded safe Markdown subset",
+  "actualModelEvidence": "../planner-live-qualification.json",
+  "newModelRequests": 0,
+  "newProviderReads": 0,
+  "newToolCalls": 0,
+  "newProposals": 0,
+  "providerCredentialsPresent": false,
+  "retained": {
+    "responses": 8,
+    "knownIdReads": 26,
+    "tools": 7,
+    "proposals": 1,
+    "publicMessages": 3,
+    "completedPlanSteps": 3,
+    "proposedTotalMinor": 58000,
+    "activeTotalMinor": 54000,
+    "scheduleRevision": 1,
+    "approvalReceipts": 1,
+    "productionAndFinancialRows": {
+      "guild_jobs": 0,
+      "guild_model_runs": 0,
+      "guild_speech_runs": 0,
+      "guild_media_objects": 0,
+      "guild_payment_intents": 0,
+      "guild_acceptance_decisions": 0,
+      "guild_payout_operations": 0
+    }
+  },
+  "native": {
+    "desktop": "Saved actual transcript and 3/3 plan restored with real headings, emphasis and semantic table",
+    "mobile": {
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "popupWidth": 366,
+      "popupHeight": 680,
+      "tableWidth": 325,
+      "tableScrollerWidth": 250,
+      "keyboardArrowRightScroll": 40
+    },
+    "restoration": "Hard reload preserved exact three public messages, comparison table, plan and proposal",
+    "focus": "Escape returned focus to Plan with Guild",
+    "availability": "Provider unavailable is explicit; input and New conversation disabled; history remains readable",
+    "security": "Raw HTML, images, links and native mention tokens remain inert; source text unchanged"
+  },
+  "checks": {
+    "focusedFormattingSecurityTests": 4,
+    "strictTypeScript": "passed",
+    "independentProductionQaBuild": "passed",
+    "readOnlyAuditIdenticalApartFromObservationTime": true
+  },
+  "resolvedFindings": [
+    "Original native hook escaped literal Markdown; added safe display formatting",
+    "Unavailable provider originally hid saved native history; now retained history opens read-only"
+  ],
+  "remainingGates": [
+    "Clean installation",
+    "Hosted/native parity",
+    "Broader accessibility and performance qualification"
+  ],
+  "privateAuditSha256": "0a0ad1f0b40085ba23454f37a177af28cb818ca015f76f9efe627e24fffa43e2",
+  "privateScreenshot": "guild-planner-formatting-mobile.jpg"
+}

@@ -4,9 +4,11 @@ import type { Gantt } from "@bryntum/gantt-enterprise";
 import DefaultGanttAgent, { type NativeTool, type NativeToolInput } from "@bryntum/gantt-enterprise/lib/Gantt/feature/ai/agents/DefaultGanttAgent.js";
 import GanttToolHost from "@bryntum/gantt-enterprise/lib/Gantt/feature/ai/toolhosts/GanttToolHost.js";
 import { assistantToolDefinitions, assistantToolSchemas, planningStepsHaveEvidence, type AssistantRunView, type AssistantToolName, type SavedAssistantConversation, type StartAssistant } from "@/scheduling/assistant";
+import { formatPlannerMessage, formatPlannerReadOnlyOptions, formatPlannerUserText } from "./planner-message-format";
 
 export interface NativeAssistantCallbacks {
   commissionId: string;
+  available: boolean;
   onStatus: (run: AssistantRunView) => void;
   onProposal: (proposalId: string) => Promise<void>;
 }
@@ -31,7 +33,6 @@ function popupBounds() {
   const popupWidth = Math.min(460, width), popupHeight = Math.min(680, height);
   return { width: popupWidth, height: popupHeight, left: (viewport?.offsetLeft ?? 0) + 12 + (width - popupWidth) / 2, top: (viewport?.offsetTop ?? 0) + 12 + (height - popupHeight) / 2, viewport: new ViewportRectangle((viewport?.offsetLeft ?? 0) + 12, (viewport?.offsetTop ?? 0) + 12, width, height) };
 }
-const chatText = (text: string) => StringHelper.encodeHtml(text).replace(/\n/g, "<br>");
 function planMarkup(plan: VisiblePlan) {
   const completed = plan.steps.filter(step => step.completed).length;
   return `<section aria-label="Opening plan checklist" data-native-plan-state="${completed === plan.steps.length ? "complete" : "active"}"><div class="guild-plan-heading"><strong>Our plan</strong><span role="status" aria-live="polite">${completed} of ${plan.steps.length} steps complete</span></div><p>${StringHelper.encodeHtml(plan.goal ?? "Plan the opening")}</p><ol>${plan.steps.map(step => `<li data-state="${step.completed ? "complete" : "pending"}"><span class="guild-plan-mark" aria-hidden="true">${step.completed ? "✓" : step.id}</span><span>${StringHelper.encodeHtml(step.description)}<small>${step.completed ? "Complete · matching tool result saved" : "Pending"}</small></span></li>`).join("")}</ol></section>`;
@@ -92,6 +93,7 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks, res
     fit();
   };
   async function savedTool(name: AssistantToolName, args: unknown, callId?: string) {
+    if (!callbacks.available) return failedTool("The planning provider is unavailable. Saved conversations remain available to read.");
     if (!lastRunId || !callId) return failedTool("Only an exact saved assistant response can invoke a planning tool.");
     try {
       const response = await fetch(`${base}/tools`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ runId: lastRunId, callId, name, args }) });
@@ -154,6 +156,7 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks, res
       const controller = new AbortController();
       this.beforePost?.(body);
       const promise = (async () => {
+        if (!callbacks.available) throw new Error("The planning provider is unavailable. This saved conversation is read-only; no new request was sent.");
         if (restoration.error) throw new Error(restoration.error);
         const pending = sessionStorage.getItem(`${storageKey}.pending`);
         if (pending) {
@@ -250,17 +253,17 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks, res
           show: ({ source }: { source: PlannerPopup }) => { watchPopup(source); },
           hide: detachPopup, destroy: detachPopup,
         },
-        formatText: chatText,
-        messages: restored?.messages.map(item => ({ id: item.id, text: chatText(item.content), fromOther: item.role === "assistant", timestamp: item.createdAt, ...(item.options && restored.canAddTurn ? { options: item.options } : {}) })) ?? [],
+        formatText: formatPlannerMessage,
+        messages: restored?.messages.map(item => ({ id: item.id, text: (item.role === "assistant" ? formatPlannerMessage(item.content) : formatPlannerUserText(item.content)) + (item.options && (!callbacks.available || !restored.canAddTurn) ? formatPlannerReadOnlyOptions(item.options) : ""), fromOther: item.role === "assistant", timestamp: item.createdAt, ...(item.options && restored.canAddTurn && callbacks.available ? { options: item.options } : {}) })) ?? [],
         tools: { settingsTool: false, clearChat: false },
         items: {
-          guildHistory: { type: "widget", weight: -120, cls: "guild-native-history", html: `<p role="status">${StringHelper.encodeHtml(restoration.error ?? restored?.notice ?? "Plan with the saved contracts and offers.")}</p>` },
-          guildNewConversation: { type: "button", weight: -110, text: "New conversation", cls: "guild-native-new-conversation", disabled: !!restoration.error || !!restored?.pending || !!sessionStorage.getItem(`${storageKey}.pending`), onAction: () => {
-            if (sessionStorage.getItem(`${storageKey}.pending`)) return;
+          guildHistory: { type: "widget", weight: -120, cls: "guild-native-history", html: `<p role="status">${StringHelper.encodeHtml(restoration.error ?? (!callbacks.available ? "The planning provider is unavailable. You can read the saved conversation and plan; new messages and actions are disabled." : restored?.notice ?? "Plan with the saved contracts and offers."))}</p>` },
+          guildNewConversation: { type: "button", weight: -110, text: "New conversation", cls: "guild-native-new-conversation", disabled: !callbacks.available || !!restoration.error || !!restored?.pending || !!sessionStorage.getItem(`${storageKey}.pending`), onAction: () => {
+            if (!callbacks.available || sessionStorage.getItem(`${storageKey}.pending`)) return;
             sessionStorage.setItem(`${storageKey}.conversation`, crypto.randomUUID()); window.location.reload();
           } },
           guildPlan: { type: "widget", weight: -100, cls: "guild-native-plan", hidden: !restored?.plan, html: restored?.plan ? planMarkup(restored.plan) : "" },
-          messageField: { disabled: !!restoration.error || restored?.canAddTurn === false },
+          messageField: { disabled: !callbacks.available || !!restoration.error || restored?.canAddTurn === false },
         },
       } },
     delayStatusTexts: ["Reading the saved opening plan…", "Considering working time and review…", "The original request is still working…"],

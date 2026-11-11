@@ -53,7 +53,7 @@ export default function NativeSchedule(props: Props) {
           features: { taskEdit: false, cellEdit: false, taskMenu: false, taskResize: false, taskDragCreate: false,
             taskTooltip: { cls: "guild-native-tooltip-popup", template: ({ taskRecord }: { taskRecord: DatedTask }) => taskTooltip(taskRecord, props.sheet.forecast.timeZone) },
             dependencies: { allowCreate: false }, criticalPaths: true, baselines: true, timeRanges: { showCurrentTimeLine: false },
-            ai: props.assistant && conversation ? nativeScheduleAssistant({ commissionId: props.assistant.commissionId, onStatus: run => latest.current.assistant?.onStatus(run), onProposal: async id => { await latest.current.assistant?.onProposal(id); } }, conversation) : false,
+            ai: props.assistant && conversation ? nativeScheduleAssistant({ commissionId: props.assistant.commissionId, available: props.assistant.available, onStatus: run => latest.current.assistant?.onStatus(run), onProposal: async id => { await latest.current.assistant?.onProposal(id); } }, conversation) : false,
           },
           listeners: {
             selectionChange: ({ selected }: { selected: { id: string | number }[] }) => { if (selected[0]) latest.current.onSelect(String(selected[0].id)); },
@@ -97,7 +97,7 @@ export default function NativeSchedule(props: Props) {
       } catch (error) { if (!cancelled) setFailure(error instanceof Error ? error.message : "The native schedule could not open."); }
     })();
     return () => { cancelled = true; resize?.disconnect(); widgets.current = null; gantt?.destroy(); scheduler?.destroy(); project.destroy(); };
-  }, [props.sheet.digest]);
+  }, [props.sheet.digest, props.assistant?.available]);
   useEffect(() => {
     const { gantt, scheduler } = widgets.current ?? {};
     if (gantt) { const record = gantt.taskStore.getById(props.selected); if (record) gantt.selectedRecord = record; }
