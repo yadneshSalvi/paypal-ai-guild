@@ -71,13 +71,13 @@ export class MemoryMedia implements PrivateBlobGateway {
 }
 export class SyntheticSpeech implements SpeechGateway {
   calls = 0; responses = 0; inputs: SpeechRequest[] = [];
-  constructor(readonly mode: "ok" | "lost" | "short" | "long_ar" | "targeted_fail" | "partial_ar" | "lost_second" = "ok", readonly beforeDispatch?: () => Promise<void>) {}
+  constructor(readonly mode: "ok" | "lost" | "short" | "long_ar" | "targeted_fail" | "partial_ar" | "lost_second" | "remaining_ar" = "ok", readonly beforeDispatch?: () => Promise<void>) {}
   async generate(request: SpeechRequest, observer: SpeechObserver) {
     this.calls++; this.inputs.push(request); assert.equal(request.model, "gpt-realtime-2.1"); assert.equal(request.voice, "marin");
     const sessionId = `sess_fixture_${request.operationId}`, responseId = `resp_fixture_${request.operationId}`;
     await observer.session?.(sessionId, request.model); await this.beforeDispatch?.(); await observer.dispatch(); this.responses++; await observer.response?.(responseId);
     const recordingKey = (await getPool().query("SELECT operation_key FROM guild_speech_runs WHERE id=$1", [request.operationId])).rows[0].operation_key.split(":").at(-1);
-    const seconds = narrationEstimate(request.text, request.locale) * (this.mode === "short" && this.calls === 1 ? 0.55 : (this.mode === "long_ar" && request.locale === "ar" || ["targeted_fail", "partial_ar"].includes(this.mode) && request.locale === "ar" && ["welcome", ...fullFixtureKeys.slice(0, 4)].includes(recordingKey)) ? 1.6 : 1), pcm = Buffer.alloc(Math.round(24000 * seconds) * 2);
+    const seconds = narrationEstimate(request.text, request.locale) * (this.mode === "short" && this.calls === 1 ? 0.55 : (this.mode === "remaining_ar" && request.locale === "ar" && recordingKey === fullFixtureKeys[0] || this.mode === "long_ar" && request.locale === "ar" || ["targeted_fail", "partial_ar"].includes(this.mode) && request.locale === "ar" && ["welcome", ...fullFixtureKeys.slice(0, 4)].includes(recordingKey)) ? 1.6 : 1), pcm = Buffer.alloc(Math.round(24000 * seconds) * 2);
     for (let i = 0; i < pcm.length / 2; i++) { const t = i / 24000, envelope = 0.3 + 0.5 * Math.sin(t * Math.PI) ** 2; pcm.writeInt16LE(Math.round(12000 * envelope * (Math.sin(t * 2 * Math.PI * 220) + 0.2 * Math.sin(t * 2 * Math.PI * 440))), i * 2); }
     for (let offset = 0, sequence = 0; offset < pcm.length; offset += 96000, sequence++) { await observer.chunk?.(sequence, `event_${sequence}`, pcm.subarray(offset, offset + 96000)); if (this.mode === "lost" || this.mode === "lost_second" && this.calls === 2) throw new SpeechGatewayError("SYNTHETIC_CONNECTION_LOST", true); }
     const receipt: SpeechReceipt = { model: request.model, voice: request.voice, sessionId, responseId, transcript: this.mode === "targeted_fail" && request.locale === "en" && ["welcome", "loc-det-4a25770"].includes(recordingKey) ? request.text.replace("Fixture", "Fixtuure") : request.text, sampleRate: 24000, byteLength: pcm.length, contentHash: sha(pcm), latencyMs: 1, usage: { fixture: true } };
@@ -123,4 +123,25 @@ export async function exhaustedTargetedFixture(labelCount = 13) {
     await writeFile(process.env.GUILD_TARGETED_FIXTURE_EXPORT, JSON.stringify({ provenance: "Synthetic disposable fixtures only; no commissioned media, human review or financial evidence", session: f.session, commissionId: f.commissionId, authSecret: process.env.AUTH_SECRET, sessionSecret: process.env.JUDGE_SESSION_SECRET, rows, media: [...media.files.values()].map(item => ({ ...item, bytes: item.bytes.toString("base64") })) }), { mode: 0o600 });
   }
   return { ...f, media, transcription };
+}
+
+/** Four synthetic submissions, then a single actual-file duration failure. */
+export async function exhaustedFollowupFixture(saveNote = true) {
+  const f = await exhaustedTargetedFixture(13);
+  const { narrationTargetedCorrectionProposal } = await import("../../src/server/narration-targeted-corrections");
+  let c = await getCommission(f.session, f.commissionId);
+  const pkg = c.packages.find(item => item.id === "narration")!, proposal = await narrationTargetedCorrectionProposal(getPool(), c, pkg);
+  await executeCommand(f.session, c.id, { type: "agree_narration_targeted_correction", commandId: randomUUID(), expectedRevision: c.revision, packageId: pkg.id, contractVersion: pkg.contractVersion, proposalDigest: proposal.digest, acknowledgeExactScope: true });
+  await approve(f);
+  const dependencies = { media: f.media, transcription: f.transcription, speech: new SyntheticSpeech("remaining_ar") };
+  const targetedJobId = await queue(f);
+  assert.equal((await finish(f, targetedJobId, dependencies))?.state, "completed");
+  const verificationJobId = await queue(f, "verify_artifact");
+  assert.equal((await finish(f, verificationJobId, dependencies))?.state, "completed");
+  assert.equal(dependencies.speech.calls, 5);
+  if (saveNote) {
+    c = await getCommission(f.session, c.id);
+    await executeCommand(f.session, c.id, { type: "request_correction", commandId: randomUUID(), expectedRevision: c.revision, packageId: pkg.id, reason: "Synthetic follow-up fixture: the new independent report retains one duration failure, ar/loc-det-4a12861. Preserve all 77 passing recordings, including both original full-round files and targeted replacements, with their true producing identities. Review one newly agreed cue and one original stream under the unchanged standard, original expiry and exact $87/$540/$640 terms. No human listening, acceptance or payment is established." });
+  }
+  return { ...f, targetedJobId, verificationJobId };
 }

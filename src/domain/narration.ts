@@ -83,5 +83,11 @@ export const targetedNarrationArtifactSchema = narrationArtifactSchema.omit({ co
   targetedCorrection: z.object({ agreementId: z.string().uuid(), agreementDigest: hash, registerDigest: hash, assemblyJobId: z.string().uuid(), contractVersion: z.number().int().positive() }).strict(),
   lineage: z.array(narrationLineageSchema).min(6).max(186),
 }).strict();
-export const completeNarrationArtifactSchema = z.discriminatedUnion("schemaVersion", [narrationArtifactSchema, targetedNarrationArtifactSchema]);
+/** Follow-up assembly has its own envelope; neither earlier schema is broadened. */
+export const followupNarrationArtifactSchema = narrationArtifactSchema.omit({ correctionAgreement: true }).extend({
+  schemaVersion: z.literal("guild.narration.v4"),
+  followupCorrection: z.object({ agreementId: z.string().uuid(), agreementDigest: hash, registerDigest: hash, assemblyJobId: z.string().uuid(), contractVersion: z.number().int().positive(), referenceArtifactId: z.string().uuid(), referenceArtifactHash: hash }).strict(),
+  lineage: z.array(narrationLineageSchema).length(78),
+}).strict();
+export const completeNarrationArtifactSchema = z.discriminatedUnion("schemaVersion", [narrationArtifactSchema, targetedNarrationArtifactSchema, followupNarrationArtifactSchema]);
 export type CompleteNarrationArtifact = z.infer<typeof completeNarrationArtifactSchema>;

@@ -28,5 +28,5 @@ export function narrationCorrectionDigest(proposal: Omit<NarrationCorrectionProp
 export function productionJobLimit(pkg: WorkPackage): number {
   // An additional-correction contract is one further complete run. It does not
   // renew the original pack's included correction allowance.
-  return pkg.narrationCorrection || pkg.narrationTargetedCorrection ? 1 : 1 + pkg.acceptancePack.correctionAllowance;
+  return pkg.narrationCorrection || pkg.narrationTargetedCorrection || pkg.narrationFollowupCorrection ? 1 : 1 + pkg.acceptancePack.correctionAllowance;
 }

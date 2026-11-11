@@ -16,13 +16,18 @@ export async function artifactEvidence(session: Session, artifactId: string) {
   ]);
   const contracts = amendments.rows.filter(item => item.previous_contract.artifactIds.includes(artifactId)).map(item => ({ contract: item.previous_contract, retainedBeforeVersion: item.to_version, reason: item.reason, recordedAt: item.created_at.toISOString() }));
   const active = current.rows[0]?.packages.find(item => item.artifactIds.includes(artifactId));
+  const followupCorrectionAgreements = amendments.rows.flatMap(item => {
+    const agreement = item.proposed_contract.narrationFollowupCorrection;
+    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationFollowupCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationFollowupCorrection?.id === agreement.id)) ? [agreement] : [];
+  });
+  const relatedArtifacts = new Set([artifactId, ...followupCorrectionAgreements.flatMap(item => item.proposal.history.map(record => record.artifactId))]);
   const correctionAgreements = amendments.rows.flatMap(item => {
     const agreement = item.proposed_contract.narrationCorrection;
-    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationCorrection?.id === agreement.id)) ? [agreement] : [];
+    return agreement && (agreement.proposal.history.some(record => relatedArtifacts.has(record.artifactId)) || active?.narrationCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationCorrection?.id === agreement.id)) ? [agreement] : [];
   });
   const targetedCorrectionAgreements = amendments.rows.flatMap(item => {
     const agreement = item.proposed_contract.narrationTargetedCorrection;
-    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationTargetedCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationTargetedCorrection?.id === agreement.id)) ? [agreement] : [];
+    return agreement && (agreement.proposal.history.some(record => relatedArtifacts.has(record.artifactId)) || active?.narrationTargetedCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationTargetedCorrection?.id === agreement.id)) ? [agreement] : [];
   });
-  return { schemaVersion: "guild.artifact-evidence.v1", artifact: { id: artifactId, packageId: owned.package_id, contentHash: owned.manifest.contentHash, createdAt: owned.manifest.createdAt, provenance: owned.manifest.provenance }, currentContract: active ?? null, earlierContracts: contracts, checkReports: checks.rows, independentReports: reports.rows, automatedReviews: reviews.rows, correctionAgreements, targetedCorrectionAgreements, exportedAt: new Date().toISOString(), disclosure: "These records preserve actual checks, original contracts and explicitly attributed reviews. An automated report does not establish human acceptance or payment." };
+  return { schemaVersion: "guild.artifact-evidence.v1", artifact: { id: artifactId, packageId: owned.package_id, contentHash: owned.manifest.contentHash, createdAt: owned.manifest.createdAt, provenance: owned.manifest.provenance }, currentContract: active ?? null, earlierContracts: contracts, checkReports: checks.rows, independentReports: reports.rows, automatedReviews: reviews.rows, correctionAgreements, targetedCorrectionAgreements, followupCorrectionAgreements, exportedAt: new Date().toISOString(), disclosure: "These records preserve actual checks, original contracts and explicitly attributed reviews. An automated report does not establish human acceptance or payment." };
 }

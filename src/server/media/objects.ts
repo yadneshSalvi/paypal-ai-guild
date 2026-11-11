@@ -3,6 +3,7 @@ import { z } from "zod";
 import { digest, DomainError } from "@/domain/primitives";
 import { getPool, transaction } from "../db";
 import { authorizeTargetedMedia } from "../narration-targeted-corrections";
+import { authorizeFollowupMedia } from "../narration-followup-corrections";
 import { requireProductionLease, type ProductionLease } from "../production-authority";
 import { ProductionContinuation, ProductionReviewRequired } from "../production-continuation";
 import { VercelPrivateBlobGateway, type PrivateBlobGateway, type StoredBlob } from "./blob-store";
@@ -46,6 +47,7 @@ export async function storeMedia(context: ProductionLease, packageId: string, op
       const authority = await requireProductionLease(db, context, packageId), id = randomUUID();
       if (!authority.package || authority.package.kind === "images" && mediaType !== "image/webp" || authority.package.kind === "narration" && !["audio/mpeg", "audio/wav", "application/json"].includes(mediaType) || authority.package.kind === "captions" && !["text/vtt", "application/json"].includes(mediaType) || !["images", "narration", "captions"].includes(authority.package.kind) && mediaType !== "application/json") throw new DomainError("MEDIA_PACKAGE_FORMAT", "This file format does not belong to the producing package.", 422, false);
       authorizeTargetedMedia(authority.package, operationKey);
+      authorizeFollowupMedia(authority.package, operationKey);
       const pathname = `guild/private/v1/${context.tenantId}/${authority.commission.id}/${context.jobId}/${id}-${contentHash}.${formats[mediaType].extension}`;
       const inserted = await db.query<MediaObjectRow>("INSERT INTO guild_media_objects(id,tenant_id,commission_id,job_id,package_id,operation_key,media_type,content_hash,byte_length,blob_pathname,metadata) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT(tenant_id,job_id,operation_key) DO NOTHING RETURNING *", [id, context.tenantId, authority.commission.id, context.jobId, packageId, operationKey, mediaType, contentHash, bytes.length, pathname, metadata]);
       return inserted.rows[0] ?? (await db.query<MediaObjectRow>("SELECT * FROM guild_media_objects WHERE tenant_id=$1 AND job_id=$2 AND operation_key=$3", [context.tenantId, context.jobId, operationKey])).rows[0]!;

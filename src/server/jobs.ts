@@ -18,8 +18,9 @@ import { verifyNarration } from "./media/narration-verification";
 import type { SpeechGateway } from "./media/speech-gateway";
 import type { TranscriptionGateway } from "./media/transcription-gateway";
 import { validateNarrationTargetedCorrection } from "./narration-targeted-corrections";
+import { validateNarrationFollowupCorrection } from "./narration-followup-corrections";
 
-interface Job {id:string;tenant_id:string;commission_id:string;type:JobRun["type"];input:{packageId?:string;contractVersion?:number;revision?:number;artifactId?:string;artifactHash?:string;acceptancePackDigest?:string;inputBindings?:unknown;targetedAgreementId?:string;targetedAgreementDigest?:string};lease_token:string;attempts:number}
+interface Job {id:string;tenant_id:string;commission_id:string;type:JobRun["type"];input:{packageId?:string;contractVersion?:number;revision?:number;artifactId?:string;artifactHash?:string;acceptancePackDigest?:string;inputBindings?:unknown;targetedAgreementId?:string;targetedAgreementDigest?:string;followupAgreementId?:string;followupAgreementDigest?:string};lease_token:string;attempts:number}
 function productionAuthority(commission: Commission, job: Job): boolean {
   if(job.type==="compile_brief")return commission.state==="planning"&&!commission.approvedPlanDigest;
   const pkg=commission.packages.find(p=>p.id===job.input.packageId);
@@ -97,7 +98,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
       }else{
         const pkg=current.packages.find(p=>p.id===job.input.packageId);
         let inputsCurrent=true;
-        if(pkg){try{await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
+        if(pkg){try{await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});if(pkg.narrationFollowupCorrection)await validateNarrationFollowupCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
         if(!pkg||!productionAuthority(current,job)||!inputsCurrent)state="needs_review";
         else{pkg.artifactIds.push(actual.id);pkg.state="submitted";pkg.provenance=artifact.provenance;current.state=current.state==="paused"?"paused":"reviewing";}
       }

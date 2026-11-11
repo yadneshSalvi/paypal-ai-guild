@@ -19,7 +19,7 @@ export function NarrationEvidence({ artifact, reportDigest }: { artifact: Artifa
       const body = await response.json(); if (!response.ok) throw new Error(body.message ?? "The saved narration report could not be read.");
       if (abort.signal.aborted) return;
       const reports = body.independentReports as { state: string; output?: { report?: NarrationReport } }[];
-      setReport(reports.filter(item => item.state === "completed" && ["guild.narration-verification.v2", "guild.narration-verification.v3"].includes(item.output?.report?.schemaVersion ?? "") && item.output?.report?.artifactHash === artifact.contentHash).at(-1)?.output?.report ?? null);
+      setReport(reports.filter(item => item.state === "completed" && ["guild.narration-verification.v2", "guild.narration-verification.v3", "guild.narration-verification.v4"].includes(item.output?.report?.schemaVersion ?? "") && item.output?.report?.artifactHash === artifact.contentHash).at(-1)?.output?.report ?? null);
     }).catch(reason => { if (!abort.signal.aborted) setError(reason instanceof Error ? reason.message : "The saved narration report could not be read."); }).finally(() => { if (!abort.signal.aborted) setLoading(false); });
     return () => abort.abort();
   }, [artifact.id, artifact.contentHash, reportDigest, refresh]);

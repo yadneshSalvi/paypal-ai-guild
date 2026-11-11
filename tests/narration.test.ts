@@ -3,8 +3,10 @@ import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
 import { locales, type ArtifactManifest } from "../src/contracts/guild";
 import { digest } from "../src/domain/primitives";
-import { narrationAcceptancePack, narrationScripts } from "../src/domain/narration";
-import { arabicCorrectionDelivery } from "../src/domain/narration-correction";
+import { narrationAcceptancePack, narrationScripts, narrationStandard } from "../src/domain/narration";
+import { arabicCorrectionDelivery, narrationCorrectionPolicy } from "../src/domain/narration-correction";
+import { narrationTargetedPolicy, targetedSpeechInstructions } from "../src/domain/narration-targeted-correction";
+import { followupSpeechInstructions, narrationFollowupPolicy } from "../src/domain/narration-followup-correction";
 import { narrationEstimate, speechInstructions } from "../src/domain/speech";
 import { exhibitionCopy } from "../src/exhibition/locales";
 import { translationLocales } from "../src/domain/translation";
@@ -46,6 +48,27 @@ test("an agreed Arabic delivery cue replaces the conflicting slow synthesis pace
   for (const locale of locales.filter(item => item !== "ar")) assert.equal(speechInstructions(locale, arabicCorrectionDelivery), speechInstructions(locale));
   assert.equal(narrationEstimate(text, "ar"), before.find(item => item.locale === "ar")!.estimateSeconds);
   assert.deepEqual(narrationScripts(original), before);
+});
+
+test("the follow-up does not change either signed old policy or the measured narration standard", () => {
+  // Fingerprints from the retained targeted-v1 release. Historical signatures
+  // must continue validating after separately versioned follow-up support.
+  assert.equal(digest(narrationTargetedPolicy), "27d0f581942d163f118f5badd9a609252d487b9257bb579ef19db589751ffbca");
+  assert.equal(digest(narrationCorrectionPolicy), "f1d231b0c398f36da95eba63ced8d678e5205cf76f7a0288a6aec3b0da5a232c");
+  assert.equal(digest(narrationStandard), "9c89b33674559f2836a4d9cb837080195a5ec14a978ed09ab6eaa9232ae638f6");
+  assert.equal(narrationFollowupPolicy.replacementKey, "ar/loc-det-4a12861");
+  assert.equal(narrationFollowupPolicy.maximumProductionJobs, 1); assert.equal(narrationFollowupPolicy.maximumAttemptsPerRecording, 1);
+});
+
+test("the separately reviewed follow-up cue uses the unchanged estimate and exact wording without changing the old cue", () => {
+  const original = source(), script = { ...narrationScripts(original).find(item => item.locale === "ar")!, key: "loc-det-4a12861" };
+  const frozenScript = structuredClone(script), oldCue = targetedSpeechInstructions(script), cue = followupSpeechInstructions(script);
+  assert.notEqual(cue, oldCue);
+  assert.match(cue, new RegExp(`${script.estimateSeconds.toFixed(1)} seconds`));
+  assert.match(cue, /every exact word|exactly the text_to_read_verbatim field once in full/);
+  assert.match(cue, /through the final sentence/); assert.match(cue, /No tools are available/);
+  assert.deepEqual(script, frozenScript); assert.equal(targetedSpeechInstructions(script), oldCue);
+  assert.equal(narrationEstimate(script.text, "ar"), script.estimateSeconds);
 });
 
 test("recognition sends only original audio plus a language hint and retains the exact response bytes", async () => {
