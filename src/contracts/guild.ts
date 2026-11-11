@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { ScheduleAuthorityBinding } from "@/scheduling/persisted";
 
 export const CONTRACT_VERSION = "guild.v2" as const;
 export type Locale = "en" | "pt" | "es" | "fr" | "ja" | "ar";
@@ -204,8 +205,10 @@ export interface Commission {
   sourceAssets: SourceAsset[]; packages: WorkPackage[]; providers: ProviderCard[]; mandates: Mandate[];
   decisions: PolicyDecision[]; quotes: Quote[]; artifacts: ArtifactManifest[]; artifactReviews?: ArtifactReview[]; events: DomainEvent[];
   agents: AgentActivity[]; jobs: JobRun[]; payments: PaymentSummary; exhibitionSlug: string;
+  schedule?: ScheduleAuthorityBinding;
 }
-export interface WorkspaceSnapshot { schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
+export interface AuthorityDeadline { effectiveUntil: string | null; limits: { source: "workspace" | "passport" | "agreement"; label: string; expiresAt: string }[]; unavailable?: string }
+export interface WorkspaceSnapshot { authorityDeadline?: AuthorityDeadline; schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
 
 export type ExhibitionLayout = "cover" | "full_bleed" | "split" | "collection_grid" | "comparison" | "audio" | "timeline" | "credits";
 export interface ExhibitionText { title: string; eyebrow: string; body: string; caption: string; transcript: string }

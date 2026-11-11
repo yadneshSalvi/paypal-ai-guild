@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "guild.native-scheduling-qualification.v1",
+  "recordedAt": "2026-11-11T10:04:28.607453+00:00",
+  "sourceBaseCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+  "sourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e",
+  "sourceDigestMethod": "SHA-256 of sorted path + NUL + file SHA-256 + newline for src, tests, migrations, scripts, public assets, vendored packages and root build manifests",
+  "runtimeSourceFiles": 256,
+  "packages": {
+    "ganttEnterprise": "8.0.0",
+    "unifiedSchedulerEnterprise": "8.0.0",
+    "coreEnterprise": "8.0.0",
+    "engineEnterprise": "8.0.0"
+  },
+  "scope": "Local product implementation and root-operated native review with isolated synthetic web-failure and model-response fixtures. Actual native engines and application commands; zero actual planning-model/provider/payment calls.",
+  "tests": {
+    "domain": {
+      "passed": 60,
+      "failed": 0
+    },
+    "postgres": {
+      "passed": 110,
+      "failed": 0
+    },
+    "focusedSchedulingAndAssistant": {
+      "passed": 13,
+      "failed": 0
+    },
+    "strictTypescript": "passed",
+    "productionBuild": "passed",
+    "isolatedQaBuild": "passed",
+    "databaseAvailableDuringProductionBuild": false,
+    "providerCredentialsUsedDuringBuild": false,
+    "cleanInstall": false
+  },
+  "native": {
+    "operator": "Root-controlled native browser",
+    "sharedProjectAndStores": "Object.is identity verified for actual ProjectModel, task/event, resource, assignment, dependency and calendar stores",
+    "crossViewSelection": "passed",
+    "viewTabArrowKeys": "passed",
+    "actualPointerDrag": {
+      "task": "images",
+      "retainedProposal": true,
+      "activeRevisionUnchanged": true,
+      "activeDatesUnchanged": true,
+      "escapeFocusReturn": "native task bar"
+    },
+    "formProposal": {
+      "retainedProposal": true,
+      "escapeFocusReturn": "Review a move button"
+    },
+    "museumTime": {
+      "taskAndEventAria": "Explicit America/New_York and EST",
+      "hoverTooltips": "Museum time",
+      "axis": "Viewer zone separately labelled",
+      "instantsChanged": false
+    },
+    "nativeAssistant": {
+      "transport": "Local synthetic queued-create/known-ID-read transport",
+      "actualModelCalls": 0,
+      "sequence": [
+        "askUser",
+        "createPlan",
+        "getOpeningPlan",
+        "completePlanSteps(1)",
+        "compareRecoveryQuotes",
+        "completePlanSteps(2)",
+        "proposeOpeningChange",
+        "completePlanSteps(3)",
+        "final response"
+      ],
+      "visibleChecklistSteps": 3,
+      "completedWithMatchingEvidence": 3,
+      "savedResponseCount": 9,
+      "genericStoreMutatorsAvailable": false,
+      "approvalProductionAcceptancePaymentToolsAvailable": false,
+      "nativeConversationRestorationAfterReload": false,
+      "savedResponseToolAndProposalEvidenceRetainedAfterReload": true
+    },
+    "commercialReview": {
+      "beforeMinor": 54000,
+      "afterMinor": 58000,
+      "ceilingMinor": 64000,
+      "accessibleAwardMinor": 16000,
+      "serviceMinor": 1500,
+      "reviewFinishMuseumTime": "2026-11-19 11:00 America/New_York",
+      "curatorWorkingHours": 4,
+      "openingWorkingHoursClear": 7,
+      "openingElapsedHoursClear": 23,
+      "uncheckedPreparationDisabled": true,
+      "separateFreshPassportRequired": true,
+      "effectiveDeadlineSeparateFromOwnerPageExpiry": true
+    },
+    "responsive": {
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "proposalModalFitsAndScrolls": true,
+      "nativePopupFinalWidth": 364,
+      "nativePopupFinalHeight": 680,
+      "nativePopupPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "viewportOverridesCleared": true
+    },
+    "finalTheme": {
+      "popupBackground": "rgb(251, 250, 244)",
+      "foreground": "rgb(49, 70, 44)",
+      "neutral100": "#fffdf6",
+      "panelBackground": "#fbfaf4",
+      "colorScheme": "light",
+      "desktopScreenshot": "Retained privately by root; excluded from public source",
+      "mobileScreenshot": "Retained privately by root; excluded from public source"
+    }
+  },
+  "firstFixture": {
+    "commissionRevision": 7,
+    "savedScheduleRevisions": [
+      1,
+      2
+    ],
+    "webContractVersion": 2,
+    "webProvider": "ostrava",
+    "webAwardMinor": 16000,
+    "webServiceMinor": 1500,
+    "webWorkingHours": 8,
+    "completeProposalMinor": 58000,
+    "capMinor": 64000,
+    "originalScheduleUnchanged": true,
+    "originalFailedArtifactRetained": true,
+    "originalIndependentReportRetained": true,
+    "proposalCount": 2,
+    "approvalReceiptCount": 2,
+    "releasedReservationMinor": 13500,
+    "rootReservedMinor": 0,
+    "syntheticResponseCreates": 9,
+    "syntheticKnownIdReads": 9,
+    "successfulServerTools": [
+      "getOpeningPlan",
+      "compareRecoveryQuotes",
+      "proposeOpeningChange"
+    ],
+    "productionAndFinancialRows": {
+      "guild_jobs": 0,
+      "guild_model_runs": 0,
+      "guild_speech_runs": 0,
+      "guild_media_objects": 0,
+      "guild_payment_intents": 0,
+      "guild_acceptance_decisions": 0,
+      "guild_payout_operations": 0
+    }
+  },
+  "secondFixture": {
+    "commissionRevision": 7,
+    "savedScheduleRevisions": [
+      1,
+      2
+    ],
+    "webContractVersion": 2,
+    "webProvider": "ostrava",
+    "webAwardMinor": 16000,
+    "webServiceMinor": 1500,
+    "webWorkingHours": 8,
+    "completeProposalMinor": 58000,
+    "capMinor": 64000,
+    "originalScheduleUnchanged": true,
+    "originalFailedArtifactRetained": true,
+    "originalIndependentReportRetained": true,
+    "proposalCount": 3,
+    "approvalReceiptCount": 1,
+    "releasedReservationMinor": 13500,
+    "rootReservedMinor": 0,
+    "syntheticResponseCreates": 9,
+    "syntheticKnownIdReads": 9,
+    "successfulServerTools": [
+      "getOpeningPlan",
+      "compareRecoveryQuotes",
+      "proposeOpeningChange"
+    ],
+    "productionAndFinancialRows": {
+      "guild_jobs": 0,
+      "guild_model_runs": 0,
+      "guild_speech_runs": 0,
+      "guild_media_objects": 0,
+      "guild_payment_intents": 0,
+      "guild_acceptance_decisions": 0,
+      "guild_payout_operations": 0
+    }
+  },
+  "finalStyleOnlyCheck": {
+    "commissionUnchanged": true,
+    "originalNineResponsesUnchanged": true,
+    "newPlanningRequests": 0,
+    "newApprovals": 0,
+    "newProductionJobs": 0,
+    "newFinancialOperations": 0
+  },
+  "firstPassFindingsRetained": [
+    "History list showed eight although nine original responses existed; both endpoint and UI now expose complete counts and paginated history.",
+    "Native plan tools updated internal state without a visible checklist; a native-panel widget now reflects the actual plan state.",
+    "Async proposal lost its initiating focus target; form and real-drag focus returns passed the retest.",
+    "Native float-root theme variables remained dark after chart styling; final b-outer scope and surface styling passed measured desktop/mobile review.",
+    "Native event time and Passport owner-page expiry needed explicit museum/effective-deadline labels."
+  ],
+  "sourceAndPrivacy": {
+    "allRouteTraces": 23,
+    "allRoutePrivateFileMatches": 0,
+    "qaRouteInProductionRelease": false,
+    "workerRoutes": [
+      {
+        "route": "api/workspace/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      },
+      {
+        "route": "api/jobs/recover/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      },
+      {
+        "route": "api/commissions/[id]/commands/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      }
+    ],
+    "exactLegacyUnscheduledPlanDigestUnchanged": true,
+    "modelledV1AdmissionUnchanged": true,
+    "migration": "014, applied only to disposable/owned isolated QA schemas by this unit",
+    "originalNarrationRuntimeModified": false,
+    "originalNarrationAuthorityExpiresAt": "2026-11-11T11:45:29.435Z"
+  },
+  "limitations": [
+    "Actual planning-model behavior, hosted native-engine/license parity, clean installation and broad accessibility/performance qualification remain open.",
+    "Native popup bubbles and checklist are not hydrated after a reload; durable request/tool/proposal history remains available. Restoring the native view from saved evidence is follow-up work.",
+    "Controlled offers are team-operated signed services, not unaffiliated-provider A2A negotiation or observed fulfillment.",
+    "Historical narration currently needs an exact original-approved-snapshot fix before later commercial totals can safely be combined with retained narration reads. Do not apply an original $580 commercial amendment before that fix is qualified.",
+    "Captions/easy-read and generated-web producers/verifiers, genuine Formwork trials, human acceptance, full financial journey, protocols, external onboarding and release/film remain required."
+  ]
+}

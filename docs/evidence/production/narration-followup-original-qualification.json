@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-11-11T08:47:43.689Z",
+  "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+  "unit": "Original one-recording follow-up and independent recheck",
+  "lineageQualificationPassed": true,
+  "recordings": 78,
+  "newSpeechStreams": 1,
+  "newMediaObjects": 1,
+  "unchangedCarriedRecordings": 77,
+  "independentlyRecheckedFiles": 78,
+  "deterministicPassingFiles": 78,
+  "deterministicFailingFiles": 0,
+  "allDeterministicFileChecksPassed": true,
+  "followup": [
+    {
+      "locale": "ar",
+      "key": "loc-det-4a12861",
+      "measuredSeconds": 46.416,
+      "estimateSeconds": 42.84,
+      "durationRelativeError": 0.08347338935574214,
+      "independentRecognitionErrorRate": 0.07954545454545454
+    }
+  ],
+  "failures": [],
+  "blindRecognitionResults": 78,
+  "blindRecognitionAdvisoryMet": 60,
+  "reviewedAuthorityCeiling": "2026-11-11T11:45:29.435Z",
+  "additionalChargeMinor": 0,
+  "acceptedPackages": 0,
+  "capturedMinor": 0,
+  "humanListening": false,
+  "fluentReview": false,
+  "limitations": [
+    "The one follow-up job has used its reviewed allowance. No automatic further generation is authorized.",
+    "Deterministic file checks and independent recognition are reported separately. The complete acceptance pack still requires human listening and fluent-language review.",
+    "Automated transcript and recognition checks are not human listening or pronunciation approval."
+  ],
+  "nativeAutomatedReview": {
+    "observedAt": "2026-11-11T08:51:00Z",
+    "operator": "Root-controlled native browser",
+    "savedAgainstExactArtifactAndChecks": true,
+    "automatedFileChecksReported": 78,
+    "blindRecognitionAdvisoryMet": 60,
+    "blindRecognitionAdvisoryNotMet": 18,
+    "newRecordingsReported": 1,
+    "unchangedCarriedRecordingsReported": 77,
+    "humanListening": false,
+    "fluentReview": false,
+    "acceptedPackages": 0,
+    "capturedMinor": 0,
+    "authorityRenewed": false,
+    "screenshot": "Private evidence retained by the operator; excluded from public source"
+  }
+}

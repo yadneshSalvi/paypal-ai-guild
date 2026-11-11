@@ -1,0 +1,416 @@
+{
+  "schemaVersion": "guild.capability-ledger.v1",
+  "updatedAt": "2026-11-11",
+  "scope": "Evidence ledger for the full planned product. Status describes only the listed observed evidence.",
+  "currentSourceBinding": {
+    "baseCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+    "sourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e",
+    "evidence": "docs/evidence/scheduling/native-integration-qualification.json"
+  },
+  "humanReviewByLocale": {
+    "en": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    },
+    "pt": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    },
+    "es": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    },
+    "fr": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    },
+    "ja": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    },
+    "ar": {
+      "fluentReviewed": false,
+      "listeningReviewed": false,
+      "accepted": false
+    }
+  },
+  "capabilities": [
+    {
+      "feature": "toolkit.get_order",
+      "chosenVersion": "PayPal Agent Toolkit 1.11.0 / gpt-6.1-sol max",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Isolated PayPal sandbox app",
+        "Server-only credentials"
+      ],
+      "testRun": [
+        "docs/evidence/payments/toolkit-read-qualification.json"
+      ],
+      "status": "observed_local_sandbox",
+      "observedResult": "One actual model-selected get_order read of the owned completed order; zero captures.",
+      "selectedFallback": "Owned typed SDK read remains available; model cannot write money.",
+      "productWording": "Actual Toolkit read; order completion is not capture."
+    },
+    {
+      "feature": "toolkit.create_refund.request_id",
+      "chosenVersion": "PayPal Agent Toolkit 1.11.0",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Accepted paid obligation",
+        "Idempotency forwarding proof",
+        "Explicit financial scope"
+      ],
+      "testRun": [],
+      "status": "unqualified",
+      "observedResult": "No qualified refund proposal/transport or forwarding wire evidence.",
+      "selectedFallback": "Explicit merchant review; no model refund dispatch until transport and authority gates pass.",
+      "productWording": "Refund integration awaiting qualification."
+    },
+    {
+      "feature": "payments.two_partial_captures",
+      "chosenVersion": "Orders v2 AUTHORIZE / core 0.2.6",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Owned sandbox authorization",
+        "Merchant transaction corroboration"
+      ],
+      "testRun": [
+        "docs/evidence/payments/commercial-execution-verification.json"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Deterministic SDK/REST integration tests; no two actual Guild partial captures or merchant corroboration.",
+      "selectedFallback": "Separate package checkout, subject to its own buyer approval.",
+      "productWording": "Captures $0; actual partial-capture gate open."
+    },
+    {
+      "feature": "payments.final_capture_closure",
+      "chosenVersion": "Orders v2 final_capture / core 0.2.6",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Separate test authorization",
+        "Final capture",
+        "Authoritative read",
+        "Rejected follow-up",
+        "Merchant corroboration"
+      ],
+      "testRun": [
+        "docs/evidence/payments/commercial-execution-verification.json"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Final-capture selection and holds are implemented; separate actual closure/rejected-follow-up proof remains open.",
+      "selectedFallback": "Explicit closure review and qualified package checkout.",
+      "productWording": "Hold closure pending until authoritative proof."
+    },
+    {
+      "feature": "payments.zero_capture_void",
+      "chosenVersion": "Orders v2 / core 0.2.6",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Owned sandbox resource",
+        "Buyer approval"
+      ],
+      "testRun": [
+        "docs/evidence/payments/authorization-void-qualification.json"
+      ],
+      "status": "observed_local_sandbox",
+      "observedResult": "One $640 authorization followed by authoritative VOIDED; captures/refunds/payouts $0.",
+      "selectedFallback": "No inferred partial-capture void capability.",
+      "productWording": "Authorization voided; no funds captured."
+    },
+    {
+      "feature": "payments.void_after_partial",
+      "chosenVersion": "Orders v2 / core 0.2.6",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Separate partial-capture test authorization"
+      ],
+      "testRun": [],
+      "status": "unqualified",
+      "observedResult": "No actual void-after-partial proof.",
+      "selectedFallback": "Reconcile current provider state; preserve unpaid obligations.",
+      "productWording": "Partial-capture hold closure awaiting qualification."
+    },
+    {
+      "feature": "payments.payout_item_success",
+      "chosenVersion": "Payouts typed REST / core 0.2.6",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Project-isolated receivers",
+        "Actual successful matching items"
+      ],
+      "testRun": [
+        "docs/evidence/payments/commercial-execution-verification.json"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Per-item receiver, amount and SUCCESS checks pass fixtures; six real Guild awards remain unpaid.",
+      "selectedFallback": "Retain uncertain or unclaimed item for owned-resource reconciliation.",
+      "productWording": "Submission is not a paid provider."
+    },
+    {
+      "feature": "ap2.open_closed_mapping_and_cryptography",
+      "chosenVersion": "AP2 v0.2 / selected source e1ea56db72a6385bce3e5c1112b3a56ce60acb43",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Pinned official schemas",
+        "Issuer/key/nonce/revocation verification",
+        "Independent client"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "Guild server-signed receipts exist; official schema, SD-JWT and independent conformance do not.",
+      "selectedFallback": "Export honestly labelled Guild authority snapshots.",
+      "productWording": "Guild-signed; AP2-shaped conformance pending."
+    },
+    {
+      "feature": "a2a.independent_client",
+      "chosenVersion": "A2A 1.0.1 / JSON-RPC / source 3303592588e388e62e0f69f701af531d2f4e3991",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Seven addressed service identities",
+        "Both owner policies",
+        "Independent client"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "Controlled cards and local signed offers do not establish independent addressed providers or bilateral A2A.",
+      "selectedFallback": "Clearly label the current team-operated service.",
+      "productWording": "Controlled service offer; A2A qualification pending."
+    },
+    {
+      "feature": "mcp.commissioning_client",
+      "chosenVersion": "Three scoped commissioning tools; package version pending",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Separate scoped client",
+        "Tenant isolation",
+        "Challenge-bound human approval"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "commission.create, commission.status and approval.link interoperability remain unimplemented.",
+      "selectedFallback": "Native owner workspace and explicit approval.",
+      "productWording": "MCP commissioning planned."
+    },
+    {
+      "feature": "bryntum.native_ai",
+      "chosenVersion": "Enterprise 8.0.0 / gpt-6.1-sol max gateway",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Valid Enterprise license",
+        "Actual-model qualification for live use"
+      ],
+      "testRun": [
+        "docs/SCHEDULING.md",
+        "docs/evidence/scheduling/native-integration-qualification.json"
+      ],
+      "status": "observed_local_native_fixture",
+      "observedResult": "Nine local synthetic creates and nine known-ID reads exercised askUser/createPlan/read/compare/propose/completion. Native three-step checklist and matched completion labels passed. Desktop and 390px light popup passed. Actual model behavior remains unqualified. Saved evidence survives reload; native bubbles/checklist do not yet restore.",
+      "selectedFallback": "Manual timeline/form/quote proposals use the same authority gateway.",
+      "productWording": "Read, compare and propose; separate Passport approval required.",
+      "qualifiedSourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e"
+    },
+    {
+      "feature": "bryntum.shared_scheduling_models",
+      "chosenVersion": "Gantt and unified Scheduler Enterprise 8.0.0",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Installed pinned native packages",
+        "Current source/calendar/capacity",
+        "Unexpired exact authority"
+      ],
+      "testRun": [
+        "docs/evidence/scheduling/native-model-qualification.json",
+        "docs/SCHEDULING.md",
+        "docs/evidence/scheduling/native-integration-qualification.json"
+      ],
+      "status": "observed_local_native",
+      "observedResult": "Native runtime identity, cross-view selection, keyboard tabs, actual drag cancellation/proposal, museum-time labels and focus return passed. Signed controlled offer, persisted r2/webv2 and fresh $580 Passport passed isolated native review with zero production or financial operations. Revised 390px review passed; first approved and second unapproved-prepared fixtures remain separate.",
+      "selectedFallback": "Accessible task table and earliest-start form.",
+      "productWording": "Modelled business dates; one shared native project.",
+      "qualifiedSourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e"
+    },
+    {
+      "feature": "production.research",
+      "chosenVersion": "guild.research.v2 / gpt-6.1-sol max",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Registered source hashes",
+        "Approved contract"
+      ],
+      "testRun": [
+        "docs/evidence/production/full-research.json"
+      ],
+      "status": "observed_actual_draft",
+      "observedResult": "13 labels, five original background batches, five deterministic checks; attributed automated review.",
+      "selectedFallback": "Retain unsupported claims/failed checks for explicit review.",
+      "productWording": "Actual draft; curator interpretation and acceptance remain open."
+    },
+    {
+      "feature": "production.images",
+      "chosenVersion": "guild.images.v2 / Sharp pinned in package-lock",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Private Blob",
+        "Qualified host-native codec"
+      ],
+      "testRun": [
+        "docs/evidence/production/full-images.json"
+      ],
+      "status": "observed_actual_draft",
+      "observedResult": "12 vision calls, 24 private files, five deterministic checks; limited automated spot-review.",
+      "selectedFallback": "Source/derivative comparison with explicit fidelity review.",
+      "productWording": "Measured files; human fidelity and fluent alt-text review remain open."
+    },
+    {
+      "feature": "production.six_language_translation",
+      "chosenVersion": "guild.translation.v2 / pinned franc and independent Gemini verifier",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Frozen source/keys/glossary",
+        "Independent report",
+        "Reviewer or recorded fallback"
+      ],
+      "testRun": [
+        "docs/evidence/production/full-translation-v3.json",
+        "docs/evidence/localization/translation-calibration.json"
+      ],
+      "status": "observed_actual_draft",
+      "observedResult": "All 13 labels in six locales retained with full original responses. Fluent review is not established for any locale.",
+      "selectedFallback": "Disclosed curator fallback only through explicit acceptance flow.",
+      "productWording": "Automated evidence is separate from fluent review."
+    },
+    {
+      "feature": "production.narration",
+      "chosenVersion": "guild.narration.v4 / quill.targeted-followup.v1",
+      "sourceCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
+      "accountOrLicensePrerequisites": [
+        "Qualified FFmpeg host",
+        "Original expiry",
+        "Exact speech/source/terms chain"
+      ],
+      "testRun": [
+        "docs/evidence/production/narration-followup-original-qualification.json"
+      ],
+      "status": "observed_actual_draft",
+      "observedResult": "78/78 deterministic files pass; exactly one new stream and 77 unchanged carry. Recognition advisory 60/78; 18 other results retained. One-job allowance exhausted.",
+      "selectedFallback": "Further generation requires a new exact reviewed agreement; no automatic retry.",
+      "productWording": "Measured recordings; human listening and acceptance remain open."
+    },
+    {
+      "feature": "production.captions_easy_read",
+      "chosenVersion": "Acceptance-pack/producer version pending",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Measured narration source",
+        "Language-specific timed-caption contract",
+        "Easy-read concepts/source links"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "Contract retained; complete actual producer and independent checks remain required.",
+      "selectedFallback": "Qualification-pending label; no generic production readiness.",
+      "productWording": "Contract ready; production qualification pending."
+    },
+    {
+      "feature": "production.generated_web",
+      "chosenVersion": "Bounded renderer and acceptance-pack version pending",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Exact upstream bindings",
+        "Pinned accessibility/keyboard runners",
+        "Manual visual review"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "Curated sample renderer exists; generated production, genuine Formwork trials and complete web verification remain required.",
+      "selectedFallback": "Labelled curated sample; no arbitrary generated code execution.",
+      "productWording": "Sample exhibition; generated production qualification pending."
+    },
+    {
+      "feature": "exhibition.curated_sample",
+      "chosenVersion": "Harbor Street sample renderer",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Source rights records",
+        "Offline execution permission"
+      ],
+      "testRun": [
+        "docs/evidence/media/browser-review.json",
+        "docs/evidence/media/offline-build.json"
+      ],
+      "status": "observed_local_native",
+      "observedResult": "Twelve source photographs, six locales/RTL, navigation/source drawer and 390px checks. HTML hash verified; file execution was blocked.",
+      "selectedFallback": "Serve the same labelled sample in browser; offline execution remains a gate.",
+      "productWording": "Curated sample; no accepted live artifacts or fluent review claimed."
+    },
+    {
+      "feature": "providers.external_onboarding",
+      "chosenVersion": "Protocol/account version pending",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Provider identity",
+        "Own policy/receiver",
+        "Revocation and observed outcomes"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "No authenticated external-provider onboarding, observed reputation or full provider console qualification.",
+      "selectedFallback": "Team-operated providers remain explicitly labelled.",
+      "productWording": "Controlled service; external onboarding planned."
+    },
+    {
+      "feature": "commerce.complete_six_package_journey",
+      "chosenVersion": "guild.v2 / core 0.2.6",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Six accepted actual artifacts",
+        "Buyer approval",
+        "Six matching successful payouts"
+      ],
+      "testRun": [
+        "docs/evidence/payments/commercial-execution-verification.json"
+      ],
+      "status": "unqualified",
+      "observedResult": "Fixture arithmetic $580 gross/$530 awards/$50 service exists. Actual accepted/captured/paid six-package journey remains open.",
+      "selectedFallback": "Preserve each unmet acceptance or financial gate.",
+      "productWording": "No payment earned until exact acceptance and authoritative evidence."
+    },
+    {
+      "feature": "expanded.recourse_invoices_saved_wallet",
+      "chosenVersion": "Versions pending",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Supported account capabilities",
+        "Independent consent/revocation evidence"
+      ],
+      "testRun": [],
+      "status": "planned",
+      "observedResult": "Recourse/refund proposals, invoice reconciliation and standing saved-wallet consent/reuse remain incomplete.",
+      "selectedFallback": "Explicit one-time buyer decisions and retained evidence.",
+      "productWording": "Available only after separate qualification."
+    },
+    {
+      "feature": "release.accessibility_performance_hosting_film",
+      "chosenVersion": "Node 22 / Next 16.4.6 / Vercel planned",
+      "sourceCommit": null,
+      "accountOrLicensePrerequisites": [
+        "Valid licenses",
+        "Clean dependencies qualification",
+        "Measured hosting/browser matrix",
+        "Reviewed film"
+      ],
+      "testRun": [
+        "docs/BUILD_HANDOFF.md"
+      ],
+      "status": "in_progress",
+      "observedResult": "Local isolated builds and selected mobile/keyboard checks exist. Full matrix, clean install, hosted native parity, actual webhooks/job recovery, studies and film remain open.",
+      "selectedFallback": "Keep local qualification wording and retain failed gates.",
+      "productWording": "Local development; no production deployment claimed."
+    }
+  ]
+}

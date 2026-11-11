@@ -20,14 +20,14 @@ import type { TranscriptionGateway } from "./media/transcription-gateway";
 import { validateNarrationTargetedCorrection } from "./narration-targeted-corrections";
 import { validateNarrationFollowupCorrection } from "./narration-followup-corrections";
 
-interface Job {id:string;tenant_id:string;commission_id:string;type:JobRun["type"];input:{packageId?:string;contractVersion?:number;revision?:number;artifactId?:string;artifactHash?:string;acceptancePackDigest?:string;inputBindings?:unknown;targetedAgreementId?:string;targetedAgreementDigest?:string;followupAgreementId?:string;followupAgreementDigest?:string};lease_token:string;attempts:number}
+interface Job {id:string;tenant_id:string;commission_id:string;type:JobRun["type"];input:{packageId?:string;contractVersion?:number;revision?:number;artifactId?:string;artifactHash?:string;acceptancePackDigest?:string;inputBindings?:unknown;targetedAgreementId?:string;targetedAgreementDigest?:string;followupAgreementId?:string;followupAgreementDigest?:string;scheduleBinding?:Commission["schedule"]};lease_token:string;attempts:number}
 function productionAuthority(commission: Commission, job: Job): boolean {
   if(job.type==="compile_brief")return commission.state==="planning"&&!commission.approvedPlanDigest;
   const pkg=commission.packages.find(p=>p.id===job.input.packageId);
   if(job.type==="verify_artifact")return !!pkg&&pkg.state==="verifying"&&pkg.contractVersion===job.input.contractVersion&&pkg.acceptancePack.digest===job.input.acceptancePackDigest&&pkg.artifactIds.includes(job.input.artifactId??"")&&commission.artifacts.some(artifact=>artifact.id===job.input.artifactId&&artifact.packageId===pkg.id&&artifact.contentHash===job.input.artifactHash);
   const mandate=(pkg?commission.mandates.find(m=>m.parentId&&m.allowedKinds.includes(pkg.kind)):undefined)??commission.mandates.find(m=>!m.parentId);
   const authority=pkg&&mandate&&checkAuthority(commission.mandates,{mandateId:mandate.id,amountMinor:0,kind:pkg.kind,providerId:pkg.providerId,purpose:mandate.purpose,now:new Date().toISOString()});
-  return job.type==="produce_package"&&!!pkg&&pkg.contractVersion===job.input.contractVersion&&pkg.state==="producing"&&!!commission.approvedPlanDigest&&commission.approvedPlanDigest===planDigest(commission)&&!!authority?.allowed;
+  return job.type==="produce_package"&&!!pkg&&pkg.contractVersion===job.input.contractVersion&&pkg.state==="producing"&&!!commission.approvedPlanDigest&&commission.approvedPlanDigest===planDigest(commission)&&!!authority?.allowed&&digest(job.input.scheduleBinding??null)===digest(commission.schedule??null);
 }
 
 async function claim(tenantId?:string):Promise<{job:Job;commission:Commission}|null>{
@@ -98,7 +98,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
       }else{
         const pkg=current.packages.find(p=>p.id===job.input.packageId);
         let inputsCurrent=true;
-        if(pkg){try{await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});if(pkg.narrationFollowupCorrection)await validateNarrationFollowupCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
+        if(pkg){try{if(current.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,current,"production");await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});if(pkg.narrationFollowupCorrection)await validateNarrationFollowupCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
         if(!pkg||!productionAuthority(current,job)||!inputsCurrent)state="needs_review";
         else{pkg.artifactIds.push(actual.id);pkg.state="submitted";pkg.provenance=artifact.provenance;current.state=current.state==="paused"?"paused":"reviewing";}
       }

@@ -1,40 +1,56 @@
-# Native scheduling model qualification
+# The production floor
 
-Guild now evaluates isolated schedule snapshots with the installed Bryntum Gantt Enterprise 8.0.0 engine. The result is a modelled forecast. The current unit does not connect a Gantt or Scheduler view to the studio, accept a provider offer, change an approved plan, or authorize work or payment.
+Guild's production floor connects Bryntum Gantt and unified Scheduler Enterprise 8.0.0 to one native ProjectModel. The two views share task/event, resource, assignment, dependency and calendar stores. A saved schedule is a forecast from current contracts and source artifacts; it does not report work as completed or authorize production.
 
-The qualification fixture uses `America/New_York`, Monday–Friday 09:00–17:00, a Tuesday 17 November 2026 15:00 replacement start, four working hours of curator review and a Friday 20 November 10:00 opening. The source and returned instants are UTC; the dates below are local museum time.
+The timeline shows the opening, critical path and retained planning baseline. A task table and earliest-start form provide a keyboard alternative. Dates in task details use the museum's `America/New_York` time zone; the timeline identifies its display zone separately. Native dragging cancels the store mutation and submits an immutable proposal for server calculation. Previewing that proposal leaves the active schedule unchanged.
 
-| Modelled option | Provider price | Working duration | Replacement finishes | Review finishes | Opening margin |
-| --- | ---: | ---: | --- | --- | --- |
-| Economy | $130 | 24 hours | Fri 20 Nov, 15:00 | Mon 23 Nov, 11:00 | 73 wall-clock hours late; 9 working hours late |
-| Accessible | $160 | 8 hours | Wed 18 Nov, 15:00 | Thu 19 Nov, 11:00 | 23 wall-clock hours early; 7 working hours early |
+## Contracts, offers and approval
 
-The amounts are fixture estimates, not authenticated quotes. Calendar time never substitutes for real quote or authority expiry. The engine calculates the critical path as replacement → curator review. Critical-path slack is relative to calculated project completion; opening margin is a separately named result. The earlier image finish produces a native baseline variance of **+2 working hours**. Its agreed downstream earliest start remains Tuesday 15:00. A separate test produces **−2 working hours** of baseline variance.
+The strict `guild.schedule.v1` model contract remains unchanged. `guild.schedule.v2` wraps that model with tenant/commission identity, current package and acceptance-pack versions, input artifact hashes, provider policy/capacity, original quote terms, calculation and revision digests. Each server preview calculates a separate native project, checks the complete source revision and destroys the temporary model afterward.
 
-`src/scheduling/contracts.ts` defines a strict versioned snapshot: bounded IANA calendars, dated unavailability, tasks, resource capacity, finish-to-start dependencies, original baselines, opening and completion. It rejects duplicate or missing references, cycles, omitted paths to completion, unspecified-zone timestamps and injected authority fields. Every task must feed the completion task. This first contract deliberately admits only disclosed modelled fixtures; production-backed schedule and quote bindings need an explicit extension.
+Recovery offers are signed by Guild's team-operated provider service. They are controlled service offers, not unaffiliated-provider negotiation or observed fulfillment. Issuance requires the current failed blocking web report and its exact artifact. The signed terms bind the report, provider policy, current contract, price, service fee, working duration, calendar, capacity, earliest start and real expiry. The opening-week dates below are modelled business dates.
 
-`configuration.ts` produces the single native ProjectModel configuration for later shared views. `model.ts` makes a new project for each evaluation, waits for engine calculation, reports the calculated dates/critical paths/baselines and destroys the project. Source snapshots remain unchanged, including concurrent evaluations. Empty calendar intersections cancel; calculated work outside the bounded horizon is rejected.
+| Controlled offer | Provider award | Service fee | Work | Review finishes, museum time | Opening margin |
+| --- | ---: | ---: | ---: | --- | --- |
+| Formwork economy | $130 | $15 | 24 working hours | Mon 23 Nov, 11 am | 9 working hours late |
+| Ostrava accessible | $160 | $15 | 8 working hours | Thu 19 Nov, 11 am | 7 working hours before opening |
 
-Capacity uses Bryntum's actual Enterprise allocation report through the same engine path as its ResourceHistogram. Allocation intervals split at task and working-calendar boundaries, so a thirty-minute collision is not hidden by a daily average. A regression establishes a 200-unit simultaneous workload against 100-unit capacity and confirms that explicit 200-unit capacity clears it. The adapter reports a conflict rather than silently moving work to another slot. Resource time off is included in native task calculation; making Wednesday unavailable pushes the otherwise feasible option's review to Friday 11:00, one hour late.
+Both calculations include four working hours of curator review. The accessible option finishes review 23 elapsed hours before the Friday 20 November, 10 am opening. The complete proposal changes from $540 to $580 within the $640 ceiling. The $160 award and $175 package gross remain separate.
 
-The public declaration bundle omits a few native allocation internals and provides generic Store record types. Narrow local declarations and boundary casts match the installed 8.0.0 implementation. Upgrading Bryntum requires repeating this qualification. Rendering, browser license behavior and shared widget lifecycle are not established by Node execution. The official [ProjectModel documentation](https://bryntum.com/products/gantt/docs-llm/api/Gantt/model/ProjectModel.md) describes asynchronous scheduling and project stores; the installed package source and executable tests establish the behavior reported here.
+An offer expires after at most twenty real minutes, bounded by the original workspace and Passport deadlines. Review creates a retained proposal; an explicit acknowledged preparation creates a new schedule and, for changed provider terms, a new package contract. It preserves the failed submission/report and releases only the superseded unaccepted reservation. It clears approval and leads to the separate fresh Passport. No production job, acceptance or payment is created by preparation.
 
-## Reproduce
+An approved offer keeps its original signed terms after its offer window. That approval must match the immutable approved commission snapshot containing this exact quote and contract. Another valid receipt cannot lend it authority. A prepared but unapproved expired offer needs an explicit renewed offer, a retained link to its previous signed terms/report, another contract/schedule revision and fresh Passport. Renewal cannot extend the original authority ceiling. Changes to source, calendar or capacity require a current-source reconciliation preview. The Passport displays the earliest effective deadline separately from each page's expiry.
 
-With the existing pinned Enterprise dependencies installed:
+New production binds the exact schedule in its durable job. Enqueue, provider dispatch and artifact publication check it again. Stale source or capacity, a different schedule, revocation, expired authority or missing approval stops new work; original results remain available for review.
+
+## Native planning assistant
+
+The installed native Bryntum panel uses `askUser`, `createPlan` and `completePlanSteps`, with three application tools: `getOpeningPlan`, `compareRecoveryQuotes` and `proposeOpeningChange`. Generic native store mutators are excluded. Plan completion requires the corresponding successful server tool result. The native plan's actual state drives a visible checklist in the panel, including the completed final state.
+
+The server selects `gpt-6.1-sol` with max reasoning and background Responses. It admits only canonical tools available in the current native plan phase. A tool invocation must match an exact saved response, call ID and arguments. The proposal tool is idempotent and does not prepare or approve a Passport, request a provider offer, dispatch production, accept an artifact or move money.
+
+Each request reserves one original create identity. Known response IDs are polled; an uncertain create is held without an automatic replacement. Closing the panel retains the request. A conversation has a 24-create ceiling; another conversation is explicit and cannot bypass pending or uncertain work. Paginated history shows the complete saved count and original results. After a page reload, the app restores saved request/tool/proposal evidence, but the native popup currently starts without its previous bubbles or checklist. Native conversation restoration remains a follow-up UX requirement and must use saved records without new model calls. Actual model behavior requires its own controlled qualification; the native browser fixture uses a clearly labelled local synthetic transport.
+
+## Evidence and reproduction
+
+Run with the existing pinned dependencies and a dedicated disposable-test database:
 
 ```sh
 npm run typecheck
 npm test
+npm run test:integration
+npm run build
 node_modules/.bin/tsx scripts/qualify-scheduling.ts
 ```
 
-The final run passed **55 domain/transport tests**, including **10 native scheduling cases**, and strict TypeScript checking. Scheduling tests include both daylight-saving transitions, provider time off, a thirty-minute capacity collision, both signs of baseline variance, immutable parallel evaluation, invalid graphs, impossible calendar intersections and horizon rejection. No database or provider credentials are needed. The earlier 90 PostgreSQL cases apply to the frozen narration release; they were not rerun for this isolated, unrouted module.
+The original [model qualification](evidence/scheduling/native-model-qualification.json) covers critical paths, both baseline-variance signs, a thirty-minute capacity collision, provider time off, both daylight-saving transitions, invalid graphs, impossible calendars, bounded horizons and immutable parallel evaluation. It remains attached to its original source hashes.
 
-[`evidence/scheduling/native-model-qualification.json`](evidence/scheduling/native-model-qualification.json) contains the actual engine results, exact package versions and SHA-256 hashes of the qualified source, test and runner. A full application build is not new evidence for this unit: it has no imported product route or view yet.
+The first integrated suites passed 60 domain/transport and 107 PostgreSQL tests. The revised focused suite passes 13 scheduling/assistant tests, adding exact approval-snapshot binding, original-deadline projection, worker holds before any provider call, per-request native tool admission and complete paginated history. Strict TypeScript and isolated production/QA builds pass. The complete final rerun passed 60 domain and 110 PostgreSQL tests. Exact source hashes and native outcomes are in [the integration record](evidence/scheduling/native-integration-qualification.json).
 
-## Required continuation
+The first root-operated native pass established shared stores/selection, view-tab keyboard controls, two retained proposals, exact commercial review, mobile proposal layout and normal separate Passport approval. A read-only audit found schedule r2, web v2, $580 within $640, the old $135 reservation released, both approvals and the original failed artifact/report retained, and zero production/financial activity. The synthetic assistant made exactly nine creates and nine known-ID reads. That pass found four presentation failures: hidden native plan steps, an eight-item history cap, async focus return and native dark styling; time-zone and effective-deadline labels also needed clarification. Those findings are retained. The separate retest passed actual pointer dragging with the active r1 model unchanged, bar/form focus return, museum-time labels, a visible three-step native checklist, all nine saved responses, the effective-deadline display and the 390px popup. A final targeted pass confirmed cream backgrounds and readable text on the popup body/input at desktop and mobile widths. No extra planning request or approval was needed for that style check.
 
-Connect Gantt and Scheduler Enterprise to one actual project instance and qualify their shared stores, resource calendars, opening marker, native critical-path/baseline display, responsive layout, keyboard controls and lifecycle. Add revision-bound persisted schedule proposals and server-side clone validation. Bind genuine offers, scope, prices, working duration, provider calendar/capacity and real-time expiry before a candidate can be selected or approved.
+The native packages expose some experimental hooks and internal allocation APIs only in installed source. Narrow declarations match the pinned 8.0.0 implementation. A package upgrade requires repeating engine, browser, lifecycle, tool-boundary and license checks. The local builds reuse installed dependencies; clean install, hosted parity, actual model transport, broader accessibility/performance and deployment remain open.
 
-Then compile the installed native AI panel and custom tools through the validated proposal gateway. Remove generic mutation tools that bypass application commands. The panel, `askUser`, `createPlan`, `completePlanSteps` and optional tool adapter have not been qualified in this unit. The documented [native AI feature](https://bryntum.com/products/scheduler/docs-llm/api/Grid/feature/AI.md) remains the target. Complete production, human acceptance, financial, protocol, provider, accessibility, evaluation and release requirements remain in force.
+## Remaining product gates
+
+Complete historical narration validation across later commercial plans, then actual captions/easy-read and generated-web producers and independent checks. Genuine Formwork evaluation, seven addressed services, bilateral A2A, MCP commissioning, signed AP2-shaped exports, human acceptance, real captures/payouts/closure, provider onboarding, standing-wallet consent, recourse, broader evaluations and the release/film remain required. The [capability ledger](capabilities/guild.json) keeps implementation, observed evidence and remaining gates separate.

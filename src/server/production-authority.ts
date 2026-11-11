@@ -3,7 +3,7 @@ import type { PoolClient } from "pg";
 import type { Commission } from "@/contracts/guild";
 import { checkAuthority } from "@/domain/authority";
 import { planDigest } from "@/domain/fixture";
-import { canonical, DomainError } from "@/domain/primitives";
+import { canonical, digest, DomainError } from "@/domain/primitives";
 import { ProductionContinuation, ProductionReviewRequired } from "./production-continuation";
 import { validateProductionInputs } from "./production-inputs";
 import { validateNarrationCorrection } from "./narration-corrections";
@@ -12,7 +12,7 @@ import { validateNarrationFollowupCorrection } from "./narration-followup-correc
 
 export interface ProductionLease { jobId: string; tenantId: string; leaseToken?: string; externalCalls?: number }
 async function ownedJob(db: PoolClient, context: ProductionLease) {
-  const job = (await db.query<{ commission_id: string; type: string; input: { packageId?: string; contractVersion?: number; artifactId?: string; artifactHash?: string; acceptancePackDigest?: string; inputBindings?: unknown; correctionAgreementId?: string; correctionAgreementDigest?: string; targetedAgreementId?: string; targetedAgreementDigest?: string; followupAgreementId?: string; followupAgreementDigest?: string } }>("SELECT commission_id,type,input FROM guild_jobs WHERE id=$1 AND tenant_id=$2 AND state='running' AND lease_token=$3 AND lease_until>now() FOR UPDATE", [context.jobId, context.tenantId, context.leaseToken ?? null])).rows[0];
+  const job = (await db.query<{ commission_id: string; type: string; input: { packageId?: string; contractVersion?: number; artifactId?: string; artifactHash?: string; acceptancePackDigest?: string; inputBindings?: unknown; correctionAgreementId?: string; correctionAgreementDigest?: string; targetedAgreementId?: string; targetedAgreementDigest?: string; followupAgreementId?: string; followupAgreementDigest?: string; scheduleBinding?: Commission["schedule"] } }>("SELECT commission_id,type,input FROM guild_jobs WHERE id=$1 AND tenant_id=$2 AND state='running' AND lease_token=$3 AND lease_until>now() FOR UPDATE", [context.jobId, context.tenantId, context.leaseToken ?? null])).rows[0];
   if (!job) throw new ProductionReviewRequired("PRODUCTION_LEASE_REQUIRED", "The worker no longer owns this saved job. No new provider request was sent.");
   const c = (await db.query<{ snapshot: Commission }>("SELECT snapshot FROM guild_commissions WHERE id=$1 AND tenant_id=$2 FOR UPDATE", [job.commission_id, context.tenantId])).rows[0]?.snapshot;
   if (!c) throw new ProductionReviewRequired("PRODUCTION_COMMISSION_REQUIRED", "This job's commission is no longer available.");
@@ -30,6 +30,8 @@ export async function requireProductionLease(db: PoolClient, context: Production
   const authority = pkg && mandate && checkAuthority(c.mandates, { mandateId: mandate.id, amountMinor: 0, kind: pkg.kind, providerId: pkg.providerId, purpose: mandate.purpose, now: new Date().toISOString() });
   if (job.type !== "produce_package" || !pkg || packageId && pkg.id !== packageId || pkg.state !== "producing" || pkg.contractVersion !== job.input.contractVersion || !authority?.allowed || !c.approvedPlanDigest || c.approvedPlanDigest !== planDigest(c)) throw new ProductionReviewRequired("PRODUCTION_CONTRACT_CHANGED", "The contract or Passport changed before the next provider request. Completed drafts remain saved for review.");
   try {
+    if(digest(job.input.scheduleBinding??null)!==digest(c.schedule??null))throw new DomainError("SCHEDULE_AUTHORITY_CHANGED","This job belongs to a different approved schedule.",422,false);
+    if(c.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,c,"production");
     await validateProductionInputs(db,c,pkg,job.input.inputBindings);
     if(pkg.kind==="narration"){await validateNarrationCorrection(db,c,pkg,{id:context.jobId,input:job.input});await validateNarrationTargetedCorrection(db,c,pkg,{id:context.jobId,input:job.input});await validateNarrationFollowupCorrection(db,c,pkg,{id:context.jobId,input:job.input});}
   } catch(error) { if(error instanceof DomainError)throw new ProductionReviewRequired(error.code,error.message);throw error; }

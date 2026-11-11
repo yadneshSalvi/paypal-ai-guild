@@ -89,6 +89,7 @@ export async function executeCommand(session:Session,commissionId:string,command
     const now=new Date().toISOString();
     switch(command.type){
       case "approve_plan":{
+        if(commission.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,commission,"approval");
         if(commission.approvedPlanDigest===command.planDigest)throw new DomainError("ALREADY_APPROVED","This exact plan already has an approval receipt.");
         if(command.planDigest!==planDigest(commission))throw new DomainError("PLAN_CHANGED","The contract or authority pages changed. Review the current plan.");
         const root=commission.mandates.find(m=>!m.parentId)!;
@@ -98,7 +99,9 @@ export async function executeCommand(session:Session,commissionId:string,command
         const secret=process.env.AUTH_SECRET;if(!secret)throw new Error("AUTH_SECRET required");
         const receiptPayload={kind:"guild.server_signed_receipt.v1",actor:session.id,commission:commission.id,digest:command.planDigest,at:now};
         const receipt=createHmac("sha256",secret).update(canonical(receiptPayload)).digest("hex");
-        await db.query("INSERT INTO guild_approval_receipts(id,tenant_id,commission_id,actor_id,plan_digest,payload,signature) VALUES($1,$2,$3,$4,$5,$6,$7)",[randomUUID(),session.tenantId,commission.id,session.id,command.planDigest,receiptPayload,receipt]);
+        const receiptId=randomUUID();
+        await db.query("INSERT INTO guild_approval_receipts(id,tenant_id,commission_id,actor_id,plan_digest,payload,signature) VALUES($1,$2,$3,$4,$5,$6,$7)",[receiptId,session.tenantId,commission.id,session.id,command.planDigest,receiptPayload,receipt]);
+        if(commission.schedule)await (await import("./schedule-quotes")).recordScheduleQuoteApproval(db,commission,receiptId);
         appendEvent(commission,"mandate.approved","Passport approved",`${session.role==="operator"?"The system qualification operator":"The curator"} approved this plan and its authority pages. This server-signed receipt does not authorize or capture PayPal funds.`,session.role==="operator"?"System qualification operator":"Curator");
         commission.decisions.unshift({id:randomUUID(),allowed:true,ruleId:"PASSPORT.OWNER_APPROVAL",title:"Commission authority approved",reason:`Server-signed approval receipt ${receipt.slice(0,12)}. Budget authority and PayPal payer consent remain separate.`,amountMinor:commission.capMinor,mandateId:root.id,mandateRevision:root.revision,createdAt:now,provenance:provenance(commission)});break;
       }
@@ -112,6 +115,7 @@ export async function executeCommand(session:Session,commissionId:string,command
       case "produce_package":{
         if(commission.state==="paused")throw new DomainError("COMMISSION_PAUSED","Resume the commission before starting new work.",422);
         if(!commission.approvedPlanDigest)throw new DomainError("APPROVAL_REQUIRED","Approve the proposed work and Passport pages before commissioning production.",422);
+        if(commission.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,commission,"production");
         if(!["research","translation","images","narration"].includes(pkg!.kind))throw new DomainError("PROVIDER_NOT_READY","This provider's production adapter is still being qualified. Its contract and existing artifacts are preserved.",422);
         if(pkg!.kind==="images"&&(pkg!.acceptancePack.version!=="2.0.0"||pkg!.acceptancePack.digest!==imageAcceptancePack(commission.sourceAssets).digest))throw new DomainError("IMAGE_CONTRACT_REQUIRED","Review the measured image acceptance pack and approve its contract amendment before production.",422);
         if(pkg!.kind==="narration"&&pkg!.acceptancePack.version!=="2.0.0")throw new DomainError("NARRATION_CONTRACT_REQUIRED","Review the measured voice, exact scripts, audio engine and acceptance pack, then approve a fresh Passport before recording.",422);
@@ -142,7 +146,7 @@ export async function executeCommand(session:Session,commissionId:string,command
         if(Number(produced.rows[0]!.count)>=productionJobLimit(pkg!))throw new DomainError("CORRECTION_ALLOWANCE",(pkg!.narrationCorrection||pkg!.narrationTargetedCorrection||pkg!.narrationFollowupCorrection)?"This explicit agreement permits one additional job, and its original job is already retained. Another run needs a new reviewed agreement and fresh Passport.":"This contract's agreed correction has been used. Retain the submissions and agree a new contract before commissioning more work.",422);
         pkg!.state="producing";
         for(const criterion of pkg!.acceptancePack.criteria){criterion.status="pending";criterion.evidence=null;}
-        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,inputBindings:inputs.bindings,...(pkg!.narrationFollowupCorrection?{followupAgreementId:pkg!.narrationFollowupCorrection.id,followupAgreementDigest:pkg!.narrationFollowupCorrection.proposal.digest}:{}),...(pkg!.narrationTargetedCorrection?{targetedAgreementId:pkg!.narrationTargetedCorrection.id,targetedAgreementDigest:pkg!.narrationTargetedCorrection.proposal.digest}:{}),...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.narrationFollowupCorrection?.id??pkg!.narrationTargetedCorrection?.id??pkg!.narrationCorrection?.id??commission.revision}`);
+        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,inputBindings:inputs.bindings,...(commission.schedule?{scheduleBinding:commission.schedule}:{}),...(pkg!.narrationFollowupCorrection?{followupAgreementId:pkg!.narrationFollowupCorrection.id,followupAgreementDigest:pkg!.narrationFollowupCorrection.proposal.digest}:{}),...(pkg!.narrationTargetedCorrection?{targetedAgreementId:pkg!.narrationTargetedCorrection.id,targetedAgreementDigest:pkg!.narrationTargetedCorrection.proposal.digest}:{}),...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.narrationFollowupCorrection?.id??pkg!.narrationTargetedCorrection?.id??pkg!.narrationCorrection?.id??commission.revision}`);
         appendEvent(commission,"provider.production_started",`${pkg!.title}: production started`,"A durable job has been queued. Closing the page will not cancel it.",pkg!.providerId,pkg!.id);break;
       }
       case "amend_draft_dependencies":{

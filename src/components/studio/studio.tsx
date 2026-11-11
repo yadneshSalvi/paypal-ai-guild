@@ -1,15 +1,16 @@
 "use client";
 import { useCallback,useEffect,useRef,useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight,ArrowRight,BookOpen,BriefcaseBusiness,Check,ChevronRight,Compass,Download,Ellipsis,FolderOpen,HandCoins,Layers3,LoaderCircle,Menu,Plus,RefreshCw,ShieldCheck,Sparkles,Users,X } from "lucide-react";
+import { ArrowUpRight,ArrowRight,BookOpen,BriefcaseBusiness,CalendarRange,Check,ChevronRight,Compass,Download,Ellipsis,FolderOpen,HandCoins,Layers3,LoaderCircle,Menu,Plus,RefreshCw,ShieldCheck,Sparkles,Users,X } from "lucide-react";
 import { CONTRACT_VERSION, type Commission, type WorkspaceSnapshot } from "@/contracts/guild";
 import { Overview,Market,Passport,Review,Collection,Activity } from "./views";
 import { type Action,type Act,downloadJson,Modal } from "./ui";
 import { Settlement } from "./settlement";
+import { ProductionFloor } from "./production-floor";
 
-export type View="commission"|"market"|"passport"|"review"|"settlement"|"collection"|"activity";
+export type View="commission"|"market"|"production"|"passport"|"review"|"settlement"|"collection"|"activity";
 type Snapshot=WorkspaceSnapshot&{approvalDigest:string};
-const navigation:{id:View;label:string;icon:typeof Layers3}[]=[{id:"commission",label:"The commission",icon:Layers3},{id:"market",label:"Your guild",icon:Users},{id:"passport",label:"The Passport",icon:BookOpen},{id:"review",label:"Review room",icon:ShieldCheck},{id:"settlement",label:"Settlement",icon:HandCoins},{id:"collection",label:"Collection",icon:FolderOpen},{id:"activity",label:"Field notes",icon:Compass}];
+const navigation:{id:View;label:string;icon:typeof Layers3}[]=[{id:"commission",label:"The commission",icon:Layers3},{id:"market",label:"Your guild",icon:Users},{id:"production",label:"Production floor",icon:CalendarRange},{id:"passport",label:"The Passport",icon:BookOpen},{id:"review",label:"Review room",icon:ShieldCheck},{id:"settlement",label:"Settlement",icon:HandCoins},{id:"collection",label:"Collection",icon:FolderOpen},{id:"activity",label:"Field notes",icon:Compass}];
 
 export function Studio(){
   const [snapshot,setSnapshot]=useState<Snapshot|null>(null),[view,setView]=useState<View>("commission"),[selected,setSelected]=useState("research"),[busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null),[notice,setNotice]=useState<string|null>(null),[mobile,setMobile]=useState(false),[dialog,setDialog]=useState<"new"|"reset"|"about"|null>(null);
@@ -51,7 +52,8 @@ export function Studio(){
         {!c?<div className="studio-loading"><div className="loading-seal">g</div><p className="eyebrow">A commission with purpose</p><h1>Bring good work<br/>into the world.</h1><p>{error?"The studio is waiting for its connection.":"Opening your private museum workspace…"}</p>{!error&&<LoaderCircle className="spin" size={22}/>}</div>:<>
           {view==="commission"&&<Overview c={c} navigate={navigate} act={act} busy={busy}/>}
           {view==="market"&&<Market c={c} navigate={navigate}/>}
-          {view==="passport"&&<Passport c={c} digest={snapshot.approvalDigest} act={act} busy={busy} draftProposal={snapshot.contractProposals?.draftDependencies}/>}
+          {view==="production"&&<ProductionFloor c={c} selected={selected} onSelect={setSelected} onChange={commission=>setSnapshot(current=>current?{...current,commission}:current)} onRefresh={load} onPassport={()=>navigate("passport")}/>}
+          {view==="passport"&&<Passport c={c} authorityDeadline={snapshot.authorityDeadline} digest={snapshot.approvalDigest} act={act} busy={busy} draftProposal={snapshot.contractProposals?.draftDependencies}/>}
           {view==="review"&&<Review c={c} selected={selected} select={setSelected} act={act} busy={busy} imageProposal={snapshot.contractProposals?.images} translationProposal={snapshot.contractProposals?.translation} narrationProposal={snapshot.contractProposals?.narration} narrationUnavailable={snapshot.contractProposals?.narrationUnavailable} correctionProposal={snapshot.contractProposals?.narrationCorrection} correctionUnavailable={snapshot.contractProposals?.narrationCorrectionUnavailable} targetedProposal={snapshot.contractProposals?.narrationTargetedCorrection} targetedUnavailable={snapshot.contractProposals?.narrationTargetedCorrectionUnavailable} followupProposal={snapshot.contractProposals?.narrationFollowupCorrection} followupUnavailable={snapshot.contractProposals?.narrationFollowupCorrectionUnavailable} onPassport={()=>navigate("passport")}/>}
           {view==="settlement"&&<Settlement c={c} approvalCurrent={c.approvedPlanDigest===snapshot.approvalDigest} onChange={commission=>setSnapshot(current=>current?{...current,commission}:current)} onRefresh={load}/>}
           {view==="collection"&&<Collection c={c}/>}

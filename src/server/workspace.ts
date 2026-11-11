@@ -14,6 +14,7 @@ import { narrationCorrectionProposal } from "./narration-corrections";
 import { narrationTargetedCorrectionProposal } from "./narration-targeted-corrections";
 import { narrationFollowupCorrectionProposal } from "./narration-followup-corrections";
 import { productionJobLimit } from "@/domain/narration-correction";
+import { readAuthorityDeadline } from "./schedule-quotes";
 
 export async function workspace(session:Session, commissionId?: string):Promise<WorkspaceSnapshot&{approvalDigest:string}>{
   const commission=commissionId?await getCommission(session,commissionId):await latestCommission(session)??await seedCommission(session);
@@ -43,5 +44,6 @@ export async function workspace(session:Session, commissionId?: string):Promise<
       catch(error){contractProposals.narrationCorrectionUnavailable=error instanceof DomainError?error.message:"The additional-correction agreement could not be prepared. Existing recordings and reports remain available.";}
     }
   }
-  return {schemaVersion:CONTRACT_VERSION,session:{id:session.id,role:session.role,expiresAt:session.expiresAt},commission,contractProposals,approvalDigest:planDigest(commission),serverTime:new Date().toISOString()};
+  const authorityDeadline=await readAuthorityDeadline(getPool(),commission,session);
+  return {schemaVersion:CONTRACT_VERSION,session:{id:session.id,role:session.role,expiresAt:session.expiresAt},commission,contractProposals,authorityDeadline,approvalDigest:planDigest(commission),serverTime:new Date().toISOString()};
 }
