@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "guild.web-browser-qualification-evidence.v2",
+  "observedAt": "2026-11-11T19:32:17.985149+00:00",
+  "sourceCommit": "b9c605ffdb1cc919e1b0310aad36223078f16097",
+  "runtimeManifestSha256": "f4bbdebf9191bc8d243d512b0a3a7c73f67aff3edff8f96bafc15916fae53f25",
+  "qualificationSha256": "6834c4b4814eddce0de8481af1bf48b5293ee89785099982c3e794dd5c3646e2",
+  "qualificationDigest": "5f4d2aeb3ae56af024bf6ef810fcf7ce14292de1592ccfaf9e5b4e5ae6dbdcf5",
+  "scope": "Synthetic browser-engine qualification. Authored test text, geometric images and short generated tones; no actual narration, alignment or fluent review.",
+  "originalCases": 20,
+  "baselineCases": 18,
+  "detectedMutations": 2,
+  "completeObservationRegisters": 16,
+  "passingBaselines": 0,
+  "qualified": false,
+  "cases": [
+    {
+      "case": "baseline-ar-1440",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard seeking failed or started playback."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-ar-390",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard seeking failed or started playback."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-ar-768",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard seeking failed or started playback."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-en-1440",
+      "complete": false,
+      "errors": [
+        "MEASUREMENT_REGISTER_INCOMPLETE"
+      ],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        },
+        {
+          "id": "chapter_navigation",
+          "detail": "The authored control could not receive focus before keyboard activation."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-en-390",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-en-768",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-es-1440",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-es-390",
+      "complete": false,
+      "errors": [
+        "MEASUREMENT_REGISTER_INCOMPLETE"
+      ],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-es-768",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-fr-1440",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-fr-390",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-fr-768",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        },
+        {
+          "id": "chapter_navigation",
+          "detail": "The authored control could not receive focus before keyboard activation."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-ja-1440",
+      "complete": false,
+      "errors": [
+        "MEASUREMENT_REGISTER_INCOMPLETE"
+      ],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-ja-390",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-ja-768",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "captions_seek",
+          "detail": "A real caption boundary did not seek exactly, or it triggered autoplay."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-pt-1440",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-pt-390",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "baseline-pt-768",
+      "complete": false,
+      "errors": [
+        "MEASUREMENT_REGISTER_INCOMPLETE"
+      ],
+      "failed": [
+        {
+          "id": "dialog_focus",
+          "detail": "One or more native dialogs failed their original keyboard/geometry check."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "mutation-contrast",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "palette_contrast",
+          "detail": "The original computed opaque text palette failed a source binding or one of its four unrounded 4.5:1 pair measurements."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 0,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 1
+    },
+    {
+      "case": "mutation-missing-alt",
+      "complete": true,
+      "errors": [],
+      "failed": [
+        {
+          "id": "images_decoded",
+          "detail": "A required photograph did not decode with alternative text."
+        },
+        {
+          "id": "original_audio",
+          "detail": "Keyboard speed selection failed."
+        },
+        {
+          "id": "reader_preferences",
+          "detail": "Reading width did not change."
+        }
+      ],
+      "axeSeriousCritical": 2,
+      "axeStates": [
+        "default",
+        "expanded",
+        "map",
+        "settings",
+        "share",
+        "source"
+      ],
+      "lighthouseAccessibility": 0.96
+    }
+  ],
+  "nativeChecks": {
+    "observations": 13,
+    "artifactSha256": "ba505f07d64acfaecf0ad61f3669ea3010fa73be6d6ef0e47406860e8c728110",
+    "screenshotSha256": "a06520fb0e0c94bc0447161f892fdf135e4bff0430da3496567e7d5d2db88074",
+    "keyboardDiagnosisSha256": "1bef50d4e7d8aa534f2df26b990258570456c294c47f5f3774dd26e55c77070f",
+    "description": "Native settings and source focus return, chapter map, caption seek, Arabic/Japanese narrow layouts, explicit tone playback and language pause, share and no observed console errors. Separately, collapsed macOS selects ignored End; Space then Arrow then Enter changed and restored reading width."
+  },
+  "correctionSource": "f563df200633bdfb66913b62370f419c1ab09787",
+  "correction": "Dialog close fallback must not steal a later intentional focus move; audit opens native select menus before directional navigation and commits explicitly. New original v3 pass required.",
+  "providerCalls": 0,
+  "originalApplicationWrites": 0,
+  "productionApproval": false,
+  "humanReview": false,
+  "acceptance": false,
+  "payment": false,
+  "limitations": [
+    "V2 is not qualified despite Lighthouse accessibility 1.0 on all baselines.",
+    "Failed and incomplete results remain retained; no selective rerun.",
+    "Native axe incomplete findings remain manual-review items.",
+    "Actual caption qualification and production lifecycle remain separate."
+  ]
+}
