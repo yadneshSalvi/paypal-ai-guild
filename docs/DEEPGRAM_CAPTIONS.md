@@ -16,6 +16,10 @@ Under the new source policy, the two English development recordings each produce
 
 The earlier multilingual analysis incorrectly filtered the silence case label. That original report is retained; a corrected offline analysis is explicitly identified in [the development evidence](evidence/deepgram-word-timestamps-development-v1.json). No provider calls were repeated to correct the analysis.
 
+A third, separately frozen experiment used Deepgram-hosted Whisper Large on the same 18 development inputs, with two concurrent requests and no retries. All 12 spoken recordings have positive ordered word intervals within independently probed audio bounds. Recognition still disagrees with the complete source in ten recordings under the prior analysis normalization. Five of six digital-silence controls produced words; the sixth returned zero alternatives. All silence controls are withheld. The unchanged absent-alternative response caused the first offline analysis to fail; the revised analysis records that shape explicitly. Neither the response nor the request was repeated or replaced.
+
+These [Whisper development results](evidence/deepgram-whisper-development-v1.json) are diagnostic evidence, not a replacement for the pinned Nova adapter. The two matching Gemini English/Spanish transcripts have not been promoted to accepted VTTs. The 18 reserved evaluation cases remain untouched. No six-language caption qualification is claimed.
+
 ## Integration requirements
 
 `runDeepgramOnce` now provides database-backed preparation, an atomic single-dispatch claim, exact owned-media binding and signed original observations. Its required internal authorizer must check the current agreement, source, actor and worker lease both at preparation and immediately before dispatch. It reuses the existing alignment tables with a separate capability and operation namespace. A recording cannot acquire another attempt by changing its operation label; all attempted states count toward the 78-recording job capacity.
@@ -28,4 +32,4 @@ Validation: 18 focused gateway/mapping checks, 30 combined new/existing caption 
 
 The durable primitive additionally passes ten PostgreSQL integration tests with network-denied synthetic transport: dispatch/replay, concurrency, lost/partial responses, changed sources and tenant, expiry/revocation, signed-evidence tampering, label aliasing, late response retention, missing configuration and the full capacity boundary. These tests establish transport behavior, not six-language recognition or caption acceptance.
 
-References: [prerecorded API](https://developers.deepgram.com/reference/speech-to-text/listen-pre-recorded), [model versions](https://developers.deepgram.com/docs/version), [model metadata](https://developers.deepgram.com/guides/fundamentals/model-metadata).
+References: [prerecorded API](https://developers.deepgram.com/reference/speech-to-text/listen-pre-recorded), [model versions](https://developers.deepgram.com/docs/version), [model metadata](https://developers.deepgram.com/guides/fundamentals/model-metadata), [Deepgram-hosted Whisper](https://developers.deepgram.com/docs/deepgram-whisper-cloud).

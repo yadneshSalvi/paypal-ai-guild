@@ -1,0 +1,1260 @@
+{
+  "schemaVersion": "guild.web-browser-qualification-evidence.v3",
+  "observedAt": "2026-11-11T20:02:39.643Z",
+  "scope": "Authored browser engine qualification with synthetic collection text, geometric images and short sample tones. No actual language, speech or caption production qualification.",
+  "originalCasesPerEdition": 20,
+  "selectiveReruns": 0,
+  "qualified": true,
+  "qualifiedSource": "43e13b6fa108d12badbf10dc5062596d64edda47",
+  "editions": [
+    {
+      "edition": 3,
+      "sourceCommit": "f563df200633bdfb66913b62370f419c1ab09787",
+      "runtimeManifestSha256": "1e3b675ea9bfdcf74107e699c1ac629684a67db96211665fe5febb52731f49b7",
+      "qualificationSha256": "e48bfd9f35bfe965d07490fb84d5b1bbb0264ee2dce987df7efe181549c97b1f",
+      "qualificationDigest": "52cb03563f31b45e5713203d233c241754239b998e9a2d1ba16f851ee5a1bac9",
+      "version": "guild.web-audit-qualification.v2",
+      "engineDigest": "efea85e8f49971f57ceb7cd84603d3c334991158736bb51fb588fb0b8dc11c07",
+      "rendererDigest": "05672e140365d2a0891976766a064166aa01c7a03b2500480714ebaffcd41cef",
+      "inputDigest": "ddbbd0621f8964f38067b9a19ed2b6eb74fb86d3317811517fefe396efa2c51c",
+      "policyDigest": "4af1740f7dbebf70761e750d6bdf3e46576734aebb80c3ea009979e117ec78d5",
+      "baselineCases": 18,
+      "detectedMutations": 2,
+      "passed": false,
+      "cases": [
+        {
+          "id": "baseline-en-390",
+          "requestDigest": "c67f216a31524748df3ef3d33afdd989f41599ae9fd8076ab71272d7db12b9c1",
+          "resultHash": "69530dd8245697e321e08ab65e51756a7a1609075c6ea980094d6c134edbf3a6",
+          "fileManifestHash": "6147d97c5e1d3388179a6f57a889a67f69b74929149a45fbd152334c85df56a7",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-768",
+          "requestDigest": "2979cdf7ed501d22e5cddbd6b515f3fdc7225e30880c552998f1a61a2f77c17e",
+          "resultHash": "2b93cd62a469bab012b3a7185172369614bce32d7d4783399a4a2703218780b3",
+          "fileManifestHash": "6c7b5d2c039420d0f315604630b5a662ecd73d6a1aee2d4c15088ad263b061be",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-1440",
+          "requestDigest": "3ff0d0d1b5026dad512439fc3e72d14399173a3921e9d488cb87b7b43a2d2f9a",
+          "resultHash": "c73def003598201f8727de2a0c5220d859bd4ff436fbe8fff2060d716b867b55",
+          "fileManifestHash": "4c87a49b540658684c3639b2e8454553b9b18691abea1ef6a47230fa865e153b",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-390",
+          "requestDigest": "1bc3d6e2250b5823a7002b04d97c90feef9ee222eefeab803dfa27fe37afb7c9",
+          "resultHash": "1876d5c7b9c4687db84b8690a58804637931cfdecf80f253b510550dbce1536c",
+          "fileManifestHash": "7f979a97affa506aeb485a5704d385be0730ed15ba5c9985f172a343400a9b6e",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-768",
+          "requestDigest": "03d6c9cf534d3e76a53468b5e01f46a4b756c86520487dd36e2f45cfda5e3968",
+          "resultHash": "708a553ab2b74e3523fd9c537849f6b5803815c612a4b739f5249cdb557cd688",
+          "fileManifestHash": "78956ea7332f92f3367222c083542a8db90f2cada4ee015d539a058a3f248b32",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-1440",
+          "requestDigest": "4cf5c0d6e92a777e1b3596390454b41a1eabe93e0d9774afa363700958833d14",
+          "resultHash": "9d701bf34cecb25add0e75984f1034b7e08e7ec7715251bfbe4e46ed49d15332",
+          "fileManifestHash": "e0b6a5c62e886a4aad3e600eedc2e8bcb0af71f7cc02ea5cfd138d64eebabe46",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-390",
+          "requestDigest": "90b6532267e21b05ebf9e1a5d09240ae73ed32fb58fa59e1bf46e8fd2064f400",
+          "resultHash": "13da72fbed6006a36ef3a0cb5a34db951b9e58b370f89315ff48f6d2a6ed28a2",
+          "fileManifestHash": "8411f8c05abe93d80b0ddda0ae12f7ab69fdee8b4ab83fe321750a3d48d22c20",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-768",
+          "requestDigest": "7eca416b87095c3a0c1a1de178a9a31f277858979de26674347f4f3acacbe41a",
+          "resultHash": "e4226292f8718b40a528b12aeb8ec2643a7853544ac950db1cebe231fd4f6aa2",
+          "fileManifestHash": "4a975ddc1f1ebdcd8f14c8140ce1c77f288469bfe26a4b27730a59e29f8d0194",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-1440",
+          "requestDigest": "609dfed4f301ffe56df9d3746f5d6bf52f13c6d905313fe05c60d615f426c319",
+          "resultHash": "c2134ee0e81ffe0fc73880860596038e51e511117b9032ff484fb5d831c9f18f",
+          "fileManifestHash": "5904aac7c783fda5fa0b67533aa29201f0325a06bcacc5fe4844b78810897e0a",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-390",
+          "requestDigest": "cf1951aaefbac72eed80fa7b7b8a31c3b30be58a3677918086e8daa8ba3c5891",
+          "resultHash": "a6d74a986f51fa5c84ce0af9f07b8306153a02d482edbe01e4adf1c7c8146187",
+          "fileManifestHash": "e76d2c03d133d630d7621e53337158620312fedaa3b46b9448d6a57399d9f4c5",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-768",
+          "requestDigest": "642c06cf4c66987bf8ea80a29111def19414e6d6d416bf74a2080d95f3c5c9e3",
+          "resultHash": "58585dc45151284d62f856fdadbf744f0330c447e9d70d17da731c1ad4147dee",
+          "fileManifestHash": "99bdcd97e2f26f4521484183e58fb5c3fa5ff497930308a58b0947f8d1a51a71",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-1440",
+          "requestDigest": "14963acf51e1399924a508aa292d81e147528f7cb7e1a0526bd0b6e4f1a3b1e1",
+          "resultHash": "45928e3166a673a2b20244ae66a61c2ecf9243d4859df8113facbcee87e8eb4d",
+          "fileManifestHash": "11bd7b406598c65bcba8d5cb3856658f45a97213694960483d0f1f122c2e6d16",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-390",
+          "requestDigest": "3aa5cc5fc5c8ff51da1624fa9714d172e0ef6b872bd00f2448bc4916d11865d5",
+          "resultHash": "371b0d576c7dd7c38ef78fe0f48b68f6cbdd93ff1de152101957b79f7db7341d",
+          "fileManifestHash": "9059cf2e4f133cfdcb397a1ea74fbbb94abb1c267f0669ca8ac1a8cc11b25b80",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-768",
+          "requestDigest": "36ce0bc3720c6a41f7f0e83ea8b4b08df81e8da451960803c229bcf779b0386e",
+          "resultHash": "2e4bf6d78311d598ffc730de563f0027d6e6c66db89175c84742229ad56de9a9",
+          "fileManifestHash": "9663d3f8f1a06ae30f33d2663f515ba690884734ecdc6f76a31d2962581ca64c",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-1440",
+          "requestDigest": "b9bc53ff4c9c7c5e2279048e3207060ef25b9bc01bf21eedd8837ef99a25e1b3",
+          "resultHash": "c6f11aa2f8567ffe3b186c4d041bc392ccf3ac88a03df263f99697be83541d2a",
+          "fileManifestHash": "875531bfc0762edcffbdcb5d1340a5ff833ece581e9dcd95fc9984c78fe5200b",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-390",
+          "requestDigest": "a97d3351247063c345af8675a21b1db8968c1b0c2f153daae3a014e0f1536f1a",
+          "resultHash": "d9f5f0ea6ea434ebf41b83316c4d0306959d91a9011bab5b706d4c0be7231325",
+          "fileManifestHash": "26dfbc699fdc14196989e6283a9988793a4b29719127e245c6131e6565d2ce81",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-768",
+          "requestDigest": "5e02ea318496b0491cc1e1b78c45188d40f2ef724cce636fb869f66d17c355bf",
+          "resultHash": "c1a1d6b7f3b4575df01deb9ce9b2ccf4d8979d108557508d345b6fdc740d0f0c",
+          "fileManifestHash": "d1121b7c467a07530c5c1d0fb5a309315397c882341af425d87dd760af07fece",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-1440",
+          "requestDigest": "93a0556e85877b8f4d6efad7278fcbd3e01143d1594d3df8588b2ef03285c00b",
+          "resultHash": "8a489078272727f4515a1f560b222cabede02edd7949473a3c39c7be4d398809",
+          "fileManifestHash": "dc01a07a6c129890f0f15828003d3e3065624312b8612060881a823b2df81683",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "mutation-contrast",
+          "requestDigest": "913d3574a89e7143a3f328f7b59793158920258b9b4ff80a01196a4a8d31a7ff",
+          "resultHash": "5b80c772b146368e40da125556f984d61bf7ff8ea42d5003a6b0d9e945142f00",
+          "fileManifestHash": "cb5fc2954294b7ba571e070ade2f2278450586da6906187c7728c710207810c2",
+          "baseline": false,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": false,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "detectedMutation": true
+        },
+        {
+          "id": "mutation-missing-alt",
+          "requestDigest": "b18847f3219fe3e7f23403b515fff16e45c8496aa86ae871a461bf73171b738d",
+          "resultHash": "990995b08b9854ab3abdf173fcc744f7ac08a72dbd7295efae5194177981a963",
+          "fileManifestHash": "52b2f6dfc8002cbb9f749282779797967ea4352f488068507864e2c62f3e9e38",
+          "baseline": false,
+          "passes": false,
+          "score": 0.96,
+          "violationIds": [
+            "image-alt"
+          ],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": true
+        }
+      ],
+      "completedAt": "2026-11-11T19:45:11.455Z",
+      "productionApproval": false,
+      "humanReview": false,
+      "acceptance": false,
+      "payment": false,
+      "passingBaselines": 0
+    },
+    {
+      "edition": 4,
+      "sourceCommit": "a9b8e7e90403d54e04302861c556da099972c756",
+      "runtimeManifestSha256": "b66d1d5ea579c864100686bcf846c9eff4bcb5e42dd1558100a3084b59a90df1",
+      "qualificationSha256": "149578ace7cc0d18a899dd3856637299417fe204700ed78b48a850830601d3d6",
+      "qualificationDigest": "5db4680b5dfaefda78842c8a30cb3423a702416823f544e684cf665828e15ba5",
+      "version": "guild.web-audit-qualification.v2",
+      "engineDigest": "51d535ab895f13dd93738934ce75acafeec6223227c33b854131da0302de6c83",
+      "rendererDigest": "8aa2f01fbdef145a03b11996f26e943ff9b3e2c5cf7be07a27c8f6a3a9a16677",
+      "inputDigest": "452a947ffb6862807f21afb3c84d33b825750048e53ba0ec9bec0ed144ceb448",
+      "policyDigest": "4af1740f7dbebf70761e750d6bdf3e46576734aebb80c3ea009979e117ec78d5",
+      "baselineCases": 18,
+      "detectedMutations": 2,
+      "passed": false,
+      "cases": [
+        {
+          "id": "baseline-en-390",
+          "requestDigest": "fec11f37869670095f280607978064d6695f25eedfa184809b451e3661180fc9",
+          "resultHash": "c036531afeec4bd276d4ef4a32e5ac9329ebc7b262b56ecfec14e8129bf7cd50",
+          "fileManifestHash": "3777adeaf40df38bec819d47fd7b8581d3515f1b01d4f4d4aa7f9528f733ec86",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-768",
+          "requestDigest": "f136b3bdd7f7108a6ecad6c4a622cff036cfb77eca04831cf7f727bc942431f8",
+          "resultHash": "e6b422a89e750ec28df160feedee95e7b16084efcc5cc15ee372d3e0201e3447",
+          "fileManifestHash": "d66ebcb2892b5bb28786ed25d9fab5b9a4821ffeac889832bbdd911eff5b6cb0",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-1440",
+          "requestDigest": "39796dcab054c52967cbc5190993c8096146120e26e07573d154afc0723c0160",
+          "resultHash": "b9a9a9721c28a4283339e4c40295daabb4f56e9360ca4f41f0215e5c5865ac1c",
+          "fileManifestHash": "62799ac213b939d93373b60b3b551609bb33db48c003285217c75a7e3ba5b894",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-390",
+          "requestDigest": "d4528282321148d0122771b5be93273adc56ebf0c18fe6ae094da4c3781c2dab",
+          "resultHash": "2820753952a45daaa538019b30255c7657081133bd43c12068282d989c2a6cb5",
+          "fileManifestHash": "f4a57a049de47234c695d6f6a398637a24243b92ed718cfdea0ec882a6ac777b",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-768",
+          "requestDigest": "a49ad7bb4e6a1727c0c0633dd969aa00fb1429cfe22c8e914527d737c1a3b21d",
+          "resultHash": "c0323ffdb4cae993834948cd0051ec026b70e37991345e88983496d281b62642",
+          "fileManifestHash": "c17c4fa1315bd94f95ebd5acbfff89da824c6a09bb3573cf30e92d796cd55c88",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-1440",
+          "requestDigest": "6ea3240c60a50bf9b983221d6cfb07ca1f037504b34b61f1061687d1a064b288",
+          "resultHash": "a88c9f2361c52ff198de8f037c0d427afbd78f37c7b5ac23592e7f7d74bf0210",
+          "fileManifestHash": "ebfcab2aef7461b1ee6f06f2797a2af56fa7e2aa69d4c8992f6db84239c9cd60",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-390",
+          "requestDigest": "778a3487ca3db2201df9a668781ac3055b3cc477adfe190febbcb36d20bfb5cf",
+          "resultHash": "595816f178912b92284c359b36bc449098482a4d351a7afb4437eb038f00d7d6",
+          "fileManifestHash": "ff552bedc66dd3fafc68c549f1f3cd376cdca37130d2fb2705f378879bd25f18",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-768",
+          "requestDigest": "30002efefa18ce174a38a64a0156aa068b05bd2a943d6219ecbc329b72eb3ae2",
+          "resultHash": "83359cc8098824a0a282d2d4bbc15530c66665d804d97185f6179dce69c92eb3",
+          "fileManifestHash": "1912748d2eb4e8e73d0e9e517595286c57364947c59e382cd4a94a8f88d738dc",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-1440",
+          "requestDigest": "d056f68df2cf8b037c802f65ad1d5a6e88eda8c43c71f37e32d57ce8b6c03d72",
+          "resultHash": "3e3e9588cff05326ebf10c55c401f656da2a2273ff19a1f53fc29ead1a01dd1b",
+          "fileManifestHash": "424b655a7a2c477dc7aa8a3e1c3842af823cadf4172916f9ff89b28a83d61b65",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-390",
+          "requestDigest": "f5ee16270e89b15df3eae62d57740a00c576580000819319084a57c44e6dcbba",
+          "resultHash": "86d2539d956c9d12427e6e460c775b9941539f6f9617857c9f7151f6d547944d",
+          "fileManifestHash": "670e4995bb277ddcf796d9b542d1e606e28192154f20265764755e536b9c386b",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-768",
+          "requestDigest": "844392d41578825a80db364f34cc25a22efad004b524920be6c18b293541b1ad",
+          "resultHash": "3b878643aa3dec3b498aa9d22a6c9d9b2f2d7798a0a8009b8d885cd4f3b1dcc0",
+          "fileManifestHash": "7f38945f14e71b7be8e302b3d226b806af6bbd757fcebf9ed322098f99905035",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-1440",
+          "requestDigest": "36ab8a9d63582e5ca16413d78a3c91c122e01f05bfbeb2ccf48d06b3164a4488",
+          "resultHash": "9407acbbe920470c94ccf2401239f4f787876fc21a82b8c9d7b962ab058dd187",
+          "fileManifestHash": "a1c1378ebb7401275c96567c30932c4604ecbabb2bd3aaf1e98dd8ccbe1f7151",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-390",
+          "requestDigest": "9fe7a266d6ee6452cae0a197a30c4b50960d5003fb1758658d9aaf6bae4965f0",
+          "resultHash": "51eb78a9c0b523bec632623d2a8049a33aa4a33c647966368e0b9f4843c409b5",
+          "fileManifestHash": "b3f42556639285b21b76036ac4f16f8751130c778e6fc80c9c1ab42ffdb2d686",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-768",
+          "requestDigest": "6365b45e5c51f602dab80becc8aeafe8bee8b81f2bd63152bc94875c27ae45ee",
+          "resultHash": "4ac277dc722aba58bd868890a8745298c243fc67d4f3233b98627d1c8dd4e8f5",
+          "fileManifestHash": "ee7aef9ab2ad5724bcafe1a4c91912df0f4fd24c39fa33d6743b7e0e56ff1ddb",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-1440",
+          "requestDigest": "100c023caac427b34390ae260e73fea469eae811b43c1309edcc45c45dc16c6b",
+          "resultHash": "865886773cca9e2488c48f4d6c11702208dc21b717da2bfdfe5f3ec8feb2ee2e",
+          "fileManifestHash": "795d27b90c731c1da67af5bc86b1f975bb71521d4363df85068cfba33ca4ec0d",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-390",
+          "requestDigest": "585ca6e665deef16981029280e2c015bc168dac686aeba924b68a08faeeca0bd",
+          "resultHash": "1d13e616eda8a3ad2a6ffbfd5b919aee6ef4fa41baaaae6b8192c0b48ebb0a9b",
+          "fileManifestHash": "5e825b1c2b451054fa3165d2ee0e6899c0c39302a72cac875837629fab21ea5a",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-768",
+          "requestDigest": "9608c899a7091ef819c9b575bc88cf31e1a0b6cbcdc8e30fae460935a10d81ce",
+          "resultHash": "45fb76bb556776b5c0920a22858e4ca625712482affd313ee6e9034fec0127b1",
+          "fileManifestHash": "106342fe4ab9235216e34e7110621b14fd8758c3649e87d4c148c1965a00cd35",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-1440",
+          "requestDigest": "9e2d0971a37e27f58b09ae544b4b7a535c114538962bf2952d07fff05cb1bbfe",
+          "resultHash": "c6fcaa9255215c1ec0345a7a2bfea5318cd6e8042d2e4b24067c86fd9ff19420",
+          "fileManifestHash": "61945bbf5ce107d673449ee2de446b08382fda5cf98e5eff757f3c2cda663931",
+          "baseline": true,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "mutation-contrast",
+          "requestDigest": "6b008cc9473ed7f102d56b50f3b1c80e8c75c9607eecd43c8cc3a6f4e9abab7a",
+          "resultHash": "2c31dd672c14de97930098d1f91680679709e7cbe1fbc21afed134c1b8d98b08",
+          "fileManifestHash": "55ab1d74b2e23d18266a9c4f59b1af9cd444cc68eaf7effa33584cf444f8887d",
+          "baseline": false,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": false,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "detectedMutation": true
+        },
+        {
+          "id": "mutation-missing-alt",
+          "requestDigest": "394586f26a52d1908d8a88be42b8dfa464e65f4111b40850948dd758f9346503",
+          "resultHash": "a265a75f0e776386caae327d24ee2bdee6e25d676eee16924deacc2ca157b7d7",
+          "fileManifestHash": "f2875ce85df7ebd5462c1ab7ded4a76f480cf8c8feb4e5422c9d53c1e1ca1c71",
+          "baseline": false,
+          "passes": false,
+          "score": 0.96,
+          "violationIds": [
+            "image-alt"
+          ],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": true
+        }
+      ],
+      "completedAt": "2026-11-11T19:53:47.749Z",
+      "productionApproval": false,
+      "humanReview": false,
+      "acceptance": false,
+      "payment": false,
+      "passingBaselines": 15
+    },
+    {
+      "edition": 5,
+      "sourceCommit": "43e13b6fa108d12badbf10dc5062596d64edda47",
+      "runtimeManifestSha256": "982d5d2a09dca505b63427c8d888c4197b2bb4cccd8bf8346588faddc028dd0a",
+      "qualificationSha256": "40103c7dec34a67310c93ed9624f23887c0857fb91b89bd70964e3355ad60403",
+      "qualificationDigest": "7589914c844a741e5274d38d4856cb031d3d8e7a4a2e973de826c791132a9da7",
+      "version": "guild.web-audit-qualification.v2",
+      "engineDigest": "288909fd9c541fad340a36288114e3a12946a92fd29dfc9ff6b5d14f55bfae0a",
+      "rendererDigest": "8aa2f01fbdef145a03b11996f26e943ff9b3e2c5cf7be07a27c8f6a3a9a16677",
+      "inputDigest": "04db8a43927670c1a19c56f29feeadb225362bf4af81c616b02ab7d38fcd113c",
+      "policyDigest": "4af1740f7dbebf70761e750d6bdf3e46576734aebb80c3ea009979e117ec78d5",
+      "baselineCases": 18,
+      "detectedMutations": 2,
+      "passed": true,
+      "cases": [
+        {
+          "id": "baseline-en-390",
+          "requestDigest": "4bc44cf57aa3b5cf8a817611491c68a96b64fb8f98049d5dd899f48f320c2a04",
+          "resultHash": "b031c038dc7056fab053338a616e43af646c9471462e736ef333be15743af165",
+          "fileManifestHash": "ead575a6e103d3fffba635a3d8126cd6cab6f600082dbddf6f2c95e2fafb92f1",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-768",
+          "requestDigest": "e6bb1758a8a8fb0247645f32d9319e839ab82a5ad241fb8b42a5eedb926a328d",
+          "resultHash": "bb5b2ecd7f1c5f4673d99f0e06fec523e7fccbfbfb6e8d43a522c333dc69301c",
+          "fileManifestHash": "0046ed171d5ae63064830cc46f73437a513c38014511982913347764092f06a9",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-en-1440",
+          "requestDigest": "0d9ebe7ff41afeae7d4a163ba4ca2776be702f843c0f919d3c51e05e7a5a5f62",
+          "resultHash": "33b5e0915ad68b4521a2c7459b418baffc0407c1c8dfba2091a5bea5b34176d0",
+          "fileManifestHash": "78093d06e19efc8af1be81859f90b3998aa2fa52fb285349af2de1fd30f19e8d",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-390",
+          "requestDigest": "fa1b18d49231a0a29a4c95479c339841ded68b97a51b11df8bb3adff43731e8e",
+          "resultHash": "170cd135704270190c5f215cf616a58df158f270e61aa2bbf96af98e1c62a8fd",
+          "fileManifestHash": "f57f4aba59d310d96ba146338fe829ac0ccbc9cb894684aff06caaeb2441665c",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-768",
+          "requestDigest": "fcecff6b0cca1bfe8917318bc815c8acafb642107f3393eadb076114b8d90e05",
+          "resultHash": "9a18ed187760284ec2803142ed73c3f370bc5cf5a2f58e024e456a6f5427d383",
+          "fileManifestHash": "db55a819c118b5276b204c3a9a99e675b8b755f140daceb158b36efa6c7f16e7",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-pt-1440",
+          "requestDigest": "8496067aad797c36ab3f4a20ffdd38f6bef30aa7e47cb94f278624ddac76b91a",
+          "resultHash": "e1a5d00d353d9cafefffa01798f1fc0a9c91a1ec5c814eab70f9c46bbc9d8fa2",
+          "fileManifestHash": "e2c3ab040bb9c1fd35247df00ef3f9e7cd9d6a7aa9d25d987dbc88cb54d26cbf",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-390",
+          "requestDigest": "4b1be911a29e522c7935de1b064a89ff4a309a4911b7a3b9b6fb54c9766c2e09",
+          "resultHash": "da36bdcc5f9ea37a95cc1df9f94eb71f6f9b9115654f499485233bff8f5e72b5",
+          "fileManifestHash": "4e826c876ccfe8573534dc79e58509711541c375916e6d1f02bb24c8d9cef26e",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-768",
+          "requestDigest": "d9d231d8a6c801c41f98b0590975bd16cb63a0fa1250ccdba266ee9288a6b1db",
+          "resultHash": "7479a5e8e12f70bff1097570270a2c6716e1269cbf0a69dc522889da7e823c60",
+          "fileManifestHash": "ded7051df604fd8599cfebb110da57bfb4e7fbe70c1c61757cd193bf4bbb3028",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-es-1440",
+          "requestDigest": "45338f8d36eded155a173050c0db60da95994c15d97488ebe26c2b4458cb7c3f",
+          "resultHash": "26a95ef5199b8cf0079e17a20d1643638eeb941f36d1c7a4ebb754bc7aa6ecde",
+          "fileManifestHash": "7d9ce31d5046ed1112121ce33855a8b19a399c33182c97ccf5983e2e5784b023",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-390",
+          "requestDigest": "2280faaed0dd8fa49e0e93e8ff986689fad7749e473d6e0e0a303ec2f2c2f660",
+          "resultHash": "c2f538b03cc264f9b94d123f53b9518d0d51ab37b6c80a9a3aa2cdcd4dc1f6f1",
+          "fileManifestHash": "8dcfe900f9ec1e0e9faf00b1d6839fd02d358db340dee75fe010a989a93b64a2",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-768",
+          "requestDigest": "7dfc69a8d8bc43c59e6528dea8d99af4d06dd273af1787970f3eb17f3c4e9b4b",
+          "resultHash": "aaf965ac753c9f53c14a65c9b68107d605bbb1d2ca9fd03db13d301f0c5e8cce",
+          "fileManifestHash": "04fa82c29043f48aab30ab267397ab71e7db2c0fd320c0113d5d368187810c5b",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-fr-1440",
+          "requestDigest": "abd42b71dbec113f19b107113068049c72feb4c6fea9f0cda0566dc1cec939e9",
+          "resultHash": "be3ab1c7bf759ec51a526b047715d738c54310fab0fedcb3c5c74123053594e8",
+          "fileManifestHash": "e79c6724531557500ffcde6bd65451d6d493ebe908a62fd4da922919ade05480",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-390",
+          "requestDigest": "d0172703d6ee4c7a092391d4e3a2f8e6f944dfede51199a1f4ef42c400bc18f2",
+          "resultHash": "88acab199db7d1c9f19e0c446fa38c0a593508d039d58bd4643295b1f02cd3c6",
+          "fileManifestHash": "30f70abdf8ce0ad8a5496c8dd697f7913e20acb51001b281cf45398c7168548b",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-768",
+          "requestDigest": "4bb4bbe98b929dc4cee77b0bdbd84af836f9e32f8468180ae8fe88447a71a658",
+          "resultHash": "bf09868d239c2c8d648d6e51c63dd14a9fb53da5e102b7a79afa5aeb2ab45b96",
+          "fileManifestHash": "ab55aa17a8f59c9f290fb3c820557d8d29c91ef5de3f155bab60399ea24e4480",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ja-1440",
+          "requestDigest": "19e6dc03a7c57c2a2455fa47edb1aea0acfe0c12060d17d410a80448b550720c",
+          "resultHash": "780fdc1bc8018e13426c441feeeecc56ebf7e75eb46b618035ceb5f11eca67be",
+          "fileManifestHash": "72d62266451c0ef4c7eb3cbeedafde09fc7516df3a231ee503f8ab78b0a6c315",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-390",
+          "requestDigest": "94f84961fbde7c73cfd5c9377996641ac494bbbd4555af04d72da6000f2e28d9",
+          "resultHash": "8b93dc221fa32268532943368d9ada3fbc454755f52c4a57e34d9fffbfa0039b",
+          "fileManifestHash": "aab919c16d6bd6617ab12e293b944a1ad8ebbdacb60dd59dbbb95011772e7942",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-768",
+          "requestDigest": "8e5cf69679263a648a4a6d9e11137f783ad9fa8e5f76aa8f90a458d4fa9ea90a",
+          "resultHash": "18015769b269499d252cd501dcf4ced426c845e03a1dd5d8bcde8fbac5b891e4",
+          "fileManifestHash": "5ffa099f723f7db92b7c565d464e4ccfdb87b91d93147fae9ceb48465617d7d2",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "baseline-ar-1440",
+          "requestDigest": "468b94e67c72a5c5e69025485a52720916b5b0a3b29432f56f76e86ca0728b61",
+          "resultHash": "bdfe7928ca8ef2ef4c8a7102f8a8eb9ee895bc9929e628703043fc65cbffed5d",
+          "fileManifestHash": "077192183752635ccaacc071bd4102aa607dc105186dc005751e84a2cb324400",
+          "baseline": true,
+          "passes": true,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": false
+        },
+        {
+          "id": "mutation-contrast",
+          "requestDigest": "75f52c29997dde799a5e64c43785e78980cfb6810f9ca952a0535a8892654a44",
+          "resultHash": "8b0fd304d463b80d8c5601f478b5fcd67e70323d537517b81ce2ea997d6695df",
+          "fileManifestHash": "a068476f59330bbfea32f5db6d722c9bfd0afc2663c1be3ea56b28ee4fcdebdf",
+          "baseline": false,
+          "passes": false,
+          "score": 1,
+          "violationIds": [],
+          "paletteContrast": false,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "detectedMutation": true
+        },
+        {
+          "id": "mutation-missing-alt",
+          "requestDigest": "20b284d78cba389d93e5ec1fb267669a0cca506236bb7022edb60b0353ba5221",
+          "resultHash": "ded29cbb1327a5ab8f0cbe5d8bf994c9977800cb03a10e8e28541cf1dcc0d34b",
+          "fileManifestHash": "0588713766aedc5ba39b59e2e5c3f0bc664e2246c32ec80e8e9eaff65b251a0a",
+          "baseline": false,
+          "passes": false,
+          "score": 0.96,
+          "violationIds": [
+            "image-alt"
+          ],
+          "paletteContrast": true,
+          "paletteSourceBound": true,
+          "paletteRatios": [
+            10.868756456271113,
+            5.460892324442947,
+            12.46146865106298,
+            5.89981717567839
+          ],
+          "detectedMutation": true
+        }
+      ],
+      "completedAt": "2026-11-11T20:00:51.080Z",
+      "productionApproval": false,
+      "humanReview": false,
+      "acceptance": false,
+      "payment": false,
+      "passingBaselines": 18
+    }
+  ],
+  "changes": [
+    {
+      "source": "a9b8e7e90403d54e04302861c556da099972c756",
+      "description": "Authored Home/End keyboard shortcuts on native playback speed and reading width controls; audit verifies declared shortcuts and observed selection. Original failed native popup experiments are retained."
+    },
+    {
+      "source": "43e13b6fa108d12badbf10dc5062596d64edda47",
+      "description": "Audit reads computed direction before choosing the range advance key: ArrowLeft for Arabic RTL, ArrowRight for LTR. Reader, media and acceptance thresholds are unchanged from v4."
+    }
+  ],
+  "nativeChecks": [
+    {
+      "artifactSha256": "c72f53c92efa4ef449ae3ca40dfcc02fedbd74619b1748fbf5f2c9dc467f0b44",
+      "screenshotSha256": "3c58f53cd9a9b180ee7fc66dc57c2d8e6c24dc21276c94c2bde94408f343050e",
+      "scope": "Playback speed and reading width Home/End changes/restoration; Escape focus return and paused media."
+    },
+    {
+      "artifactSha256": "44f944b273d5cf36f50be2ea80f03c6c95020c8f716e9c980f1e664979c1cbbe",
+      "screenshotSha256": "6391029542c5089036a6c3ea07f636119dc73dc5e1c166877cc921a26723fda4",
+      "scope": "Arabic range Home then ArrowLeft advances to 0.1 seconds without starting audio."
+    }
+  ],
+  "engineVerificationLogSha256": "b3e1728e5afcf5210b2f4a9d45d75212ecd8d7d5b42e2831fca92de39e1db7f4",
+  "providerCalls": 0,
+  "originalApplicationWrites": 0,
+  "productionApproval": false,
+  "humanReview": false,
+  "acceptance": false,
+  "payment": false,
+  "limitations": [
+    "Failed v3 and v4 editions remain immutable.",
+    "Native automated accessibility scores do not establish a screen-reader, fluent language, listening or curator review.",
+    "The production workflow and actual source/caption artifacts require their own separate current agreement and verification."
+  ]
+}
