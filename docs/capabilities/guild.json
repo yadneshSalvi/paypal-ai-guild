@@ -6,7 +6,7 @@
     "baseCommit": "752348c0537c0a6a592a56e15a9700ef99d5cd09",
     "sourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
     "evidence": "docs/evidence/scheduling/native-history-qualification.json",
-    "qualifiedSourceCommit": null
+    "qualifiedSourceCommit": "7833bc657b3dd634d1807bdf7426ac698594d42b"
   },
   "humanReviewByLocale": {
     "en": {
@@ -200,7 +200,7 @@
     {
       "feature": "bryntum.native_ai",
       "chosenVersion": "Enterprise 8.0.0 / gpt-6.1-sol max gateway",
-      "sourceCommit": null,
+      "sourceCommit": "7833bc657b3dd634d1807bdf7426ac698594d42b",
       "accountOrLicensePrerequisites": [
         "Valid Enterprise license",
         "Actual-model qualification for live use"
@@ -418,7 +418,7 @@
     {
       "feature": "production.narration_historical_approval",
       "chosenVersion": "Original approved-snapshot validation with unchanged narration v2/v3/v4 envelopes",
-      "sourceCommit": null,
+      "sourceCommit": "7833bc657b3dd634d1807bdf7426ac698594d42b",
       "qualifiedSourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
       "accountOrLicensePrerequisites": [
         "Original producing command and approval snapshots",

@@ -3,7 +3,7 @@
   "recordedAt": "2026-11-11T12:20:41.884301+00:00",
   "sourceBaseCommit": "752348c0537c0a6a592a56e15a9700ef99d5cd09",
   "sourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
-  "qualifiedSourceCommit": null,
+  "qualifiedSourceCommit": "7833bc657b3dd634d1807bdf7426ac698594d42b",
   "scope": "Canonical server-owned planner input, native saved-conversation restoration and original-approved-snapshot narration validation. Native model transport is synthetic; widgets and application handlers are real.",
   "tests": {
     "domain": {
