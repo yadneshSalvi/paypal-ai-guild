@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "guild.gemini-audio-development.v1",
+  "at": "2026-11-11T18:27:09.369Z",
+  "scope": "Separate root-owned development experiments; original recordings, expired commission authority and failed caption edition unchanged.",
+  "models": {
+    "speech": "gemini-3.8-flash-tts",
+    "recognition": "gemini-3.5-transcribe",
+    "recognitionCatalogVersion": "3.5-transcribe-08-2026",
+    "voice": "Kore (prebuilt development voice)"
+  },
+  "sourceManifestDigest": "a4282323d2eb6f9196689be1c952c295452dfb9efba95d8e59c3225b25e8525f",
+  "existingAudio": {
+    "analysisDigest": "678018a952f8603246d6fafbcf7b08fd00b2cce02d7a20f6379531e063835b61",
+    "summary": {
+      "actualProviderCreates": 12,
+      "terminalResponses": 12,
+      "referenceRecordings": 6,
+      "referenceExactUnderExistingPolicy": 0,
+      "referenceWithValidWordIntervalsAndByteSpans": 2,
+      "silentInputs": 6,
+      "silentOutputsEmpty": 6,
+      "constructedInsertionsWithheld": 6,
+      "reservedEvaluationCalls": 0,
+      "productionAcceptedTracks": 0,
+      "applicationWrites": 0
+    },
+    "perLocale": [
+      {
+        "locale": "en",
+        "conservativeExact": false,
+        "wordCount": 91,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 1
+        }
+      },
+      {
+        "locale": "pt",
+        "conservativeExact": false,
+        "wordCount": 105,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 6
+        }
+      },
+      {
+        "locale": "es",
+        "conservativeExact": false,
+        "wordCount": 100,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 3
+        }
+      },
+      {
+        "locale": "fr",
+        "conservativeExact": false,
+        "wordCount": 108,
+        "timingIssueCounts": {}
+      },
+      {
+        "locale": "ar",
+        "conservativeExact": false,
+        "wordCount": 88,
+        "timingIssueCounts": {}
+      },
+      {
+        "locale": "ja",
+        "conservativeExact": false,
+        "wordCount": 139,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 3
+        }
+      }
+    ]
+  },
+  "freshSpeech": {
+    "analysisDigest": "342ca526f5da865128265ab2eea000521b818d7e98cbe78ef5f6ffde06e1d3a4",
+    "summary": {
+      "ttsCreates": 6,
+      "transcriptionCreates": 6,
+      "completedTts": 6,
+      "validNonSilentPcmWavs": 6,
+      "conservativeSourceMatches": 1,
+      "validPositiveIntervals": 2,
+      "applicationWrites": 0,
+      "productionAccepted": 0,
+      "reservedEvaluationCalls": 0
+    },
+    "perLocale": [
+      {
+        "locale": "en",
+        "conservativeExact": false,
+        "wordCount": 91,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 3
+        },
+        "durationSeconds": 44.36
+      },
+      {
+        "locale": "pt",
+        "conservativeExact": false,
+        "wordCount": 104,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 1
+        },
+        "durationSeconds": 57.24
+      },
+      {
+        "locale": "es",
+        "conservativeExact": true,
+        "wordCount": 106,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 1
+        },
+        "durationSeconds": 54.72
+      },
+      {
+        "locale": "fr",
+        "conservativeExact": false,
+        "wordCount": 108,
+        "timingIssueCounts": {
+          "NONPOSITIVE_OR_INVALID_INTERVAL": 1
+        },
+        "durationSeconds": 50.08
+      },
+      {
+        "locale": "ar",
+        "conservativeExact": false,
+        "wordCount": 87,
+        "timingIssueCounts": {},
+        "durationSeconds": 48.44
+      },
+      {
+        "locale": "ja",
+        "conservativeExact": false,
+        "wordCount": 134,
+        "timingIssueCounts": {},
+        "durationSeconds": 59.04
+      }
+    ]
+  },
+  "outcome": "Gemini speech generation is technically available in all six locales. The measured Gemini-only automatic caption candidate does not meet the existing exact-source, positive-word-duration contract. No acceptance gate is opened.",
+  "interpretation": "Recognition differences alone do not establish that speech omitted words; pronunciation and spelling ambiguities remain. Neither successful synthesis nor automatic timestamps constitute fluent human review or timing ground truth.",
+  "next": "Use Gemini narration as a candidate and separately qualify exact-script forced alignment or an explicit measured-phrase caption contract. Do not silently loosen old criteria, drop titles, interpolate zero-duration words or overwrite a failed edition.",
+  "applicationWrites": 0,
+  "acceptedCaptionTracks": 0,
+  "reservedEvaluationCalls": 0,
+  "documentation": [
+    "https://ai.google.dev/gemini-api/docs/speech-generation",
+    "https://ai.google.dev/gemini-api/docs/transcribe",
+    "https://aistudio.google.com/api-reference/interactions-api/create-interaction"
+  ]
+}
