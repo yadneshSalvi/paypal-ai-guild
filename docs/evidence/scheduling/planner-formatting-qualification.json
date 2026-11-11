@@ -91,5 +91,18 @@
     "Broader accessibility and performance qualification"
   ],
   "privateAuditSha256": "0a0ad1f0b40085ba23454f37a177af28cb818ca015f76f9efe627e24fffa43e2",
-  "privateScreenshot": "guild-planner-formatting-mobile.jpg"
+  "privateScreenshot": "guild-planner-formatting-mobile.jpg",
+  "qualifiedSourceCommit": "a928b2910e7f44c440d144945ece3052a874c6ce",
+  "release": {
+    "runtimeSourceDigest": "fc61ee0f87c5bab15816b0e0b0986d630520aca0d21f71825e07558ec151a1f0",
+    "runtimeSourceFiles": 263,
+    "publicFiles": 382,
+    "archiveSha256": "763ec656c00dd11f8f83161311fad533d98d4457baf256932e247d1c8dd46a4f",
+    "archiveBytes": 12750180,
+    "privateValueMatches": 0,
+    "routeTracePrivateMatches": 0,
+    "domainTests": 64,
+    "productionBuild": "passed",
+    "cleanInstallClaimed": false
+  }
 }
