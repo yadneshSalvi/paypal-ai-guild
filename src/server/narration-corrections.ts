@@ -13,7 +13,7 @@ import type { Session } from "./session";
 type Db = Pool | PoolClient;
 interface ProductionRow { id: string; state: string; input: { packageId: string; contractVersion: number; inputBindings: unknown }; output: { artifactId?: string } | null }
 interface CheckRow { id: string; contract_version: number; artifact_id: string; artifact_hash: string; criteria_digest: string; result: AcceptancePack; created_at: Date }
-interface EvaluationRow { id: string; state: string; input: { artifactId: string; artifactHash: string; contractVersion: number }; output: { pack: AcceptancePack; report: { schemaVersion: string; artifactId: string; artifactHash: string; checks: { locale: string; key: string; duration: boolean; measurement: unknown }[] } } | null; created_at: Date }
+export interface EvaluationRow { id: string; state: string; input: { artifactId: string; artifactHash: string; contractVersion: number }; output: { pack: AcceptancePack; report: { schemaVersion: string; artifactId: string; artifactHash: string; checks: { locale: string; key: string; mediaId: string; source: boolean; audio: boolean; loudness: boolean; duration: boolean; transcript: boolean; measurement: unknown }[] } } | null; created_at: Date }
 function fail(code: string, message: string): never { throw new DomainError(code, message, 422, false); }
 
 function narrationPage(c: Commission, pkg: WorkPackage) {
@@ -21,7 +21,7 @@ function narrationPage(c: Commission, pkg: WorkPackage) {
 }
 
 /** Read-only: the proposal is stable until a bound source, note, check or term changes. */
-export async function narrationCorrectionProposal(db: Db, c: Commission, pkg: WorkPackage): Promise<NarrationCorrectionProposal> {
+export async function readNarrationCorrectionBasis(db: Db, c: Commission, pkg: WorkPackage) {
   if (c.mode !== "live" || pkg.kind !== "narration" || pkg.acceptancePack.version !== "2.0.0" || pkg.state !== "correction_requested" || pkg.acceptedAt || pkg.paymentState !== "not_eligible") fail("NARRATION_CORRECTION_STATE", "An additional round is available only for an unaccepted, checked narration that needs correction.");
   if (["paused", "cancelled"].includes(c.state) || !c.approvedPlanDigest || c.approvedPlanDigest !== planDigest(c)) fail("APPROVAL_REQUIRED", "Keep the current Passport active before preparing a separate correction agreement.");
   const page = narrationPage(c, pkg);
@@ -72,12 +72,18 @@ export async function narrationCorrectionProposal(db: Db, c: Commission, pkg: Wo
   const latestReport = evaluations.rows.filter(item => item.input.artifactId === latest.artifactId && item.input.contractVersion === pkg.contractVersion && item.state === "completed").at(-1)?.output;
   const scriptCount = (frozenPack.parameters!.scripts as unknown[]).length;
   if (!latestCheck || latestCheck.criteria_digest !== digest(pkg.acceptancePack) || digest(latestCheck.result) !== latestCheck.criteria_digest || !latestReport || digest(latestReport.pack) !== latestCheck.criteria_digest || latestReport.report.schemaVersion !== "guild.narration-verification.v2" || latestReport.report.artifactId !== latest.artifactId || latestReport.report.artifactHash !== latest.artifactHash || latestReport.report.checks.length !== scriptCount || latestReport.report.checks.some(item => !item.measurement)) fail("NARRATION_CORRECTION_CHECKS", "The complete independent file report must match the exact current narration and displayed check results.");
-  const failed = latestReport.report.checks.filter(item => !item.duration);
-  if (!failed.length || failed.some(item => item.locale !== "ar") || pkg.acceptancePack.criteria.some(item => item.kind === "deterministic" && item.blocking && (item.id === "duration" ? item.status !== "failed" : item.status !== "passed"))) fail("NARRATION_CORRECTION_SCOPE", "This controlled offer addresses Arabic pacing after all other deterministic checks passed. A different failure needs its own reviewed agreement.");
   const note = c.events.filter(item => item.type === "package.correction_requested" && item.packageId === pkg.id).at(-1);
   if (!note || Date.parse(note.createdAt) < Date.parse(currentArtifact.createdAt)) fail("NARRATION_CORRECTION_NOTE", "Save a correction note for the current recording and its measured failure before preparing another round.");
   const expiresAt = new Date(Math.min(...authority!.ancestorIds.map(id => Date.parse(c.mandates.find(item => item.id === id)!.expiresAt)), approval.expires_at.getTime(), Date.parse(note.createdAt) + 24 * 60 * 60 * 1000)).toISOString();
   if (Date.parse(expiresAt) <= Date.now()) fail("NARRATION_CORRECTION_OFFER_EXPIRED", "This correction offer expired. Review the current findings and save a fresh note before requesting a new offer.");
+  return { approval, source, inputs, frozenPack, history, latest, latestCheck, latestReport, evaluations: evaluations.rows, scriptCount, note, expiresAt, provider };
+}
+
+/** The original Arabic-only, complete-round policy remains unchanged. */
+export async function narrationCorrectionProposal(db: Db, c: Commission, pkg: WorkPackage): Promise<NarrationCorrectionProposal> {
+  const { approval, source, inputs, frozenPack, history, latestCheck, latestReport, scriptCount, note, expiresAt, provider } = await readNarrationCorrectionBasis(db, c, pkg);
+  const failed = latestReport.report.checks.filter(item => !item.duration);
+  if (!failed.length || failed.some(item => item.locale !== "ar") || pkg.acceptancePack.criteria.some(item => item.kind === "deterministic" && item.blocking && (item.id === "duration" ? item.status !== "failed" : item.status !== "passed"))) fail("NARRATION_CORRECTION_SCOPE", "This controlled offer addresses Arabic pacing after all other deterministic checks passed. A different failure needs its own reviewed agreement.");
   const proposal: Omit<NarrationCorrectionProposal, "digest"> = {
     version: "guild.narration-correction.v1", commissionId: c.id, packageId: pkg.id, fromVersion: pkg.contractVersion, toVersion: pkg.contractVersion + 1, previousPlanDigest: c.approvedPlanDigest!, acceptancePackDigest: pkg.acceptancePack.digest,
     previousApproval: { id: approval.id, actorId: approval.actor_id, actorExpiresAt: approval.expires_at.toISOString(), receiptDigest: digest({ payload: approval.payload, signature: approval.signature }) },

@@ -18,7 +18,11 @@ export async function artifactEvidence(session: Session, artifactId: string) {
   const active = current.rows[0]?.packages.find(item => item.artifactIds.includes(artifactId));
   const correctionAgreements = amendments.rows.flatMap(item => {
     const agreement = item.proposed_contract.narrationCorrection;
-    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationCorrection?.id === agreement.id) ? [agreement] : [];
+    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationCorrection?.id === agreement.id)) ? [agreement] : [];
   });
-  return { schemaVersion: "guild.artifact-evidence.v1", artifact: { id: artifactId, packageId: owned.package_id, contentHash: owned.manifest.contentHash, createdAt: owned.manifest.createdAt, provenance: owned.manifest.provenance }, currentContract: active ?? null, earlierContracts: contracts, checkReports: checks.rows, independentReports: reports.rows, automatedReviews: reviews.rows, correctionAgreements, exportedAt: new Date().toISOString(), disclosure: "These records preserve actual checks, original contracts and explicitly attributed reviews. An automated report does not establish human acceptance or payment." };
+  const targetedCorrectionAgreements = amendments.rows.flatMap(item => {
+    const agreement = item.proposed_contract.narrationTargetedCorrection;
+    return agreement && (agreement.proposal.history.some(record => record.artifactId === artifactId) || active?.narrationTargetedCorrection?.id === agreement.id || contracts.some(record => record.contract.narrationTargetedCorrection?.id === agreement.id)) ? [agreement] : [];
+  });
+  return { schemaVersion: "guild.artifact-evidence.v1", artifact: { id: artifactId, packageId: owned.package_id, contentHash: owned.manifest.contentHash, createdAt: owned.manifest.createdAt, provenance: owned.manifest.provenance }, currentContract: active ?? null, earlierContracts: contracts, checkReports: checks.rows, independentReports: reports.rows, automatedReviews: reviews.rows, correctionAgreements, targetedCorrectionAgreements, exportedAt: new Date().toISOString(), disclosure: "These records preserve actual checks, original contracts and explicitly attributed reviews. An automated report does not establish human acceptance or payment." };
 }

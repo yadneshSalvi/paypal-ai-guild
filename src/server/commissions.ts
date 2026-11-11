@@ -9,6 +9,7 @@ import { translationAcceptancePack } from "@/domain/translation";
 import { narrationAcceptancePack } from "@/domain/narration";
 import { productionJobLimit } from "@/domain/narration-correction";
 import { prepareNarrationCorrection, validateNarrationCorrection } from "./narration-corrections";
+import { prepareNarrationTargetedCorrection, validateNarrationTargetedCorrection } from "./narration-targeted-corrections";
 import { qualifiedAudioEngine } from "./media/audio-qualification";
 import { draftDependencyProposal } from "@/domain/draft-dependencies";
 import { canonical, digest, DomainError } from "@/domain/primitives";
@@ -119,6 +120,8 @@ export async function executeCommand(session:Session,commissionId:string,command
           const source=inputs.artifacts.find(item=>item.packageId===pkg!.dependsOn[0]);
           if(!source||pkg!.acceptancePack.digest!==narrationAcceptancePack(source,await qualifiedAudioEngine()).digest)throw new DomainError("NARRATION_CONTRACT_REQUIRED","The exact narration source or qualified engine differs from the approved agreement. No recording was queued.",422,false);
           await validateNarrationCorrection(db,commission,pkg!);
+          await validateNarrationTargetedCorrection(db,commission,pkg!);
+          if(pkg!.narrationTargetedCorrection&&digest(inputs.bindings)!==digest(pkg!.narrationTargetedCorrection.proposal.inputBindings))throw new DomainError("NARRATION_TARGETED_BINDING","The source review bound to the targeted agreement changed.",422,false);
           if(pkg!.narrationCorrection&&digest(inputs.bindings)!==digest(pkg!.narrationCorrection.proposal.inputBindings))throw new DomainError("NARRATION_CORRECTION_BINDING","The source review bound to the additional agreement changed. Review that agreement before commissioning work.",422,false);
         }
         await assertNoUnresolvedGeneration(db,commission,pkg!.id,pkg!.contractVersion);
@@ -133,11 +136,11 @@ export async function executeCommand(session:Session,commissionId:string,command
           reserveInSnapshot(commission.mandates,request);
           await db.query("INSERT INTO guild_budget_reservations(id,tenant_id,commission_id,mandate_id,operation_key,amount_minor,currency,state) VALUES($1,$2,$3,$4,$5,$6,'USD','reserved')",[randomUUID(),session.tenantId,commission.id,mandate.id,reservationKey,pkg!.grossMinor]);
         }
-        const produced=await db.query<{count:string}>("SELECT count(*) FROM guild_jobs WHERE tenant_id=$1 AND commission_id=$2 AND type='produce_package' AND input->>'packageId'=$3 AND input->>'contractVersion'=$4 AND (state='completed' OR $5)",[session.tenantId,commission.id,pkg!.id,String(pkg!.contractVersion),!!pkg!.narrationCorrection]);
-        if(Number(produced.rows[0]!.count)>=productionJobLimit(pkg!))throw new DomainError("CORRECTION_ALLOWANCE",pkg!.narrationCorrection?"This explicit agreement permits one additional complete run, and its original job is already retained. Another run needs a new reviewed agreement and fresh Passport.":"This contract's agreed correction has been used. Retain the submissions and agree a new contract before commissioning more work.",422);
+        const produced=await db.query<{count:string}>("SELECT count(*) FROM guild_jobs WHERE tenant_id=$1 AND commission_id=$2 AND type='produce_package' AND input->>'packageId'=$3 AND input->>'contractVersion'=$4 AND (state='completed' OR $5)",[session.tenantId,commission.id,pkg!.id,String(pkg!.contractVersion),!!(pkg!.narrationCorrection||pkg!.narrationTargetedCorrection)]);
+        if(Number(produced.rows[0]!.count)>=productionJobLimit(pkg!))throw new DomainError("CORRECTION_ALLOWANCE",(pkg!.narrationCorrection||pkg!.narrationTargetedCorrection)?"This explicit agreement permits one additional job, and its original job is already retained. Another run needs a new reviewed agreement and fresh Passport.":"This contract's agreed correction has been used. Retain the submissions and agree a new contract before commissioning more work.",422);
         pkg!.state="producing";
         for(const criterion of pkg!.acceptancePack.criteria){criterion.status="pending";criterion.evidence=null;}
-        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,inputBindings:inputs.bindings,...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.narrationCorrection?.id??commission.revision}`);
+        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,inputBindings:inputs.bindings,...(pkg!.narrationTargetedCorrection?{targetedAgreementId:pkg!.narrationTargetedCorrection.id,targetedAgreementDigest:pkg!.narrationTargetedCorrection.proposal.digest}:{}),...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.narrationTargetedCorrection?.id??pkg!.narrationCorrection?.id??commission.revision}`);
         appendEvent(commission,"provider.production_started",`${pkg!.title}: production started`,"A durable job has been queued. Closing the page will not cancel it.",pkg!.providerId,pkg!.id);break;
       }
       case "amend_draft_dependencies":{
@@ -227,6 +230,10 @@ export async function executeCommand(session:Session,commissionId:string,command
         const reason="Measured narration acceptance pack 2.0.0, agreed before recording. Exact source scripts, AI voice, measured engine, bounded tempo treatment and independent recognition are frozen; award, service fee and human listening/acceptance gates remain unchanged. No recording or payment was dispatched by this amendment.";
         await db.query("INSERT INTO guild_contract_amendments(id,tenant_id,commission_id,package_id,from_version,to_version,previous_plan_digest,proposed_plan_digest,previous_contract,proposed_contract,actor_id,reason) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)",[randomUUID(),session.tenantId,commission.id,pkg!.id,previous.contractVersion,pkg!.contractVersion,previousPlan,planDigest(commission),previous,pkg!,session.id,reason]);
         appendEvent(commission,"contract.narration_amended","The measured voice agreement is ready for approval",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
+      }
+      case "agree_narration_targeted_correction":{
+        const {reason}=await prepareNarrationTargetedCorrection(db,session,commission,pkg!,command.contractVersion,command.proposalDigest);
+        appendEvent(commission,"contract.narration_targeted_correction_agreed","The targeted narration repair is ready for approval",reason,session.role==="operator"?"System qualification operator":"Workspace owner",pkg!.id);break;
       }
       case "agree_narration_correction":{
         const {reason}=await prepareNarrationCorrection(db,session,commission,pkg!,command.contractVersion,command.proposalDigest);

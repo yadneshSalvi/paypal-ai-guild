@@ -11,6 +11,7 @@ import { qualifiedAudioEngine } from "./media/audio-qualification";
 import type { Session } from "./session";
 import { getPool } from "./db";
 import { narrationCorrectionProposal } from "./narration-corrections";
+import { narrationTargetedCorrectionProposal } from "./narration-targeted-corrections";
 import { productionJobLimit } from "@/domain/narration-correction";
 
 export async function workspace(session:Session, commissionId?: string):Promise<WorkspaceSnapshot&{approvalDigest:string}>{
@@ -30,8 +31,10 @@ export async function workspace(session:Session, commissionId?: string):Promise<
     try{contractProposals.narration=narrationAcceptancePack(translationSource,await qualifiedAudioEngine());}
     catch(error){contractProposals.narrationUnavailable=error instanceof DomainError?error.message:"The narration agreement is awaiting this host's audio qualification. Existing work remains available.";}
   }
-  if(commission.mode==="live"&&narration?.acceptancePack.version==="2.0.0"&&narration.state==="correction_requested"&&commission.jobs.filter(job=>job.type==="produce_package"&&job.packageId===narration.id&&job.contractVersion===narration.contractVersion&&(job.state==="completed"||!!narration.narrationCorrection)).length>=productionJobLimit(narration)){
-    try{contractProposals.narrationCorrection=await narrationCorrectionProposal(getPool(),commission,narration);}
+  if(commission.mode==="live"&&narration?.acceptancePack.version==="2.0.0"&&narration.state==="correction_requested"&&commission.jobs.filter(job=>job.type==="produce_package"&&job.packageId===narration.id&&job.contractVersion===narration.contractVersion&&(job.state==="completed"||!!narration.narrationCorrection||!!narration.narrationTargetedCorrection)).length>=productionJobLimit(narration)){
+    if(narration.narrationCorrection||narration.narrationTargetedCorrection)try{contractProposals.narrationTargetedCorrection=await narrationTargetedCorrectionProposal(getPool(),commission,narration);}
+    catch(error){contractProposals.narrationTargetedCorrectionUnavailable=error instanceof DomainError?error.message:"The targeted agreement is unavailable; retained work remains inspectable.";}
+    if(!contractProposals.narrationTargetedCorrection&&!narration.narrationTargetedCorrection)try{contractProposals.narrationCorrection=await narrationCorrectionProposal(getPool(),commission,narration);}
     catch(error){contractProposals.narrationCorrectionUnavailable=error instanceof DomainError?error.message:"The additional-correction agreement could not be prepared. Existing recordings and reports remain available.";}
   }
   return {schemaVersion:CONTRACT_VERSION,session:{id:session.id,role:session.role,expiresAt:session.expiresAt},commission,contractProposals,approvalDigest:planDigest(commission),serverTime:new Date().toISOString()};

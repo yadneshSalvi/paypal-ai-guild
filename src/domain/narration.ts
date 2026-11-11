@@ -68,3 +68,20 @@ export const narrationArtifactSchema = z.object({
   correctionAgreement: z.object({ id: z.string().uuid(), digest: hash }).strict().optional(),
 }).strict();
 export type NarrationArtifact = z.infer<typeof narrationArtifactSchema>;
+
+/** The v2 schema remains frozen. v3 explicitly represents assembly of mixed origins. */
+export const narrationLineageSchema = z.object({
+  locale: z.enum(locales), key: z.string().min(1).max(160), mode: z.enum(["replacement", "carried"]),
+  productionJobId: z.string().uuid(), contractVersion: z.number().int().positive(), contractDigest: hash, inputBindingsDigest: hash,
+  mediaId: z.string().uuid(), speechRunId: z.string().uuid(),
+  originalArtifactId: z.string().uuid().nullable(), originalArtifactHash: hash.nullable(),
+  correctionAgreement: z.object({ id: z.string().uuid(), digest: hash }).strict().optional(),
+}).strict();
+export type NarrationLineage = z.infer<typeof narrationLineageSchema>;
+export const targetedNarrationArtifactSchema = narrationArtifactSchema.omit({ correctionAgreement: true }).extend({
+  schemaVersion: z.literal("guild.narration.v3"),
+  targetedCorrection: z.object({ agreementId: z.string().uuid(), agreementDigest: hash, registerDigest: hash, assemblyJobId: z.string().uuid(), contractVersion: z.number().int().positive() }).strict(),
+  lineage: z.array(narrationLineageSchema).min(6).max(186),
+}).strict();
+export const completeNarrationArtifactSchema = z.discriminatedUnion("schemaVersion", [narrationArtifactSchema, targetedNarrationArtifactSchema]);
+export type CompleteNarrationArtifact = z.infer<typeof completeNarrationArtifactSchema>;

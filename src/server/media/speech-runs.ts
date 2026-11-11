@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import { digest, DomainError } from "@/domain/primitives";
 import { getPool, transaction } from "../db";
+import { authorizeTargetedSpeech } from "../narration-targeted-corrections";
 import { requireProductionLease, type ProductionLease } from "../production-authority";
 import { ProductionContinuation, ProductionReviewRequired } from "../production-continuation";
 import { isSpeechModelVersion, OpenAIRealtimeSpeechGateway, SpeechGatewayError, type SpeechGateway, type SpeechReceipt, type SpeechRequest } from "./speech-gateway";
@@ -30,6 +31,7 @@ export async function readCompletedSpeech(tenantId: string, runId: string): Prom
 export async function runSpeech(context: ProductionLease, packageId: string, operationKey: string, input: Omit<SpeechRequest, "operationId">, gateway: SpeechGateway = new OpenAIRealtimeSpeechGateway()) {
   const authority = await transaction(db => requireProductionLease(db, context, packageId));
   if (authority.package?.kind !== "narration" || !/^[A-Za-z0-9_.:-]{1,200}$/.test(operationKey)) throw new DomainError("SPEECH_PACKAGE_REQUIRED", "Speech production belongs to an approved narration contract.", 422, false);
+  authorizeTargetedSpeech(authority.package, operationKey, input);
   const inputHash = digest({ ...input, contractVersion: authority.package.contractVersion, contractDigest: authority.package.acceptancePack.digest, inputBindings: authority.job.input.inputBindings });
   const read = async () => (await getPool().query<SpeechRow>("SELECT * FROM guild_speech_runs WHERE tenant_id=$1 AND job_id=$2 AND operation_key=$3", [context.tenantId, context.jobId, operationKey])).rows[0];
   let row = await read(), inserted = false;
