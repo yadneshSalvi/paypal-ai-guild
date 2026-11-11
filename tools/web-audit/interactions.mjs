@@ -185,7 +185,9 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       await keyActivate(play);
       const state = await audio.evaluate(element => ({ duration: element.duration, time: element.currentTime, paused: element.paused, rate: element.playbackRate }));
       assert(state.paused && Number.isFinite(state.duration) && Math.abs(state.duration - record.sources.labels[language][key].audio.durationSeconds) <= .1, 'The original recording cannot pause or differs from its agreed measured duration.');
-      const slider = player.locator('[data-seek]'); await slider.focus(); await slider.press('Home'); await slider.press('ArrowRight');
+      const slider = player.locator('[data-seek]'), seekDirection = await slider.evaluate(element => getComputedStyle(element).direction);
+      const advanceKey = seekDirection === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+      await slider.focus(); await slider.press('Home'); await slider.press(advanceKey);
       await audio.evaluate(element => element.seeking ? new Promise(resolve => element.addEventListener('seeked', resolve, { once: true })) : undefined);
       assert(await audio.evaluate(element => element.paused && element.currentTime >= .05), 'Keyboard seeking failed or started playback.');
       const speed = player.locator('[data-speed]'); await keySelectBoundary(speed, 'End');
@@ -196,7 +198,7 @@ export async function measureInteractions(page, record, captureAxe, externalRequ
       // measured keyboard claims above concern the authored Home/End keys.
       await speed.selectOption('1');
       assert(await audio.evaluate(element => element.playbackRate === 1), 'The original playback speed was not restored.');
-      observations.push({ key, ...state, speed: { keyboard: ['Home', 'End'], observedRates: [.75, 1.5], restoration: 'native-option-selection', restoredRate: 1 } });
+      observations.push({ key, ...state, seek: { direction: seekDirection, advanceKey }, speed: { keyboard: ['Home', 'End'], observedRates: [.75, 1.5], restoration: 'native-option-selection', restoredRate: 1 } });
     }
     return observations;
   });
