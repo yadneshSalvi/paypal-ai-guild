@@ -6,7 +6,7 @@ import { Scheduler } from "@bryntum/scheduler-enterprise";
 import type { ScheduleEvaluation } from "@/scheduling/contracts";
 import type { PersistedSchedule } from "@/scheduling/persisted";
 import { buildBryntumProjectConfig } from "@/scheduling/configuration";
-import { nativeScheduleAssistant, type NativeAssistantCallbacks } from "./native-schedule-assistant";
+import { loadNativeConversation, nativeScheduleAssistant, type NativeAssistantCallbacks } from "./native-schedule-assistant";
 import "@bryntum/gantt-enterprise/gantt.css";
 import "./scheduling.css";
 
@@ -37,7 +37,8 @@ export default function NativeSchedule(props: Props) {
     let gantt: Gantt | undefined, scheduler: Scheduler | undefined, resize: ResizeObserver | undefined;
     void (async () => {
       try {
-        await project.commitAsync(); if (cancelled) return;
+        const [, conversation] = await Promise.all([project.commitAsync(), props.assistant ? loadNativeConversation(props.assistant.commissionId) : Promise.resolve(null)]);
+        if (cancelled) return;
         const common = {
           project, startDate: new Date(props.sheet.forecast.startAt), endDate: new Date(props.sheet.forecast.horizonEndAt),
           viewPreset: "dayAndWeek", height: 490, rowHeight: 58, barMargin: 15,
@@ -52,7 +53,7 @@ export default function NativeSchedule(props: Props) {
           features: { taskEdit: false, cellEdit: false, taskMenu: false, taskResize: false, taskDragCreate: false,
             taskTooltip: { cls: "guild-native-tooltip-popup", template: ({ taskRecord }: { taskRecord: DatedTask }) => taskTooltip(taskRecord, props.sheet.forecast.timeZone) },
             dependencies: { allowCreate: false }, criticalPaths: true, baselines: true, timeRanges: { showCurrentTimeLine: false },
-            ai: props.assistant ? nativeScheduleAssistant({ commissionId: props.assistant.commissionId, onStatus: run => latest.current.assistant?.onStatus(run), onProposal: async id => { await latest.current.assistant?.onProposal(id); } }) : false,
+            ai: props.assistant && conversation ? nativeScheduleAssistant({ commissionId: props.assistant.commissionId, onStatus: run => latest.current.assistant?.onStatus(run), onProposal: async id => { await latest.current.assistant?.onProposal(id); } }, conversation) : false,
           },
           listeners: {
             selectionChange: ({ selected }: { selected: { id: string | number }[] }) => { if (selected[0]) latest.current.onSelect(String(selected[0].id)); },

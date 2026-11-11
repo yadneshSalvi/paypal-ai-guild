@@ -59,3 +59,18 @@
 .guild-native-planner-popup .b-text-area-field{background:#fbfaf4!important}
 .guild-native-planner-popup .b-field-inner,.guild-native-planner-popup textarea,.guild-native-planner-popup [contenteditable],.guild-native-planner-popup .b-text-field-input{background:#fffdf6!important;color:#30492b!important;color-scheme:light}
 .guild-native-planner-popup textarea::placeholder,.guild-native-planner-popup [contenteditable]:empty:before{color:#647658;opacity:1}
+.guild-native-history{flex:0 0 auto;padding:10px 16px 0!important;background:#fbfaf4;color:#586b4a}
+.guild-native-history p{font-size:10px;line-height:1.6;margin:0;max-width:100%;overflow-wrap:anywhere}
+.guild-native-planner-popup .guild-native-new-conversation{align-self:flex-start;flex:0 0 auto;min-height:36px;margin:7px 16px 10px;padding:7px 11px;border:1px solid #c4cfb6;border-radius:4px;background:#f2f4e8;color:#3e5733;font-size:10px}
+.guild-native-planner-popup .guild-native-new-conversation:focus-visible{outline:2px solid #5f7e48;outline-offset:2px}
+.guild-native-planner-popup .guild-native-new-conversation.b-disabled{color:#728366;background:#f1f1e9}
+.guild-native-planner-popup .b-panel-body-wrap,.guild-native-planner-popup .b-panel-content{min-height:0}
+.guild-native-planner-popup .guild-native-plan{max-height:min(220px,calc(var(--guild-planner-height,680px) * .3))}
+.guild-native-planner-popup .guild-native-history{max-height:76px;overflow:auto}
+.guild-native-planner-popup.b-panel>.b-panel-body-wrap{flex:1 1 0;min-height:0;align-self:stretch}
+.guild-native-planner-popup .b-chat-panel-mixin-content{display:flex;flex-direction:column;align-items:stretch;flex:1 1 0;min-height:0}
+.guild-native-planner-popup .b-chat-bubbles{flex:1 1 0;min-height:0;overflow-y:auto}
+.guild-native-planner-popup .b-text-area-field{flex:0 0 auto}
+.guild-native-planner-popup .b-panel-header .b-tool{color:#3e5733!important;--b-tool-color:#3e5733;--b-tool-hover-color:#233e1a}
+.guild-native-planner-popup .b-panel-header .b-tool:hover{color:#233e1a!important}
+.guild-native-planner-popup .b-panel-header .b-tool:focus-visible{outline:2px solid #5f7e48;outline-offset:2px}

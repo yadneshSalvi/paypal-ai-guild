@@ -40,14 +40,18 @@ export const assistantMessageSchema = z.strictObject({
   tool_calls: z.array(call).max(8).optional(), tool_call_id: z.string().max(250).optional(),
 });
 export const startAssistantSchema = z.strictObject({
-  requestId: z.string().uuid(), conversationId: z.string().uuid(),
-  messages: z.array(assistantMessageSchema).min(1).max(120),
+  version: z.literal("guild.planning-request.v2"),
+  requestId: z.string().uuid(), conversationId: z.string().uuid(), afterRunId: z.string().uuid().nullable(),
+  turn: z.discriminatedUnion("type", [
+    z.strictObject({ type: z.literal("user"), text: z.string().trim().min(1).max(80000) }),
+    z.strictObject({ type: z.literal("continue"), callIds: z.array(z.string().min(1).max(250)).min(1).max(8) }),
+  ]),
   toolNames: z.array(z.enum(Object.keys(assistantToolSchemas) as [AssistantToolName, ...AssistantToolName[]])).min(1).max(6),
 });
 export type StartAssistant = z.infer<typeof startAssistantSchema>;
 export const assistantToolCommandSchema = z.strictObject({
   runId: z.string().uuid(), callId: z.string().min(1).max(250),
-  name: z.enum(["getOpeningPlan", "compareRecoveryQuotes", "proposeOpeningChange"]), args: z.unknown(),
+  name: z.enum(Object.keys(assistantToolSchemas) as [AssistantToolName, ...AssistantToolName[]]), args: z.unknown(),
 });
 export interface AssistantCompletion {
   choices: [{ finish_reason: "stop" | "tool_calls"; message: { role: "assistant"; content: string | null; tool_calls?: z.infer<typeof call>[] } }];
@@ -60,3 +64,12 @@ export interface AssistantRunView {
   result: AssistantCompletion | null; message: string; retryAfterMs: number;
 }
 export interface AssistantHistory { runs: AssistantRunView[]; total: number; nextBefore: string | null; pending: boolean }
+export interface SavedAssistantConversation {
+  schemaVersion: "guild.saved-planning-conversation.v1";
+  requestContract: "canonical" | "legacy_read_only";
+  conversationId: string | null; runs: number; latestRunId: string | null; latestRequestId: string | null; pending: boolean; canAddTurn: boolean;
+  messages: { id: string; role: "user" | "assistant"; content: string; createdAt: string; options?: string[] }[];
+  plan: { goal?: string; steps: { id: number; description: string; completed: boolean; evidenceId: string | null }[] } | null;
+  evidence: { name: AssistantToolName; id: string }[];
+  notice: string;
+}

@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "guild.native-history-qualification.v1",
+  "recordedAt": "2026-11-11T12:20:41.884301+00:00",
+  "sourceBaseCommit": "752348c0537c0a6a592a56e15a9700ef99d5cd09",
+  "sourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
+  "qualifiedSourceCommit": null,
+  "scope": "Canonical server-owned planner input, native saved-conversation restoration and original-approved-snapshot narration validation. Native model transport is synthetic; widgets and application handlers are real.",
+  "tests": {
+    "domain": {
+      "passed": 60,
+      "failed": 0
+    },
+    "postgres": {
+      "passed": 118,
+      "failed": 0
+    },
+    "focusedPlanner": {
+      "passed": 9,
+      "failed": 0
+    },
+    "focusedNarrationHistory": {
+      "passed": 9,
+      "failed": 0
+    },
+    "narrationRegression": {
+      "passed": 13,
+      "failed": 0
+    },
+    "strictTypescript": "passed",
+    "isolatedQaBuild": "passed",
+    "productionBuild": "passed",
+    "cleanInstall": false,
+    "databaseAvailableDuringBuild": false,
+    "providerCredentialsUsedDuringBuild": false
+  },
+  "canonicalInput": {
+    "version": "guild.planning-request.v2",
+    "browserMaySupply": [
+      "explicit new user turn",
+      "exact ordered pending call IDs with immediate parent"
+    ],
+    "browserAssistantOrToolTextAccepted": false,
+    "savedHistoryRebuiltFromExactRows": true,
+    "allSixToolsHaveDurableResults": true,
+    "legacyRowsRewritten": false,
+    "legacyContinuation": "held; explicit new conversation required",
+    "controls": [
+      "forged browser transcript rejected",
+      "omitted/reordered/invented calls rejected",
+      "stale parent rejected",
+      "missing older tool result rejected",
+      "rehashed forged canonical transcript rejected",
+      "fabricated native completion rejected",
+      "duplicate/reused call identities rejected",
+      "cross-tenant history rejected",
+      "pending restoration does not poll or dispatch"
+    ]
+  },
+  "native": {
+    "operator": "Root-controlled native browser",
+    "transport": "Explicit local synthetic queued-create/known-ID-read transport",
+    "actualModelCalls": 0,
+    "reloadBeforeChoice": {
+      "userMessageRestored": true,
+      "savedQuestionRestored": true,
+      "exactOptions": 2,
+      "newRequests": 0
+    },
+    "reloadAfterFinal": {
+      "publicMessages": 4,
+      "completedPlanSteps": 3,
+      "totalPlanSteps": 3,
+      "proposalDisclaimerRestored": true,
+      "newRequests": 0
+    },
+    "newConversationThenSavedLoad": {
+      "emptyNewConversation": true,
+      "originalHistoryRestored": true,
+      "newRequests": 0
+    },
+    "responsive": {
+      "mobile": {
+        "viewportWidth": 390,
+        "viewportHeight": 844,
+        "documentWidth": 390,
+        "dialog": {
+          "x": 12,
+          "y": 82,
+          "width": 366,
+          "height": 680
+        },
+        "messageArea": {
+          "width": 364,
+          "height": 190.5,
+          "scrollHeight": 394
+        },
+        "input": {
+          "width": 338,
+          "height": 42
+        }
+      },
+      "desktopAfterResizeAndReopen": {
+        "viewportWidth": 1280,
+        "viewportHeight": 720,
+        "dialog": {
+          "x": 410,
+          "y": 20,
+          "width": 460,
+          "height": 680
+        },
+        "messageArea": {
+          "width": 458,
+          "height": 196
+        },
+        "input": {
+          "width": 432,
+          "height": 42
+        }
+      },
+      "nativePopupAtBothWidths": true,
+      "drawerClassesPresent": false,
+      "escapeFromTextboxFocusReturn": "Plan with Guild button"
+    },
+    "finalCloseIconColor": "rgb(62, 87, 51)",
+    "screenshots": "Retained privately by root; no screenshots or runtime identities included in public source"
+  },
+  "fixture": {
+    "commissionRevision": 4,
+    "activeScheduleRevision": 1,
+    "activeTotalMinor": 54000,
+    "capMinor": 64000,
+    "proposalCount": 1,
+    "proposedTotalMinor": 58000,
+    "syntheticCreates": 9,
+    "knownIdReads": 9,
+    "savedServerTools": 8,
+    "initialApprovalReceipts": 1,
+    "newApprovalReceipts": 0,
+    "originalScheduleUnchanged": true,
+    "originalFailedArtifactRetained": true,
+    "originalIndependentReportRetained": true,
+    "originalReservationMinor": 13500,
+    "reservationUnchanged": true,
+    "productionAndFinancialRows": {
+      "guild_jobs": 0,
+      "guild_model_runs": 0,
+      "guild_speech_runs": 0,
+      "guild_media_objects": 0,
+      "guild_payment_intents": 0,
+      "guild_acceptance_decisions": 0,
+      "guild_payout_operations": 0
+    },
+    "allPostFinalReadonlyAuditFieldsUnchanged": true
+  },
+  "historicalNarration": {
+    "validation": "Exact immutable producing approval/production command snapshots, receipt signature, amendment terms, job, original artifact/content hash, source/input binding and true producing speech/assembly chain",
+    "changedTotalFixture": {
+      "originalMinor": 54000,
+      "currentMinor": 58000,
+      "historicalReadPassed": true,
+      "originalRowsAndHashesUnchanged": true
+    },
+    "negativeControls": [
+      "missing approval-command snapshot",
+      "tampered approval snapshot",
+      "tampered producing snapshot",
+      "rehashed artifact with different assembly identity",
+      "invalid original receipt signature",
+      "new dispatch under expired original or current envelope"
+    ],
+    "historicalReadRenewsAuthority": false,
+    "originalNarrationRuntimeModified": false,
+    "originalAuthorityExpiresAt": "2026-11-11T11:45:29.435Z"
+  },
+  "findingsRetained": [
+    "Restoration originally did not hydrate native bubbles/checklist; canonical read-only projection now restores both.",
+    "A mobile-created ChatButton silently converted its popup to a collapsed drawer. Initial sizing and position fixes did not correct its widget type.",
+    "An explicit drawer:false also activated the pinned Panel drawer updater. The final per-button factory omits drawer entirely and retains actual AIChatPopup at every width.",
+    "The native close icon inherited pale dark-theme foreground; the final scoped dark header-tool color passed root review."
+  ],
+  "sourceAndPrivacy": {
+    "migration": "015, applied only to disposable tests and owned isolated QA",
+    "previousSchedulingReleaseUnchanged": true,
+    "originalNarrationRuntimeModified": false,
+    "actualProviderDispatch": false,
+    "productionReleaseAudit": "passed",
+    "allRouteTraces": 24,
+    "allRoutePrivateFileMatches": 0,
+    "qaRouteInProductionRelease": false,
+    "workerRoutes": [
+      {
+        "route": "api/workspace/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      },
+      {
+        "route": "api/jobs/recover/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      },
+      {
+        "route": "api/commissions/[id]/commands/route",
+        "sourcePhotographs": 12,
+        "ffmpeg": true,
+        "sharp": true,
+        "privateFiles": 0
+      }
+    ],
+    "existingDependenciesReused": true,
+    "publicSourceFiles": 378,
+    "privateValuesCompared": 35,
+    "privateValueMatches": 0,
+    "forbiddenPaths": 0
+  },
+  "limitations": [
+    "Actual planning-model behavior is not established by this synthetic transport.",
+    "Hosted native/license parity, clean installation and broad accessibility/performance qualification remain open.",
+    "Native package hooks are pinned to Enterprise 8.0.0 and require requalification after upgrades.",
+    "Unfinished non-question tool work remains visibly held; reload does not silently execute it.",
+    "This source release does not renew expired authority, apply an original commercial amendment, produce captions/web, perform human acceptance or move money.",
+    "Captions/easy-read, generated web, genuine Formwork evaluation, protocols, financial journey and the remaining full product plan continue as separate units."
+  ],
+  "runtimeSourceFiles": 261,
+  "sourceDigestMethod": "SHA-256 of sorted path + NUL + file SHA-256 + newline for src, tests, migrations, scripts, public assets, vendored packages and root build manifests"
+}

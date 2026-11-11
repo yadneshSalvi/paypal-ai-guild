@@ -35,6 +35,7 @@ declare module "@bryntum/gantt-enterprise/lib/Gantt/feature/ai/agents/DefaultGan
     static $name: string;
     get agentTools(): Record<string, NativeTool>;
     beforePost?: (body: Record<string, unknown>) => void;
+    history: { role: "user" | "assistant"; content: string }[];
     client: { features: { ai: { chatPanel?: { widgetMap: { guildPlan?: { html: string; hidden: boolean } } } } } };
     $plan?: { goal?: string; steps: { id: number; description: string; completed: boolean }[] };
     processResponse(response: unknown, context: Record<string, unknown>): Promise<unknown>;

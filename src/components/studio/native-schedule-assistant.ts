@@ -1,9 +1,9 @@
 "use client";
-import { OpenAIPlugin, StringHelper } from "@bryntum/core-enterprise";
+import { ObjectHelper, OpenAIPlugin, Rectangle, StringHelper, Widget } from "@bryntum/core-enterprise";
 import type { Gantt } from "@bryntum/gantt-enterprise";
 import DefaultGanttAgent, { type NativeTool, type NativeToolInput } from "@bryntum/gantt-enterprise/lib/Gantt/feature/ai/agents/DefaultGanttAgent.js";
 import GanttToolHost from "@bryntum/gantt-enterprise/lib/Gantt/feature/ai/toolhosts/GanttToolHost.js";
-import { assistantToolDefinitions, assistantToolSchemas, planningStepsHaveEvidence, type AssistantRunView, type AssistantToolName } from "@/scheduling/assistant";
+import { assistantToolDefinitions, assistantToolSchemas, planningStepsHaveEvidence, type AssistantRunView, type AssistantToolName, type SavedAssistantConversation, type StartAssistant } from "@/scheduling/assistant";
 
 export interface NativeAssistantCallbacks {
   commissionId: string;
@@ -11,6 +11,41 @@ export interface NativeAssistantCallbacks {
   onProposal: (proposalId: string) => Promise<void>;
 }
 const failedTool = (message: string) => ({ ok: false, error: { code: "GUILD_PLANNING_GATE", message } });
+type Restoration = { conversation: SavedAssistantConversation | null; error: string | null };
+type VisiblePlan = NonNullable<DefaultGanttAgent["$plan"]>;
+interface PlannerPopup {
+  width: number; height: number; hidden: boolean; isDestroyed: boolean; element: HTMLElement;
+  alignTo(spec?: Record<string, unknown>): void;
+  setXY(x: number, y: number): void;
+}
+interface PlannerButton {
+  changeChatPanel(config: Record<string, unknown> | null, old?: PlannerPopup): PlannerPopup | null;
+}
+const NativeWidget = Widget as unknown as { reconfigure(old: PlannerPopup | undefined, config: object | null, options: { owner: PlannerButton }): PlannerPopup | null };
+// The pinned v8 declaration omits Rectangle's four-number public constructor.
+const ViewportRectangle = Rectangle as unknown as new (x: number, y: number, width: number, height: number) => Rectangle;
+function popupBounds() {
+  const viewport = window.visualViewport;
+  const width = Math.max(1, Math.min(viewport?.width ?? window.innerWidth, document.documentElement.clientWidth) - 24);
+  const height = Math.max(1, Math.min(viewport?.height ?? window.innerHeight, window.innerHeight) - 24);
+  const popupWidth = Math.min(460, width), popupHeight = Math.min(680, height);
+  return { width: popupWidth, height: popupHeight, left: (viewport?.offsetLeft ?? 0) + 12 + (width - popupWidth) / 2, top: (viewport?.offsetTop ?? 0) + 12 + (height - popupHeight) / 2, viewport: new ViewportRectangle((viewport?.offsetLeft ?? 0) + 12, (viewport?.offsetTop ?? 0) + 12, width, height) };
+}
+const chatText = (text: string) => StringHelper.encodeHtml(text).replace(/\n/g, "<br>");
+function planMarkup(plan: VisiblePlan) {
+  const completed = plan.steps.filter(step => step.completed).length;
+  return `<section aria-label="Opening plan checklist" data-native-plan-state="${completed === plan.steps.length ? "complete" : "active"}"><div class="guild-plan-heading"><strong>Our plan</strong><span role="status" aria-live="polite">${completed} of ${plan.steps.length} steps complete</span></div><p>${StringHelper.encodeHtml(plan.goal ?? "Plan the opening")}</p><ol>${plan.steps.map(step => `<li data-state="${step.completed ? "complete" : "pending"}"><span class="guild-plan-mark" aria-hidden="true">${step.completed ? "✓" : step.id}</span><span>${StringHelper.encodeHtml(step.description)}<small>${step.completed ? "Complete · matching tool result saved" : "Pending"}</small></span></li>`).join("")}</ol></section>`;
+}
+export async function loadNativeConversation(commissionId: string): Promise<Restoration> {
+  try {
+    const id = sessionStorage.getItem(`guild.schedule-assistant.${commissionId}.conversation`);
+    const response = await fetch(`/api/commissions/${commissionId}/schedule/assistant/conversation${id ? `?conversationId=${encodeURIComponent(id)}` : ""}`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error("History unavailable");
+    const conversation: SavedAssistantConversation = await response.json();
+    if (conversation.schemaVersion !== "guild.saved-planning-conversation.v1") throw new Error("History contract changed");
+    return { conversation, error: null };
+  } catch { return { conversation: null, error: "Saved conversation could not be read. Reload before sending another planning request; the manual schedule remains available." }; }
+}
 function wait(ms: number, signal: AbortSignal) {
   return new Promise<void>((resolve, reject) => {
     const abort = () => { clearTimeout(timer); reject(new DOMException("The saved request is retained.", "AbortError")); };
@@ -20,24 +55,68 @@ function wait(ms: number, signal: AbortSignal) {
 }
 
 /** Use the native panel and plan tools; replace its provider transport and all store mutators. */
-export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
+export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks, restoration: Restoration) {
   const base = `/api/commissions/${callbacks.commissionId}/schedule/assistant`;
   const storageKey = `guild.schedule-assistant.${callbacks.commissionId}`;
-  const conversationId = sessionStorage.getItem(`${storageKey}.conversation`) ?? crypto.randomUUID();
+  const restored = restoration.conversation;
+  if (restored?.latestRequestId && !restored.pending && sessionStorage.getItem(`${storageKey}.pending`) === restored.latestRequestId) sessionStorage.removeItem(`${storageKey}.pending`);
+  const conversationId = restored?.conversationId ?? sessionStorage.getItem(`${storageKey}.conversation`) ?? crypto.randomUUID();
   sessionStorage.setItem(`${storageKey}.conversation`, conversationId);
-  let lastRunId: string | null = null;
-  const proof = new Map<string, string>();
+  let lastRunId: string | null = restored?.latestRunId ?? null;
+  const proof = new Map<string, string>(restored?.evidence.map(item => [item.name, item.id]));
+  let popupListeners: AbortController | undefined, popupFrame: number | undefined;
+  const detachPopup = () => { popupListeners?.abort(); popupListeners = undefined; if (popupFrame !== undefined) cancelAnimationFrame(popupFrame); popupFrame = undefined; };
+  const sizePopup = (popup: PlannerPopup) => {
+    const bounds = popupBounds();
+    popup.width = bounds.width; popup.height = bounds.height;
+    popup.element.style.setProperty("--guild-planner-height", `${bounds.height}px`);
+    return bounds;
+  };
+  const watchPopup = (popup: PlannerPopup) => {
+    detachPopup(); popupListeners = new AbortController();
+    const fit = () => {
+      if (popupFrame !== undefined) cancelAnimationFrame(popupFrame);
+      popupFrame = requestAnimationFrame(() => {
+        popupFrame = undefined;
+        if (popup.isDestroyed || popup.hidden) return;
+        const bounds = sizePopup(popup);
+        popup.alignTo({ target: bounds.viewport, align: "c-c", anchor: false, axisLock: false });
+        // Cancel ChatButton's anchor tracking, then use the documented native
+        // viewport-position API after its automatic show alignment has finished.
+        popup.alignTo(); popup.setXY(bounds.left, bounds.top);
+      });
+    };
+    window.addEventListener("resize", fit, { signal: popupListeners.signal });
+    window.visualViewport?.addEventListener("resize", fit, { signal: popupListeners.signal });
+    window.visualViewport?.addEventListener("scroll", fit, { signal: popupListeners.signal });
+    fit();
+  };
+  async function savedTool(name: AssistantToolName, args: unknown, callId?: string) {
+    if (!lastRunId || !callId) return failedTool("Only an exact saved assistant response can invoke a planning tool.");
+    try {
+      const response = await fetch(`${base}/tools`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ runId: lastRunId, callId, name, args }) });
+      const result = await response.json();
+      if (!response.ok || !result.ok) return failedTool(result.message ?? "The planning tool did not finish.");
+      if (["getOpeningPlan", "compareRecoveryQuotes", "proposeOpeningChange"].includes(name)) proof.set(name, result.evidenceId);
+      if (name === "proposeOpeningChange" && result.data?.proposal?.id) await callbacks.onProposal(result.data.proposal.id);
+      return result;
+    } catch { return failedTool("The connection paused. Refresh the saved proposal before trying another action."); }
+  }
   class ProposalToolHost extends GanttToolHost {
     static $name = "GuildProposalToolHost";
     override get tools() { return this._configuredTools; }
   }
   class OpeningAgent extends DefaultGanttAgent {
     static $name = "GuildOpeningAgent";
+    constructor(config: Record<string, unknown>) {
+      super(config);
+      this.history = restored?.messages.map(item => ({ role: item.role, content: item.content })) ?? [];
+      if (restored?.requestContract === "canonical" && restored.plan?.steps.some(step => !step.completed)) this.$plan = structuredClone(restored.plan);
+    }
     showPlan(plan: NonNullable<DefaultGanttAgent["$plan"]>) {
       const widget = this.client.features.ai.chatPanel?.widgetMap.guildPlan;
       if (!widget) return;
-      const completed = plan.steps.filter(step => step.completed).length;
-      widget.html = `<section aria-label="Opening plan checklist" data-native-plan-state="${completed === plan.steps.length ? "complete" : "active"}"><div class="guild-plan-heading"><strong>Our plan</strong><span role="status" aria-live="polite">${completed} of ${plan.steps.length} steps complete</span></div><p>${StringHelper.encodeHtml(plan.goal ?? "Plan the opening")}</p><ol>${plan.steps.map(step => `<li data-state="${step.completed ? "complete" : "pending"}"><span class="guild-plan-mark" aria-hidden="true">${step.completed ? "✓" : step.id}</span><span>${StringHelper.encodeHtml(step.description)}<small>${step.completed ? "Complete · matching tool result saved" : "Pending"}</small></span></li>`).join("")}</ol></section>`;
+      widget.html = planMarkup(plan);
       widget.hidden = false;
     }
     override get agentTools() {
@@ -47,18 +126,20 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
         fn: async (input: NativeToolInput) => {
           const parsed = assistantToolSchemas[name].safeParse(input.args);
           if (!parsed.success) return failedTool("Use the supported planning steps and short owner choices.");
-          if (name === "createPlan") proof.clear();
           if (name === "completePlanSteps") {
             const { stepIds } = assistantToolSchemas.completePlanSteps.parse(parsed.data);
             if (!planningStepsHaveEvidence(this.$plan?.steps, stepIds, proof)) return failedTool("A plan step needs its matching successful server tool result before it can be marked complete.");
           }
+          const saved = await savedTool(name, parsed.data, input.toolCall?.id);
+          if (!saved.ok) return saved;
+          if (name === "createPlan") proof.clear();
           // The native tool owns this state. Keep its last completed plan visible
           // even though v8 clears $plan after the final step.
           const prior = this.$plan;
-          const result = await native[name]!.fn({ ...input, args: parsed.data });
+          await native[name]!.fn({ ...input, args: parsed.data });
           const plan = this.$plan ?? prior;
           if (name !== "askUser" && plan) this.showPlan(plan);
-          return result;
+          return saved;
         },
       });
       return { askUser: wrap("askUser"), createPlan: wrap("createPlan"), completePlanSteps: wrap("completePlanSteps") };
@@ -73,6 +154,7 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
       const controller = new AbortController();
       this.beforePost?.(body);
       const promise = (async () => {
+        if (restoration.error) throw new Error(restoration.error);
         const pending = sessionStorage.getItem(`${storageKey}.pending`);
         if (pending) {
           const response = await fetch(`${base}?requestId=${encodeURIComponent(pending)}`, { cache: "no-store", signal: controller.signal });
@@ -84,7 +166,16 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
         }
         const requestId = crypto.randomUUID();
         const tools = body.tools as { function: { name: AssistantToolName } }[];
-        const request = { requestId, conversationId, messages: body.messages, toolNames: tools.map(tool => tool.function.name) };
+        const messages = body.messages as { role: string; content?: string; tool_call_id?: string }[], last = messages.at(-1);
+        let turn: StartAssistant["turn"];
+        if (last?.role === "user" && typeof last.content === "string") turn = { type: "user", text: last.content };
+        else if (last?.role === "tool") {
+          let start = messages.length - 1; while (start > 0 && messages[start - 1]?.role === "tool") start--;
+          const callIds = messages.slice(start).map(item => item.tool_call_id);
+          if (callIds.some(id => !id)) throw new Error("The native tool continuation lost its original identity.");
+          turn = { type: "continue", callIds: callIds as string[] };
+        } else throw new Error("Only an explicit user turn or exact saved tool continuation may start a request.");
+        const request: StartAssistant = { version: "guild.planning-request.v2", requestId, conversationId, afterRunId: lastRunId, turn, toolNames: tools.map(tool => tool.function.name) };
         sessionStorage.setItem(`${storageKey}.pending`, requestId);
         let run: AssistantRunView | undefined;
         try {
@@ -123,17 +214,7 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
   }
   const tools = Object.fromEntries(assistantToolDefinitions.filter(tool => ["getOpeningPlan", "compareRecoveryQuotes", "proposeOpeningChange"].includes(tool.name)).map(tool => [tool.name, {
     ...tool, kind: tool.name === "proposeOpeningChange" ? "write" as const : "read" as const, available: true, noStm: true,
-    fn: async ({ args, toolCall }: NativeToolInput) => {
-      if (!lastRunId || !toolCall?.id) return failedTool("Only an exact saved assistant response can invoke a planning tool.");
-      try {
-        const response = await fetch(`${base}/tools`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ runId: lastRunId, callId: toolCall.id, name: tool.name, args }) });
-        const result = await response.json();
-        if (!response.ok || !result.ok) return failedTool(result.message ?? "The planning tool did not finish.");
-        proof.set(tool.name, result.evidenceId);
-        if (tool.name === "proposeOpeningChange" && result.data?.proposal?.id) await callbacks.onProposal(result.data.proposal.id);
-        return result;
-      } catch { return failedTool("The connection paused. Refresh the saved proposal before trying another action."); }
-    },
+    fn: ({ args, toolCall }: NativeToolInput) => savedTool(tool.name, args, toolCall?.id),
   }]));
   const config = {
     apiPlugin: OpenAIPlugin, agent: OpeningAgent, toolHost: ProposalToolHost, tools,
@@ -141,9 +222,46 @@ export function nativeScheduleAssistant(callbacks: NativeAssistantCallbacks) {
     timeout: 15 * 60_000, debugMode: false, showNoConnectionIcon: false,
     undo: false, redo: false, mentions: false, autoReadAloud: false, availableApis: [],
     chatButton: { text: "Plan with Guild", cls: "guild-native-assistant", tooltip: "Read, compare and propose with Guild",
-      chatPanel: { title: "Plan the opening", cls: "guild-native-planner-popup", width: "min(460px, calc(100vw - 24px))", height: "min(680px, calc(100dvh - 24px))", animateTyping: !matchMedia("(prefers-reduced-motion: reduce)").matches,
-        tools: { settingsTool: false },
-        items: { guildPlan: { type: "widget", weight: -100, cls: "guild-native-plan", hidden: true, html: "" } },
+      beforeConfigure: (button: PlannerButton) => {
+        // Pinned v8 ChatButton otherwise forcibly changes AIChatPopup into a
+        // collapsed bottom drawer below 600px. Keep the same real popup across
+        // viewport changes; preserve native ownership, events and AI contents.
+        button.changeChatPanel = (panel, old) => {
+          const popup = panel ? ObjectHelper.merge({
+            owner: button, showCloseButton: true, scrollAction: null,
+            internalListeners: { visibilityChange: "up.onVisibilityChange" },
+          }, panel, { type: "aichatpopup", collapsible: false }) as Record<string, unknown> : null;
+          // Panel.updateDrawer activates even for false in this pinned release.
+          // Omission preserves its native null default and avoids the updater.
+          if (popup) delete popup.drawer;
+          return NativeWidget.reconfigure(old, popup, { owner: button });
+        };
+      },
+      chatPanel: { title: "Plan the opening", cls: "guild-native-planner-popup", width: popupBounds().width, height: popupBounds().height, animateTyping: !matchMedia("(prefers-reduced-motion: reduce)").matches,
+        // ChatButton's default size animation retains its final inline width and
+        // height. Recompute native dimensions on every opening and viewport change.
+        showAnimation: false, hideAnimation: false, floating: true, centered: false, anchor: false, draggable: false,
+        listeners: {
+          beforeShow: ({ source }: { source: PlannerPopup }) => { sizePopup(source); },
+          beforeAlign: { prio: -1000, fn: (spec: Record<string, unknown> & { source: PlannerPopup }) => {
+            const viewport = sizePopup(spec.source).viewport;
+            Object.assign(spec, { target: viewport, constrainTo: viewport, align: "c-c", anchor: false, axisLock: false, offset: 0, inflate: 0, monitorTargetMutation: false, monitorResize: false });
+          } },
+          show: ({ source }: { source: PlannerPopup }) => { watchPopup(source); },
+          hide: detachPopup, destroy: detachPopup,
+        },
+        formatText: chatText,
+        messages: restored?.messages.map(item => ({ id: item.id, text: chatText(item.content), fromOther: item.role === "assistant", timestamp: item.createdAt, ...(item.options && restored.canAddTurn ? { options: item.options } : {}) })) ?? [],
+        tools: { settingsTool: false, clearChat: false },
+        items: {
+          guildHistory: { type: "widget", weight: -120, cls: "guild-native-history", html: `<p role="status">${StringHelper.encodeHtml(restoration.error ?? restored?.notice ?? "Plan with the saved contracts and offers.")}</p>` },
+          guildNewConversation: { type: "button", weight: -110, text: "New conversation", cls: "guild-native-new-conversation", disabled: !!restoration.error || !!restored?.pending || !!sessionStorage.getItem(`${storageKey}.pending`), onAction: () => {
+            if (sessionStorage.getItem(`${storageKey}.pending`)) return;
+            sessionStorage.setItem(`${storageKey}.conversation`, crypto.randomUUID()); window.location.reload();
+          } },
+          guildPlan: { type: "widget", weight: -100, cls: "guild-native-plan", hidden: !restored?.plan, html: restored?.plan ? planMarkup(restored.plan) : "" },
+          messageField: { disabled: !!restoration.error || restored?.canAddTurn === false },
+        },
       } },
     delayStatusTexts: ["Reading the saved opening plan…", "Considering working time and review…", "The original request is still working…"],
   };

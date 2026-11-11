@@ -3,10 +3,10 @@
   "updatedAt": "2026-11-11",
   "scope": "Evidence ledger for the full planned product. Status describes only the listed observed evidence.",
   "currentSourceBinding": {
-    "baseCommit": "c9468fbfbf1897f86f55cfd65c65cf570959233c",
-    "sourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e",
-    "evidence": "docs/evidence/scheduling/native-integration-qualification.json",
-    "qualifiedSourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f"
+    "baseCommit": "752348c0537c0a6a592a56e15a9700ef99d5cd09",
+    "sourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
+    "evidence": "docs/evidence/scheduling/native-history-qualification.json",
+    "qualifiedSourceCommit": null
   },
   "humanReviewByLocale": {
     "en": {
@@ -200,20 +200,22 @@
     {
       "feature": "bryntum.native_ai",
       "chosenVersion": "Enterprise 8.0.0 / gpt-6.1-sol max gateway",
-      "sourceCommit": "b78e9089e73d910f88e8afa2fde6a9f1248aff3f",
+      "sourceCommit": null,
       "accountOrLicensePrerequisites": [
         "Valid Enterprise license",
         "Actual-model qualification for live use"
       ],
       "testRun": [
         "docs/SCHEDULING.md",
-        "docs/evidence/scheduling/native-integration-qualification.json"
+        "docs/evidence/scheduling/native-integration-qualification.json",
+        "docs/PLANNER_HISTORY.md",
+        "docs/evidence/scheduling/native-history-qualification.json"
       ],
       "status": "observed_local_native_fixture",
-      "observedResult": "Nine local synthetic creates and nine known-ID reads exercised askUser/createPlan/read/compare/propose/completion. Native three-step checklist and matched completion labels passed. Desktop and 390px light popup passed. Actual model behavior remains unqualified. Saved evidence survives reload; native bubbles/checklist do not yet restore.",
+      "observedResult": "Canonical v2 input reconstructs all prior assistant/tool content from exact server rows. Native reload before question choice and after final response restores four messages and the evidence-backed 3/3 checklist without calls. New conversation then saved-history loading, 390px mobile to 1280px desktop resizing, close/reopen, cream input, dark close icon and Escape focus return passed. Exactly nine synthetic creates, nine known-ID reads, eight tool records and one proposal; active $540/schedule r1 unchanged. Actual model behavior remains unqualified.",
       "selectedFallback": "Manual timeline/form/quote proposals use the same authority gateway.",
       "productWording": "Read, compare and propose; separate Passport approval required.",
-      "qualifiedSourceDigest": "4e06a6546e717e6ea3f0c825fc2b29716b9345488821d9555445d10b50d68c7e"
+      "qualifiedSourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd"
     },
     {
       "feature": "bryntum.shared_scheduling_models",
@@ -412,6 +414,25 @@
       "observedResult": "Local isolated builds and selected mobile/keyboard checks exist. Full matrix, clean install, hosted native parity, actual webhooks/job recovery, studies and film remain open.",
       "selectedFallback": "Keep local qualification wording and retain failed gates.",
       "productWording": "Local development; no production deployment claimed."
+    },
+    {
+      "feature": "production.narration_historical_approval",
+      "chosenVersion": "Original approved-snapshot validation with unchanged narration v2/v3/v4 envelopes",
+      "sourceCommit": null,
+      "qualifiedSourceDigest": "f3f8020dd8d75d9d417c6701a87c709054e549b0210a85a0dfbf2bb8fb7906bd",
+      "accountOrLicensePrerequisites": [
+        "Original producing command and approval snapshots",
+        "Valid original receipt signature and exact artifact lineage",
+        "Current unexpired authority for any new dispatch"
+      ],
+      "testRun": [
+        "docs/PLANNER_HISTORY.md",
+        "docs/evidence/scheduling/native-history-qualification.json"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "A fresh $580 synthetic plan can read its exact original $540 narration approval. Missing/tampered snapshots, bad original signature, changed assembly lineage and expired new dispatch fail. Original rows, signatures and hashes remain unchanged; no original runtime cutover was performed.",
+      "selectedFallback": "Retain historical evidence and hold new work for an explicit current agreement.",
+      "productWording": "Historical production evidence; it does not renew authority."
     }
   ]
 }

@@ -14,6 +14,7 @@ import { isSpeechModelVersion, type SpeechReceipt, type SpeechRequest } from "./
 import { validateNarrationTargetedCorrection } from "./narration-targeted-corrections";
 import { resolveProductionInputs } from "./production-inputs";
 import type { Session } from "./session";
+import { narrationContractTerms as contractTerms, readNarrationApprovalHistory } from "./narration-approval-history";
 
 type Db = Pool | PoolClient;
 type ApprovalAnchor = NarrationCorrectionProposal["previousApproval"];
@@ -37,9 +38,6 @@ function offerPayload(tenantId: string, agreement: { id: string; agreedAt: strin
 }
 function commercial(c: Commission, pkg: WorkPackage) {
   return { providerId: pkg.providerId, providerAwardMinor: pkg.providerAwardMinor, serviceFeeMinor: pkg.serviceFeeMinor, grossMinor: pkg.grossMinor, commissionTotalMinor: c.packages.reduce((sum, item) => sum + item.grossMinor, 0), capMinor: c.capMinor };
-}
-function contractTerms(pkg: WorkPackage) {
-  return { id: pkg.id, kind: pkg.kind, contractVersion: pkg.contractVersion, providerId: pkg.providerId, providerAwardMinor: pkg.providerAwardMinor, serviceFeeMinor: pkg.serviceFeeMinor, grossMinor: pkg.grossMinor, dependsOn: pkg.dependsOn, workingHours: pkg.workingHours, inputPolicy: pkg.inputPolicy, pack: { ...pkg.acceptancePack, criteria: pkg.acceptancePack.criteria.map(item => ({ ...item, status: "pending", evidence: null })) }, narrationCorrection: pkg.narrationCorrection, narrationTargetedCorrection: pkg.narrationTargetedCorrection };
 }
 function contractRegister(rows: AmendmentRow[]): NarrationFollowupCorrectionProposal["historicalContracts"] {
   return rows.map(item => ({ id: item.id, fromVersion: item.from_version, toVersion: item.to_version, previousContractDigest: digest(item.previous_contract), proposedContractDigest: digest(item.proposed_contract), previousPlanDigest: item.previous_plan_digest, proposedPlanDigest: item.proposed_plan_digest }));
@@ -67,10 +65,14 @@ async function readFollowupEvidence(db: Db, c: Commission, referencePackage: Wor
   if (!source || source.contentHash !== priorAgreement.proposal.sourceArtifactHash || digest(source.content) !== source.contentHash) bindingFailure();
   const scripts = narrationScripts(source), frozenPack = narrationAcceptancePack(source, await qualifiedAudioEngine());
   if (scripts.length !== narrationFollowupPolicy.requiredRecordings || referencePackage.acceptancePack.digest !== frozenPack.digest || digest(contractTerms(referencePackage).pack) !== digest(frozenPack)) bindingFailure();
-  const history: NarrationCorrectionEvidence[] = [];
+  const history: NarrationCorrectionEvidence[] = [], approvedHistory = new Map<number, Commission[]>();
   for (const job of jobs) {
     const saved = artifacts.find(item => item.id === job.output?.artifactId), parsed = completeNarrationArtifactSchema.safeParse(saved?.manifest.content);
     if (job.state !== "completed" || !saved || saved.manifest.id !== saved.id || saved.manifest.packageId !== referencePackage.id || saved.content_hash !== saved.manifest.contentHash || digest(saved.manifest.content) !== saved.content_hash || !parsed.success || parsed.data.schemaVersion === "guild.narration.v4" || parsed.data.contractDigest !== frozenPack.digest || parsed.data.sourceArtifactId !== source.id || parsed.data.sourceArtifactHash !== source.contentHash || digest(parsed.data.standard) !== digest(narrationStandard) || digest(parsed.data.engine) !== digest(frozenPack.parameters!.engine) || digest(parsed.data.inputBindings) !== digest(job.input.inputBindings)) bindingFailure();
+    const terms = amendments.find(item => item.to_version === job.input.contractVersion)?.proposed_contract;
+    if (!terms) bindingFailure();
+    const approved = await readNarrationApprovalHistory(db, c, terms, bindingFailure, job.id);
+    approvedHistory.set(job.input.contractVersion, [...(approvedHistory.get(job.input.contractVersion) ?? []), approved]);
     const reports = evaluations.filter(item => item.input.artifactId === saved.id && item.input.artifactHash === saved.content_hash && item.input.contractVersion === job.input.contractVersion && item.state === "completed" && item.output);
     const verified = checks.filter(item => item.artifact_id === saved.id && item.artifact_hash === saved.content_hash && item.contract_version === job.input.contractVersion);
     if (!reports.length || !verified.length || verified.some(item => digest(item.result) !== item.criteria_digest) || reports.some(item => item.output!.report.artifactId !== saved.id || item.output!.report.artifactHash !== saved.content_hash || !verified.some(check => digest(item.output!.pack) === check.criteria_digest))) fail("NARRATION_FOLLOWUP_CHECKS", "Every original submission needs its complete retained check report before a separate follow-up can be agreed.");
@@ -94,7 +96,8 @@ async function readFollowupEvidence(db: Db, c: Commission, referencePackage: Wor
     const full = contract.narrationCorrection, targeted = contract.narrationTargetedCorrection;
     if (full) {
       const p = full.proposal;
-      if (full.providerReceipt.kind !== "guild.controlled-provider-offer-receipt.v1" || full.providerReceipt.algorithm !== "HMAC-SHA256" || !matchesSignature(offerPayload(c.tenantId, full), full.providerReceipt.signature) || p.digest !== narrationCorrectionDigest(p) || p.providerOffer.policyDigest !== digest(narrationCorrectionPolicy) || digest(p.scope.arabicDelivery) !== digest(arabicCorrectionDelivery) || full.id !== amendment.id || p.fromVersion !== amendment.from_version || p.toVersion !== amendment.to_version || p.previousPlanDigest !== amendment.previous_plan_digest || p.acceptancePackDigest !== frozenPack.digest || p.sourceArtifactId !== source.id || p.sourceArtifactHash !== source.contentHash || p.commissionId !== c.id || p.packageId !== referencePackage.id || digest(p.history) !== digest(history.filter(item => item.contractVersion <= p.fromVersion)) || digest(p.commercial) !== digest({ ...commercial(c, contract), additionalChargeMinor: 0 }) || Date.parse(p.providerOffer.expiresAt) > Date.parse(p.previousApproval.actorExpiresAt)) bindingFailure();
+      const snapshots = approvedHistory.get(contract.contractVersion);
+      if (full.providerReceipt.kind !== "guild.controlled-provider-offer-receipt.v1" || full.providerReceipt.algorithm !== "HMAC-SHA256" || !matchesSignature(offerPayload(c.tenantId, full), full.providerReceipt.signature) || p.digest !== narrationCorrectionDigest(p) || p.providerOffer.policyDigest !== digest(narrationCorrectionPolicy) || digest(p.scope.arabicDelivery) !== digest(arabicCorrectionDelivery) || full.id !== amendment.id || p.fromVersion !== amendment.from_version || p.toVersion !== amendment.to_version || p.previousPlanDigest !== amendment.previous_plan_digest || p.acceptancePackDigest !== frozenPack.digest || p.sourceArtifactId !== source.id || p.sourceArtifactHash !== source.contentHash || p.commissionId !== c.id || p.packageId !== referencePackage.id || digest(p.history) !== digest(history.filter(item => item.contractVersion <= p.fromVersion)) || !snapshots?.length || snapshots.some(snapshot => digest(p.commercial) !== digest({ ...commercial(snapshot, contract), additionalChargeMinor: 0 }) || p.providerOffer.originalPolicyDigest !== snapshot.providers.find(item => item.id === contract.providerId)?.policyDigest) || Date.parse(p.providerOffer.expiresAt) > Date.parse(p.previousApproval.actorExpiresAt)) bindingFailure();
       await validateApproval(db, c, p.previousApproval, p.previousPlanDigest);
     }
     if (targeted) {
@@ -251,6 +254,7 @@ export async function prepareNarrationFollowupCorrection(db: PoolClient, session
 export async function validateNarrationFollowupCorrection(db: Db, c: Commission, pkg: WorkPackage, job?: { id: string; input: { followupAgreementId?: string; followupAgreementDigest?: string; inputBindings?: unknown } }, historical = false) {
   const agreement = pkg.narrationFollowupCorrection;
   if (!agreement) { if (job?.input.followupAgreementId) bindingFailure(); return; }
+  if (historical) c = await readNarrationApprovalHistory(db, c, pkg, bindingFailure, job?.id);
   const p = agreement.proposal;
   if (pkg.narrationCorrection || pkg.narrationTargetedCorrection || p.version !== "guild.narration-targeted-followup.v1" || p.digest !== followupCorrectionDigest(p) || p.commissionId !== c.id || p.packageId !== pkg.id || p.fromVersion + 1 !== p.toVersion || p.toVersion !== pkg.contractVersion || p.acceptancePackDigest !== pkg.acceptancePack.digest || p.providerOffer.policyVersion !== narrationFollowupPolicy.version || p.providerOffer.policyDigest !== digest(narrationFollowupPolicy) || p.providerOffer.originalPolicyDigest !== c.providers.find(item => item.id === pkg.providerId)?.policyDigest || p.scope.maximumProductionJobs !== 1 || p.scope.maximumAttemptsPerRecording !== 1 || p.scope.selectionRule !== narrationFollowupPolicy.selectionRule || p.scope.recordings !== 78 || p.scope.replacementRecordings !== 1 || p.scope.carriedRecordings !== 77 || digest(p.scope.delivery) !== digest(followupDelivery) || digest(p.failedRecordingKeys) !== digest([narrationFollowupPolicy.replacementKey]) || digest(p.commercial) !== digest({ ...commercial(c, pkg), additionalChargeMinor: 0 }) || digest(commercial(c, pkg)) !== digest(narrationFollowupPolicy.commercial) || p.scope.scriptRegisterDigest !== digest(pkg.acceptancePack.parameters?.scripts) || p.sourceArtifactId !== pkg.acceptancePack.parameters?.sourceArtifactId || p.sourceArtifactHash !== pkg.acceptancePack.parameters?.sourceArtifactHash || agreement.providerReceipt.kind !== "guild.controlled-followup-offer-receipt.v1" || agreement.providerReceipt.algorithm !== "HMAC-SHA256" || !matchesSignature(offerPayload(c.tenantId, agreement), agreement.providerReceipt.signature)) bindingFailure();
   const stored = (await db.query<{ proposed_contract: WorkPackage; previous_contract: WorkPackage }>("SELECT proposed_contract,previous_contract FROM guild_contract_amendments WHERE id=$1 AND tenant_id=$2 AND commission_id=$3 AND package_id=$4 AND to_version=$5", [agreement.id, c.tenantId, c.id, pkg.id, pkg.contractVersion])).rows[0];

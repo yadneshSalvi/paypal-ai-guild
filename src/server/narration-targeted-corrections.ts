@@ -10,6 +10,7 @@ import type { Session } from "./session";
 import { narrationFileMetadata } from "./media/narration-metadata";
 import type { SpeechRequest } from "./media/speech-gateway";
 import { resolveProductionInputs } from "./production-inputs";
+import { readNarrationApprovalHistory } from "./narration-approval-history";
 
 type Db = Pool | PoolClient;
 function fail(code: string, message: string): never { throw new DomainError(code, message, 422, false); }
@@ -134,6 +135,7 @@ export async function prepareNarrationTargetedCorrection(db: PoolClient, session
 export async function validateNarrationTargetedCorrection(db: Db, c: Commission, pkg: WorkPackage, job?: { id: string; input: { targetedAgreementId?: string; targetedAgreementDigest?: string; inputBindings?: unknown } }, historical = false) {
   const agreement = pkg.narrationTargetedCorrection;
   if (!agreement) { if (job?.input.targetedAgreementId) bindingFailure(); return; }
+  if (historical) c = await readNarrationApprovalHistory(db, c, pkg, bindingFailure, job?.id);
   const p = agreement.proposal, expected = signature(c.tenantId, agreement);
   if (pkg.narrationCorrection || p.version !== "guild.narration-targeted-correction.v1" || p.digest !== targetedCorrectionDigest(p) || p.commissionId !== c.id || p.packageId !== pkg.id || p.toVersion !== pkg.contractVersion || p.acceptancePackDigest !== pkg.acceptancePack.digest || p.scope.maximumProductionJobs !== 1 || p.scope.maximumAttemptsPerRecording !== 1 || p.scope.selectionRule !== narrationTargetedPolicy.selectionRule || p.providerOffer.policyDigest !== digest(narrationTargetedPolicy) || p.providerOffer.originalPolicyDigest !== c.providers.find(item => item.id === pkg.providerId)?.policyDigest || digest(p.scope.delivery) !== digest(targetedDelivery) || p.commercial.providerId !== pkg.providerId || p.commercial.providerAwardMinor !== pkg.providerAwardMinor || p.commercial.serviceFeeMinor !== pkg.serviceFeeMinor || p.commercial.grossMinor !== pkg.grossMinor || p.commercial.additionalChargeMinor !== 0 || p.commercial.commissionTotalMinor !== c.packages.reduce((sum, item) => sum + item.grossMinor, 0) || p.commercial.capMinor !== c.capMinor || p.sourceArtifactId !== pkg.acceptancePack.parameters?.sourceArtifactId || p.sourceArtifactHash !== pkg.acceptancePack.parameters?.sourceArtifactHash || p.scope.scriptRegisterDigest !== digest(pkg.acceptancePack.parameters?.scripts) || !/^[a-f0-9]{64}$/.test(agreement.providerReceipt.signature) || !timingSafeEqual(Buffer.from(expected), Buffer.from(agreement.providerReceipt.signature))) bindingFailure();
   const stored = (await db.query<{ proposed_contract: WorkPackage; previous_contract: WorkPackage }>("SELECT proposed_contract,previous_contract FROM guild_contract_amendments WHERE id=$1 AND tenant_id=$2 AND commission_id=$3 AND package_id=$4 AND to_version=$5", [agreement.id, c.tenantId, c.id, pkg.id, pkg.contractVersion])).rows[0];

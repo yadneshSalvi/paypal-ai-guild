@@ -60,7 +60,7 @@ async function prepare(f: Fixture) {
   return p;
 }
 
-test("follow-up keeps all old signatures, traces 73 full plus four targeted origins and permits one new stream with 78 independent rereads", async () => {
+test("follow-up keeps all old signatures, traces 73 full plus four targeted origins and permits one new stream with 78 independent rereads", async t => {
   const f = await exhaustedFollowupFixture(false);
   let before = await getCommission(f.session, f.commissionId), original = before.packages.find(item => item.id === "narration")!;
   await assert.rejects(narrationFollowupCorrectionProposal(getPool(), before, original), code("NARRATION_FOLLOWUP_NOTE"));
@@ -177,6 +177,70 @@ test("follow-up keeps all old signatures, traces 73 full plus four targeted orig
   }
   assert.equal((await getPool().query("SELECT count(*)::int n FROM guild_jobs WHERE tenant_id=$1 AND type='produce_package' AND input->>'contractVersion'=$2", [f.session.tenantId, String(pkg.contractVersion)])).rows[0].n, 1);
   assert.deepEqual((await getPool().query("SELECT state,amount_minor FROM guild_budget_reservations WHERE tenant_id=$1 AND operation_key LIKE $2 ORDER BY created_at", [f.session.tenantId, `production:${c.id}:narration:%`])).rows.map(item => [item.state, Number(item.amount_minor)]), [["released", 8700], ["released", 8700], ["released", 8700], ["reserved", 8700]]);
+
+  const originalPlan = structuredClone(c), production = (await getPool().query("SELECT * FROM guild_commands WHERE tenant_id=$1 AND result->>'jobId'=$2", [c.tenantId, jobId])).rows[0];
+  const producingPlan = production.result.commission.approvedPlanDigest;
+  const approvalCommands = (await getPool().query("SELECT * FROM guild_commands WHERE tenant_id=$1 AND result->'commission'->>'approvedPlanDigest'=$2 AND result->>'jobId' IS NULL", [c.tenantId, producingPlan])).rows;
+  const approvalCommand = approvalCommands.find(item => item.payload_hash === digest({ commissionId: c.id, command: { type: "approve_plan", commandId: item.command_id, expectedRevision: item.result.revision - 1, planDigest: producingPlan } }));
+  assert.ok(approvalCommand);
+  const currentRows = (await getPool().query("SELECT id,content_hash,manifest FROM guild_artifacts WHERE tenant_id=$1 ORDER BY id", [c.tenantId])).rows;
+  const narrationTerms = digest(pkg.narrationFollowupCorrection), readsAtCompletion = f.media.reads, putsAtCompletion = f.media.puts;
+  // An explicitly labelled fixture changes a different commercial contract.
+  // The new Passport is issued through the normal command, not a forged receipt.
+  const successor = structuredClone(c), web = successor.packages.find(item => item.id === "web")!;
+  web.contractVersion++; web.providerId = "ostrava"; web.providerAwardMinor += 4000; web.grossMinor += 4000;
+  successor.approvedPlanDigest = null; successor.state = "awaiting_approval"; successor.revision++;
+  await transaction(db => saveCommission(db, successor)); await approve(f);
+  c = await getCommission(f.session, c.id); pkg = c.packages.find(item => item.id === "narration")!;
+  const validateHistory = () => validateNarrationFollowupCorrection(getPool(), c, pkg, { id: jobId, input: jobInput }, true);
+
+  await t.test("a new $580 Passport reads the exact $540 producing approval without renewing it", async () => {
+    assert.equal(c.packages.reduce((sum, item) => sum + item.grossMinor, 0), 58000);
+    assert.notEqual(c.approvedPlanDigest, producingPlan); assert.equal(planDigest(c), c.approvedPlanDigest);
+    assert.equal(digest(pkg.narrationFollowupCorrection), narrationTerms);
+    assert.equal(pkg.narrationFollowupCorrection!.proposal.providerOffer.expiresAt, p.providerOffer.expiresAt);
+    await validateHistory();
+    const { readNarrationApprovalHistory } = await import("../../src/server/narration-approval-history");
+    const saved = await readNarrationApprovalHistory(getPool(), c, pkg, () => { throw new Error("Missing historical proof"); }, jobId);
+    assert.equal(saved.approvedPlanDigest, producingPlan); assert.equal(saved.packages.reduce((sum, item) => sum + item.grossMinor, 0), 54000);
+    const { validateNarrationTargetedCorrection } = await import("../../src/server/narration-targeted-corrections");
+    await validateNarrationTargetedCorrection(getPool(), c, original, undefined, true);
+    const now = Date.now; Date.now = () => Date.parse(p.providerOffer.expiresAt) + 1;
+    try {
+      await validateHistory();
+      await assert.rejects(validateNarrationFollowupCorrection(getPool(), originalPlan, originalPlan.packages.find(item => item.id === pkg.id)!), code("NARRATION_FOLLOWUP_EXPIRED"));
+    } finally { Date.now = now; }
+    await assert.rejects(queue(f), code("NARRATION_FOLLOWUP_BINDING"));
+  });
+  await t.test("a missing original approval-command snapshot cannot borrow a later receipt", async () => {
+    await getPool().query("DELETE FROM guild_commands WHERE tenant_id=$1 AND command_id=$2", [c.tenantId, approvalCommand.command_id]);
+    try { await assert.rejects(validateHistory(), code("NARRATION_FOLLOWUP_BINDING")); }
+    finally { await getPool().query("INSERT INTO guild_commands SELECT * FROM json_populate_record(NULL::guild_commands,$1::json)", [JSON.stringify(approvalCommand)]); }
+  });
+  await t.test("tampered approval or producing snapshots cannot reuse the original signed digest", async () => {
+    for (const row of [approvalCommand, production]) {
+      const changed = structuredClone(row.result); changed.commission.packages.find((item: { id: string }) => item.id === "web").grossMinor++;
+      await getPool().query("UPDATE guild_commands SET result=$3 WHERE tenant_id=$1 AND command_id=$2", [c.tenantId, row.command_id, changed]);
+      try { await assert.rejects(validateHistory(), code("NARRATION_FOLLOWUP_BINDING")); }
+      finally { await getPool().query("UPDATE guild_commands SET result=$3 WHERE tenant_id=$1 AND command_id=$2", [c.tenantId, row.command_id, row.result]); }
+    }
+  });
+  await t.test("a rehashed artifact with a different assembly job fails historical binding", async () => {
+    const changed = structuredClone(artifact); (changed.content.followupCorrection as { assemblyJobId: string }).assemblyJobId = randomUUID(); changed.contentHash = digest(changed.content);
+    await getPool().query("UPDATE guild_artifacts SET content_hash=$2,manifest=$3 WHERE id=$1", [artifact.id, changed.contentHash, changed]);
+    try { await assert.rejects(validateHistory(), code("NARRATION_FOLLOWUP_BINDING")); }
+    finally { await getPool().query("UPDATE guild_artifacts SET content_hash=$2,manifest=$3 WHERE id=$1", [artifact.id, artifact.contentHash, artifact]); }
+  });
+  await t.test("an invalid original authority signature is rejected even with a fresh current Passport", async () => {
+    const row = (await getPool().query("SELECT signature FROM guild_approval_receipts WHERE id=$1", [p.authorityCeiling.id])).rows[0];
+    await getPool().query("UPDATE guild_approval_receipts SET signature=$2 WHERE id=$1", [p.authorityCeiling.id, "0".repeat(64)]);
+    try { await assert.rejects(validateHistory(), code("NARRATION_FOLLOWUP_BINDING")); }
+    finally { await getPool().query("UPDATE guild_approval_receipts SET signature=$2 WHERE id=$1", [p.authorityCeiling.id, row.signature]); }
+  });
+  await validateHistory();
+  assert.deepEqual((await getPool().query("SELECT id,content_hash,manifest FROM guild_artifacts WHERE tenant_id=$1 ORDER BY id", [c.tenantId])).rows, currentRows);
+  assert.equal(f.media.reads, readsAtCompletion); assert.equal(f.media.puts, putsAtCompletion); assert.equal(speech.calls, 1);
+  assert.equal((await getPool().query("SELECT count(*)::int n FROM guild_jobs WHERE tenant_id=$1 AND type='produce_package' AND input->>'contractVersion'=$2", [f.session.tenantId, String(pkg.contractVersion)])).rows[0].n, 1);
 });
 
 test("an uncertain follow-up retains its only stream and partial bytes; recovery cannot regenerate", async () => {
