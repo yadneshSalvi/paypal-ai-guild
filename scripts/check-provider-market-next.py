@@ -173,6 +173,9 @@ try {
 class Qualification:
     def __init__(self, args):
         self.args = args
+        self.profile = args.qualification
+        self.schema_prefix = "guild_access_next_worker_" if self.profile == "access" else "guild_market_next_worker_"
+        self.http_module = "provider-access-next-http" if self.profile == "access" else "provider-market-next-http"
         self.evidence = pathlib.Path(args.evidence_dir).expanduser().absolute()
         require(not self.evidence.is_symlink(), "The evidence directory cannot be a link.")
         if not self.evidence.exists():
@@ -201,7 +204,7 @@ class Qualification:
             self.meta = read_json(self.evidence / "fixture-meta.json")
             initial = read_json(self.evidence / "fixture-initial-v1.json")
             require({key: value for key, value in self.meta.items() if key != "sourceFreeze"} == {key: value for key, value in initial.items() if key != "sourceFreeze"}, "Original fixture/schema/auth/runtime settings changed.")
-            require(re.fullmatch(r"guild_market_next_worker_[a-f0-9]{20}", self.meta["schema"]) and re.fullmatch(r"next-source-freeze-v[1-9][0-9]*\.json", self.meta["sourceFreeze"]), "Invalid original fixture/schema/freeze identity.")
+            require(self.meta.get("qualification", "market") == self.profile and re.fullmatch(self.schema_prefix + r"[a-f0-9]{20}", self.meta["schema"]) and re.fullmatch(r"next-source-freeze-v[1-9][0-9]*\.json", self.meta["sourceFreeze"]), "Invalid original qualification/fixture/schema/freeze identity.")
             require(self.meta["root"] == str(ROOT) and self.meta["origin"] == self.origin and self.meta["node"] == self.node_identity, "Project, origin or Node identity differs from this original fixture.")
         supplied = sorted({str(pathlib.Path(value).expanduser().resolve(strict=True)) for value in args.protected_root})
         self.protected = supplied or (self.meta["protectedRoots"] if self.meta else [])
@@ -258,7 +261,7 @@ class Qualification:
         require(not (ROOT / ".next").exists(), "A clean initial freeze refuses any pre-existing or copied .next build.")
         require(not any(path.name != ".launcher.lock" for path in self.evidence.iterdir()), "Freeze requires a new empty evidence directory; no fixture is overwritten.")
         fixture_id = secrets.token_hex(16)
-        self.meta = {"version": "guild.market-next-fixture-meta.v1", "fixtureId": fixture_id, "schema": "guild_market_next_worker_" + secrets.token_hex(10),
+        self.meta = {"version": "guild.market-next-fixture-meta.v1", "qualification": self.profile, "fixtureId": fixture_id, "schema": self.schema_prefix + secrets.token_hex(10),
                      "root": str(ROOT), "origin": self.origin, "node": self.node_identity, "protectedRoots": self.protected,
                      "createdAt": now(), "sourceFreeze": "next-source-freeze-v1.json"}
         write_new(self.evidence / "fixture-auth.json", {"authSecret": secrets.token_hex(32), "sessionSecret": secrets.token_hex(32)})
@@ -470,12 +473,12 @@ class Qualification:
         self.load_database()
         self.preflight(secrets.token_hex(12), absent=True)
         write_new(self.evidence / "prepare-claim.json", {"at": now(), "fixtureId": self.meta["fixtureId"], "schema": self.meta["schema"], "outcomeIfInterrupted": "unknown; never reseed"})
-        _, _, passed, _ = self.child("prepare", [self.node, "--import", "tsx", "scripts/check-provider-market-next-http.ts", "prepare"], True)
+        _, _, passed, _ = self.child("prepare", [self.node, "--import", "tsx", "scripts/check-" + self.http_module + ".ts", "prepare"], True)
         require(passed, "Fixture preparation did not complete cleanly; retain its unknown outcome and do not reseed.")
         fixture_path = private_file(self.evidence / "fixture-private.json")
         fixture = read_json(fixture_path)
         require(fixture["schema"] == self.meta["schema"] and fixture["origin"] == self.origin, "Prepared fixture does not match the original schema/origin.")
-        actors = [fixture["buyer"], fixture["foreign"], *fixture["providers"].values()]
+        actors = [fixture["buyer"], fixture["foreign"], *fixture["providers"].values(), *fixture.get("negativeActors", {}).values()]
         record = {"version": "guild.market-next-original-identities.v1", "at": now(), "fixtureId": self.meta["fixtureId"], "fixtureFileSha256": sha(fixture_path),
                   "authFileSha256": self.meta["authFileSha256"], "sessions": [actor["session"] for actor in actors], "commissions": fixture["commissions"]}
         write_new(self.evidence / "fixture-identity-v1.json", record)
@@ -526,7 +529,7 @@ class Qualification:
         claim = self.evidence / "qualification-claim.json"
         require(not claim.exists(), "This fixture already has a test/check attempt or unknown outcome; replaying the mutating suite is refused.")
         write_new(claim, {"at": now(), "fixtureId": self.meta["fixtureId"], "mode": self.args.mode, "automaticRetry": False})
-        argv = [self.node, "--import", "tsx"] + (["--test", "tests/provider-market-next-http.test.ts"] if self.args.mode == "test" else ["scripts/check-provider-market-next-http.ts"])
+        argv = [self.node, "--import", "tsx"] + (["--test", "tests/" + self.http_module + ".test.ts"] if self.args.mode == "test" else ["scripts/check-" + self.http_module + ".ts"])
         _, _, passed, _ = self.child(self.args.mode, argv, True)
         self.identity(); self.verify_runtime(); self.preflight(secrets.token_hex(12))
         require(passed, "Qualification failed; reports/unknown outcomes are retained and this fixture is not reset.")
@@ -587,6 +590,7 @@ class Qualification:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=MODES)
+    parser.add_argument("--qualification", choices=("market", "access"), default="market", help="Pin the exact controlled fixture and HTTP suite; cannot change after freeze")
     parser.add_argument("--evidence-dir", required=True, help="Explicit private0700 directory outside the checkout; freeze requires it empty")
     parser.add_argument("--origin", required=True, help="Explicit owned http://127.0.0.1:port, for example4590")
     parser.add_argument("--protected-root", action="append", default=[], help="Workspace containing original checkouts/evidence; required on freeze and pinned thereafter")

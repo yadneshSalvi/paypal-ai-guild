@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MARKET_VERSION, type ProviderMarketCommand, type ProviderMarketCommandResult, type ProviderMarketSnapshot } from "@/contracts/provider-market";
+import { PROVIDER_ACCESS_PATHS } from "@/contracts/provider-access";
 import { ProviderMarket } from "./market";
 import { ProviderConsole } from "./provider-console";
 
@@ -25,7 +26,7 @@ export function ProviderMarketRoute({ mode, commissionId }: { mode: "buyer" | "p
     if (!hasSnapshot.current) setStatus("loading");
     try {
       const query = commissionId ? `?commission=${encodeURIComponent(commissionId)}` : "";
-      const response = await fetch(`/api/provider-market${query}`, { cache: "no-store", credentials: "same-origin", referrerPolicy: "no-referrer" });
+      const response = await fetch(`${mode === "provider" ? PROVIDER_ACCESS_PATHS.providerWorkspace : "/api/provider-market"}${query}`, { cache: "no-store", credentials: "same-origin", referrerPolicy: "no-referrer" });
       const value: unknown = await response.json();
       if (!response.ok || !isSnapshot(value)) {
         const message = value && typeof value === "object" && "message" in value && typeof value.message === "string" ? value.message : "The provider workspace could not be loaded. Open your original workspace or retry this read.";
@@ -38,11 +39,11 @@ export function ProviderMarketRoute({ mode, commissionId }: { mode: "buyer" | "p
       setError(failure instanceof Error ? failure.message : "The provider workspace is unavailable."); setStatus("error");
       throw failure;
     }
-  }, [commissionId]);
+  }, [commissionId, mode]);
   useEffect(() => { void refresh().catch(() => undefined); return () => { generation.current++; }; }, [refresh]);
 
   const command = useCallback(async (input: ProviderMarketCommand): Promise<ProviderMarketCommandResult> => {
-    const response = await fetch("/api/provider-market/commands", { method: "POST", credentials: "same-origin", cache: "no-store", referrerPolicy: "no-referrer",
+    const response = await fetch(mode === "provider" ? PROVIDER_ACCESS_PATHS.providerWorkspaceCommands : "/api/provider-market/commands", { method: "POST", credentials: "same-origin", cache: "no-store", referrerPolicy: "no-referrer",
       headers: { "Content-Type": "application/json" }, body: JSON.stringify(input) });
     const value: unknown = await response.json();
     if (value && typeof value === "object" && "commandId" in value && value.commandId === input.commandId && "ok" in value) {
@@ -60,7 +61,7 @@ export function ProviderMarketRoute({ mode, commissionId }: { mode: "buyer" | "p
         message: value.message, retryable: false, unknownOutcome: false } };
     }
     throw new Error("The original command response could not be verified. Retain its exact identity for recovery.");
-  }, []);
+  }, [mode]);
   const props = { snapshot, status, error, onRefresh: refresh, onCommand: command };
   return mode === "provider" ? <ProviderConsole {...props}/> : <ProviderMarket {...props}/>;
 }

@@ -17,7 +17,7 @@ export function MarketFrame({ controller, title, eyebrow, mode, children }: { co
   return <div className="pm-root">
     <header className="pm-topbar">
       <a className="pm-wordmark" href="/" aria-label="Guild home">guild<span aria-hidden="true">✳</span></a>
-      <nav aria-label="Workspace"><a href={studio ?? "/"}>Commission studio</a><a href={snapshot?.commission ? `/market?commission=${encodeURIComponent(snapshot.commission.id)}` : "/market"} aria-current={mode === "buyer" ? "page" : undefined}>Provider market</a><a href="/provider" aria-current={mode === "provider" ? "page" : undefined}>Provider console</a></nav>
+      <nav aria-label="Workspace"><a href={studio ?? "/"}>Commission studio</a><a href={snapshot?.commission ? `/market?commission=${encodeURIComponent(snapshot.commission.id)}` : "/market"} aria-current={mode === "buyer" ? "page" : undefined}>Provider market</a><a href="/provider" aria-current={mode === "provider" ? "page" : undefined}>Provider console</a><a href={mode === "provider" ? "/provider/connections" : snapshot?.commission ? `/connections?commission=${encodeURIComponent(snapshot.commission.id)}` : "/connections"}>Agent connections</a></nav>
       <span className="pm-viewer" dir="auto">{snapshot?.viewer.label ?? "Guild workspace"}</span>
     </header>
     <main id="main" className="pm-main" tabIndex={-1}>

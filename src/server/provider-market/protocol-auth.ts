@@ -53,7 +53,7 @@ export async function authenticateProtocol(request: Request, requiredScope: "a2a
     const session = await activeActor(db, claims.actorId, claims.tenantId);
     return { session, providerId: claims.providerId, scopes: ["a2a", claims.mode], clientId: op.id, operation: claims };
   }
-  const client = (await db.query<{ id: string; tenant_id: string; actor_id: string; scopes: string[]; provider_id: string | null }>("SELECT id,tenant_id,actor_id,scopes,provider_id FROM guild_market_protocol_clients WHERE token_hash=$1 AND expires_at>now() AND revoked_at IS NULL", [tokenHash(token)])).rows[0];
+  const client = (await db.query<{ id: string; tenant_id: string; actor_id: string; scopes: string[]; provider_id: string | null }>("SELECT id,tenant_id,actor_id,scopes,provider_id FROM guild_market_protocol_clients WHERE token_hash=$1 AND access_kind IS DISTINCT FROM 'provider' AND expires_at>now() AND revoked_at IS NULL", [tokenHash(token)])).rows[0];
   if (!client || !client.scopes.includes(requiredScope) || client.provider_id && client.provider_id !== providerId) throw new DomainError("SERVICE_AUTH_REQUIRED", "The service credential is invalid for this endpoint.", 401, false);
   return { session: await activeActor(db, client.actor_id, client.tenant_id), providerId: client.provider_id,
     scopes: client.scopes, clientId: client.id, operation: null };

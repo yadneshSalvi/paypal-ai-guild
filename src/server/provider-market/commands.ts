@@ -15,7 +15,7 @@ import { boundProvider, discoverProvider, providerAgentCard, providerRow, requir
 import { marketSnapshot, type MarketOperationRow, type MarketThreadRow } from "./snapshot";
 
 interface CommandRow { payload_hash: string; operation_id: string | null; result: ProviderMarketCommandResult | null }
-interface Services { transport?: MarketTransport; fetch?: typeof fetch }
+interface Services { transport?: MarketTransport; fetch?: typeof fetch; authorize?: (db: PoolClient) => Promise<void> }
 type Prepared = { result: ProviderMarketCommandResult } | { operation: MarketOperationRow; recovery: boolean };
 const requireBuyer = (session: Session) => { if (!["owner", "judge"].includes(session.role)) throw new DomainError("MARKET_BUYER_REQUIRED", "Only the current customer owner can negotiate or delegate this work.", 403, false); };
 
@@ -50,8 +50,9 @@ async function newOperation(db: PoolClient, session: Session, command: ProviderM
   await remember(db, session, command, null, row.id); return row;
 }
 
-async function prepare(session: Session, command: ProviderMarketCommand): Promise<Prepared> {
+async function prepare(session: Session, command: ProviderMarketCommand, authorize?: Services["authorize"]): Promise<Prepared> {
   return transaction(async db => {
+    await authorize?.(db);
     await requireMarketSession(db, session);
     const old = await commandLock(db, session, command);
     if (old?.result) return { result: old.result };
@@ -181,7 +182,7 @@ async function finalize(session: Session, command: ProviderMarketCommand, op: Ma
 export async function executeProviderMarketCommand(session: Session, input: ProviderMarketCommand, services: Services = {}): Promise<ProviderMarketCommandResult> {
   const command = providerMarketCommandSchema.parse(input);
   try {
-    const prepared = await prepare(session, command);
+    const prepared = await prepare(session, command, services.authorize);
     if ("result" in prepared) return prepared.result;
     let op = prepared.operation;
     if (["completed", "refused"].includes(op.state)) return finalize(session, command, op);
@@ -216,6 +217,7 @@ export async function executeProviderMarketCommand(session: Session, input: Prov
     const result: ProviderMarketCommandResult = { ok: false, commandId: command.commandId, error: { code: error.code, message: error.message, retryable: false, unknownOutcome: false } };
     if (error.status === 401 || error.code === "COMMAND_CHANGED") return result;
     return transaction(async db => {
+      if (services.authorize) await services.authorize(db);
       await requireMarketSession(db, session); const prior = await commandLock(db, session, command);
       if (prior?.result) return prior.result;
       try { result.snapshot = await marketSnapshot(db, session, "commissionId" in command ? command.commissionId : undefined); } catch (failure) { if (!(failure instanceof DomainError)) throw failure; }

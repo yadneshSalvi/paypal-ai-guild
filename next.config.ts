@@ -4,7 +4,7 @@ const webRuntimeFiles = ["./tools/web-audit/*.mjs", "./tools/web-audit/policy.js
 const config: NextConfig = {
   agentRules: false,
   // Approval challenges must never appear in the development request log.
-  logging: { incomingRequests: { ignore: [/^\/approval\//] } },
+  logging: { incomingRequests: { ignore: [/^\/approval\//, /^\/provider\/invitations\//, /^\/api\/provider-access\/invitations\//] } },
   // Isolated copies and the standalone deployment must trace only this project.
   // The qualified renderer is immutable, so contain its existing dynamic reads
   // here instead of changing those source bytes to silence a bundler warning.
@@ -36,7 +36,11 @@ const config: NextConfig = {
       { key: "Referrer-Policy", value: "no-referrer" },
       { key: "Cache-Control", value: "private, no-store, max-age=0" },
       { key: "X-Frame-Options", value: "DENY" },
-    ] }];
+    ] }, ...["/provider/:path*", "/connections"].map(source => ({ source, headers: [
+      { key: "Referrer-Policy", value: "no-referrer" },
+      { key: "Cache-Control", value: "private, no-store, max-age=0" },
+      { key: "X-Frame-Options", value: "DENY" },
+    ] }))];
   },
 };
 export default config;
