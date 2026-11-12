@@ -46,11 +46,11 @@ function checkedRow(row: AlignmentRow) {
 }
 
 /** Retained reads require no present production authority and never send a request. */
-export async function readAlignmentRecord(tenantId: string, runId: string) {
-  const row = (await getPool().query<AlignmentRow>("SELECT * FROM guild_alignment_runs WHERE tenant_id=$1 AND id=$2", [tenantId, runId])).rows[0];
+export async function readAlignmentRecord(tenantId: string, runId: string, db: Pool | PoolClient = getPool()) {
+  const row = (await db.query<AlignmentRow>("SELECT * FROM guild_alignment_runs WHERE tenant_id=$1 AND id=$2", [tenantId, runId])).rows[0];
   if (!row) fail("ALIGNMENT_RECORD_MISSING", "The original timestamp request is unavailable in this workspace.");
   checkedRow(row);
-  const observed = (await getPool().query<{ receipt_hash: string; receipt: AlignmentHttpReceipt }>("SELECT receipt_hash,receipt FROM guild_alignment_observations WHERE tenant_id=$1 AND run_id=$2", [tenantId, runId])).rows[0];
+  const observed = (await db.query<{ receipt_hash: string; receipt: AlignmentHttpReceipt }>("SELECT receipt_hash,receipt FROM guild_alignment_observations WHERE tenant_id=$1 AND run_id=$2", [tenantId, runId])).rows[0];
   if (!observed || !row.dispatched_at || digest(observed.receipt) !== observed.receipt_hash) fail("ALIGNMENT_OBSERVATION_MISSING", "The original request has no complete matching retained response. No replacement was sent.");
   let receipt: AlignmentHttpReceipt;
   try { receipt = checkedAlignmentReceipt(observed.receipt); } catch { fail("ALIGNMENT_OBSERVATION_CHANGED", "The retained timestamp response differs from its actual raw bytes or parsed content."); }

@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { PoolClient } from "pg";
+import type { Pool, PoolClient } from "pg";
 import { z } from "zod";
 import { canonical, digest, DomainError } from "@/domain/primitives";
 import { deepgramTimestampCapability } from "@/domain/deepgram-caption-alignment";
@@ -47,11 +47,11 @@ function checkedRow(row: Row) {
 
 /** Owner-scoped historical reads never require current provider credentials or
  * production authority. They never create a replacement recognition request. */
-export async function readDeepgramRun(tenantId: string, runId: string) {
-  const row = (await getPool().query<Row>("SELECT * FROM guild_alignment_runs WHERE tenant_id=$1 AND id=$2", [z.string().uuid().parse(tenantId), z.string().uuid().parse(runId)])).rows[0];
+export async function readDeepgramRun(tenantId: string, runId: string, db: Pool | PoolClient = getPool()) {
+  const row = (await db.query<Row>("SELECT * FROM guild_alignment_runs WHERE tenant_id=$1 AND id=$2", [z.string().uuid().parse(tenantId), z.string().uuid().parse(runId)])).rows[0];
   if (!row) fail("DEEPGRAM_RUN_NOT_FOUND", "That original timestamp request is not in this workspace.");
   checkedRow(row);
-  const saved = (await getPool().query<{ receipt_hash: string; receipt: Observation }>("SELECT receipt_hash,receipt FROM guild_alignment_observations WHERE tenant_id=$1 AND run_id=$2", [tenantId, runId])).rows[0];
+  const saved = (await db.query<{ receipt_hash: string; receipt: Observation }>("SELECT receipt_hash,receipt FROM guild_alignment_observations WHERE tenant_id=$1 AND run_id=$2", [tenantId, runId])).rows[0];
   if (!saved) return { row, receipt: null, evidenceHash: null, productionAccepted: false as const };
   const observed = saved.receipt, { signature: signed, ...body } = observed;
   if (!row.dispatched_at || digest(observed) !== saved.receipt_hash || observed.schemaVersion !== "guild.deepgram-ledger-evidence.v1"

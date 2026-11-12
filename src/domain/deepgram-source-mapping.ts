@@ -110,3 +110,7 @@ export function buildDeepgramCaptionCandidate(input: { sourceText: string; local
   if (cues.map(cue => cue.text.replace(/\s/gu, "")).join("") !== input.sourceText.replace(/\s/gu, "")) return fail("DISPLAY_COVERAGE");
   result.status = "ready-for-review"; result.cues = cues; result.vtt = renderCaptionVtt(cues); return result;
 }
+
+// Shared by the separately versioned, attributed review workflow. Exporting the
+// existing pure routines does not change the frozen automatic candidate policy.
+export { normalize as normalizeDeepgramSourceText, partition as partitionDeepgramSourceWords };

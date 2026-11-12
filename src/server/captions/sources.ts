@@ -38,7 +38,7 @@ async function originalJob(db: Db, c: Commission, artifact: ArtifactManifest): P
 }
 
 /** Freeze the exact original review and its passing report, rather than the latest annotation. */
-async function reviewEvidence(db: Db, c: Commission, binding: ArtifactInputBinding): Promise<CaptionSources["reviews"][number]> {
+export async function reviewEvidence(db: Db, c: Commission, binding: ArtifactInputBinding): Promise<CaptionSources["reviews"][number]> {
   const params = [binding.reviewId, c.tenantId, c.id, binding.packageId, binding.contractVersion, binding.artifactId, binding.artifactHash];
   let record: Record<string, unknown>, criteria: string;
   if (binding.reviewKind === "automated_review") {

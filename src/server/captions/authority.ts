@@ -12,7 +12,7 @@ function fail(code = "CAPTION_AUTHORITY_BINDING", message = "The caption agreeme
 interface Receipt { id: string; actor_id: string; plan_digest: string; payload: { kind: string; actor: string; commission: string; digest: string; at: string }; signature: string; created_at: Date; expires_at: Date; role: Session["role"] }
 interface ApprovalCommand { command_id: string; payload_hash: string; created_at: Date; result: { ok: boolean; commandId: string; revision: number; jobId: string | null; commission: Commission } }
 
-async function originalApproval(db: Db, c: Commission, id?: string) {
+export async function originalApproval(db: Db, c: Commission, id?: string) {
   if (!id && (!c.approvedPlanDigest || c.approvedPlanDigest !== planDigest(c))) fail("CAPTION_APPROVAL_REQUIRED", "Approve the current source contracts before reviewing the measured caption amendment.");
   const receipt = (await db.query<Receipt>("SELECT a.id,a.actor_id,a.plan_digest,a.payload,a.signature,a.created_at,s.expires_at,s.role FROM guild_approval_receipts a JOIN guild_sessions s ON s.id=a.actor_id AND s.tenant_id=a.tenant_id WHERE a.tenant_id=$1 AND a.commission_id=$2 AND ($3::uuid IS NOT NULL AND a.id=$3 OR $3::uuid IS NULL AND a.plan_digest=$4) ORDER BY a.created_at DESC,a.id DESC LIMIT 1", [c.tenantId, c.id, id ?? null, c.approvedPlanDigest])).rows[0];
   if (!receipt || !process.env.AUTH_SECRET || !["judge", "owner", "operator"].includes(receipt.role)
@@ -47,7 +47,7 @@ async function ceilingFromApproval(db: Db, c: Commission, pkg: WorkPackage, id?:
   for (const item of approved.packages) {
     const agreement = item.narrationFollowupCorrection ?? item.narrationTargetedCorrection ?? item.narrationCorrection;
     if (agreement) limits.push({ label: `${item.id}: original correction agreement ${agreement.id}`, expiresAt: agreement.proposal.providerOffer.expiresAt });
-    if (item.kind === "captions" && item.acceptancePack.version === "2.0.0") {
+    if (item.kind === "captions" && ["2.0.0", "3.0.0"].includes(item.acceptancePack.version)) {
       const anchor = captionAuthorityCeilingSchema.parse(item.acceptancePack.parameters?.authorityCeiling);
       limits.push({ label: `${item.id}: retained caption authority ceiling`, expiresAt: anchor.expiresAt });
     }

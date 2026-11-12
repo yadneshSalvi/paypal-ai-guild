@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
+import { appendFile, mkdir, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import type { ArtifactManifest, Commission, Locale } from "../../src/contracts/guild";
 import { locales } from "../../src/contracts/guild";
 import { narrationAcceptancePack, narrationScripts } from "../../src/domain/narration";
@@ -66,7 +68,18 @@ export async function finish(f: Fixture, jobId: string, dependencies: Parameters
 }
 export class MemoryMedia implements PrivateBlobGateway {
   files = new Map<string, StoredBlob>(); puts = 0; reads = 0;
-  async put(pathname: string, bytes: Buffer, mediaType: string) { this.puts++; assert.equal(this.files.has(pathname), false, "an immutable object is never overwritten"); const value = { pathname, bytes: Buffer.from(bytes), mediaType, etag: sha(bytes) }; this.files.set(pathname, value); return { pathname, etag: value.etag }; }
+  constructor(readonly spoolDirectory?: string) {}
+  async put(pathname: string, bytes: Buffer, mediaType: string) {
+    this.puts++; assert.equal(this.files.has(pathname), false, "an immutable object is never overwritten");
+    const value = { pathname, bytes: Buffer.from(bytes), mediaType, etag: sha(bytes) };
+    if (this.spoolDirectory) {
+      await mkdir(this.spoolDirectory, { recursive: true, mode: 0o700 });
+      const file = sha(pathname) + ".bin";
+      await writeFile(resolve(this.spoolDirectory, file), value.bytes, { flag: "wx", mode: 0o600 });
+      await appendFile(resolve(this.spoolDirectory, "spool-index.jsonl"), JSON.stringify({ pathname, file, mediaType, etag: value.etag, bytes: value.bytes.length, hash: sha(value.bytes), disclosure: "Synthetic fixture object retained immediately; no real provider or listening claim." }) + "\n", { mode: 0o600 });
+    }
+    this.files.set(pathname, value); return { pathname, etag: value.etag };
+  }
   async read(pathname: string) { this.reads++; return this.files.get(pathname) ?? null; }
 }
 export class SyntheticSpeech implements SpeechGateway {

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { DeepgramCaptionCorrectionAgreement, DeepgramCaptionCorrectionProposal } from "@/domain/deepgram-captions";
 import type { ScheduleAuthorityBinding } from "@/scheduling/persisted";
 
 export const CONTRACT_VERSION = "guild.v2" as const;
@@ -132,6 +133,14 @@ export interface CaptionCorrectionAgreement {
   id: string; proposal: CaptionCorrectionProposal; actorId: string; agreedAt: string;
   receipt: { kind: "guild.controlled-caption-correction.v1"; algorithm: "HMAC-SHA256"; signature: string };
 }
+export interface WebCorrectionProposal extends Omit<CaptionCorrectionProposal, "version" | "commercial"> {
+  version: "guild.web-correction.v1";
+  commercial: { providerId: "formwork" | "ostrava"; providerAwardMinor: number; serviceFeeMinor: 1500; grossMinor: number; additionalChargeMinor: 0; providerPolicyDigest: string; pipelineDigest: string };
+}
+export interface WebCorrectionAgreement {
+  id: string; proposal: WebCorrectionProposal; actorId: string; agreedAt: string;
+  receipt: { kind: "guild.controlled-web-correction.v1"; algorithm: "HMAC-SHA256"; signature: string };
+}
 export interface WorkPackage {
   id: string; kind: PackageKind; title: string; description: string; state: PackageState;
   contractVersion: number; providerId: string; providerAwardMinor: number; serviceFeeMinor: number;
@@ -146,6 +155,8 @@ export interface WorkPackage {
   narrationTargetedCorrection?: NarrationTargetedCorrectionAgreement;
   narrationFollowupCorrection?: NarrationFollowupCorrectionAgreement;
   captionCorrection?: CaptionCorrectionAgreement;
+  webCorrection?: WebCorrectionAgreement;
+  deepgramCaptionCorrection?: DeepgramCaptionCorrectionAgreement;
 }
 export interface ArtifactInputBinding { packageId: string; contractVersion: number; artifactId: string; artifactHash: string; reviewKind: "curator_acceptance" | "automated_review"; reviewId: string }
 export interface DraftDependencyProposal { digest: string; version: "guild.reviewed-draft-inputs.v1"; packages: { id: string; title: string; fromVersion: number; toVersion: number; grossMinor: number; dependsOn: string[] }[]; disclosure: string }
@@ -224,7 +235,7 @@ export interface Commission {
   schedule?: ScheduleAuthorityBinding;
 }
 export interface AuthorityDeadline { effectiveUntil: string | null; limits: { source: "workspace" | "passport" | "agreement"; label: string; expiresAt: string }[]; unavailable?: string }
-export interface WorkspaceSnapshot { authorityDeadline?: AuthorityDeadline; schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { captions?: AcceptancePack; captionsUnavailable?: string; captionCorrection?: CaptionCorrectionProposal; captionCorrectionUnavailable?: string; images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
+export interface WorkspaceSnapshot { authorityDeadline?: AuthorityDeadline; schemaVersion: typeof CONTRACT_VERSION; session: { id: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }; commission: Commission; contractProposals?: { deepgramCaptions?: AcceptancePack; deepgramCaptionsUnavailable?: string; deepgramCaptionCorrection?: DeepgramCaptionCorrectionProposal; deepgramCaptionCorrectionUnavailable?: string; web?: AcceptancePack; webUnavailable?: string; webCorrection?: WebCorrectionProposal; webCorrectionUnavailable?: string; captions?: AcceptancePack; captionsUnavailable?: string; captionCorrection?: CaptionCorrectionProposal; captionCorrectionUnavailable?: string; images?: AcceptancePack; translation?: AcceptancePack; narration?: AcceptancePack; narrationUnavailable?: string; narrationCorrection?: NarrationCorrectionProposal; narrationCorrectionUnavailable?: string; narrationTargetedCorrection?: NarrationTargetedCorrectionProposal; narrationTargetedCorrectionUnavailable?: string; narrationFollowupCorrection?: NarrationFollowupCorrectionProposal; narrationFollowupCorrectionUnavailable?: string; draftDependencies?: DraftDependencyProposal }; serverTime: string }
 
 export type ExhibitionLayout = "cover" | "full_bleed" | "split" | "collection_grid" | "comparison" | "audio" | "timeline" | "credits";
 export interface ExhibitionText { title: string; eyebrow: string; body: string; caption: string; transcript: string }
@@ -254,6 +265,8 @@ const id = z.string().min(1).max(160);
 const revision = z.number().int().nonnegative();
 export const createCommissionSchema = z.object({ commandId: z.string().uuid(), title: z.string().min(3).max(140), museum: z.string().min(2).max(140), objective: z.string().min(20).max(6000), capMinor: z.number().int().min(100).max(64000), languages: z.array(z.enum(["en","pt","es","fr","ja","ar"])).min(1).max(6), sourceIds: z.array(id).max(30) }).strict();
 export const commissionCommandSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("amend_web_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: z.string(), contractVersion: z.number().int().positive(), acceptancePackDigest: z.string().length(64), acknowledgeOriginalSources: z.literal(true), acknowledgePipelineAndLimits: z.literal(true) }).strict(),
+  z.object({ type: z.literal("agree_web_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: z.string(), contractVersion: z.number().int().positive(), proposalDigest: z.string().length(64), acknowledgeExactCorrection: z.literal(true) }).strict(),
   z.object({ type: z.literal("approve_plan"), commandId: z.string().uuid(), expectedRevision: revision, planDigest: z.string().length(64) }).strict(),
   z.object({ type: z.literal("compile_brief"), commandId: z.string().uuid(), expectedRevision: revision }).strict(),
   z.object({ type: z.literal("produce_package"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id }).strict(),
@@ -261,6 +274,8 @@ export const commissionCommandSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("amend_translation_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), priorArtifactId: z.string().uuid().nullable(), priorArtifactHash: z.string().regex(/^[a-f0-9]{64}$/).nullable(), acknowledgeSuccessor: z.literal(true) }).strict(),
   z.object({ type: z.literal("amend_narration_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), sourceArtifactId: z.string().uuid(), sourceArtifactHash: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeAiVoice: z.literal(true) }).strict(),
   z.object({ type: z.literal("amend_caption_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgePromptedAlignment: z.literal(true), acknowledgeOneCorrection: z.literal(true) }).strict(),
+  z.object({ type: z.literal("amend_deepgram_caption_contract"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, acceptancePackDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeReviewOnly: z.literal(true), acknowledgeNoRecognitionRetry: z.literal(true) }).strict(),
+  z.object({ type: z.literal("agree_deepgram_caption_review"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeExactRevisions: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_caption_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeExactCorrection: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_narration_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeOneRun: z.literal(true) }).strict(),
   z.object({ type: z.literal("agree_narration_targeted_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, contractVersion: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/), acknowledgeExactScope: z.literal(true) }).strict(),
@@ -268,7 +283,7 @@ export const commissionCommandSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("amend_draft_dependencies"), commandId: z.string().uuid(), expectedRevision: revision, proposalDigest: z.string().regex(/^[a-f0-9]{64}$/) }).strict(),
   z.object({ type: z.literal("verify_artifact"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id }).strict(),
   z.object({ type: z.literal("record_automated_review"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id, artifactHash: z.string().regex(/^[a-f0-9]{64}$/), contractVersion: revision, criteriaDigest: z.string().regex(/^[a-f0-9]{64}$/).optional(), findings: z.string().trim().min(30).max(6000), acknowledgeLimitations: z.literal(true) }).strict(),
-  z.object({ type: z.literal("accept_package"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id, contractVersion: revision, acknowledgeReview: z.literal(true) }).strict(),
+  z.object({ type: z.literal("accept_package"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, artifactId: id, contractVersion: revision, acknowledgeReview: z.literal(true), acknowledgeCaptionListeningAndLanguageDisclosure: z.literal(true).optional() }).strict(),
   z.object({ type: z.literal("request_correction"), commandId: z.string().uuid(), expectedRevision: revision, packageId: id, reason: z.string().min(8).max(2000) }).strict(),
   z.object({ type: z.literal("check_policy"), commandId: z.string().uuid(), expectedRevision: revision, scenario: z.enum(["premium_voice","injected_bid"]) }).strict(),
   z.object({ type: z.literal("revoke_mandate"), commandId: z.string().uuid(), expectedRevision: revision, mandateId: id }).strict(),
