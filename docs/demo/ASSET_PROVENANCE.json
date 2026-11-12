@@ -1,0 +1,14 @@
+{
+  "version": "guild.submission-static.v1",
+  "asset": "harbor-street-curated-sample.png",
+  "sha256": "b3cf11477d1fa3f4e543c2406f0301e8db8f83fdcdd7ff24116119de74e09a74",
+  "source": "Previously verified native capture of the public curated Harbor Street sample exhibition.",
+  "provenance": "curated_sample",
+  "not_claimed": [
+    "current native qualification",
+    "accepted commissioned exhibition",
+    "human fluent-language review",
+    "actual model or payment result"
+  ],
+  "rights": "Archival source credits and rights advisories remain in exhibition source notes. The screenshot preserves visible Sample exhibition and Not fluent-reviewed labels."
+}

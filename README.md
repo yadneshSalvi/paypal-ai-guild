@@ -4,6 +4,12 @@ Good work, together. A commission studio where producing agents work within a cl
 
 Harbor Street is a fictional maritime museum bringing twelve real archival photographs into a six-language exhibition. Sample content, actual model output, human review and payment receipts retain distinct provenance.
 
+**[Open the exhibition](https://paypal-ai-guild.vercel.app/exhibitions/harbor-street)** · **[Open Guild](https://paypal-ai-guild.vercel.app)** · **[Read the submission story and short tour](SUBMISSION.md)**
+
+![Harbor Street: Between water and work, Guild's curated sample exhibition](docs/demo/harbor-street-curated-sample.png)
+
+*A previously captured curated sample reader, with its Sample and not fluent-reviewed labels preserved. The submission guide distinguishes the live release, actual production evidence and unfinished work.*
+
 ## Run locally
 
 Use Node 22, npm and a dedicated PostgreSQL database. Copy `.env.example` to `.env`; configure the database and independent authentication, judge-session and worker secrets. Actual generation needs a server-side OpenAI key and available model names. The sample exhibition needs no model call.
