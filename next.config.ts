@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const webRuntimeFiles = ["./tools/web-audit/*.mjs", "./tools/web-audit/policy.json", "./tools/web-audit/package*.json", "./src/domain/web-exhibition.ts", "./src/domain/web-contrast.ts", "./src/exhibition/generated/render.ts", "./src/exhibition/generated/zip.ts", "./src/exhibition/safety.ts", "./public/exhibit-reader/v1/*", "./public/museum/fonts/*"];
 const config: NextConfig = {
   agentRules: false,
+  // Approval challenges must never appear in the development request log.
+  logging: { incomingRequests: { ignore: [/^\/approval\//] } },
   // Isolated copies and the standalone deployment must trace only this project.
   // The qualified renderer is immutable, so contain its existing dynamic reads
   // here instead of changing those source bytes to silence a bundler warning.
@@ -29,6 +31,10 @@ const config: NextConfig = {
       { key: "X-Frame-Options", value: "SAMEORIGIN" },
     ] }, { source: "/published/:path*", headers: [
       { key: "Referrer-Policy", value: "no-referrer" },
+      { key: "X-Frame-Options", value: "DENY" },
+    ] }, { source: "/approval/:path*", headers: [
+      { key: "Referrer-Policy", value: "no-referrer" },
+      { key: "Cache-Control", value: "private, no-store, max-age=0" },
       { key: "X-Frame-Options", value: "DENY" },
     ] }];
   },
