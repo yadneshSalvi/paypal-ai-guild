@@ -1,0 +1,75 @@
+{
+  "version": "guild.provider-market-next-native-qualification.v1",
+  "at": "2026-11-12T08:41:44.164Z",
+  "sourceCommit": "9ba96141b5b48b30fbe628cbbb0bd87f98469858",
+  "productCodeMergeCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+  "buildId": "ATeDP2hmiB5V4dkbYEusS",
+  "sourceFingerprint": "51eb00cccf3dd311b2b36c9ad1db49de6d6bcf873e891a331b9a4a100739dd8f",
+  "buildFingerprint": "4af70e098297a92936498228b8eabf0f97311af332ade54bb19d62f3104270ac",
+  "sourceInputs": 696,
+  "cleanBuild": {
+    "passed": true,
+    "databaseAuthProviderCredentialsLoaded": false
+  },
+  "typecheck": {
+    "passed": true,
+    "databaseAuthProviderCredentialsLoaded": false
+  },
+  "productionNextHttp": {
+    "passed": true,
+    "checks": 16,
+    "recordedClientHttpExchanges": 87,
+    "compiledClientDom": true,
+    "sourceDrift": [],
+    "generatedDrift": [],
+    "domErrors": []
+  },
+  "rootNative": {
+    "passedWithinScope": true,
+    "currencyRefusal": "$120.00",
+    "keyboardKeys": [
+      "ArrowRight",
+      "End",
+      "Home",
+      "ArrowLeft"
+    ],
+    "focusSelectionRovingTabIndex": true,
+    "packageOrdinalAndVersion": [
+      "CONTRACT 06 \u00b7 v1",
+      "CONTRACT 05 \u00b7 v2",
+      "CONTRACT 01 \u00b7 v2"
+    ],
+    "mobileWidths": [
+      390,
+      360
+    ],
+    "documentOverflow": false,
+    "completedControlledResearchArtifactVisible": true,
+    "consoleErrorsOrWarnings": 0,
+    "applicationCommands": 0,
+    "continuationConsumed": false,
+    "approvals": 0,
+    "delegations": 0,
+    "actualProviderModelMediaFinancialCalls": 0,
+    "originalCookiesRestored": true,
+    "viewportCleared": true
+  },
+  "postNativePreservation": {
+    "passed": true,
+    "tables": 71,
+    "rows": 162,
+    "catalogAndAllRowsUnchanged": true,
+    "originalSessionExpiriesUnchanged": true,
+    "fullBeforeSnapshotAvailable": true
+  },
+  "remainingObservedUx": [
+    "Completed controlled research artifact coexists with Waiting for a worker text; parent to inspect meaning."
+  ],
+  "limits": [
+    "This is controlled local qualification of a production Next build, not a hosted marketplace release.",
+    "Provider owner and task/approval fixtures are controlled test data. No actual provider production, human artifact acceptance or financial settlement is established.",
+    "Full protocol conformance, production provider/agent access and external service identity remain separate gates.",
+    "The complete accessibility/performance matrix and full live producer integration remain open."
+  ],
+  "priorProfileEvidence": "docs/evidence/provider-market-source-qualification.json"
+}

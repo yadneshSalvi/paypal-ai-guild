@@ -170,7 +170,7 @@
     {
       "feature": "a2a.independent_client",
       "chosenVersion": "A2A specification1.0.1 / JSON-RPC wire1.0 / SDK1.3.0",
-      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+      "sourceCommit": "9ba96141b5b48b30fbe628cbbb0bd87f98469858",
       "accountOrLicensePrerequisites": [
         "Seven addressed service identities",
         "Both owner policies",
@@ -179,17 +179,18 @@
       "testRun": [
         "docs/evidence/provider-market-source-qualification.json",
         "docs/PROVIDER_MARKET.md",
-        "docs/PROVIDER_MARKET_QUALIFICATION.md"
+        "docs/PROVIDER_MARKET_QUALIFICATION.md",
+        "docs/evidence/provider-market-next-qualification.json"
       ],
       "status": "fixture_qualified",
-      "observedResult": "Seven separately addressed Guild-controlled services;81 repaired-profile and49 regression checks passed. Initial35 failed audit cases are retained. Keyset pagination covers1,005 receipts; default blocking completion exceeded28 seconds without creating a job. Full conformance, long-lived streaming beyond25 seconds and external/production interoperability are not qualified.",
+      "observedResult": "Seven separately addressed Guild-controlled services;81 repaired-profile and49 regression checks passed. Initial35 failed audit cases are retained. Keyset pagination covers1,005 receipts; default blocking completion exceeded28 seconds without creating a job. Full conformance, long-lived streaming beyond25 seconds and external/production interoperability are not qualified. The repaired production Next build then passed 16 mounted HTTP/compiled-DOM checks with 87 recorded exchanges and scoped native review.",
       "selectedFallback": "Keep the controlled-service identity and explicit profile/conformance boundary.",
       "productWording": "Controlled A2A JSON-RPC profile tested; full conformance pending."
     },
     {
       "feature": "mcp.commissioning_client",
       "chosenVersion": "Official MCP server/client2.4.0; exactly three scoped tools",
-      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+      "sourceCommit": "9ba96141b5b48b30fbe628cbbb0bd87f98469858",
       "accountOrLicensePrerequisites": [
         "Separate scoped client",
         "Tenant isolation",
@@ -197,10 +198,11 @@
       ],
       "testRun": [
         "docs/evidence/provider-market-source-qualification.json",
-        "docs/PROVIDER_MARKET.md"
+        "docs/PROVIDER_MARKET.md",
+        "docs/evidence/provider-market-next-qualification.json"
       ],
       "status": "fixture_qualified",
-      "observedResult": "31 official-client checks and56 controlled HTTP exchanges passed without jobs, approval receipts, reservations or financial effects. Original mounted Next and native continuation passed: one exact link consumed once opened an unapproved Passport. Production credential entry remains separate work.",
+      "observedResult": "31 official-client checks and56 controlled HTTP exchanges passed without jobs, approval receipts, reservations or financial effects. Original mounted Next and native continuation passed: one exact link consumed once opened an unapproved Passport. Production credential entry remains separate work. The repaired production Next transport passed; its optional native continuation was left unconsumed.",
       "selectedFallback": "Owner workspace and explicit Passport approval; a bearer cannot impersonate its browser session.",
       "productWording": "Three bounded commissioning tools; owner approval remains explicit."
     },
@@ -371,14 +373,15 @@
     {
       "feature": "providers.external_onboarding",
       "chosenVersion": "Protocol/account version pending",
-      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+      "sourceCommit": "9ba96141b5b48b30fbe628cbbb0bd87f98469858",
       "accountOrLicensePrerequisites": [
         "Provider identity",
         "Own policy/receiver",
         "Revocation and observed outcomes"
       ],
       "testRun": [
-        "docs/PROVIDER_MARKET.md"
+        "docs/PROVIDER_MARKET.md",
+        "docs/evidence/provider-market-next-qualification.json"
       ],
       "status": "planned",
       "observedResult": "Controlled provider console, own policy/inbox and requested-contract boundaries are implemented and locally/native qualified. Production invitations, agent credential entry, external endpoint ownership, observed reputation and outside-provider qualification remain pending.",
@@ -465,8 +468,9 @@
     "nativeReview": "accepted within documented local/hosted scope"
   },
   "marketSourceBinding": {
-    "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
-    "evidence": "docs/evidence/provider-market-source-qualification.json",
-    "scope": "Repaired controlled source/profile checks; fresh4590 production HTTP and native review pending at this record."
+    "sourceCommit": "9ba96141b5b48b30fbe628cbbb0bd87f98469858",
+    "productCodeMergeCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+    "evidence": "docs/evidence/provider-market-next-qualification.json",
+    "scope": "Accepted repaired local production Next build, controlled protocol profile and scoped native review. All 71 tables/162 rows and fixed session expiries preserved. Hosted marketplace release and provider/agent onboarding remain separate work."
   }
 }

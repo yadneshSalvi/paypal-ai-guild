@@ -1,0 +1,13 @@
+# Repaired marketplace source qualification
+
+The repaired marketplace is integrated as source. Its frozen production Next build passed the mounted HTTP and native review described below. The canonical Vercel deployment remains the separately qualified [caption/exhibition release](CAPTION_WEB_HOSTED_RELEASE.md); this source merge does not provision provider accounts or deploy the marketplace.
+
+The qualified source is `9ba96141b5b48b30fbe628cbbb0bd87f98469858`, with product code merged at `2b177bfd39e275f24488f90e372ef64300f77687`. The local build is `ATeDP2hmiB5V4dkbYEusS`. Its clean build and typecheck loaded no database, authentication or provider credentials. The guarded production runtime passed 16 checks and 87 recorded client HTTP exchanges, including the JavaScript served by that exact build. Source and compiled-file comparisons found no drift.
+
+Native review verified the $120.00 policy refusal, review-tab arrows/Home/End with focus and roving tabindex, distinct package ordinals and contract versions, and no document overflow at 390/360 pixels. The completed controlled research artifact was visible. There were no console errors or warnings and no application commands, approvals, delegation or actual provider/model/media/financial calls. The optional continuation was left unconsumed. Complete snapshots before and after native review prove all 71 tables/162 rows, catalog and fixed session expiries unchanged.
+
+The [source profile report](evidence/provider-market-source-qualification.json) retains the earlier 190 passing unit tests, four explicit opt-in database skips, 81 A2A profile checks, 49 A2A regression checks, 31 MCP checks and 38 component behaviors plus one CSS check. These denominators represent different boundaries and are not added into one score. See the [mounted and native report](evidence/provider-market-next-qualification.json) for exact build fingerprints and scope.
+
+A completed controlled research review still showed waiting-worker copy during native review. That observation is retained for the next source unit. Full A2A conformance, long-lived streaming, provider invitations and agent access, outside-provider ownership, the full accessibility matrix, actual production and financial closure remain open. Caption adapter availability is not inferred from a pending controlled fixture.
+
+The [portable qualification guide](PROVIDER_MARKET_QUALIFICATION.md) and [workflow contract](PROVIDER_MARKET.md) are self-contained source instructions. Private fixture exports, raw credentials, database snapshots and browser artifacts are excluded from Git.
