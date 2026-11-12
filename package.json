@@ -50,7 +50,8 @@
     "test:hosted": "sh scripts/test-hosted-web-isolated.sh",
     "db:migrate": "tsx scripts/migrate.ts",
     "worker": "tsx scripts/worker.ts",
-    "worker:once": "tsx scripts/worker.ts --once"
+    "worker:once": "tsx scripts/worker.ts --once",
+    "test:market:ui": "node scripts/check-provider-market-ui.mjs"
   },
   "devDependencies": {
     "@types/node": "22.19.1",
@@ -58,6 +59,8 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/ws": "8.18.2",
+    "esbuild": "0.27.7",
+    "jsdom": "26.1.0",
     "tsx": "4.21.0",
     "typescript": "5.9.3"
   },

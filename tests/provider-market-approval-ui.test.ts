@@ -1,19 +1,21 @@
 import assert from "node:assert/strict";
-import { chmod, writeFile } from "node:fs/promises";
+import { chmod, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
+import { tmpdir } from "node:os";
 import test from "node:test";
 import { pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
-test("approval continuation component preserves a deliberate one-use human handoff", { skip: !process.env.GUILD_MCP_DOM_HARNESS || !process.env.GUILD_MCP_EVIDENCE_DIR }, async () => {
+test("approval continuation component preserves a deliberate one-use human handoff", async () => {
   const require = createRequire(new URL("../package.json", import.meta.url));
-  const { JSDOM } = await import(pathToFileURL(resolve(process.env.GUILD_MCP_DOM_HARNESS!, "node_modules/jsdom/lib/api.js")).href);
+  const evidence = process.env.GUILD_MCP_EVIDENCE_DIR ?? await mkdtemp(resolve(tmpdir(), "guild-approval-ui-"));
+  const { JSDOM } = require("jsdom");
   const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://guild-approval-ui.test/approval/00000000-0000-4000-8000-000000000001", pretendToBeVisual: true });
   for (const key of ["window", "document", "HTMLElement", "Event", "MouseEvent", "Node"]) Object.defineProperty(globalThis, key, { configurable: true, value: key === "window" ? dom.window : key === "document" ? dom.window.document : dom.window[key] });
   Object.defineProperty(globalThis, "navigator", { configurable: true, value: dom.window.navigator });
   Object.defineProperty(globalThis, "IS_REACT_ACT_ENVIRONMENT", { configurable: true, value: true });
-  const bundle = resolve(process.env.GUILD_MCP_EVIDENCE_DIR!, "approval-link-ui.bundle.mjs");
+  const bundle = resolve(evidence, "approval-link-ui.bundle.mjs");
   await build({ stdin: { contents: 'export { ApprovalLink } from "./src/components/provider-market/approval-link.tsx";', resolveDir: process.cwd(), loader: "tsx" }, outfile: bundle, bundle: true, platform: "node", format: "esm", jsx: "automatic", loader: { ".css": "empty" }, tsconfig: resolve("tsconfig.json"), logLevel: "silent", plugins: [{ name: "one-react", setup(api) { api.onResolve({ filter: /^(react(?:\/.*)?|react-dom(?:\/.*)?)$/ }, args => ({ path: require.resolve(args.path), external: true })); } }] });
   await chmod(bundle, 0o600);
   const React = require("react") as typeof import("react"), { act } = React;
@@ -39,7 +41,7 @@ test("approval continuation component preserves a deliberate one-use human hando
 
     await mount(null, "This link has expired."); assert.equal(document.querySelector("button"), null); assert.match(document.body.textContent ?? "", /This link has expired/); assert.ok(document.querySelector('a.al-button[href="/"]')); report.checks.push("unavailable links keep the original workspace recovery path without a consume action"); report.passed = true;
   } catch (error) { report.error = (error instanceof Error ? error.message : String(error)).replaceAll(challenge, "[controlled challenge]"); }
-  finally { await act(async () => root.unmount()); dom.window.close(); globalThis.fetch = originalFetch; await writeFile(resolve(process.env.GUILD_MCP_EVIDENCE_DIR!, `provider-market-approval-ui-${Date.now()}.json`), JSON.stringify(report, null, 2) + "\n", { mode: 0o600, flag: "wx" }); }
+  finally { await act(async () => root.unmount()); dom.window.close(); globalThis.fetch = originalFetch; await writeFile(resolve(evidence, `provider-market-approval-ui-${Date.now()}.json`), JSON.stringify(report, null, 2) + "\n", { mode: 0o600, flag: "wx" }); if (!process.env.GUILD_MCP_EVIDENCE_DIR) await rm(evidence, { recursive: true }); }
   assert.equal(report.passed, true, report.error);
   assert.equal(report.checks.length, 4);
 });

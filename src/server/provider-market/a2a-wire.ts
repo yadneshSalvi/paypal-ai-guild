@@ -42,7 +42,7 @@ export function resultFromServiceTask(task: Task): MarketServiceResult {
 }
 
 export function assertHistoryLength(length?: number): void {
-  if (length !== undefined && (!Number.isSafeInteger(length) || length < 0 || length > 100)) throw new DomainError("SERVICE_HISTORY_LIMIT", "History length must be between zero and 100.", 400, false);
+  if (length !== undefined && (!Number.isSafeInteger(length) || length < 0 || length > 2_147_483_647)) throw new DomainError("SERVICE_HISTORY_LIMIT", "History length must be a nonnegative int32. The service may return fewer recent messages.", 400, false);
 }
 export function historyBound(task: Task, length?: number): Task {
   assertHistoryLength(length);

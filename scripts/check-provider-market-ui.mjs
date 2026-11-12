@@ -2,16 +2,17 @@
  * All records below are explicit synthetic fixtures. No server, provider, media,
  * payment, browser, or database operation is performed or claimed. */
 import assert from "node:assert/strict";
-import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const rootPath = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-assert.ok(process.argv[2], "Pass a separately copied jsdom harness directory.");
-const harness = resolve(process.argv[2]), evidence = resolve(process.argv[3] ?? dirname(harness));
+const harness = await mkdtemp(resolve(tmpdir(), "guild-market-ui-"));
+const evidence = resolve(process.argv[2] ?? process.env.GUILD_MARKET_UI_EVIDENCE_DIR ?? ".local/provider-market-ui-checks");
 const require = createRequire(resolve(rootPath, "package.json"));
-const { JSDOM } = await import(pathToFileURL(resolve(harness, "node_modules/jsdom/lib/api.js")).href);
+const { JSDOM } = require("jsdom");
 const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "http://guild-ui.test/market", pretendToBeVisual: true });
 for (const key of ["window", "document", "HTMLElement", "HTMLInputElement", "HTMLTextAreaElement", "HTMLDialogElement", "HTMLButtonElement", "Event", "MouseEvent", "KeyboardEvent", "Node", "location", "history"]) globalThis[key] = key === "window" ? dom.window : key === "document" ? dom.window.document : dom.window[key];
 globalThis.self = dom.window;
@@ -245,5 +246,6 @@ try {
   await act(async () => root.unmount()); dom.window.close(); globalThis.fetch = originalFetch;
   const path = resolve(evidence, `provider-market-ui-${new Date().toISOString().replaceAll(":", "-")}.json`);
   await writeFile(path, `${JSON.stringify(report, null, 2)}\n`, { mode: 0o600, flag: "wx" });
+  await rm(harness, { recursive: true });
   console.log(JSON.stringify({ reportPath: path, passed: report.passed, checks: report.checks.length, networkCalls, nativeBrowserClaimed: false, error: report.error?.message }));
 }

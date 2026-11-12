@@ -1,6 +1,6 @@
 import { AgentCard, Artifact, Message, Role, SendMessageRequest, StreamResponse, Task, TaskState, TaskStatus,
   type CancelTaskRequest, type GetTaskRequest, type ListTasksRequest, type ListTasksResponse, type SubscribeToTaskRequest } from "@a2a-js/sdk";
-import { ContentTypeNotSupportedError, ExtendedAgentCardNotConfiguredError, ExtensionSupportRequiredError, PushNotificationNotSupportedError,
+import { ContentTypeNotSupportedError, ExtensionSupportRequiredError, PushNotificationNotSupportedError,
   RequestMalformedError, TaskNotCancelableError, TaskNotFoundError, UnsupportedOperationError } from "@a2a-js/sdk/errors";
 import { type A2ARequestHandler, type ServerCallContext, validateVersion } from "@a2a-js/sdk/server";
 import type { PoolClient } from "pg";
@@ -11,11 +11,13 @@ import { digest, DomainError } from "@/domain/primitives";
 import { getPool, transaction } from "../db";
 import { executeCommandWithClient } from "../commissions";
 import type { ProtocolPrincipal } from "./protocol-auth";
-import { providerAgentCard, providerRow, requireMarketSession } from "./registry";
+import { providerAgentCard, providerRow, requireMarketSession, type MarketDb } from "./registry";
 import { cancelMarketTask, type MarketTaskRow } from "./delegation";
 import { createOfferThread, declineOffer, proposeOffer, requireOfferThread, selectOffer, writablePackage } from "./offers";
 import { marketCommission, taskView, type MarketOperationRow, type MarketThreadRow } from "./snapshot";
 import { assertHistoryLength, historyBound, marketMessageMetadata, originalServiceTaskId, resultFromServiceTask, serviceResultMessage, terminalTask, type MarketServiceResult } from "./a2a-wire";
+import { a2aNegotiatedVersion, a2aTimestampNanos, assertA2ATaskListParameters } from "./a2a-validation";
+import { decodeA2ATaskCursor, readA2ATaskPage } from "./a2a-pagination";
 
 interface Receipt { task_id: string; request_hash: string; task: unknown; message_id: string }
 const uuid = z.string().uuid(), interrupted = (task: Task) => terminalTask(task) || [TaskState.TASK_STATE_INPUT_REQUIRED, TaskState.TASK_STATE_AUTH_REQUIRED].includes(task.status?.state ?? 0);
@@ -47,7 +49,7 @@ export class GuildA2AService implements A2ARequestHandler {
 
   private async authorize(context: ServerCallContext, dispatch = false) {
     await requireMarketSession(getPool(), this.principal.session);
-    validateVersion(context.requestedVersion, await this.getAgentCard(), "JSONRPC");
+    validateVersion(a2aNegotiatedVersion(context.requestedVersion), await this.getAgentCard(), "JSONRPC");
     if (context.tenant !== this.principal.session.tenantId || !context.user?.isAuthenticated || context.user.userName !== this.principal.session.id) throw new RequestMalformedError("The request tenant does not match its authenticated owner.");
     if (!context.requestedExtensions?.includes(MARKET_EXTENSION)) throw new ExtensionSupportRequiredError({ message: "The Guild contract-bound work extension is required.", metadata: { extension: MARKET_EXTENSION } });
     context.addActivatedExtension(MARKET_EXTENSION);
@@ -58,7 +60,7 @@ export class GuildA2AService implements A2ARequestHandler {
   private parseMessage(params: SendMessageRequest): { payload: A2AMarketPayload; commissionRevision?: number } {
     const message = params.message;
     if (!message || !uuid.safeParse(message.messageId).success || message.role !== Role.ROLE_USER || message.parts.length !== 1
-      || message.parts[0]?.content?.$case !== "data" || message.taskId || message.referenceTaskIds.length
+      || message.parts[0]?.content?.$case !== "data" || message.referenceTaskIds.length
       || !message.extensions.includes(MARKET_EXTENSION) || params.metadata && Object.keys(params.metadata).length) throw new RequestMalformedError("Send exactly one typed Guild data part with a stable message identity.");
     if (params.configuration?.taskPushNotificationConfig) throw new PushNotificationNotSupportedError();
     const modes = params.configuration?.acceptedOutputModes ?? [];
@@ -70,6 +72,30 @@ export class GuildA2AService implements A2ARequestHandler {
     return { payload: payload.data, commissionRevision: metadata.data.guild.commissionRevision };
   }
 
+  private async validateMessageTaskReference(message: Message, context: ServerCallContext): Promise<void> {
+    if (!message.taskId) return;
+    // Resolve through the same original-actor/provider boundary as GetTask.
+    // This happens before acquiring a transaction connection to avoid a nested
+    // seventh pool lease when six requests arrive together.
+    const task = await this.getTask({ id: message.taskId, tenant: this.principal.session.tenantId }, context);
+    const inferredContext = message.contextId || task.contextId;
+    if (inferredContext !== task.contextId) throw new RequestMalformedError("The message context differs from its referenced task.");
+    if (terminalTask(task)) throw new UnsupportedOperationError("A terminal task cannot accept another message.");
+    throw new UnsupportedOperationError("This contract-bound service does not amend an existing task through an additional message. Continue its retained work operation.");
+  }
+
+  private async validateMessageContext(db: PoolClient, message: Message, payload: A2AMarketPayload, op: MarketOperationRow | null): Promise<void> {
+    if (!message.contextId) return;
+    if (!uuid.safeParse(message.contextId).success) throw new RequestMalformedError("The provider conversation context is not available to this owner.");
+    const actor = this.principal.session;
+    const owned = op?.thread_id === message.contextId || (await db.query("SELECT 1 FROM guild_market_protocol_receipts WHERE tenant_id=$1 AND actor_id=$2 AND provider_id=$3 AND task->>'contextId'=$4 LIMIT 1",
+      [actor.tenantId, actor.id, this.providerId, message.contextId])).rowCount;
+    const thread = (await db.query<MarketThreadRow>("SELECT * FROM guild_market_threads WHERE id=$1 AND tenant_id=$2 AND provider_id=$3", [message.contextId, actor.tenantId, this.providerId])).rows[0];
+    const matches = payload.type === "quote.request" ? thread?.commission_id === payload.commissionId && thread?.package_id === payload.packageId
+      : message.contextId === (payload.type === "work.delegate" ? payload.delegation.threadId : payload.threadId);
+    if (!owned || !thread || !matches) throw new RequestMalformedError("The provider conversation context is not available for this owner's exact work.");
+  }
+
   private async perform(db: PoolClient, params: SendMessageRequest, payload: A2AMarketPayload, commissionRevision: number | undefined, op: MarketOperationRow | null): Promise<MarketServiceResult> {
     const actor = this.principal.session;
     let row: MarketThreadRow;
@@ -78,9 +104,9 @@ export class GuildA2AService implements A2ARequestHandler {
       if (c.revision !== commissionRevision) throw new DomainError("COMMISSION_REVISION_CONFLICT", "The commission changed before its quote request reached the service.", 409, false);
       if (pkg.contractVersion !== payload.contractVersion || marketContractDigest(pkg) !== payload.contractDigest || pkg.acceptancePack.digest !== payload.acceptancePackDigest
         || marketSourceDigest(c, pkg) !== payload.sourceDigest || pkg.kind !== payload.kind || marketWorkCeiling(c, actor.expiresAt) !== payload.workAuthorityExpiresAt) throw new DomainError("MARKET_REQUEST_CHANGED", "The requested contract, criteria, sources or original expiry differ from the current commission.", 422, false);
-      row = op?.thread_id ? await requireOfferThread(db, actor.tenantId, op.thread_id) : await createOfferThread(db, actor, c, pkg, this.providerId);
+      row = op?.thread_id || params.message!.contextId ? await requireOfferThread(db, actor.tenantId, op?.thread_id ?? params.message!.contextId) : await createOfferThread(db, actor, c, pkg, this.providerId);
       if (row.provider_id !== this.providerId || row.commission_id !== c.id || row.package_id !== pkg.id || row.state !== "requesting") throw new DomainError("MARKET_REQUEST_CHANGED", "The retained quote request belongs to different work.", 422, false);
-      if (params.message!.contextId && params.message!.contextId !== row.id) throw new DomainError("MARKET_CONTEXT_CHANGED", "The message belongs to a different provider conversation.", 422, false);
+      if (params.message!.contextId && params.message!.contextId !== row.id) throw new RequestMalformedError("The message belongs to a different provider conversation.");
       await proposeOffer(db, actor, row, payload.requestId);
     } else {
       const threadId = payload.type === "work.delegate" ? payload.delegation.threadId : payload.threadId;
@@ -88,7 +114,7 @@ export class GuildA2AService implements A2ARequestHandler {
       if (!hint) throw new DomainError("OFFER_NOT_FOUND", "This provider conversation is not available to the original owner.", 404, false);
       const c = await lockMarketCommission(db, actor.tenantId, hint.commission_id);
       row = await requireOfferThread(db, actor.tenantId, threadId, payload.type === "work.delegate" ? payload.delegation.offerRevision : payload.expectedRevision);
-      if (params.message!.contextId && params.message!.contextId !== row.id) throw new DomainError("MARKET_CONTEXT_CHANGED", "The message belongs to a different provider conversation.", 422, false);
+      if (params.message!.contextId && params.message!.contextId !== row.id) throw new RequestMalformedError("The message belongs to a different provider conversation.");
       if (payload.type === "offer.counter") await proposeOffer(db, actor, row, payload.requestId, payload.providerAwardMinor, payload.note);
       else if (payload.type === "offer.decline") await declineOffer(db, row, payload.requestId, "buyer", c.museum, payload.note);
       else if (payload.type === "offer.accept") await selectOffer(db, actor, row, payload.requestId, payload.termsDigest, commissionRevision!);
@@ -114,6 +140,7 @@ export class GuildA2AService implements A2ARequestHandler {
   private async receive(params: SendMessageRequest, context: ServerCallContext): Promise<Task> {
     await this.authorize(context, true);
     const { payload, commissionRevision } = this.parseMessage(params), actor = this.principal.session, message = params.message!;
+    await this.validateMessageTaskReference(message, context);
     const requestHash = digest(SendMessageRequest.toJSON(params)), taskId = originalServiceTaskId(this.providerId, actor.tenantId, actor.id, message.messageId);
     return transaction(async db => {
       await requireMarketSession(db, actor);
@@ -129,6 +156,7 @@ export class GuildA2AService implements A2ARequestHandler {
         if (!op || op.state !== "dispatching" || op.original_message_id !== message.messageId || op.original_task_id !== taskId || op.command_id !== payload.requestId
           || op.request_digest !== requestHash || digest(op.request_body) !== requestHash || op.original_work_ceiling.getTime() <= Date.now()) throw new RequestMalformedError("The message differs from its exact original dispatch authority.");
       }
+      await this.validateMessageContext(db, message, payload, op);
       await db.query("SAVEPOINT market_business");
       let result: MarketServiceResult;
       try { result = await this.perform(db, params, payload, commissionRevision, op); await db.query("RELEASE SAVEPOINT market_business"); }
@@ -138,7 +166,7 @@ export class GuildA2AService implements A2ARequestHandler {
         result = { version: "guild.market-service-result.v1", ok: false, providerId: this.providerId, commandId: payload.requestId, code: error.code, message: error.message };
         if (payload.type === "work.delegate") await db.query("UPDATE guild_market_tasks SET state='rejected',revision=revision+1,updated_at=now() WHERE id=$1 AND tenant_id=$2 AND actor_id=$3 AND provider_id=$4 AND original_job_id IS NULL AND state='submitted' AND binding_digest=$5", [payload.delegation.taskId, actor.tenantId, actor.id, this.providerId, digest(payload.delegation)]);
       }
-      const contextId = result.ok ? result.threadId : op?.thread_id ?? taskId, reply = serviceResultMessage(taskId, contextId, result);
+      const contextId = result.ok ? result.threadId : message.contextId || op?.thread_id || taskId, reply = serviceResultMessage(taskId, contextId, result);
       const task = Task.fromJSON({ id: taskId, contextId, status: { state: result.ok ? result.taskId ? "TASK_STATE_SUBMITTED" : "TASK_STATE_COMPLETED" : "TASK_STATE_REJECTED", timestamp: new Date().toISOString(), message: Message.toJSON(reply) },
         history: [Message.toJSON({ ...message, taskId, contextId }), Message.toJSON(reply)], artifacts: [],
         metadata: { version: "guild.a2a-task.v1", providerId: this.providerId, originalMessageId: message.messageId, kind: payload.type, marketTaskId: result.ok ? result.taskId : null } });
@@ -150,11 +178,9 @@ export class GuildA2AService implements A2ARequestHandler {
   async sendMessage(params: SendMessageRequest, context: ServerCallContext): Promise<Task> {
     let task = await this.receive(params, context);
     if (!params.configuration?.returnImmediately && !interrupted(task)) {
-      const deadline = Date.now() + 25_000;
-      while (!interrupted(task) && Date.now() < deadline) {
+      while (!interrupted(task)) {
         await delay(500, this.signal); task = await this.getTask({ id: task.id, tenant: this.principal.session.tenantId }, context);
       }
-      if (!interrupted(task)) throw new UnsupportedOperationError({ message: "The original asynchronous task remains saved. Read it by its original task ID or subscribe for updates; use returnImmediately for new asynchronous work.", metadata: { taskId: task.id } });
     }
     return historyBound(task, params.configuration?.historyLength);
   }
@@ -162,16 +188,20 @@ export class GuildA2AService implements A2ARequestHandler {
   async getTask(params: GetTaskRequest, context: ServerCallContext): Promise<Task> {
     await this.authorize(context);
     assertProtocolHistoryLength(params.historyLength);
+    return this.readTask(getPool(), params);
+  }
+
+  private async readTask(db: MarketDb, params: GetTaskRequest): Promise<Task> {
     if (!uuid.safeParse(params.id).success || this.principal.operation && params.id !== originalServiceTaskId(this.providerId, this.principal.session.tenantId, this.principal.session.id, this.principal.operation.messageId)) throw new TaskNotFoundError();
     const actor = this.principal.session;
-    const row = (await getPool().query<Receipt>("SELECT * FROM guild_market_protocol_receipts WHERE task_id=$1 AND provider_id=$2 AND tenant_id=$3 AND actor_id=$4", [params.id, this.providerId, actor.tenantId, actor.id])).rows[0];
+    const row = (await db.query<Receipt>("SELECT * FROM guild_market_protocol_receipts WHERE task_id=$1 AND provider_id=$2 AND tenant_id=$3 AND actor_id=$4", [params.id, this.providerId, actor.tenantId, actor.id])).rows[0];
     if (!row) throw new TaskNotFoundError();
     let task = Task.fromJSON(row.task);
     const result = resultFromServiceTask(task);
     if (result.ok && result.taskId) {
-      const work = (await getPool().query<MarketTaskRow>("SELECT * FROM guild_market_tasks WHERE id=$1 AND tenant_id=$2 AND actor_id=$3 AND provider_id=$4", [result.taskId, actor.tenantId, actor.id, this.providerId])).rows[0];
+      const work = (await db.query<MarketTaskRow>("SELECT * FROM guild_market_tasks WHERE id=$1 AND tenant_id=$2 AND actor_id=$3 AND provider_id=$4", [result.taskId, actor.tenantId, actor.id, this.providerId])).rows[0];
       if (!work) throw new TaskNotFoundError();
-      const c = await marketCommission(getPool(), actor.tenantId, work.commission_id), view = await taskView(getPool(), work, c, true);
+      const c = await marketCommission(db, actor.tenantId, work.commission_id), view = await taskView(db, work, c, true);
       const states = { submitted: TaskState.TASK_STATE_SUBMITTED, working: TaskState.TASK_STATE_WORKING, input_required: TaskState.TASK_STATE_INPUT_REQUIRED,
         auth_required: TaskState.TASK_STATE_AUTH_REQUIRED, completed: TaskState.TASK_STATE_COMPLETED, failed: TaskState.TASK_STATE_FAILED, cancelled: TaskState.TASK_STATE_CANCELED, rejected: TaskState.TASK_STATE_REJECTED };
       task = { ...task, status: { state: states[view.state], timestamp: view.updatedAt, message: task.status?.message },
@@ -215,26 +245,31 @@ export class GuildA2AService implements A2ARequestHandler {
     }
   }
   async *sendMessageStream(params: SendMessageRequest, context: ServerCallContext): AsyncGenerator<StreamResponse> { yield* this.watch(await this.receive(params, context), context); }
-  async *resubscribe(params: SubscribeToTaskRequest, context: ServerCallContext): AsyncGenerator<StreamResponse> { yield* this.watch(await this.getTask({ id: params.id, tenant: params.tenant }, context), context); }
+  async *resubscribe(params: SubscribeToTaskRequest, context: ServerCallContext): AsyncGenerator<StreamResponse> {
+    const task = await this.getTask({ id: params.id, tenant: params.tenant }, context);
+    if (terminalTask(task)) throw new UnsupportedOperationError("A terminal task cannot be subscribed to; retrieve its retained result with GetTask.");
+    yield* this.watch(task, context);
+  }
 
   async listTasks(params: ListTasksRequest, context: ServerCallContext): Promise<ListTasksResponse> {
     await this.authorize(context);
     assertProtocolHistoryLength(params.historyLength);
+    assertA2ATaskListParameters(params);
     if (this.principal.operation) throw new UnsupportedOperationError("An operation credential can read only its original task.");
     const pageSize = params.pageSize ?? 50;
-    if (!Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100 || params.pageToken && !/^\d{1,7}$/.test(params.pageToken)) throw new RequestMalformedError("The task-list page is invalid.");
-    const rows = (await getPool().query<Receipt>("SELECT * FROM guild_market_protocol_receipts WHERE provider_id=$1 AND tenant_id=$2 AND actor_id=$3 ORDER BY created_at DESC,task_id DESC LIMIT 1001", [this.providerId, this.principal.session.tenantId, this.principal.session.id])).rows;
-    if (rows.length > 1000) throw new UnsupportedOperationError("Narrow this retained task history before requesting another page.");
-    const tasks: Task[] = [];
-    for (const row of rows) {
-      const task = await this.getTask({ id: row.task_id, tenant: params.tenant, historyLength: params.historyLength }, context);
-      if (params.contextId && task.contextId !== params.contextId || params.status && task.status?.state !== params.status || params.statusTimestampAfter && Date.parse(task.status?.timestamp ?? "") < Date.parse(params.statusTimestampAfter)) continue;
-      tasks.push(params.includeArtifacts ? task : { ...task, artifacts: [] });
-    }
-    const offset = Number(params.pageToken || 0);
-    return { tasks: tasks.slice(offset, offset + pageSize), totalSize: tasks.length, pageSize, nextPageToken: offset + pageSize < tasks.length ? String(offset + pageSize) : "" };
+    const after = params.statusTimestampAfter === undefined ? undefined : a2aTimestampNanos(params.statusTimestampAfter);
+    const scope = digest({ tenantId: this.principal.session.tenantId, actorId: this.principal.session.id, providerId: this.providerId,
+      contextId: params.contextId || "", status: params.status, statusTimestampAfter: after?.toString() ?? null });
+    const cursor = params.pageToken ? decodeA2ATaskCursor(params.pageToken, scope) : null;
+    return transaction(async db => {
+      await db.query("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY");
+      await requireMarketSession(db, this.principal.session);
+      return readA2ATaskPage(db, { providerId: this.providerId, tenantId: this.principal.session.tenantId, actorId: this.principal.session.id,
+        contextId: params.contextId, after, status: params.status, pageSize, cursor, scope, includeArtifacts: params.includeArtifacts ?? false },
+      id => this.readTask(db, { id, tenant: params.tenant, historyLength: params.historyLength }));
+    });
   }
-  async getAuthenticatedExtendedAgentCard(): Promise<never> { throw new ExtendedAgentCardNotConfiguredError(); }
+  async getAuthenticatedExtendedAgentCard(): Promise<never> { throw new UnsupportedOperationError("This provider does not advertise an authenticated extended Agent Card."); }
   async createTaskPushNotificationConfig(): Promise<never> { throw new PushNotificationNotSupportedError(); }
   async getTaskPushNotificationConfig(): Promise<never> { throw new PushNotificationNotSupportedError(); }
   async listTaskPushNotificationConfigs(): Promise<never> { throw new PushNotificationNotSupportedError(); }

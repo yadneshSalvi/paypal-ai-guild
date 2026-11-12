@@ -8,6 +8,7 @@ import { readJson } from "../http";
 import { authenticateProtocol } from "./protocol-auth";
 import { GuildA2AService } from "./a2a-service";
 import { providerAgentCard, providerRow } from "./registry";
+import { a2aNegotiatedVersion, assertRawA2AParameters } from "./a2a-validation";
 
 const privateHeaders = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff", "A2A-Version": A2A_PROTOCOL.protocolVersion };
 
@@ -37,10 +38,11 @@ export async function marketA2AResponse(request: Request, providerId: string): P
   const rpc = body && typeof body === "object" && !Array.isArray(body) ? body as Record<string, unknown> : {};
   const id = typeof rpc.id === "string" || typeof rpc.id === "number" ? rpc.id : null;
   try {
+    assertRawA2AParameters(rpc.method, rpc.params);
     const params = rpc.params && typeof rpc.params === "object" && !Array.isArray(rpc.params) ? rpc.params as Record<string, unknown> : {};
     if (params.tenant && params.tenant !== principal.session.tenantId) throw new RequestMalformedError("The requested tenant differs from the authenticated workspace.");
     const extensions = Extensions.parseServiceParameter(request.headers.get("a2a-extensions") ?? undefined);
-    const context = new ServerCallContext({ requestedVersion: request.headers.get("a2a-version") ?? "0.3", requestedExtensions: extensions,
+    const context = new ServerCallContext({ requestedVersion: a2aNegotiatedVersion(request.headers.get("a2a-version") || "0.3"), requestedExtensions: extensions,
       user: { isAuthenticated: true, userName: principal.session.id }, ...(params.tenant ? {} : { tenant: principal.session.tenantId }) });
     const service = new GuildA2AService(providerId, principal, request.signal), card = await service.getAgentCard();
     validateVersion(context.requestedVersion, card, "JSONRPC");

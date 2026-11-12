@@ -74,7 +74,7 @@ export function providerOfferDecision(policy: ProviderPolicy, terms: OfferTerms,
   } else if (!policy.allowedKinds.includes(terms.kind)) {
     code = "PROVIDER.SCOPE"; reason = "This work type is outside the provider owner's policy.";
   } else if (terms.providerAwardMinor < policy.minimumAwardMinor) {
-    code = "PROVIDER.FLOOR"; reason = `The provider cannot accept an award below ${policy.minimumAwardMinor} USD cents.`;
+    code = "PROVIDER.FLOOR"; reason = `The provider cannot accept an award below ${new Intl.NumberFormat("en-US", { style: "currency", currency: terms.currency }).format(policy.minimumAwardMinor / 100)}.`;
   } else if (terms.correctionAllowance > policy.correctionAllowance || terms.workingHours !== policy.workingHours || terms.calendarId !== policy.calendarId) {
     code = "PROVIDER.SERVICE_CHANGED"; reason = "The correction, duration or calendar differs from the provider policy.";
   } else if (activeTasks >= policy.maximumConcurrentTasks) {
