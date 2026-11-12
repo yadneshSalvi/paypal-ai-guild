@@ -18,3 +18,4 @@ vendor/*
 !vendor/fracture-paypal-core-0.2.6.tgz
 !vendor/fracture-paypal-core-0.2.6.PROVENANCE.json
 !vendor/whisper/
+!vendor/whisper/**
