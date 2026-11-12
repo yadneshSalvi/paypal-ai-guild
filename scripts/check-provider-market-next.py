@@ -174,8 +174,8 @@ class Qualification:
     def __init__(self, args):
         self.args = args
         self.profile = args.qualification
-        self.schema_prefix = "guild_access_next_worker_" if self.profile == "access" else "guild_market_next_worker_"
-        self.http_module = "provider-access-next-http" if self.profile == "access" else "provider-market-next-http"
+        self.schema_prefix = {"access": "guild_access_next_worker_", "entry": "guild_entry_next_worker_", "market": "guild_market_next_worker_"}[self.profile]
+        self.http_module = {"access": "provider-access-next-http", "entry": "sample-entry-next-http", "market": "provider-market-next-http"}[self.profile]
         self.evidence = pathlib.Path(args.evidence_dir).expanduser().absolute()
         require(not self.evidence.is_symlink(), "The evidence directory cannot be a link.")
         if not self.evidence.exists():
@@ -353,6 +353,9 @@ class Qualification:
                        GUILD_QUAL_DATABASE_ENDPOINT=json.dumps(self.database["endpoint"]))
         if runtime_id:
             env["GUILD_QUAL_RUNTIME_ID"] = runtime_id
+        if self.profile == "entry":
+            env["GUILD_SESSION_COOKIE"] = "guild_entry_" + str(self.port)
+            env["GUILD_PROVIDER_SESSION_COOKIE"] = "guild_entry_provider_" + str(self.port)
         return env
 
     def preflight(self, operation, absent=False):
@@ -590,7 +593,7 @@ class Qualification:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=MODES)
-    parser.add_argument("--qualification", choices=("market", "access"), default="market", help="Pin the exact controlled fixture and HTTP suite; cannot change after freeze")
+    parser.add_argument("--qualification", choices=("market", "access", "entry"), default="market", help="Pin the exact controlled fixture and HTTP suite; cannot change after freeze")
     parser.add_argument("--evidence-dir", required=True, help="Explicit private0700 directory outside the checkout; freeze requires it empty")
     parser.add_argument("--origin", required=True, help="Explicit owned http://127.0.0.1:port, for example4590")
     parser.add_argument("--protected-root", action="append", default=[], help="Workspace containing original checkouts/evidence; required on freeze and pinned thereafter")

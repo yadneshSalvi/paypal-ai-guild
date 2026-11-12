@@ -41,8 +41,9 @@ export async function saveCommission(db:PoolClient,commission:Commission):Promis
   for(const event of commission.events)await db.query("INSERT INTO guild_events(id,tenant_id,commission_id,sequence,event_type,event,previous_hash,event_hash) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(id) DO NOTHING",[event.id,commission.tenantId,commission.id,event.sequence,event.type,event,event.previousHash,event.hash]);
 }
 export async function seedCommission(session:Session,sources:SourceAsset[]=museumSources):Promise<Commission>{
-  return transaction(async db=>{const commission=createSampleCommission(session.tenantId,sources);appendEvent(commission,"commission.created","A new exhibition begins","A sample commission and a source-linked research label are ready to explore.","Guild studio");await db.query("INSERT INTO guild_commissions(id,tenant_id,state,snapshot) VALUES($1,$2,$3,$4)",[commission.id,session.tenantId,commission.state,commission]);await saveCommission(db,commission);return commission;});
+  return transaction(db=>seedCommissionWithClient(db,session,sources));
 }
+export async function seedCommissionWithClient(db:PoolClient,session:Session,sources:SourceAsset[]=museumSources):Promise<Commission>{const commission=createSampleCommission(session.tenantId,sources);appendEvent(commission,"commission.created","A new exhibition begins","A sample commission and a source-linked research label are ready to explore.","Guild studio");await db.query("INSERT INTO guild_commissions(id,tenant_id,state,snapshot) VALUES($1,$2,$3,$4)",[commission.id,session.tenantId,commission.state,commission]);await saveCommission(db,commission);return commission;}
 export async function latestCommission(session:Session):Promise<Commission|null>{const result=await getPool().query<{snapshot:Commission}>("SELECT snapshot FROM guild_commissions WHERE tenant_id=$1 ORDER BY created_at DESC LIMIT 1",[session.tenantId]);return result.rows[0]?.snapshot??null;}
 export async function createCommission(session:Session,input:z.infer<typeof createCommissionSchema>,sources:SourceAsset[]=[]):Promise<Commission>{
   return transaction(async db=>{

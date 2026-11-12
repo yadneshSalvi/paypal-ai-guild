@@ -2,7 +2,7 @@ import { CONTRACT_VERSION, type WorkspaceSnapshot } from "@/contracts/guild";
 import { planDigest } from "@/domain/fixture";
 import { imageAcceptancePack } from "@/domain/images";
 import { draftDependencyProposal } from "@/domain/draft-dependencies";
-import { getCommission, latestCommission, seedCommission } from "./commissions";
+import { getCommission, latestCommission } from "./commissions";
 import { normalizePayments } from "@/domain/payments";
 import { digest, DomainError } from "@/domain/primitives";
 import { translationAcceptancePack } from "@/domain/translation";
@@ -22,7 +22,8 @@ import { validateWebAuthority } from "./web/authority";
 import { deepgramCaptionContractProposal, deepgramCaptionCorrectionProposal } from "./captions/deepgram-contracts";
 
 export async function workspace(session:Session, commissionId?: string):Promise<WorkspaceSnapshot&{approvalDigest:string}>{
-  const commission=commissionId?await getCommission(session,commissionId):await latestCommission(session)??await seedCommission(session);
+  const commission=commissionId?await getCommission(session,commissionId):await latestCommission(session);
+  if(!commission)throw new DomainError("WORKSPACE_EMPTY","This workspace has no commission yet. Choose Open a Sample commission to begin.",404,false);
   normalizePayments(commission);
   // Historical runs retain their original contracts. Project the durable job
   // input for older snapshots instead of showing their completion on a successor.
