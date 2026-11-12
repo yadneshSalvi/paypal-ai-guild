@@ -5,6 +5,7 @@ import { createHash, createHmac, randomBytes, randomUUID } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { request as httpRequest } from "node:http";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Pool } from "pg";
@@ -32,7 +33,7 @@ interface Fixture { version: string; schema: string; origin: string; buyer: Acto
   negativeActors: Record<string, Actor>; commissions: { research: string; cancellation: string; native: string };
   setup: { plan: ControlledProviderSetupPlan; delivery: ProviderInvitationDelivery[] }; invitationExpiresAt: string; sessionCeilingAt: string }
 interface Check { name: string; passed: boolean; error?: string }
-interface Wire { method: string; path: string; requestHash: string; status: number; responseHash: string }
+interface Wire { method: string; path: string; requestHash: string; status: number; responseHash: string; transport?: "node:http"; host?: string }
 export interface ProviderAccessReport { version: string; at: string; passed: boolean; actualNext: true; nativeBrowser: false;
   checks: Check[]; wire: Wire[]; failures: string[]; error?: string; reportPath?: string; sideEffects?: Record<string, number>; disclosures: string[] }
 function validate(): void {
@@ -131,6 +132,29 @@ export async function runProviderAccessNextQualification(): Promise<ProviderAcce
     report.wire.push({ method, path: new URL(origin + path).pathname, requestHash: sha(body ?? ""), status: response.status, responseHash: sha(text) });
     return { status: response.status, headers: response.headers, value, text };
   }
+  async function rawHostClaim(path: string, host: string, value: unknown): Promise<{ status: number; value: any }> {
+    const body = JSON.stringify(value);
+    // Fetch may normalize Host to the destination. Exercise the actual wire
+    // header while still connecting only to this explicitly owned origin.
+    return new Promise((resolve, reject) => {
+      const request = httpRequest(new URL(path, origin), { method: "POST", headers: {
+        Origin: origin, Host: host, "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body),
+      } }, response => {
+        const chunks: Buffer[] = [];
+        response.on("data", chunk => chunks.push(Buffer.from(chunk)));
+        response.on("error", reject);
+        response.on("end", () => {
+          const bytes = Buffer.concat(chunks), status = response.statusCode ?? 0;
+          report.wire.push({ method: "POST", path, requestHash: sha(body), status, responseHash: sha(bytes), transport: "node:http", host });
+          try { resolve({ status, value: JSON.parse(bytes.toString("utf8")) }); } catch (error) { reject(error); }
+        });
+      });
+      assert.equal(request.getHeader("host"), host);
+      request.on("error", reject);
+      request.setTimeout(30_000, () => request.destroy(new Error("The original raw Host qualification request timed out.")));
+      request.end(body);
+    });
+  }
   async function check(name: string, action: () => Promise<void>, required = true): Promise<void> {
     try { await action(); report.checks.push({ name, passed: true }); }
     catch (error) { const message = scrub(error instanceof Error ? error.message : String(error)); report.checks.push({ name, passed: false, error: message }); report.failures.push(name); if (required) throw new Error(message); }
@@ -205,9 +229,14 @@ export async function runProviderAccessNextQualification(): Promise<ProviderAcce
     });
     await check("cross-origin missing-origin cross-site and mismatched-host claim writes are refused", async () => {
       const before = await captureProviderAccessState(), body = { claimId: randomUUID(), challenge: delivery("marlow").challenge };
-      const cases: Record<string, string>[] = [{}, { Origin: "https://untrusted.invalid" }, { Origin: origin, "Sec-Fetch-Site": "cross-site" }, { Origin: origin, Host: "untrusted.invalid" }];
+      const cases: Record<string, string>[] = [{}, { Origin: "https://untrusted.invalid" }, { Origin: origin, "Sec-Fetch-Site": "cross-site" }];
       for (const extra of cases) {
         const response = await call(`${invitationPath("marlow")}/claim`, { method: "POST", headers: { "Content-Type": "application/json", ...extra }, body }); assert.equal(response.status, 403);
+      }
+      const port = Number(new URL(origin).port);
+      for (const host of ["untrusted.invalid", `localhost:${port}`, `127.0.0.1:${port === 65535 ? 65534 : port + 1}`]) {
+        const response = await rawHostClaim(`${invitationPath("marlow")}/claim`, host, body);
+        assert.equal(response.status, 403); assert.equal(response.value.error.code, "MCP_HOST_REFUSED");
       }
       assert.deepEqual(await captureProviderAccessState(), before);
     });
@@ -322,7 +351,7 @@ export async function runProviderAccessNextQualification(): Promise<ProviderAcce
       const client = new McpClient({ name: "guild-provider-access-qualification", version: "1.0.0" }, { versionNegotiation: { mode: { pin: "2026-07-28" }, probe: { timeoutMs: 8000 } } }); clients.push(client);
       await client.connect(new StreamableHTTPClientTransport(new URL(`${origin}/api/mcp`), { authProvider: { token: async () => customerToken }, fetch: globalThis.fetch, redirectPolicy: "same-origin" }));
       assert.deepEqual((await client.listTools()).tools.map(item => item.name).sort(), ["approval.link", "commission.create", "commission.status"]);
-      const content = (value: any) => { const item = value.content.find((entry: any) => entry.type === "text"); return JSON.parse(item.text); };
+      const content = (value: any) => { assert.notEqual(value.isError, true); assert.ok(value.structuredContent); return value.structuredContent; };
       const created = content(await client.callTool({ name: "commission.create", arguments: { requestId: randomUUID(), title: "Controlled customer agent draft",
         brief: "Create an unapproved controlled brief through the newly issued credential. No production, review, purchase or payout is requested.", capMinor: 64000, languages: ["en"] } }));
       const current = await getCommission(fixture.buyer.session, created.commissionId); assert.equal(current.approvedPlanDigest, null); assert.equal(current.jobs.length, 0);
