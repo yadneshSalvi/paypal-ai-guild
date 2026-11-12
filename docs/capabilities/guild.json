@@ -1,6 +1,6 @@
 {
   "schemaVersion": "guild.capability-ledger.v1",
-  "updatedAt": "2026-11-11",
+  "updatedAt": "2026-11-12",
   "scope": "Evidence ledger for the full planned product. Status describes only the listed observed evidence.",
   "currentSourceBinding": {
     "baseCommit": "752348c0537c0a6a592a56e15a9700ef99d5cd09",
@@ -321,18 +321,24 @@
     },
     {
       "feature": "production.generated_web",
-      "chosenVersion": "Bounded renderer and acceptance-pack version pending",
+      "chosenVersion": "guild.exhibition.v2; guild.web-measurements.v2; migrations017–019",
       "sourceCommit": null,
       "accountOrLicensePrerequisites": [
-        "Exact upstream bindings",
-        "Pinned accessibility/keyboard runners",
-        "Manual visual review"
+        "Exact accepted or explicitly reviewed upstream bindings",
+        "Pinned authored renderer and independently qualified local/hosted runtime",
+        "Current signed production authority and real caption eligibility",
+        "Independent deterministic/browser checks plus separate human visual/language/listening review"
       ],
-      "testRun": [],
-      "status": "planned",
-      "observedResult": "Curated sample renderer exists; generated production, genuine Formwork trials and complete web verification remain required.",
-      "selectedFallback": "Labelled curated sample; no arbitrary generated code execution.",
-      "productWording": "Sample exhibition; generated production qualification pending."
+      "testRun": [
+        "docs/evidence/web-composition-source-v1.json",
+        "docs/WEB_COMPOSITION.md",
+        "docs/HOSTED_WEB_AUDITS.md",
+        "docs/EXHIBITION_PUBLICATION.md"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Complete source-bound Formwork/Ostrava production, source-linked repair, immutable bundles/editions, independent reports and original hosted recovery are implemented.174 unit checks,45 focused PostgreSQL workflows,58 related PostgreSQL checks and a saturated six-contender application authority test passed. Controlled transports remain synthetic; actual eligible caption/web production, genuine Formwork trials and human acceptance remain required.",
+      "selectedFallback": "Retain the exact private reading copy and original reports; offer the clearly labelled curated sample when no produced artifact exists. Hold new production when source/runtime/authority eligibility is absent.",
+      "productWording": "Original reading copy and immutable publication are available for exact accepted work; actual source production retains separate qualification gates."
     },
     {
       "feature": "exhibition.curated_sample",
@@ -434,5 +440,12 @@
       "selectedFallback": "Retain historical evidence and hold new work for an explicit current agreement.",
       "productWording": "Historical production evidence; it does not renew authority."
     }
-  ]
+  ],
+  "compositionSourceBinding": {
+    "baseCommit": "9dc6ad9c2d4c4a1c84ade5bbe7a564604669dd8f",
+    "sourceCommit": null,
+    "evidence": "docs/evidence/web-composition-source-v1.json",
+    "scope": "Uncommitted isolated017–019 composition; exact private source/build/dependency freeze retained for root integration.",
+    "nativeReview": "pending"
+  }
 }

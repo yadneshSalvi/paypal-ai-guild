@@ -15,10 +15,11 @@ import { checkedAlignmentReceipt, AlignmentGatewayError, type AlignmentGateway, 
 import { runNextJob } from "@/server/jobs";
 import { fresh, ready, queue, finish, MemoryMedia, SyntheticSpeech, SyntheticAsr, type Fixture } from "./narration-fixture";
 import { museumSources } from "@/exhibition/museum";
+import { syntheticSourceHistory } from "./synthetic-source-history";
 
 const hash = (value: string | Buffer) => createHash("sha256").update(value).digest("hex");
 /** Synthetic predecessors exercise provenance; they are never actual language or audio evidence. */
-export async function captionFixture(sourceCount: 1 | 12 = 1) {
+export async function captionFixture(sourceCount: 1 | 12 = 1, options: { withProducingHistory?: boolean; mediaDirectory?: string } = {}) {
   const f = await fresh(), c = await getCommission(f.session, f.commissionId), old = translationArtifactSchema.parse(f.source.content);
   if (sourceCount === 12) {
     c.sourceAssets = museumSources.slice(0, sourceCount);
@@ -42,6 +43,7 @@ export async function captionFixture(sourceCount: 1 | 12 = 1) {
   async function saveReviewed(c: Commission, artifact: ArtifactManifest, pack: Commission["packages"][number]["acceptancePack"]) {
     const pkg = c.packages.find(item => item.id === artifact.packageId)!;
     pkg.artifactIds = [artifact.id]; pkg.acceptancePack = pack; pkg.state = "awaiting_acceptance"; c.artifacts.push(artifact);
+    if (options.withProducingHistory) await syntheticSourceHistory(c, artifact, f.session);
     await transaction(async db => { c.revision++; await saveCommission(db, c); await db.query("INSERT INTO guild_verifications(id,tenant_id,commission_id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)", [randomUUID(), c.tenantId, c.id, pkg.id, pkg.contractVersion, artifact.id, artifact.contentHash, digest(pack), pack]); });
     const result = await executeCommand(f.session, c.id, { type: "record_automated_review", commandId: randomUUID(), expectedRevision: c.revision, packageId: pkg.id, artifactId: artifact.id, artifactHash: artifact.contentHash, contractVersion: pkg.contractVersion, criteriaDigest: digest(pack), findings: "Synthetic source precondition in a disposable caption integration schema. No actual generated language, human review, acceptance or payment is represented.", acknowledgeLimitations: true });
     assert.ok(result.ok);
@@ -62,7 +64,7 @@ export async function captionFixture(sourceCount: 1 | 12 = 1) {
   const persisted = await getCommission(f.session, f.commissionId);
   const current: Fixture = { ...f, source: persisted.artifacts.find(item => item.id === translation.id)! };
   await ready(current);
-  const media = new MemoryMedia(), speech = new SyntheticSpeech(), transcription = new SyntheticAsr(current.source), dependencies = { media, speech, transcription };
+  const media = new MemoryMedia(options.mediaDirectory), speech = new SyntheticSpeech(), transcription = new SyntheticAsr(current.source), dependencies = { media, speech, transcription };
   assert.equal((await finish(current, await queue(current), dependencies))?.state, "completed");
   assert.equal((await finish(current, await queue(current, "verify_artifact"), dependencies))?.state, "completed");
   const measured = await getCommission(f.session, f.commissionId), narration = measured.packages.find(item => item.kind === "narration")!, artifact = measured.artifacts.find(item => item.id === narration.artifactIds.at(-1))!;

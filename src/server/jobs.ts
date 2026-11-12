@@ -21,7 +21,12 @@ import { validateNarrationTargetedCorrection } from "./narration-targeted-correc
 import { validateNarrationFollowupCorrection } from "./narration-followup-corrections";
 import { verifyCaptions } from "./captions/verification";
 import type { AlignmentGateway } from "./captions/alignment-gateway";
+import type { DeepgramTimestampGateway } from "./captions/deepgram-gateway";
+import { verifyDeepgramCaptions } from "./captions/deepgram-verification";
 import { requireProductionLease } from "./production-authority";
+import { verifyWeb } from "./web/verification";
+import type { WebAuditGateway } from "./web/audit-gateway";
+import type { WebRuntimeAccess } from "./web/capability";
 
 interface Job {id:string;tenant_id:string;commission_id:string;type:JobRun["type"];input:{packageId?:string;contractVersion?:number;revision?:number;artifactId?:string;artifactHash?:string;acceptancePackDigest?:string;inputBindings?:unknown;targetedAgreementId?:string;targetedAgreementDigest?:string;followupAgreementId?:string;followupAgreementDigest?:string;scheduleBinding?:Commission["schedule"]};lease_token:string;attempts:number}
 function productionAuthority(commission: Commission, job: Job): boolean {
@@ -46,11 +51,11 @@ async function claim(tenantId?:string):Promise<{job:Job;commission:Commission}|n
   });
 }
 
-export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBlobGateway;verifier?:VerifierBatchGateway;speech?:SpeechGateway;transcription?:TranscriptionGateway;alignment?:AlignmentGateway}={}):Promise<{id:string;state:string}|null>{
+export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBlobGateway;verifier?:VerifierBatchGateway;speech?:SpeechGateway;transcription?:TranscriptionGateway;alignment?:AlignmentGateway;deepgram?:DeepgramTimestampGateway;audit?:WebAuditGateway;webRuntime?:WebRuntimeAccess}={}):Promise<{id:string;state:string}|null>{
   const claimed=await claim(tenantId);if(!claimed)return null;
   const {job,commission}=claimed;
   try{
-    const context:ModelContext={jobId:job.id,tenantId:job.tenant_id,leaseToken:job.lease_token,externalCalls:0};
+    const context:ModelContext={jobId:job.id,tenantId:job.tenant_id,leaseToken:job.lease_token,externalCalls:0,webRuntime:dependencies.webRuntime};
     // Known response reads keep temporary provider output from being lost while
     // the owner pauses work. They never authorize another model create.
     await pollSavedModelResponse(context);
@@ -59,8 +64,8 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
     if(!productionAuthority(commission,job))throw new ProductionReviewRequired("PRODUCTION_AUTHORITY_CHANGED","The contract or Passport changed. Previously dispatched results are retained; no new model request was sent.");
     if(job.type==="verify_artifact"){
       const kind=commission.packages.find(item=>item.id===job.input.packageId)?.kind;
-      if(kind!=="images"&&kind!=="translation"&&kind!=="narration"&&kind!=="captions")throw new DomainError("VERIFIER_NOT_READY","This package's independent verifier is not yet qualified.",422,false);
-      const result=kind==="captions"?await verifyCaptions(context,dependencies.media):kind==="images"?await verifyImages(context,dependencies.media):kind==="narration"?await verifyNarration(context,{storage:dependencies.media,transcription:dependencies.transcription}):await verifyTranslation(context,dependencies.verifier);
+      if(kind!=="images"&&kind!=="translation"&&kind!=="narration"&&kind!=="captions"&&kind!=="web")throw new DomainError("VERIFIER_NOT_READY","This package's independent verifier is not yet qualified.",422,false);
+      const result=kind==="web"?await verifyWeb(context,{storage:dependencies.media,audit:dependencies.audit}):kind==="captions"?(commission.packages.find(item=>item.id===job.input.packageId)?.acceptancePack.version==="3.0.0"?await verifyDeepgramCaptions(context,dependencies.media):await verifyCaptions(context,dependencies.media)):kind==="images"?await verifyImages(context,dependencies.media):kind==="narration"?await verifyNarration(context,{storage:dependencies.media,transcription:dependencies.transcription}):await verifyTranslation(context,dependencies.verifier);
       return await transaction(async db=>{
         const lease=await db.query<Job>("SELECT * FROM guild_jobs WHERE id=$1 AND lease_token=$2 AND state='running' FOR UPDATE",[job.id,job.lease_token]);
         if(!lease.rows[0])return {id:job.id,state:"superseded"};
@@ -71,7 +76,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
           await db.query("INSERT INTO guild_verifications(id,tenant_id,commission_id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",[randomUUID(),current.tenantId,current.id,pkg.id,pkg.contractVersion,job.input.artifactId,job.input.artifactHash,digest(result.pack),result.pack]);
           const failed=result.pack.criteria.some(item=>item.kind==="deterministic"&&item.blocking&&item.status==="failed"),missing=result.pack.criteria.some(item=>item.kind==="deterministic"&&item.blocking&&item.status!=="passed");
           pkg.state=failed?"correction_requested":missing?"submitted":"awaiting_acceptance";
-          appendEvent(current,"verification.completed",failed?"The submission needs a correction":missing?"Further checks remain open":"The agreed deterministic checks passed",failed||missing?"The independent report is saved against this exact artifact. Review its findings before requesting the agreed correction.":pkg.kind==="captions"?"Original audio, prompted alignment, actual VTT bytes and source-linked easy read passed the frozen deterministic checks. Meaning, reading experience, human listening and exact source acceptance remain separate.":pkg.kind==="images"?"The original private files passed the frozen byte, geometry, profile, source and comparison checks. Curator fidelity and alt-text review remain separate.":pkg.kind==="narration"?"Every exact recording passed the independently measured format, loudness, duration and provider-transcript checks. Recognition remains advisory; human listening and source acceptance are still required.":"The full source, locale, placeholder, glossary, script and independent language checks passed. Blind back-translation remains advisory; human or disclosed curator review is still required.","Acceptance verifier",pkg.id);
+          appendEvent(current,"verification.completed",failed?"The submission needs a correction":missing?"Further checks remain open":"The agreed deterministic checks passed",failed||missing?"The independent report is saved against this exact artifact. Review its findings before requesting the agreed correction.":pkg.kind==="web"?"The exact original sources and portable bytes passed their independent checks, with all 18 browser cases retained. Measured axe, Lighthouse, keyboard, focus, audio and RTL gates passed; human experience, language and listening review remain separate.":pkg.kind==="captions"?pkg.acceptancePack.version==="3.0.0"?"Original audio, retained recognition, attributed listening corrections, actual VTT bytes and easy-read sources passed independent structural checks. Automatic qualification, fluent-language review, meaning and exact source acceptance remain separate.":"Original audio, prompted alignment, actual VTT bytes and source-linked easy read passed the frozen deterministic checks. Meaning, reading experience, human listening and exact source acceptance remain separate.":pkg.kind==="images"?"The original private files passed the frozen byte, geometry, profile, source and comparison checks. Curator fidelity and alt-text review remain separate.":pkg.kind==="narration"?"Every exact recording passed the independently measured format, loudness, duration and provider-transcript checks. Recognition remains advisory; human listening and source acceptance are still required.":"The full source, locale, placeholder, glossary, script and independent language checks passed. Blind back-translation remains advisory; human or disclosed curator review is still required.","Acceptance verifier",pkg.id);
         }else appendEvent(current,"verification.retained","Measurements retained for review","The artifact or contract changed before verification completed. These measurements did not replace the current review.","Acceptance verifier",job.input.packageId??null);
         const run=current.jobs.find(item=>item.id===job.id);if(run){run.state=state;run.step=valid?"Independent report saved for curator review":"Report retained; current contract needs review";run.error=null;run.blocksNewProduction=false;run.updatedAt=new Date().toISOString();}
         current.revision++;await saveCommission(db,current);
@@ -79,7 +84,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
         return {id:job.id,state};
       });
     }
-    const result=job.type==="compile_brief"?await compileBrief(context,commission):await produce(context,commission,job.input.packageId!,dependencies.media,dependencies.speech,dependencies.alignment);
+    const result=job.type==="compile_brief"?await compileBrief(context,commission):await produce(context,commission,job.input.packageId!,dependencies.media,dependencies.speech,dependencies.alignment,dependencies.audit,dependencies.deepgram);
     return await transaction(async db=>{
       const lease=await db.query<Job>("SELECT * FROM guild_jobs WHERE id=$1 AND lease_token=$2 AND state='running' FOR UPDATE",[job.id,job.lease_token]);
       if(!lease.rows[0])return {id:job.id,state:"superseded"};
@@ -87,7 +92,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
       const now=new Date().toISOString();let state:JobRun["state"]="completed";
       const output="content" in result?result.content:result.data;
       const artifactId=randomUUID(),content=output as Record<string,unknown>;
-      const artifact:ArtifactManifest={id:artifactId,packageId:job.input.packageId??"brief",title:"title" in result?result.title:"Guild · compiled exhibition brief",mediaType:"application/json",contentHash:digest(content),downloadUrl:`/api/artifacts/${artifactId}/download`,previewUrl:null,sourceIds:"sourceIds" in result?result.sourceIds:current.sourceAssets.map(s=>s.id),createdAt:now,provenance:{mode:"live",label:"provenanceLabel" in result&&typeof result.provenanceLabel==="string"?result.provenanceLabel:`Generated by ${result.model}`,sourceId:result.runId,observedAt:now,sandbox:false},reviewStatus:"Generated · awaiting verification and curator review",content};
+      const artifact:ArtifactManifest={id:artifactId,packageId:job.input.packageId??"brief",title:"title" in result?result.title:"Guild · compiled exhibition brief",mediaType:"application/json",contentHash:digest(content),downloadUrl:`/api/artifacts/${artifactId}/download`,previewUrl:content.schemaVersion==="guild.exhibition.v2"?`/api/artifacts/${artifactId}/exhibition/${String(content.selectedOrdinal)}/index.html`:null,sourceIds:"sourceIds" in result?result.sourceIds:current.sourceAssets.map(s=>s.id),createdAt:now,provenance:{mode:"live",label:"provenanceLabel" in result&&typeof result.provenanceLabel==="string"?result.provenanceLabel:`Generated by ${result.model}`,sourceId:result.runId,observedAt:now,sandbox:false},reviewStatus:"Generated · awaiting verification and curator review",content};
       const same=current.artifacts.find(a=>a.packageId===artifact.packageId&&a.contentHash===artifact.contentHash);
       const actual=same??artifact;if(!same)current.artifacts.push(artifact);
       if(job.type==="compile_brief"){
@@ -101,7 +106,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
       }else{
         const pkg=current.packages.find(p=>p.id===job.input.packageId);
         let inputsCurrent=true;
-        if(pkg){try{if(pkg.kind==="captions")await requireProductionLease(db,context,pkg.id);if(current.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,current,"production");await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});if(pkg.narrationFollowupCorrection)await validateNarrationFollowupCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
+        if(pkg){try{if(pkg.kind==="captions"||pkg.kind==="web")await requireProductionLease(db,context,pkg.id);if(current.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,current,"production");await validateProductionInputs(db,current,pkg,job.input.inputBindings);if(pkg.narrationTargetedCorrection)await validateNarrationTargetedCorrection(db,current,pkg,{id:job.id,input:job.input});if(pkg.narrationFollowupCorrection)await validateNarrationFollowupCorrection(db,current,pkg,{id:job.id,input:job.input});}catch(error){if(error instanceof DomainError)inputsCurrent=false;else throw error;}}
         if(!pkg||!productionAuthority(current,job)||!inputsCurrent)state="needs_review";
         else{pkg.artifactIds.push(actual.id);pkg.state="submitted";pkg.provenance=artifact.provenance;current.state=current.state==="paused"?"paused":"reviewing";}
       }
@@ -117,7 +122,7 @@ export async function runNextJob(tenantId?:string,dependencies:{media?:PrivateBl
         const updated=await db.query("UPDATE guild_jobs SET state='queued',error=NULL,lease_until=NULL,lease_token=NULL,available_at=now()+($1*interval '1 second'),continuation_count=continuation_count+1,updated_at=now() WHERE id=$2 AND lease_token=$3 AND state='running' RETURNING id",[Math.max(1,Math.min(error.retryAfterSeconds,60)),job.id,job.lease_token]);
         if(!updated.rowCount)return;
         const current=(await db.query<{snapshot:Commission}>("SELECT snapshot FROM guild_commissions WHERE id=$1 AND tenant_id=$2 FOR UPDATE",[job.commission_id,job.tenant_id])).rows[0]!.snapshot;
-        const run=current.jobs.find(j=>j.id===job.id);if(run){const progress=run.step.match(/^(?:Research · \d+ of \d+ labels saved|Images · \d+ of \d+ photographs saved|Image checks · \d+ of \d+ files measured|Translation · \d+ of \d+ (?:languages saved|complete language files saved under the full contract)|Narration · \d+ of \d+ complete recordings saved|Narration checks · \d+ of \d+ recordings measured|Captions · \d+ of \d+ original recordings processed|Easy read · \d+ of \d+ source-linked language files saved|Caption checks · \d+ of \d+ original files measured)\./)?.[0];run.state="queued";run.step=progress&&!/^(Research|Images|Image checks|Translation|Narration|Narration checks|Captions|Easy read|Caption checks) · /.test(error.step)?`${progress} ${error.step}.`:error.step;run.error=null;run.updatedAt=new Date().toISOString();}
+        const run=current.jobs.find(j=>j.id===job.id);if(run){const progress=run.step.match(/^(?:Research · \d+ of \d+ labels saved|Images · \d+ of \d+ photographs saved|Image checks · \d+ of \d+ files measured|Translation · \d+ of \d+ (?:languages saved|complete language files saved under the full contract)|Narration · \d+ of \d+ complete recordings saved|Narration checks · \d+ of \d+ recordings measured|Captions · \d+ of \d+ original recordings processed|Easy read · \d+ of \d+ source-linked language files saved|Caption checks · \d+ of \d+ original files measured|Exhibition checks · \d+ of \d+ exact files measured|Exhibition browser checks · \d+ of 18 original cases retained)\./)?.[0];run.state="queued";run.step=progress&&!/^(Research|Images|Image checks|Translation|Narration|Narration checks|Captions|Easy read|Caption checks|Exhibition|Exhibition checks|Exhibition browser checks) · /.test(error.step)?`${progress} ${error.step}.`:error.step;run.error=null;run.updatedAt=new Date().toISOString();}
         current.revision++;await saveCommission(db,current);
       });
       return {id:job.id,state:"queued"};

@@ -5,7 +5,8 @@ import { executeCommand } from "@/server/commissions";
 import { errorResponse,readJson } from "@/server/http";
 import { rateLimit,requireSameOrigin,requireSession } from "@/server/session";
 import { runNextJob } from "@/server/jobs";
-export const maxDuration=300;
+export const runtime="nodejs";
+export const maxDuration=800;
 export async function POST(request:Request,{params}:{params:Promise<{id:string}>}){try{
   requireSameOrigin(request);const session=await requireSession();const id=z.string().uuid().parse((await params).id);
   const command=commissionCommandSchema.parse(await readJson(request));await rateLimit(`commands:${session.tenantId}`,300);

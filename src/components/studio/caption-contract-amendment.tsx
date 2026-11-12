@@ -17,7 +17,7 @@ type CaptionTerms = {
 const terms = (pack: AcceptancePack) => pack.parameters as unknown as CaptionTerms;
 function deadline(value: string) { return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(value)); }
 export function CaptionDeadline({ value }: { value: string }) {
-  return <div className={`caption-deadline ${Date.parse(value) <= Date.now() ? "caption-expired" : ""}`}><Clock3 size={19}/><div><strong>{Date.parse(value) <= Date.now() ? "Original work authority has expired" : "Original work authority ends"}</strong><time dateTime={value}>{deadline(value)}</time><code>{value}</code><p>Continuing a workspace or approving a new Passport does not extend this original deadline.</p></div></div>;
+  return <div className={`caption-deadline ${Date.parse(value) <= Date.now() ? "caption-expired" : ""}`}><Clock3 size={19}/><div><strong>{Date.parse(value) <= Date.now() ? "Original work authority has expired" : "Original work authority ends"}</strong><time dateTime={value}>{deadline(value)}</time><code>{value}</code><p>Continuing a workspace or approving a new Passport does not extend this original deadline.</p>{Date.parse(value) <= Date.now() && <><p>Keep listening, save or export an attributed draft below. New production needs a normal successor commission with its own source agreement and current bounded Passport.</p><button className="text-button" onClick={() => window.dispatchEvent(new Event("guild:new-commission"))}>Open a new commission <ArrowRight size={13}/></button></>}</div></div>;
 }
 
 function FrozenCaptionTerms({ pack, expanded = false }: { pack: AcceptancePack; expanded?: boolean }) {

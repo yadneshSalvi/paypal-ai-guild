@@ -23,6 +23,10 @@ import { museumSources } from "@/exhibition/museum";
 import { assertAcceptedProductionInputs, resolveProductionInputs } from "./production-inputs";
 import { captionAdmission, prepareCaptionContract, prepareCaptionCorrection, validateCaptionContract } from "./captions/contracts";
 import { validateCaptionAuthority } from "./captions/authority";
+import { prepareWebContract, prepareWebCorrection, validateWebContract, webAdmission } from "./web/contracts";
+import { requireWebActor, requireWebVerificationAuthority } from "./web/authority";
+import type { WebRuntimeAccess } from "./web/capability";
+import { deepgramCaptionAdmission, prepareDeepgramCaptionContract, prepareDeepgramCaptionCorrection, validateDeepgramCaptionContract } from "./captions/deepgram-contracts";
 
 const provenance=(commission:Commission):Provenance=>({mode:commission.mode,label:commission.mode==="sample"?"Sample workspace":"Live application",sourceId:commission.id,observedAt:new Date().toISOString(),sandbox:false});
 export function appendEvent(commission:Commission,type:string,title:string,detail:string,actor:string,packageId:string|null=null,source?:Provenance):DomainEvent{
@@ -71,7 +75,7 @@ async function assertNoUnresolvedGeneration(db:PoolClient,commission:Commission,
   }
 }
 
-export async function executeCommand(session:Session,commissionId:string,command:CommissionCommand):Promise<CommandResult>{
+export async function executeCommand(session:Session,commissionId:string,command:CommissionCommand,services:{webRuntime?:WebRuntimeAccess}={}):Promise<CommandResult>{
   if(!["judge","owner","operator"].includes(session.role))throw new DomainError("ROLE_REQUIRED","This action needs the commission owner's authority.",403,false);
   return transaction(async db=>{
     await db.query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))",[`${session.tenantId}:${command.commandId}`]);
@@ -91,7 +95,8 @@ export async function executeCommand(session:Session,commissionId:string,command
     const now=new Date().toISOString();
     switch(command.type){
       case "approve_plan":{
-        for(const item of commission.packages)if(item.kind==="captions"&&item.acceptancePack.version==="2.0.0"){await validateCaptionContract(db,commission,item,false);await validateCaptionAuthority(db,commission,item,true);}
+        for(const item of commission.packages)if(item.kind==="captions"&&["2.0.0","3.0.0"].includes(item.acceptancePack.version)){if(item.acceptancePack.version==="3.0.0")await validateDeepgramCaptionContract(db,commission,item,false);else await validateCaptionContract(db,commission,item,false);await validateCaptionAuthority(db,commission,item,true);}
+        for(const item of commission.packages)if(item.kind==="web"&&item.acceptancePack.version==="2.0.0"){await requireWebActor(db,session);await validateWebContract(db,commission,item,true,services.webRuntime);}
         if(commission.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,commission,"approval");
         if(commission.approvedPlanDigest===command.planDigest)throw new DomainError("ALREADY_APPROVED","This exact plan already has an approval receipt.");
         if(command.planDigest!==planDigest(commission))throw new DomainError("PLAN_CHANGED","The contract or authority pages changed. Review the current plan.");
@@ -119,14 +124,17 @@ export async function executeCommand(session:Session,commissionId:string,command
         if(commission.state==="paused")throw new DomainError("COMMISSION_PAUSED","Resume the commission before starting new work.",422);
         if(!commission.approvedPlanDigest)throw new DomainError("APPROVAL_REQUIRED","Approve the proposed work and Passport pages before commissioning production.",422);
         if(commission.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,commission,"production");
-        if(!["research","translation","images","narration","captions"].includes(pkg!.kind))throw new DomainError("PROVIDER_NOT_READY","This provider's production adapter is still being qualified. Its contract and existing artifacts are preserved.",422);
+        if(!["research","translation","images","narration","captions","web"].includes(pkg!.kind))throw new DomainError("PROVIDER_NOT_READY","This provider's production adapter is still being qualified. Its contract and existing artifacts are preserved.",422);
         if(pkg!.kind==="images"&&(pkg!.acceptancePack.version!=="2.0.0"||pkg!.acceptancePack.digest!==imageAcceptancePack(commission.sourceAssets).digest))throw new DomainError("IMAGE_CONTRACT_REQUIRED","Review the measured image acceptance pack and approve its contract amendment before production.",422);
         if(pkg!.kind==="narration"&&pkg!.acceptancePack.version!=="2.0.0")throw new DomainError("NARRATION_CONTRACT_REQUIRED","Review the measured voice, exact scripts, audio engine and acceptance pack, then approve a fresh Passport before recording.",422);
-        if(pkg!.kind==="captions"&&pkg!.acceptancePack.version!=="2.0.0")throw new DomainError("CAPTION_CONTRACT_REQUIRED","Review the exact original-audio, prompted-alignment and easy-read agreement, then approve a fresh Passport before production.",422);
+        if(pkg!.kind==="captions"&&!["2.0.0","3.0.0"].includes(pkg!.acceptancePack.version))throw new DomainError("CAPTION_CONTRACT_REQUIRED","Review the exact original-audio, prompted-alignment and easy-read agreement, then approve a fresh Passport before production.",422);
+        if(pkg!.kind==="web"&&pkg!.acceptancePack.version!=="2.0.0")throw new DomainError("WEB_CONTRACT_REQUIRED","Review the exact original sources, authored reader, bounded provider pipeline and qualified browser agreement, then approve a fresh Passport before production.",422);
         if(pkg!.state==="accepted"||pkg!.state==="producing"||pkg!.state==="verifying")throw new DomainError("PACKAGE_STATE","This package cannot start another production job in its current state.");
         const inputs=await resolveProductionInputs(db,commission,pkg!);
-        const caption=pkg!.kind==="captions"?await captionAdmission(db,commission,pkg!):null;
+        const caption=pkg!.kind==="captions"?(pkg!.acceptancePack.version==="3.0.0"?await deepgramCaptionAdmission(db,commission,pkg!):await captionAdmission(db,commission,pkg!)):null;
+        const web=pkg!.kind==="web"?await webAdmission(db,commission,pkg!,services.webRuntime):null;
         if(caption)inputs.bindings=caption.inputBindings;
+        if(web)inputs.bindings=web.inputBindings;
         if(pkg!.kind==="narration"){
           const source=inputs.artifacts.find(item=>item.packageId===pkg!.dependsOn[0]);
           if(!source||pkg!.acceptancePack.digest!==narrationAcceptancePack(source,await qualifiedAudioEngine()).digest)throw new DomainError("NARRATION_CONTRACT_REQUIRED","The exact narration source or qualified engine differs from the approved agreement. No recording was queued.",422,false);
@@ -148,11 +156,11 @@ export async function executeCommand(session:Session,commissionId:string,command
           reserveInSnapshot(commission.mandates,request);
           await db.query("INSERT INTO guild_budget_reservations(id,tenant_id,commission_id,mandate_id,operation_key,amount_minor,currency,state) VALUES($1,$2,$3,$4,$5,$6,'USD','reserved')",[randomUUID(),session.tenantId,commission.id,mandate.id,reservationKey,pkg!.grossMinor]);
         }
-        const produced=await db.query<{count:string}>("SELECT count(*) FROM guild_jobs WHERE tenant_id=$1 AND commission_id=$2 AND type='produce_package' AND input->>'packageId'=$3 AND input->>'contractVersion'=$4 AND (state='completed' OR $5)",[session.tenantId,commission.id,pkg!.id,String(pkg!.contractVersion),!!(caption||pkg!.narrationCorrection||pkg!.narrationTargetedCorrection||pkg!.narrationFollowupCorrection)]);
+        const produced=await db.query<{count:string}>("SELECT count(*) FROM guild_jobs WHERE tenant_id=$1 AND commission_id=$2 AND type='produce_package' AND input->>'packageId'=$3 AND input->>'contractVersion'=$4 AND (state='completed' OR $5)",[session.tenantId,commission.id,pkg!.id,String(pkg!.contractVersion),!!(caption||web||pkg!.narrationCorrection||pkg!.narrationTargetedCorrection||pkg!.narrationFollowupCorrection)]);
         if(Number(produced.rows[0]!.count)>=productionJobLimit(pkg!))throw new DomainError("CORRECTION_ALLOWANCE",(pkg!.narrationCorrection||pkg!.narrationTargetedCorrection||pkg!.narrationFollowupCorrection)?"This explicit agreement permits one additional job, and its original job is already retained. Another run needs a new reviewed agreement and fresh Passport.":"This contract's agreed correction has been used. Retain the submissions and agree a new contract before commissioning more work.",422);
         pkg!.state="producing";
         for(const criterion of pkg!.acceptancePack.criteria){criterion.status="pending";criterion.evidence=null;}
-        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,...(caption??{inputBindings:inputs.bindings}),...(commission.schedule?{scheduleBinding:commission.schedule}:{}),...(pkg!.narrationFollowupCorrection?{followupAgreementId:pkg!.narrationFollowupCorrection.id,followupAgreementDigest:pkg!.narrationFollowupCorrection.proposal.digest}:{}),...(pkg!.narrationTargetedCorrection?{targetedAgreementId:pkg!.narrationTargetedCorrection.id,targetedAgreementDigest:pkg!.narrationTargetedCorrection.proposal.digest}:{}),...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.captionCorrection?.id??pkg!.narrationFollowupCorrection?.id??pkg!.narrationTargetedCorrection?.id??pkg!.narrationCorrection?.id??commission.revision}`);
+        jobId=await enqueueJob(db,commission,"produce_package",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,...(web??caption??{inputBindings:inputs.bindings}),...(commission.schedule?{scheduleBinding:commission.schedule}:{}),...(pkg!.narrationFollowupCorrection?{followupAgreementId:pkg!.narrationFollowupCorrection.id,followupAgreementDigest:pkg!.narrationFollowupCorrection.proposal.digest}:{}),...(pkg!.narrationTargetedCorrection?{targetedAgreementId:pkg!.narrationTargetedCorrection.id,targetedAgreementDigest:pkg!.narrationTargetedCorrection.proposal.digest}:{}),...(pkg!.narrationCorrection?{correctionAgreementId:pkg!.narrationCorrection.id,correctionAgreementDigest:pkg!.narrationCorrection.proposal.digest}:{})},`produce:${commission.id}:${pkg!.id}:${pkg!.contractVersion}:${pkg!.webCorrection?.id??pkg!.deepgramCaptionCorrection?.id??pkg!.captionCorrection?.id??pkg!.narrationFollowupCorrection?.id??pkg!.narrationTargetedCorrection?.id??pkg!.narrationCorrection?.id??commission.revision}`);
         appendEvent(commission,"provider.production_started",`${pkg!.title}: production started`,"A durable job has been queued. Closing the page will not cancel it.",pkg!.providerId,pkg!.id);break;
       }
       case "amend_draft_dependencies":{
@@ -247,6 +255,22 @@ export async function executeCommand(session:Session,commissionId:string,command
         const {reason}=await prepareNarrationTargetedCorrection(db,session,commission,pkg!,command.contractVersion,command.proposalDigest);
         appendEvent(commission,"contract.narration_targeted_correction_agreed","The targeted narration repair is ready for approval",reason,session.role==="operator"?"System qualification operator":"Workspace owner",pkg!.id);break;
       }
+      case "amend_web_contract":{
+        const {reason}=await prepareWebContract(db,session,commission,pkg!,command.contractVersion,command.acceptancePackDigest,services.webRuntime);
+        appendEvent(commission,"contract.web_amended","The measured exhibition agreement needs your Passport",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
+      }
+      case "agree_web_correction":{
+        const {reason}=await prepareWebCorrection(db,session,commission,pkg!,command.contractVersion,command.proposalDigest,services.webRuntime);
+        appendEvent(commission,"contract.web_correction_agreed","The included exhibition correction needs a fresh Passport",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
+      }
+      case "amend_deepgram_caption_contract":{
+        const {reason}=await prepareDeepgramCaptionContract(db,session,commission,pkg!,command.contractVersion,command.acceptancePackDigest);
+        appendEvent(commission,"contract.deepgram_captions_amended","The six-language review agreement needs its Passport",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
+      }
+      case "agree_deepgram_caption_review":{
+        const {reason}=await prepareDeepgramCaptionCorrection(db,session,commission,pkg!,command.contractVersion,command.proposalDigest);
+        appendEvent(commission,"contract.deepgram_caption_review_agreed","The exact correction assembly needs a fresh Passport",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
+      }
       case "amend_caption_contract":{
         const {reason}=await prepareCaptionContract(db,session,commission,pkg!,command.contractVersion,command.acceptancePackDigest);
         appendEvent(commission,"contract.captions_amended","The caption agreement is ready for approval",reason,session.role==="operator"?"System qualification operator":"Curator",pkg!.id);break;
@@ -264,14 +288,15 @@ export async function executeCommand(session:Session,commissionId:string,command
         appendEvent(commission,"contract.narration_correction_agreed","One additional narration round is ready for approval",reason,session.role==="operator"?"System qualification operator":"Workspace owner",pkg!.id);break;
       }
       case "verify_artifact":{
+        if(pkg!.kind==="web"&&pkg!.acceptancePack.version==="2.0.0"){await requireWebActor(db,session);await requireWebVerificationAuthority(db,commission,pkg!);}
         const artifact=commission.artifacts.find(a=>a.id===command.artifactId&&a.packageId===pkg!.id);
         if(!artifact||!pkg!.artifactIds.includes(artifact.id))throw new DomainError("ARTIFACT_NOT_FOUND","That submission is not offered for this contract.",404,false);
         if(pkg!.state==="accepted")throw new DomainError("IMMUTABLE_ACCEPTANCE","Accepted work is immutable; open recourse for a later concern.");
         if(pkg!.state==="producing"||pkg!.state==="verifying")throw new DomainError("VERIFICATION_WORK_RUNNING","Wait for the current saved production or verification before starting another check.");
-        if(["images","translation","narration","captions"].includes(pkg!.kind)&&pkg!.acceptancePack.version==="2.0.0"){
+        if(["images","translation","narration","captions","web"].includes(pkg!.kind)&&pkg!.acceptancePack.version==="2.0.0"||pkg!.kind==="captions"&&pkg!.acceptancePack.version==="3.0.0"){
           pkg!.state="verifying";
           jobId=await enqueueJob(db,commission,"verify_artifact",{packageId:pkg!.id,contractVersion:pkg!.contractVersion,artifactId:artifact.id,artifactHash:artifact.contentHash,acceptancePackDigest:pkg!.acceptancePack.digest},`verify:${commission.id}:${pkg!.id}:${artifact.id}:${commission.revision}`);
-          appendEvent(commission,"verification.started",pkg!.kind==="captions"?"The original caption files are being checked":pkg!.kind==="images"?"The image files are being measured":pkg!.kind==="narration"?"The recordings are being measured":"The language files are being checked",pkg!.kind==="captions"?"The verifier will reread original audio and VTT bytes, reparse the retained prompted timestamp responses and check exact easy-read source references. No new recognition request, human review or acceptance is created.":pkg!.kind==="images"?"The verifier will retrieve the exact private files and independently recompute their hashes, dimensions, profiles and pixel comparisons. Curator review remains separate.":pkg!.kind==="narration"?"The verifier will read every original audio file and stream receipt, independently decode and measure its format, duration, loudness and transcript, then retain recognition without the expected wording. Listening and human acceptance stay open.":"The verifier will inspect exact keys, English/source binding, placeholders, glossary, scripts and independent language ID, then retain a separate blind back-translation advisory. Human acceptance stays open.","Acceptance verifier",pkg!.id,artifact.provenance);break;
+          appendEvent(commission,"verification.started",pkg!.kind==="web"?"The original exhibition and browser behavior are being checked":pkg!.kind==="captions"?"The original caption files are being checked":pkg!.kind==="images"?"The image files are being measured":pkg!.kind==="narration"?"The recordings are being measured":"The language files are being checked",pkg!.kind==="web"?"The verifier rereads the exact original source and portable files, then retains all 18 independent browser cases with native axe/Lighthouse reports and keyboard, focus, RTL and original-audio measurements. No model generation, acceptance, publication or payment is created.":pkg!.kind==="captions"?(pkg!.acceptancePack.version==="3.0.0"?"The verifier will reread original audio and VTT bytes, reparse signed Deepgram observations, and check complete sources and attributed listening revisions. No new recognition request, human declaration or acceptance is created.":"The verifier will reread original audio and VTT bytes, reparse the retained prompted timestamp responses and check exact easy-read source references. No new recognition request, human review or acceptance is created."):pkg!.kind==="images"?"The verifier will retrieve the exact private files and independently recompute their hashes, dimensions, profiles and pixel comparisons. Curator review remains separate.":pkg!.kind==="narration"?"The verifier will read every original audio file and stream receipt, independently decode and measure its format, duration, loudness and transcript, then retain recognition without the expected wording. Listening and human acceptance stay open.":"The verifier will inspect exact keys, English/source binding, placeholders, glossary, scripts and independent language ID, then retain a separate blind back-translation advisory. Human acceptance stays open.","Acceptance verifier",pkg!.id,artifact.provenance);break;
         }
         pkg!.acceptancePack=verifyArtifact(commission,pkg!,artifact);
         await db.query("INSERT INTO guild_verifications(id,tenant_id,commission_id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,result) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",[randomUUID(),session.tenantId,commission.id,pkg!.id,pkg!.contractVersion,artifact.id,artifact.contentHash,digest(pkg!.acceptancePack),pkg!.acceptancePack]);
@@ -293,12 +318,14 @@ export async function executeCommand(session:Session,commissionId:string,command
       }
       case "accept_package":{
         const artifact=commission.artifacts.find(a=>a.id===command.artifactId);if(!artifact)throw new DomainError("ARTIFACT_NOT_FOUND","That artifact is not in this workspace.",404,false);
+        let captionListening: Record<string,unknown>|null=null;
+        if(pkg!.kind==="captions"&&pkg!.acceptancePack.version==="3.0.0"){if(session.role==="operator"||!command.acknowledgeCaptionListeningAndLanguageDisclosure)throw new DomainError("CAPTION_HUMAN_ACCEPTANCE_REQUIRED","A curator must explicitly accept the complete attributed listening edition and each language’s stated review limits. An operator or AI annotation cannot perform this human decision.",422,false);captionListening=await (await import("./captions/deepgram-contracts")).assertDeepgramCaptionAcceptable(db,commission,pkg!,artifact);}
         assertAcceptable(pkg!,artifact,command.contractVersion);
         if(session.role!=="operator")await assertAcceptedProductionInputs(db,commission,pkg!,artifact);
         const bound=await db.query("SELECT id FROM guild_verifications WHERE tenant_id=$1 AND commission_id=$2 AND package_id=$3 AND contract_version=$4 AND artifact_id=$5 AND artifact_hash=$6 AND criteria_digest=$7",[session.tenantId,commission.id,pkg!.id,pkg!.contractVersion,artifact.id,artifact.contentHash,digest(pkg!.acceptancePack)]);
         if(!bound.rowCount)throw new DomainError("VERIFICATION_BINDING","Run checks on this exact artifact before accepting it.",422);
         const operator=session.role==="operator";
-        await db.query("INSERT INTO guild_acceptance_decisions(id,tenant_id,commission_id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,actor_id,decision,review_disclosures) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'accepted',$10)",[randomUUID(),session.tenantId,commission.id,pkg!.id,pkg!.contractVersion,artifact.id,artifact.contentHash,pkg!.acceptancePack.digest,session.id,{fluentReviewed:false,humanReviewed:!operator,actorKind:session.role,disclosure:operator?"System-run qualification decision; no human curator or fluent-language review claimed":pkg!.kind==="translation"?"Automated checks passed; not fluent-reviewed":"Curator accepted after reviewing meaning and quality",mode:artifact.provenance.mode,...(pkg!.kind==="translation"?{languages:Object.fromEntries(commission.languages.map(locale=>[locale,{fluentReviewed:false,reviewer:null,reviewedAt:null,disclosure:"Automated checks passed; not fluent-reviewed",curatorAcknowledged:!operator,acknowledgedAt:now,actorKind:session.role}]))}:{})}]);
+        await db.query("INSERT INTO guild_acceptance_decisions(id,tenant_id,commission_id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,actor_id,decision,review_disclosures) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'accepted',$10)",[randomUUID(),session.tenantId,commission.id,pkg!.id,pkg!.contractVersion,artifact.id,artifact.contentHash,pkg!.acceptancePack.digest,session.id,{fluentReviewed:false,humanReviewed:!operator,actorKind:session.role,disclosure:operator?"System-run qualification decision; no human curator or fluent-language review claimed":pkg!.kind==="translation"?"Automated checks passed; not fluent-reviewed":"Curator accepted after reviewing meaning and quality",mode:artifact.provenance.mode,...(captionListening?{captionListening}:{}),...(pkg!.kind==="translation"||captionListening?{languages:Object.fromEntries(commission.languages.map(locale=>[locale,{fluentReviewed:false,reviewer:null,reviewedAt:null,disclosure:captionListening?"Complete attributed listening revisions and independent structural checks; fluent-language review remains unverified":"Automated checks passed; not fluent-reviewed",curatorAcknowledged:!operator,acknowledgedAt:now,actorKind:session.role}]))}:{})}]);
         pkg!.state="accepted";pkg!.acceptedAt=now;pkg!.acceptedBy=session.id;pkg!.provenance=artifact.provenance;pkg!.paymentState=!operator&&artifact.provenance.mode==="live"?"eligible":"not_eligible";
         const reserved=await db.query<{mandate_id:string;amount_minor:string}>("UPDATE guild_budget_reservations SET state='committed' WHERE tenant_id=$1 AND operation_key=$2 AND state='reserved' RETURNING mandate_id,amount_minor",[session.tenantId,`production:${commission.id}:${pkg!.id}:${pkg!.contractVersion}`]);
         if(reserved.rows[0]){let page=commission.mandates.find(m=>m.id===reserved.rows[0]!.mandate_id);while(page){page.reservedMinor-=Number(reserved.rows[0].amount_minor);page.committedMinor+=Number(reserved.rows[0].amount_minor);page=commission.mandates.find(m=>m.id===page!.parentId);}}

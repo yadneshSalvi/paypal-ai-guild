@@ -4,6 +4,7 @@ import type { AuthorityDeadline, Commission, WorkPackage } from "@/contracts/gui
 import { planDigest } from "@/domain/fixture";
 import { canonical, digest, DomainError } from "@/domain/primitives";
 import { captionAuthorityCeilingSchema } from "@/domain/captions";
+import { webAuthoritySchema } from "@/domain/web-exhibition";
 import { controlledScheduleQuoteSchema, type ControlledScheduleQuote } from "@/scheduling/persisted";
 import { museumWorkingCalendar, schedulingContractDigest } from "@/scheduling/source";
 import type { Session } from "./session";
@@ -36,8 +37,16 @@ export function quoteDigest(quote: Omit<ControlledScheduleQuote, "signature" | "
 /** The signed original ceiling survives every proposal, renewal and workspace continuation. */
 export function requireScheduleWindow(c: Commission, quotes: ControlledScheduleQuote[] = []) {
   if (!c.mandates.length || c.mandates.some(page => !["active", "draft"].includes(page.status))) fail("SCHEDULE_AUTHORITY_INACTIVE", "The original Passport was suspended or revoked. Its schedule cannot authorize new work.");
-  const limits = [...c.mandates.map(page => Date.parse(page.expiresAt)), ...quotes.map(quote => Date.parse(quote.authorityExpiresAt))];
+  const limits = [...c.mandates.map(page => Date.parse(page.expiresAt)), ...quotes.map(quote => Date.parse(quote.authorityExpiresAt)), ...fixedWorkDeadlines(c).map(value => Date.parse(value))];
   if (limits.some(value => !Number.isFinite(value) || value <= Date.now())) fail("SCHEDULE_AUTHORITY_EXPIRED", "The original authority deadline has expired. A quote or workspace renewal cannot extend it.");
+}
+function fixedWorkDeadlines(c: Commission): string[] {
+  return c.packages.flatMap(pkg => {
+    const correction=pkg.narrationFollowupCorrection??pkg.narrationTargetedCorrection??pkg.narrationCorrection;
+    return [...(correction?[correction.proposal.providerOffer.expiresAt]:[]),
+      ...(pkg.kind==="captions"&&pkg.acceptancePack.version==="2.0.0"?[captionAuthorityCeilingSchema.parse(pkg.acceptancePack.parameters?.authorityCeiling).expiresAt]:[]),
+      ...(pkg.kind==="web"&&pkg.acceptancePack.version==="2.0.0"?[webAuthoritySchema.parse(pkg.acceptancePack.parameters?.authority).expiresAt]:[])];
+  });
 }
 
 async function preparedContract(db: Db, c: Commission, quote: ControlledScheduleQuote, pkg: WorkPackage) {
@@ -81,7 +90,7 @@ export async function issueRecoveryQuote(db: PoolClient, session: Session, c: Co
   }
   if (c.timezone !== policy.timeZone || service.priceMinor < policy.priceFloorMinor || policy.capacityUnits < 100) fail("QUOTE_PROVIDER_POLICY", "The provider's current floor, calendar or capacity cannot support this offer.");
   const issuedAt = new Date().toISOString();
-  const authorityExpiresAt = new Date(Math.min(Date.parse(session.expiresAt), ...c.mandates.map(item => Date.parse(item.expiresAt)), ...(renewal ? [Date.parse(renewal.authorityExpiresAt)] : []))).toISOString();
+  const authorityExpiresAt = new Date(Math.min(Date.parse(session.expiresAt), ...c.mandates.map(item => Date.parse(item.expiresAt)), ...fixedWorkDeadlines(c).map(value=>Date.parse(value)), ...(renewal ? [Date.parse(renewal.authorityExpiresAt)] : []))).toISOString();
   const expiresAt = new Date(Math.min(Date.now() + 20 * 60_000, Date.parse(authorityExpiresAt))).toISOString();
   if (Date.parse(expiresAt) <= Date.now()) fail("QUOTE_AUTHORITY_EXPIRED", "The real authority deadline has expired. Scenario dates cannot renew it.");
   const terms = {
@@ -127,9 +136,13 @@ export async function readAuthorityDeadline(db: Db, c: Commission, session: Sess
     for (const pkg of c.packages) {
       const correction = pkg.narrationFollowupCorrection ?? pkg.narrationTargetedCorrection ?? pkg.narrationCorrection;
       if (correction) limits.push({ source: "agreement", label: `${pkg.title} · original correction authority`, expiresAt: correction.proposal.providerOffer.expiresAt });
-      if (pkg.kind === "captions" && pkg.acceptancePack.version === "2.0.0") {
+      if (pkg.kind === "captions" && ["2.0.0", "3.0.0"].includes(pkg.acceptancePack.version)) {
         const ceiling = captionAuthorityCeilingSchema.parse(pkg.acceptancePack.parameters?.authorityCeiling);
         limits.push({ source: "agreement", label: `${pkg.title} · original work authority`, expiresAt: ceiling.expiresAt });
+      }
+      if (pkg.kind === "web" && pkg.acceptancePack.version === "2.0.0") {
+        const ceiling=webAuthoritySchema.parse(pkg.acceptancePack.parameters?.authority);
+        limits.push({source:"agreement",label:`${pkg.title} · original work authority`,expiresAt:ceiling.expiresAt});
       }
     }
     for (const id of c.schedule?.quoteIds ?? []) {

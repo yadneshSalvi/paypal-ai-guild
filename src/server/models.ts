@@ -107,6 +107,7 @@ async function reserveRun(context: ModelContext, name: string, model: string, in
   return transaction(async db => {
     const authority = await requireProductionLease(db, context);
     if (authority.package?.kind === "captions") (await import("./captions/easy-read")).authorizeCaptionModel(authority.package, name, model, inputHash);
+    if (authority.package?.kind === "web") await (await import("./web/design")).authorizeWebModel(db, context, authority.package, name, model, inputHash);
     const legacy = await db.query("SELECT id FROM guild_model_runs WHERE tenant_id=$1 AND job_id=$2 AND operation_key IS NULL LIMIT 1", [context.tenantId, context.jobId]);
     if (legacy.rowCount) throw new ProductionReviewRequired("MODEL_LEGACY_RESULT", "This job already has a foreground model attempt. Its original record is preserved; it cannot be replaced with a background request.");
     const result = await db.query<ModelRun>("INSERT INTO guild_model_runs(id,tenant_id,job_id,provider,model,prompt_version,input_hash,status,operation_key) VALUES($1,$2,$3,'openai',$4,$5,$6,'dispatching',$7) ON CONFLICT(tenant_id,job_id,operation_key) WHERE operation_key IS NOT NULL DO NOTHING RETURNING *", [randomUUID(), context.tenantId, context.jobId, model, `${name}.background.v1`, inputHash, name]);
@@ -118,6 +119,18 @@ async function reserveRun(context: ModelContext, name: string, model: string, in
 }
 
 async function createResponse(run: ModelRun, context: ModelContext, request: Record<string, unknown>): Promise<void> {
+  if (run.operation_key?.startsWith("web_design_v1_")) {
+    try {
+      // This checks qualified bytes without launching a browser. The following
+      // current-authority transaction authorizes only this single model POST.
+      if (context.webRuntime) await context.webRuntime.verify(); else await (await import("./web/capability")).verifyWebRuntimeIdentity();
+      await transaction(async db => {
+        const authority = await requireProductionLease(db, context);
+        if (!authority.package || authority.package.kind !== "web") throw new ProductionReviewRequired("WEB_MODEL_BINDING", "The web model request has no current exact agreement.");
+        await (await import("./web/design")).authorizeWebModel(db, context, authority.package, run.operation_key!, run.model, run.input_hash);
+      });
+    } catch (error) { await updateRun(run, "failed", "WEB_NOT_DISPATCHED"); throw error; }
+  }
   // Caption generation additionally binds its six exact operations immediately
   // before POST. A failed gate is a confirmed non-dispatch, not an unknown call.
   if (run.operation_key?.startsWith("northlight_easy_read_v1_")) {

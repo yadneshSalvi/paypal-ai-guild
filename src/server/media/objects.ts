@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
+import type { Pool, PoolClient } from "pg";
 import { z } from "zod";
 import { digest, DomainError } from "@/domain/primitives";
 import { getPool, transaction } from "../db";
@@ -23,8 +24,8 @@ export interface MediaObject {
 export const mediaView = (row: MediaObjectRow): MediaObject => ({ id: row.id, url: `/api/media/${row.id}`, mediaType: row.media_type, contentHash: row.content_hash, byteLength: Number(row.byte_length), metadata: row.metadata, verifiedAt: row.verified_at?.toISOString() ?? null });
 const validPath = (row: MediaObjectRow) => row.blob_pathname === `guild/private/v1/${row.tenant_id}/${row.commission_id}/${row.job_id}/${row.id}-${row.content_hash}.${formats[row.media_type]?.extension}`;
 
-async function ownedMedia(tenantId: string, mediaId: string): Promise<MediaObjectRow> {
-  const row = (await getPool().query<MediaObjectRow>("SELECT * FROM guild_media_objects WHERE id=$1 AND tenant_id=$2", [z.string().uuid().parse(mediaId), tenantId])).rows[0];
+async function ownedMedia(tenantId: string, mediaId: string, db: Pool | PoolClient = getPool()): Promise<MediaObjectRow> {
+  const row = (await db.query<MediaObjectRow>("SELECT * FROM guild_media_objects WHERE id=$1 AND tenant_id=$2", [z.string().uuid().parse(mediaId), tenantId])).rows[0];
   if (!row) throw new DomainError("MEDIA_NOT_FOUND", "That file is not in this workspace.", 404, false);
   if (!formats[row.media_type] || !validPath(row)) throw new DomainError("MEDIA_RECORD_BINDING", "The file's storage identity no longer matches its independent record.", 422, false);
   return row;
@@ -98,8 +99,8 @@ export async function storeMedia(context: ProductionLease, packageId: string, op
   throw new ProductionContinuation("Checking the uploaded file against its saved hash", 1);
 }
 
-export async function readOwnedMedia(tenantId: string, mediaId: string, gateway: PrivateBlobGateway = new VercelPrivateBlobGateway()): Promise<{ row: MediaObjectRow; bytes: Buffer }> {
-  const row = await ownedMedia(tenantId, mediaId);
+export async function readOwnedMedia(tenantId: string, mediaId: string, gateway: PrivateBlobGateway = new VercelPrivateBlobGateway(), db: Pool | PoolClient = getPool()): Promise<{ row: MediaObjectRow; bytes: Buffer }> {
+  const row = await ownedMedia(tenantId, mediaId, db);
   if (row.state !== "ready") throw new DomainError("MEDIA_NOT_READY", "This file is still being saved and checked.", 409);
   let blob: StoredBlob | null;
   try { blob = await gateway.read(row.blob_pathname, Number(row.byte_length)); } catch (error) { if (error instanceof DomainError && !error.recoverable) throw error; throw new DomainError("MEDIA_READ_UNAVAILABLE", "The private file is temporarily unavailable. Its original record is retained.", 503); }

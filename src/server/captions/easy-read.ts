@@ -2,6 +2,7 @@ import type { Locale, WorkPackage } from "@/contracts/guild";
 import { captionAuthorityCeilingSchema, captionSourcesFromPack, easyReadOutputSchema, easyReadStandard, type CaptionSources } from "@/domain/captions";
 import { digest, DomainError } from "@/domain/primitives";
 import { structuredModelRequest } from "../models";
+import { deepgramSourcesFromPack } from "@/domain/deepgram-captions";
 
 export const easyReadInstruction = [
   "Produce a source-linked easy-read version of every exact required key in the requested locale. Use short clear sentences, respectful museum language and one to five paragraphs per label, at most 360 Unicode grapheme clusters in each paragraph. Keep each title concise.",
@@ -11,7 +12,7 @@ export const easyReadInstruction = [
   "This is generated text with deterministic source-reference checks, not fluent human review, a measured reading grade or a claim of universal accessibility. Preserve unresolved limitations for curator review.",
 ].join("\n");
 
-export function captionEasyReadRequest(pkg: WorkPackage, locale: Locale, sources: CaptionSources = captionSourcesFromPack(pkg.acceptancePack)) {
+export function captionEasyReadRequest(pkg: WorkPackage, locale: Locale, sources: CaptionSources = pkg.acceptancePack.version === "3.0.0" ? deepgramSourcesFromPack(pkg.acceptancePack) : captionSourcesFromPack(pkg.acceptancePack)) {
   const name = `northlight_easy_read_v1_${locale}`, schema = easyReadOutputSchema(locale, sources.requiredKeys);
   const data = { version: easyReadStandard.version, targetLocale: locale, requiredKeys: sources.requiredKeys, sourceDigest: digest(sources), contractDigest: pkg.acceptancePack.digest,
     inputBindings: sources.inputBindings, authorityCeiling: captionAuthorityCeilingSchema.parse(pkg.acceptancePack.parameters?.authorityCeiling).expiresAt,
@@ -23,6 +24,7 @@ export function captionEasyReadRequest(pkg: WorkPackage, locale: Locale, sources
 /** A caption job cannot use the model gateway for an extra or altered operation. */
 export function authorizeCaptionModel(pkg: WorkPackage, name: string, model: string, inputHash: string) {
   if (pkg.kind !== "captions") return;
+  if (pkg.acceptancePack.version === "3.0.0" && pkg.deepgramCaptionCorrection) throw new DomainError("DEEPGRAM_CORRECTION_NO_MODEL", "The correction assembly reuses original easy-read responses and permits no new model request.", 422, false);
   const locale = name.match(/^northlight_easy_read_v1_(en|pt|es|fr|ja|ar)$/)?.[1] as Locale | undefined;
   if (!locale || model !== easyReadStandard.model || captionEasyReadRequest(pkg, locale).inputHash !== inputHash)
     throw new DomainError("CAPTION_MODEL_BINDING", "Easy read permits only one exact frozen structured response per locale in this caption job.", 422, false);

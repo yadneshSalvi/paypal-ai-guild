@@ -3,7 +3,9 @@ import { cookies } from "next/headers";
 import { getPool, transaction } from "./db";
 import { DomainError } from "@/domain/primitives";
 
-export const SESSION_COOKIE = "guild_session";
+const configuredSessionCookie = process.env.GUILD_SESSION_COOKIE ?? "guild_session";
+if (!/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(configuredSessionCookie)) throw new Error("GUILD_SESSION_COOKIE must be a 1–64 character cookie name using letters, digits, underscores or hyphens, starting with a letter.");
+export const SESSION_COOKIE = configuredSessionCookie;
 export interface Session { id: string; tenantId: string; role: "judge" | "owner" | "provider" | "operator"; expiresAt: string }
 const hash=(value:string)=>createHash("sha256").update(value).digest("hex");
 function sign(token:string):string { const secret=process.env.JUDGE_SESSION_SECRET;if(!secret)throw new Error("JUDGE_SESSION_SECRET is required");return createHmac("sha256",secret).update(token).digest("hex"); }

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "guild.web-composition-source-qualification.v1",
+  "observedAt": "2026-11-12T00:41:10.975324+00:00",
+  "baseMain": "9dc6ad9c2d4c4a1c84ade5bbe7a564604669dd8f",
+  "migrations": [
+    17,
+    18,
+    19
+  ],
+  "buildId": "L5uBKQDEc2LgE3Lv668Ha",
+  "scope": "Source integration with synthetic provider/browser transports and real PostgreSQL/HTTP. Native composition review and actual business admission are separate.",
+  "verification": {
+    "unit": {
+      "passed": 174,
+      "failed": 0
+    },
+    "focusedPostgresWorkflows": {
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0
+    },
+    "relatedPostgresWorkflows": {
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0
+    },
+    "saturatedApplicationAuthority": {
+      "contenders": 6,
+      "originalDispatches": 1,
+      "duplicateDenials": 5,
+      "postRevocationDenials": 6,
+      "poolClients": 6,
+      "deadlineChanged": false
+    },
+    "realHttp": {
+      "requests": 290,
+      "observations": 291,
+      "passed": true,
+      "originalSyntheticBlobReads": 1451,
+      "realProviderRequests": 0,
+      "commissionAndProductionAndPaymentCountersUnchanged": true
+    },
+    "dom": {
+      "publicationGroups": 4,
+      "hostedRecoveryGroups": 5,
+      "nativeBrowserClaimed": false
+    },
+    "migrationPreservation": {
+      "baseline016PriorTables": 42,
+      "baseline018PriorTables": 54,
+      "immutablePublicationEditions": 3,
+      "signedOriginalBytesPreserved": true
+    },
+    "runtimeClosure": {
+      "positiveRoutes": 13,
+      "uniqueRuntimeFiles": 3733,
+      "requiredAssetsMissing": 0,
+      "privateOrOutsideInputs": 0,
+      "actualStagedSandboxSdkImported": true
+    }
+  },
+  "nativeFixture": {
+    "sourceProvenance": "synthetic",
+    "originalDesigns": 2,
+    "producerReports": 36,
+    "independentReports": 18,
+    "mediaFiles": 180,
+    "narrationTracks": 78,
+    "captionTracks": 78,
+    "fictionalAcceptanceDecisions": 6,
+    "humanOrFluentReviewClaimed": false
+  },
+  "immutableIdentities": {
+    "renderer": "8aa2f01fbdef145a03b11996f26e943ff9b3e2c5cf7be07a27c8f6a3a9a16677",
+    "runner": "4503ee9586f1a9338ee807df4aabb2c15ede090e3a130c3d76fc8bc4def20bac",
+    "toolsLock": "253a85c463886aedfe082354ef4ef78e8574aaa1aada23a239c72f72e6d05946"
+  },
+  "dependencyAudit": {
+    "low": 1,
+    "moderate": 1,
+    "high": 10,
+    "critical": 0,
+    "total": 12,
+    "silentUpgrades": false
+  },
+  "remaining": [
+    "Exact frozen composed native review",
+    "Actual current caption/web source eligibility and human acceptance",
+    "Existing moderate landmark-unique finding in root original hosted fixture; separately version any renderer repair",
+    "Shared Modal final-button Tab/BODY edge; separate next unit with caption020",
+    "Release and deployment qualification"
+  ],
+  "caption020Imported": false,
+  "actualProviderCallsByThisWorker": 0,
+  "mainIntegrated": false,
+  "deployed": false,
+  "finalPrivateScan": "Required during private freeze; no clean-audit or release claim."
+}

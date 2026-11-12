@@ -221,8 +221,10 @@ export async function executeScheduleCommand(session: Session, commissionId: str
           const pkg = c.packages.find(item => item.id === quote.packageId)!;
           if (quote.renewal) reviewScope(c, pkg, quote.providerId); else authority(c, pkg, quote.providerId);
           if (pkg.acceptedAt || pkg.paymentState !== "not_eligible" || (await db.query("SELECT id FROM guild_payment_intents WHERE tenant_id=$1 AND commission_id=$2 AND package_id=$3 LIMIT 1", [c.tenantId, c.id, pkg.id])).rowCount) fail("SCHEDULE_OBLIGATION", "Accepted or financially committed work requires its own recourse agreement.");
+          if(pkg.acceptancePack.version==="2.0.0")await (await import("./web/contracts")).assertWebOutcomesKnown(db,c,pkg);
           const previous = structuredClone(pkg); await releaseUnacceptedReservation(db, c, pkg);
           Object.assign(pkg, { providerId: quote.providerId, providerAwardMinor: quote.providerAwardMinor, serviceFeeMinor: quote.serviceFeeMinor, grossMinor: quote.grossMinor, workingHours: quote.workingHours, contractVersion: pkg.contractVersion + 1, state: "awarded", artifactIds: [], progress: null });
+          delete pkg.webCorrection;
           pkg.acceptancePack = { ...pkg.acceptancePack, criteria: pkg.acceptancePack.criteria.map(item => ({ ...item, status: "pending", evidence: null })) };
           amendment = { id: randomUUID(), previous, current: pkg, reason: `Explicit recovery offer ${quote.id}, native schedule proposal ${p.id}, unchanged acceptance pack. Earlier failed work and its unaccepted reservation remain in history. A fresh Passport must approve the changed contract and complete schedule before production.` };
           await db.query("UPDATE guild_schedule_quotes SET state='accepted',prepared_at=now() WHERE id=$1 AND tenant_id=$2", [quote.id, c.tenantId]);

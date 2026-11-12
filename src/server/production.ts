@@ -15,15 +15,20 @@ import { produceNarration } from "./media/narration-production";
 import type { SpeechGateway } from "./media/speech-gateway";
 import { produceCaptions } from "./captions/production";
 import type { AlignmentGateway } from "./captions/alignment-gateway";
+import { produceWeb } from "./web/production";
+import type { WebAuditGateway } from "./web/audit-gateway";
+import type { DeepgramTimestampGateway } from "./captions/deepgram-gateway";
+import { produceDeepgramCaptions } from "./captions/deepgram-production";
 
 const label=z.object({id:z.string(),title:z.string(),body:z.string(),sourceIds:z.array(z.string())}).strict();
 const researchSchema=z.object({labels:z.array(label),limitations:z.array(z.string())}).strict();
 const briefSchema=z.object({summary:z.string(),audience:z.string(),packages:z.array(z.object({kind:z.enum(["research","translation","narration","images","web","captions"]),title:z.string(),description:z.string(),workingHours:z.number().int().min(1).max(160)}).strict()),clarifications:z.array(z.string()),risks:z.array(z.string())}).strict();
 
-export async function produce(context:ModelContext,commission:Commission,packageId:string,storage?:PrivateBlobGateway,speech?:SpeechGateway,alignment?:AlignmentGateway):Promise<{content:Record<string,unknown>;runId:string;model:string;title:string;sourceIds:string[]}> {
+export async function produce(context:ModelContext,commission:Commission,packageId:string,storage?:PrivateBlobGateway,speech?:SpeechGateway,alignment?:AlignmentGateway,audit?:WebAuditGateway,deepgram?:DeepgramTimestampGateway):Promise<{content:Record<string,unknown>;runId:string;model:string;title:string;sourceIds:string[];provenanceLabel?:string}> {
   const pkg=commission.packages.find(p=>p.id===packageId);if(!pkg)throw new DomainError("PACKAGE_MISSING","The production contract no longer exists.");
   if(pkg.kind==="images")return produceImages(context,commission,packageId,storage);
-  if(pkg.kind==="captions")return produceCaptions(context,commission,packageId,{storage,alignment});
+  if(pkg.kind==="captions")return pkg.acceptancePack.version==="3.0.0"?produceDeepgramCaptions(context,commission,packageId,{storage,deepgram}):produceCaptions(context,commission,packageId,{storage,alignment});
+  if(pkg.kind==="web")return produceWeb(context,packageId,{storage,audit});
   if(pkg.kind==="narration"){
     const job=(await getPool().query<{input:{inputBindings?:ArtifactInputBinding[]}}>("SELECT input FROM guild_jobs WHERE id=$1 AND tenant_id=$2",[context.jobId,context.tenantId])).rows[0];
     let inputs:ArtifactManifest[];
