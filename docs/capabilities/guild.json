@@ -169,33 +169,40 @@
     },
     {
       "feature": "a2a.independent_client",
-      "chosenVersion": "A2A 1.0.1 / JSON-RPC / source 3303592588e388e62e0f69f701af531d2f4e3991",
-      "sourceCommit": null,
+      "chosenVersion": "A2A specification1.0.1 / JSON-RPC wire1.0 / SDK1.3.0",
+      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
       "accountOrLicensePrerequisites": [
         "Seven addressed service identities",
         "Both owner policies",
         "Independent client"
       ],
-      "testRun": [],
-      "status": "planned",
-      "observedResult": "Controlled cards and local signed offers do not establish independent addressed providers or bilateral A2A.",
-      "selectedFallback": "Clearly label the current team-operated service.",
-      "productWording": "Controlled service offer; A2A qualification pending."
+      "testRun": [
+        "docs/evidence/provider-market-source-qualification.json",
+        "docs/PROVIDER_MARKET.md",
+        "docs/PROVIDER_MARKET_QUALIFICATION.md"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Seven separately addressed Guild-controlled services;81 repaired-profile and49 regression checks passed. Initial35 failed audit cases are retained. Keyset pagination covers1,005 receipts; default blocking completion exceeded28 seconds without creating a job. Full conformance, long-lived streaming beyond25 seconds and external/production interoperability are not qualified.",
+      "selectedFallback": "Keep the controlled-service identity and explicit profile/conformance boundary.",
+      "productWording": "Controlled A2A JSON-RPC profile tested; full conformance pending."
     },
     {
       "feature": "mcp.commissioning_client",
-      "chosenVersion": "Three scoped commissioning tools; package version pending",
-      "sourceCommit": null,
+      "chosenVersion": "Official MCP server/client2.4.0; exactly three scoped tools",
+      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
       "accountOrLicensePrerequisites": [
         "Separate scoped client",
         "Tenant isolation",
         "Challenge-bound human approval"
       ],
-      "testRun": [],
-      "status": "planned",
-      "observedResult": "commission.create, commission.status and approval.link interoperability remain unimplemented.",
-      "selectedFallback": "Native owner workspace and explicit approval.",
-      "productWording": "MCP commissioning planned."
+      "testRun": [
+        "docs/evidence/provider-market-source-qualification.json",
+        "docs/PROVIDER_MARKET.md"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "31 official-client checks and56 controlled HTTP exchanges passed without jobs, approval receipts, reservations or financial effects. Original mounted Next and native continuation passed: one exact link consumed once opened an unapproved Passport. Production credential entry remains separate work.",
+      "selectedFallback": "Owner workspace and explicit Passport approval; a bearer cannot impersonate its browser session.",
+      "productWording": "Three bounded commissioning tools; owner approval remains explicit."
     },
     {
       "feature": "bryntum.native_ai",
@@ -306,22 +313,26 @@
     },
     {
       "feature": "production.captions_easy_read",
-      "chosenVersion": "Acceptance-pack/producer version pending",
-      "sourceCommit": null,
+      "chosenVersion": "Original-audio caption review/correction; migrations016/020",
+      "sourceCommit": "0a9da2a439e6c85890c3ede3805686291394d42e",
       "accountOrLicensePrerequisites": [
         "Measured narration source",
         "Language-specific timed-caption contract",
         "Easy-read concepts/source links"
       ],
-      "testRun": [],
-      "status": "planned",
-      "observedResult": "Contract retained; complete actual producer and independent checks remain required.",
-      "selectedFallback": "Qualification-pending label; no generic production readiness.",
-      "productWording": "Contract ready; production qualification pending."
+      "testRun": [
+        "docs/CAPTIONS.md",
+        "docs/CAPTION_WEB_HOSTED_RELEASE.md",
+        "docs/evidence/caption-web-hosted-stage13-qualification.json"
+      ],
+      "status": "fixture_qualified",
+      "observedResult": "Controlled original78-track correction and independent two-design composition qualified locally with exact media/source/deadline bindings. Native review verified complete unattested EN, incomplete JA refusing declaration/VTT, Arabic layout and private publication preparation. Synthetic declarations are not human listening approval. Hosted Sample/source entry passed; genuine hosted production remains separate.",
+      "selectedFallback": "Retain exact drafts, originals and advisories; keep listening/acceptance and new current authority explicit.",
+      "productWording": "Measured caption workflow; actual output and genuine listening acceptance retain separate gates."
     },
     {
       "feature": "production.generated_web",
-      "chosenVersion": "guild.exhibition.v2; guild.web-measurements.v2; migrations017–019",
+      "chosenVersion": "guild.exhibition.v2; guild.web-measurements.v2; migrations017\u2013019",
       "sourceCommit": null,
       "accountOrLicensePrerequisites": [
         "Exact accepted or explicitly reviewed upstream bindings",
@@ -360,15 +371,17 @@
     {
       "feature": "providers.external_onboarding",
       "chosenVersion": "Protocol/account version pending",
-      "sourceCommit": null,
+      "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
       "accountOrLicensePrerequisites": [
         "Provider identity",
         "Own policy/receiver",
         "Revocation and observed outcomes"
       ],
-      "testRun": [],
+      "testRun": [
+        "docs/PROVIDER_MARKET.md"
+      ],
       "status": "planned",
-      "observedResult": "No authenticated external-provider onboarding, observed reputation or full provider console qualification.",
+      "observedResult": "Controlled provider console, own policy/inbox and requested-contract boundaries are implemented and locally/native qualified. Production invitations, agent credential entry, external endpoint ownership, observed reputation and outside-provider qualification remain pending.",
       "selectedFallback": "Team-operated providers remain explicitly labelled.",
       "productWording": "Controlled service; external onboarding planned."
     },
@@ -405,8 +418,8 @@
     },
     {
       "feature": "release.accessibility_performance_hosting_film",
-      "chosenVersion": "Node 22 / Next 16.4.6 / Vercel planned",
-      "sourceCommit": null,
+      "chosenVersion": "Node22 / Next16.4.6 / verified Vercel caption release",
+      "sourceCommit": "91adbf407eb3b7ebc661ecd162f305f115275c71",
       "accountOrLicensePrerequisites": [
         "Valid licenses",
         "Clean dependencies qualification",
@@ -414,12 +427,14 @@
         "Reviewed film"
       ],
       "testRun": [
-        "docs/BUILD_HANDOFF.md"
+        "docs/CAPTION_WEB_HOSTED_RELEASE.md",
+        "docs/evidence/caption-web-hosted-stage13-qualification.json",
+        "docs/PROVIDER_MARKET_QUALIFICATION.md"
       ],
       "status": "in_progress",
-      "observedResult": "Local isolated builds and selected mobile/keyboard checks exist. Full matrix, clean install, hosted native parity, actual webhooks/job recovery, studies and film remain open.",
-      "selectedFallback": "Keep local qualification wording and retain failed gates.",
-      "productWording": "Local development; no production deployment claimed."
+      "observedResult": "Caption source is canonical after clean build, hosted Sample/source qualification and native review. Canonical read-only checks preserve65 tables/42 rows/four fixed session expiries. Marketplace release, full accessibility/performance matrix, actual hosted media/webhook/job journey, studies and film remain open.",
+      "selectedFallback": "Publish the exact qualified scope; retain remaining gates and failures.",
+      "productWording": "Caption/exhibition source release is hosted; the complete provider and financial journey remains in qualification."
     },
     {
       "feature": "production.narration_historical_approval",
@@ -443,9 +458,15 @@
   ],
   "compositionSourceBinding": {
     "baseCommit": "9dc6ad9c2d4c4a1c84ade5bbe7a564604669dd8f",
-    "sourceCommit": null,
-    "evidence": "docs/evidence/web-composition-source-v1.json",
-    "scope": "Uncommitted isolated017–019 composition; exact private source/build/dependency freeze retained for root integration.",
-    "nativeReview": "pending"
+    "sourceCommit": "0a9da2a439e6c85890c3ede3805686291394d42e",
+    "hostedSourceCommit": "91adbf407eb3b7ebc661ecd162f305f115275c71",
+    "evidence": "docs/evidence/caption-web-hosted-stage13-qualification.json",
+    "scope": "Integrated original caption/web composition and separate exact hosted packaging successor. Controlled local composition and hosted Sample/source entry remain distinct.",
+    "nativeReview": "accepted within documented local/hosted scope"
+  },
+  "marketSourceBinding": {
+    "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+    "evidence": "docs/evidence/provider-market-source-qualification.json",
+    "scope": "Repaired controlled source/profile checks; fresh4590 production HTTP and native review pending at this record."
   }
 }

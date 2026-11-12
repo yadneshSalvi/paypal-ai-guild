@@ -1,0 +1,138 @@
+{
+  "version": "guild.provider-market-source-qualification.v1",
+  "at": "2026-11-12",
+  "sourceCommit": "2b177bfd39e275f24488f90e372ef64300f77687",
+  "scope": "Repaired source and controlled local profile checks. The fresh 4590 Next build and native acceptance were pending when this record was written.",
+  "a2a": {
+    "specification": "1.0.1",
+    "specificationCommit": "3303592588e388e62e0f69f701af531d2f4e3991",
+    "sdk": "@a2a-js/sdk@1.3.0",
+    "wireVersion": "1.0",
+    "binding": "JSONRPC",
+    "requiredExtension": "urn:guild:provider-market:v1",
+    "fullConformance": "not-qualified",
+    "sourceFiles": [
+      {
+        "path": "src/server/provider-market/a2a-service.ts",
+        "sha256": "a390ba48f527731937cea4581a5152f6f3675a523dcc75cd161a29e07a79e46c",
+        "bytes": 26500
+      },
+      {
+        "path": "src/server/provider-market/a2a-http.ts",
+        "sha256": "e89eed4c5080f71a753c45753d3505d5d876fbc4b10c9a94e2742bf0c7ea801c",
+        "bytes": 5362
+      },
+      {
+        "path": "src/server/provider-market/a2a-wire.ts",
+        "sha256": "8a9e7725e5f37923015d8cf2b24cdda75ad8690f769684a1d491353f17f3d644",
+        "bytes": 4010
+      },
+      {
+        "path": "src/server/provider-market/a2a-validation.ts",
+        "sha256": "72e6240bc338b5e4bb3514b5f5b016a7c782cc0089f9adc764b042db91243912",
+        "bytes": 6508
+      },
+      {
+        "path": "src/server/provider-market/a2a-pagination.ts",
+        "sha256": "736bb011e1a14d94cd9887f3dfe627b55bc05ac8881e54d84b72ce20edc572e5",
+        "bytes": 7837
+      },
+      {
+        "path": "scripts/check-provider-market-a2a-conformance.ts",
+        "sha256": "3741210864729871f20941c24b1f5bb8e78acc49f3552ef7752278cab87ec3b1",
+        "bytes": 44960
+      },
+      {
+        "path": "tests/provider-market-a2a-conformance.test.ts",
+        "sha256": "45f45d887df20bdb811beeb0bd267aada92daa13b7b79e5c6124e9d97a5c791e",
+        "bytes": 1163
+      },
+      {
+        "path": "scripts/check-provider-market-a2a-http.ts",
+        "sha256": "57fb7dd4d61bd7d0dc745705c35fb24051ba3bef6990331eafff5cd63910b3d9",
+        "bytes": 77485
+      }
+    ],
+    "initialIndependentAudit": {
+      "checks": 52,
+      "passed": 17,
+      "failed": 35,
+      "httpExchanges": 100,
+      "originalFailuresRetained": true
+    },
+    "profile": {
+      "checks": 81,
+      "passed": 81,
+      "httpExchanges": 227,
+      "sseExchanges": 19,
+      "retainedQuoteReceipts": 1005,
+      "pages": 11,
+      "concurrentReaders": 6,
+      "defaultBlockingCompletionMs": 28149,
+      "jobsCreated": 0,
+      "actualModelMediaFinancialCalls": 0
+    },
+    "regression": {
+      "checks": 49,
+      "passed": 49,
+      "httpExchanges": 152,
+      "sseExchanges": 2,
+      "artifactGetHeadRequests": 17,
+      "peakApplicationPool": 6,
+      "controlledJobsOnly": true
+    },
+    "unqualified": [
+      "Full A2A1.0.1 conformance, official conformance test kit, other transport bindings, production TLS and deployment.",
+      "Live outside providers and actual production execution.",
+      "Long-lived SSE reconnect behavior beyond the existing25-second watch connection window.",
+      "General integer-string/alias compatibility beyond this required typed Guild JSON profile."
+    ]
+  },
+  "mcp": {
+    "packages": [
+      "@modelcontextprotocol/server@2.4.0",
+      "@modelcontextprotocol/client@2.4.0"
+    ],
+    "tools": [
+      "commission.create",
+      "commission.status",
+      "approval.link"
+    ],
+    "checks": 31,
+    "passed": 31,
+    "httpExchanges": 56,
+    "jobsCreated": 0,
+    "paymentOrAcceptanceEffects": 0
+  },
+  "unitTests": {
+    "total": 194,
+    "passed": 190,
+    "failed": 0,
+    "explicitOptInDatabaseSuitesSkipped": 4
+  },
+  "componentChecks": {
+    "marketBehaviors": 38,
+    "marketCssChecks": 1,
+    "focusedDomTests": 2,
+    "nativeBrowser": false
+  },
+  "previousRuntime": {
+    "sourceCommit": "2bab1d219fb135a2f411a3a8df4fcd4333d8578a",
+    "actualNextChecks": 16,
+    "compiledClientDom": true,
+    "rootNativeSubset": "accepted",
+    "oneContinuationConsumedWithoutApproval": true,
+    "originalSessionsAndDeadlinesRetained": true,
+    "fullPreNativeRowBaselineAvailable": false,
+    "fullPostNativeBaselineTables": 71,
+    "fullPostNativeBaselineRows": 162,
+    "limitation": "The original native audit proves exact link, expiry, source/build and retained fixture bindings. A full pre-native row baseline was absent; later post-native data is not represented as before-data."
+  },
+  "limitations": [
+    "Seven services and their owners/approvals are Guild-controlled fixtures, not outside businesses or human artifact acceptance.",
+    "These controlled runs establish no actual model/media generation, captures or payouts.",
+    "Production invitations, credential entry, external endpoint ownership and reputation remain separate work.",
+    "Native layout, screen-reader and human acceptance are separate from DOM emulation."
+  ],
+  "instructions": "docs/PROVIDER_MARKET_QUALIFICATION.md"
+}
