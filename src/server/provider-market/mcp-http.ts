@@ -1,6 +1,6 @@
 import { DomainError } from "@/domain/primitives";
 import { errorResponse, readJson } from "../http";
-import { requireSameOrigin, SESSION_COOKIE, sessionFromToken, type Session } from "../session";
+import { SESSION_COOKIE, sessionFromToken, type Session } from "../session";
 import { approvalConsumeSchema, consumeApprovalLink } from "./approval-links";
 import { marketOrigin } from "./registry";
 
@@ -12,9 +12,14 @@ export function privateMcpResponse(response: Response): Response {
 }
 export function requireConfiguredOrigin(request: Request, browserPost = false): void {
   const expected = new URL(marketOrigin()), actual = new URL(request.url), host = request.headers.get("host"), origin = request.headers.get("origin");
-  if (actual.origin !== expected.origin || host && host.toLowerCase() !== expected.host.toLowerCase()) throw new DomainError("MCP_HOST_REFUSED", "This endpoint is available only at its configured Guild origin.", 403, false);
+  // Next normalizes loopback IPv4 request URLs to localhost. The received Host
+  // must still name the exact configured origin before accepting that alias.
+  const normalizedLoopback = expected.hostname === "127.0.0.1" && actual.hostname === "localhost"
+    && actual.protocol === expected.protocol && actual.port === expected.port && host?.toLowerCase() === expected.host.toLowerCase();
+  if (actual.origin !== expected.origin && !normalizedLoopback || host && host.toLowerCase() !== expected.host.toLowerCase()) throw new DomainError("MCP_HOST_REFUSED", "This endpoint is available only at its configured Guild origin.", 403, false);
   if (origin && origin !== expected.origin) throw new DomainError("ORIGIN_MISMATCH", "This request must stay at its original Guild origin.", 403, false);
-  if (browserPost) requireSameOrigin(request);
+  if (browserPost && !origin) throw new DomainError("ORIGIN_MISMATCH", "This action must start from your Guild workspace.", 403, false);
+  if (browserPost && request.headers.get("sec-fetch-site") === "cross-site") throw new DomainError("CROSS_SITE_COMMAND", "Open Guild to continue this action.", 403, false);
 }
 /** A bearer never substitutes for the original browser cookie. */
 export async function approvalBrowserSession(request: Request): Promise<Session> {

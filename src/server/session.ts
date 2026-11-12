@@ -23,8 +23,15 @@ export async function createSession():Promise<{session:Session;cookie:string}>{
   return {session:{id,tenantId,role:"judge",expiresAt},cookie:`${token}.${sign(token)}`};
 }
 export function requireSameOrigin(request:Request):void {
-  const origin=request.headers.get("origin");const expected=new URL(request.url).origin;
-  if(!origin||origin!==expected)throw new DomainError("ORIGIN_MISMATCH","This action must start from your Guild workspace.",403,false);
+  const origin=request.headers.get("origin"),host=request.headers.get("host"),expected=new URL(request.url);
+  const configuredValue=process.env.APP_URL??process.env.GUILD_MARKET_APP_URL;
+  const configured=configuredValue&&URL.canParse(configuredValue)?new URL(configuredValue):null;
+  // Next's loopback URL normalization must not replace the configured public
+  // origin or permit a different received Host header.
+  const normalizedLoopback=!!configured&&configured.hostname==="127.0.0.1"&&expected.hostname==="localhost"
+    &&configured.protocol===expected.protocol&&configured.port===expected.port&&origin===configured.origin
+    &&host?.toLowerCase()===configured.host.toLowerCase();
+  if(!origin||(origin!==expected.origin&&!normalizedLoopback)||(host&&!normalizedLoopback&&host.toLowerCase()!==expected.host.toLowerCase()))throw new DomainError("ORIGIN_MISMATCH","This action must start from your Guild workspace.",403,false);
   if(request.headers.get("sec-fetch-site")==="cross-site")throw new DomainError("CROSS_SITE_COMMAND","Open Guild to continue this action.",403,false);
 }
 export async function rateLimit(bucket:string,limit:number,minutes=60):Promise<void>{

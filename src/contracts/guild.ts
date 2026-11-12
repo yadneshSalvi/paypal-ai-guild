@@ -149,6 +149,7 @@ export interface WorkPackage {
   paymentState: "not_eligible" | "eligible" | "awaiting_payer" | "pending" | "paid" | "unknown";
   provenance: Provenance;
   inputPolicy?: "accepted" | "reviewed_drafts";
+  marketOffer?: { threadId: string; offerRevision: number; offerDigest: string; providerPolicyRevision: number; providerPolicyDigest: string; sourceDigest: string; originalWorkCeiling: string };
   /** Read-model fingerprint of the exact displayed check report. */
   verificationDigest?: string;
   narrationCorrection?: NarrationCorrectionAgreement;

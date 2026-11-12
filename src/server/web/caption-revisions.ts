@@ -42,6 +42,9 @@ export async function acceptedWebCaptionRevisions(db: Db, c: Commission, pkg: Wo
   const decision = (await db.query<Decision>("SELECT id,package_id,contract_version,artifact_id,artifact_hash,criteria_digest,actor_id,decision,review_disclosures,created_at FROM guild_acceptance_decisions WHERE tenant_id=$1 AND commission_id=$2 AND id=$3 AND package_id=$4 AND contract_version=$5 AND artifact_id=$6 AND artifact_hash=$7 AND decision='accepted'", [c.tenantId, c.id, binding.reviewId, pkg.id, pkg.contractVersion, artifact.id, artifact.contentHash])).rows[0];
   if (!decision || decision.criteria_digest !== pkg.acceptancePack.digest) fail("The accepted v3 caption identity no longer has its exact retained curator decision.");
   const actor = (await db.query<{ role: string; created_at: Date }>("SELECT role,created_at FROM guild_sessions WHERE tenant_id=$1 AND id=$2", [c.tenantId, decision.actor_id])).rows[0], disclosure = decision.review_disclosures;
+  if (!disclosure || typeof disclosure !== "object" || Array.isArray(disclosure)
+    || !disclosure.captionListening || typeof disclosure.captionListening !== "object" || Array.isArray(disclosure.captionListening))
+    fail("The caption acceptance is missing its exact complete attributed-listening disclosure.");
   const languages = disclosure.languages as Record<string, Record<string, unknown>> | undefined;
   if (!actor || !["owner", "judge"].includes(actor.role) || actor.created_at > decision.created_at || disclosure.actorKind !== actor.role || disclosure.humanReviewed !== true
     || disclosure.fluentReviewed !== false || disclosure.mode !== "live" || typeof disclosure.disclosure !== "string" || !disclosure.disclosure.trim()

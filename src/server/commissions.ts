@@ -75,9 +75,13 @@ async function assertNoUnresolvedGeneration(db:PoolClient,commission:Commission,
   }
 }
 
-export async function executeCommand(session:Session,commissionId:string,command:CommissionCommand,services:{webRuntime?:WebRuntimeAccess}={}):Promise<CommandResult>{
+export interface CommissionCommandServices { webRuntime?:WebRuntimeAccess; marketTaskId?:string }
+export async function executeCommand(session:Session,commissionId:string,command:CommissionCommand,services:CommissionCommandServices={}):Promise<CommandResult>{
+  return transaction(db=>executeCommandWithClient(db,session,commissionId,command,services));
+}
+/** Internal composition point: one transaction owns delegation, reservation and job creation. */
+export async function executeCommandWithClient(db:PoolClient,session:Session,commissionId:string,command:CommissionCommand,services:CommissionCommandServices={}):Promise<CommandResult>{
   if(!["judge","owner","operator"].includes(session.role))throw new DomainError("ROLE_REQUIRED","This action needs the commission owner's authority.",403,false);
-  return transaction(async db=>{
     await db.query("SELECT pg_advisory_xact_lock(hashtextextended($1,0))",[`${session.tenantId}:${command.commandId}`]);
     const found=await db.query<{snapshot:Commission}>("SELECT snapshot FROM guild_commissions WHERE id=$1 AND tenant_id=$2 FOR UPDATE",[commissionId,session.tenantId]);
     if(!found.rows[0])throw new DomainError("NOT_FOUND","This commission is not in your workspace.",404,false);
@@ -121,6 +125,7 @@ export async function executeCommand(session:Session,commissionId:string,command
         appendEvent(commission,"commission.planning","The brief is with the compiler","A real model call will propose work packages. The result still needs your approval.","Brief compiler");break;
       }
       case "produce_package":{
+        await (await import("./provider-market/delegation")).requireMarketProductionBinding(db,session,commission,pkg!,services.marketTaskId);
         if(commission.state==="paused")throw new DomainError("COMMISSION_PAUSED","Resume the commission before starting new work.",422);
         if(!commission.approvedPlanDigest)throw new DomainError("APPROVAL_REQUIRED","Approve the proposed work and Passport pages before commissioning production.",422);
         if(commission.schedule)await (await import("./scheduling")).validateScheduleAuthority(db,commission,"production");
@@ -356,6 +361,5 @@ export async function executeCommand(session:Session,commissionId:string,command
     commission.revision++;await saveCommission(db,commission);
     const result:CommandResult={ok:true,commandId:command.commandId,revision:commission.revision,commission,jobId};
     await db.query("INSERT INTO guild_commands(tenant_id,command_id,commission_id,payload_hash,result) VALUES($1,$2,$3,$4,$5)",[session.tenantId,command.commandId,commission.id,digest({commissionId,command}),result]);return result;
-  });
 }
 export async function getArtifact(session:Session,id:string):Promise<ArtifactManifest>{const result=await getPool().query<{manifest:ArtifactManifest}>("SELECT manifest FROM guild_artifacts WHERE id=$1 AND tenant_id=$2",[id,session.tenantId]);if(!result.rows[0])throw new DomainError("ARTIFACT_NOT_FOUND","That artifact is not in this workspace.",404,false);return result.rows[0].manifest;}

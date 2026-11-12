@@ -67,7 +67,7 @@ export function CaptionReviewEditor({ artifactId, artifactHash, source, position
       const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal: operation.abort.signal });
       const result = await response.json(); if (!active()) return;
       if (!response.ok) {
-        if (response.status === 409) { setRefreshRequired(true); throw new Error((result.message ?? "A newer review is retained.") + " Close this dialog and read saved history before reviewing or saving again."); }
+        if (response.status === 409) { setRefreshRequired(true); throw new Error((result.message ?? "A newer review is retained.") + (action === "attest" ? " Close this dialog and read saved history before reviewing or saving again." : " Read saved history before reviewing or saving again.")); }
         throw new Error(result.message ?? "The review was not confirmed. Read saved history before retrying.");
       }
       const revision = result.revision as CaptionReviewRevision;

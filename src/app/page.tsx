@@ -1,2 +1,7 @@
 import { Studio } from "@/components/studio/studio";
-export default function Home(){return <Studio/>;}
+import { redirect } from "next/navigation";
+export default async function Home({ searchParams }: { searchParams: Promise<{ view?: string | string[]; commission?: string | string[] }> }) {
+  const query = await searchParams;
+  if (query.view === "market") redirect(`/market${typeof query.commission === "string" ? `?commission=${encodeURIComponent(query.commission)}` : ""}`);
+  return <Studio/>;
+}
