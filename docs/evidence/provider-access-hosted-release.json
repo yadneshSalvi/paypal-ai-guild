@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "guild.provider-access-hosted-release.v1",
+  "recordedAt": "2026-11-12T12:41:49.959Z",
+  "passed": true,
+  "sourceCommit": "2aef34b00c7b09df89413b78f6ea656aa67f0bb4",
+  "canonicalUrl": "https://paypal-ai-guild.vercel.app",
+  "deploymentId": "dpl_5Yz9nAtpheLufzSPHehAnRf38XDT",
+  "promotion": {
+    "exactStagedDeployment": true,
+    "rebuild": false,
+    "projectSettingsChanged": false,
+    "migrationsExecuted": 0
+  },
+  "sourceArchiveSha256": "59b2c012561dea9ed3b6a2135213ffc1e4d128d421b64ff9a9abd5cb6d255a1f",
+  "localBuildId": "hQnng7A30syvNa_rP4aKu",
+  "buildManifestSha256": "33c96363321c304a3d04a517341c555596a20d73b674ee605ab95b6c8265907f",
+  "entry": {
+    "sourceAndDomPasses": 13,
+    "mountedNextPostgresPasses": 17,
+    "originalHttpExchanges": 37,
+    "nativeExplicitAdmissions": 1,
+    "nativeReloadAdmissions": 0,
+    "mobileWidths": [
+      390,
+      360
+    ],
+    "documentOverflow": 0,
+    "consoleWarningsAndErrors": 0
+  },
+  "retainedProviderAccessEvidence": {
+    "sourcePasses": 191,
+    "explicitOptInSkips": 5,
+    "componentPasses": 55,
+    "mountedHttpPasses": 36,
+    "rerunForThisRelease": false,
+    "nativeInvitationClaims": 1,
+    "nativeReadOnlyCredentialsIssued": 1,
+    "sameCredentialsRevoked": 1,
+    "actualProviderWork": 0
+  },
+  "hosted": {
+    "assertions": 25,
+    "originalHttpRequests": 23,
+    "newSamples": 0,
+    "originalMcpCredentialsIssued": 1,
+    "sameCredentialsRevoked": 1,
+    "retainedAccessCommandsAdded": 2,
+    "officialClient": "@modelcontextprotocol/client@2.4.0",
+    "toolsDiscovered": [
+      "commission.create",
+      "commission.status",
+      "approval.link"
+    ],
+    "toolsCalled": [
+      "commission.status"
+    ],
+    "providerEnrollments": 0,
+    "modelCalls": 0,
+    "mediaCalls": 0,
+    "financialCalls": 0
+  },
+  "hostedNative": {
+    "accepted": true,
+    "recordedNetworkEvents": 210,
+    "networkTruncated": false,
+    "nonGetHeadOptionsRequests": 0,
+    "firstAnonymousNavigationCaptured": false,
+    "databaseComparisonCoversInterval": true,
+    "originalCookiesRestored": true,
+    "mobileWidths": [
+      390,
+      360
+    ],
+    "documentOverflow": 0,
+    "consoleWarningsAndErrors": 0
+  },
+  "productionPreservation": {
+    "tables": 80,
+    "rowsBeforeCredentialQualification": 51,
+    "rowsAfterCredentialQualification": 54,
+    "rowsAfterNativeAndPromotion": 54,
+    "originalSessionsPreserved": 5,
+    "schemaAndCapabilitiesUnchanged": true,
+    "allOriginalRowsUnchanged": true,
+    "fixedExpiriesUnchanged": true,
+    "verifiedBackupBytes": 312174,
+    "verifiedBackupSha256": "32ba1b6b7d179fd1b20f65c234c13018af208c15e2a0bc7fd842d35b4b893074",
+    "schemaSha256": "234bef7d1b26e69e4ea129569cbbafd73c577c862659f0390697d71a0d50380e",
+    "dataSha256": "f374fa8fca0defcc507ee02f43f529432995812e5e998c52f6314b6d73b55c2c"
+  },
+  "canonicalVerification": {
+    "assertions": 8,
+    "getRequests": 6,
+    "newAdmissions": 0,
+    "newCookies": 0,
+    "readerFiles": [
+      {
+        "path": "/exhibit-reader/v1/reader.js",
+        "bytes": 22036,
+        "sha256": "9bac1d42fc51425aa58649f2f230227de1726ca4c95e689ab0ef8fd56c1129bc"
+      },
+      {
+        "path": "/exhibit-reader/v1/reader.css",
+        "bytes": 22930,
+        "sha256": "dec1550a76f5f3f117240a31192b6a49a76c4316563f91dee81f6349f7cdb7d3"
+      },
+      {
+        "path": "/exhibit-reader/v1/messages.json",
+        "bytes": 35788,
+        "sha256": "9cae3f235c213ecffced993ad878ba8841116208f8780cde51977808ed726dfa"
+      }
+    ]
+  },
+  "retainedFailures": {
+    "workspaceServerTimeComparison": "Original harness failure retained; only volatile serverTime differed. Stable fields were compared using the same original responses, followed by the unfinished read-only audit. No HTTP or credential mutation was replayed.",
+    "unknownRequesterAdmissions": "Earlier automatic-entry admissions were retained. Requester was not inferred from timing."
+  },
+  "limitations": [
+    "No hosted providers, offers or tasks were seeded.",
+    "Controlled fixtures and declarations do not establish actual provider output or human/fluent/listening review.",
+    "Full A2A/AP2 conformance, actual six-package production and sandbox capture-to-payout closure remain pending.",
+    "Revoked-credential replacement copy needs state-specific wording in a successor."
+  ],
+  "privateEvidenceExcluded": [
+    "cookies",
+    "invitation challenges",
+    "Sample recovery proofs",
+    "raw bearer tokens",
+    "database exports",
+    "private provider responses",
+    "raw browser capture"
+  ]
+}
